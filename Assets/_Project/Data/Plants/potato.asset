@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2b0cc17509af1c41a7aae1e17ea3e9c, type: 3}
+  m_Name: potato
+  m_EditorClassIdentifier: BTP.Runtime::BTP.Plants.PlantDefinition
+  plantId: potato
+  displayName: Potato
+  scientificName: Solanum tuberosum
+  family: Solanaceae
+  plantType: Tuber crop
+  summary: Nightshade-family crop grown for the starchy tubers that form underground;
+    usually planted from seed tubers rather than seed.
+  farmPrefab: {fileID: 5745276654349098247, guid: 423323b3963300144b3b0951b75d20cd, type: 3}
+  labPrefab: {fileID: 6663836791642695980, guid: bed20b19002edb04abf6443d9da0e0b0, type: 3}
+  hasRecoveryDemo: 0
