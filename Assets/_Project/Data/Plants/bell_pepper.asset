@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2b0cc17509af1c41a7aae1e17ea3e9c, type: 3}
+  m_Name: bell_pepper
+  m_EditorClassIdentifier: BTP.Runtime::BTP.Plants.PlantDefinition
+  plantId: bell_pepper
+  displayName: Bell Pepper
+  scientificName: Capsicum annuum
+  family: Solanaceae
+  plantType: Warm-season fruiting vegetable
+  summary: Nightshade-family crop grown as an annual for its large, mild, blocky
+    fruit, which ripens from green to red, yellow or orange.
+  farmPrefab: {fileID: 6407762495998516744, guid: 36fd401bcdfb82b498d21a472d29b859, type: 3}
+  labPrefab: {fileID: 5753325314962084831, guid: a8f43c8c1d8ab1b4f83d528631dff597, type: 3}
+  hasRecoveryDemo: 0
