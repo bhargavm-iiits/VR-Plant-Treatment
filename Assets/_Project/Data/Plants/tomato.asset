@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2b0cc17509af1c41a7aae1e17ea3e9c, type: 3}
+  m_Name: tomato
+  m_EditorClassIdentifier: BTP.Runtime::BTP.Plants.PlantDefinition
+  plantId: tomato
+  displayName: Tomato
+  scientificName: Solanum lycopersicum
+  family: Solanaceae
+  plantType: Warm-season fruiting vegetable
+  summary: Warm-season nightshade crop grown for its fruit. Vining types are usually
+    staked or caged and trained to one or a few main stems.
+  farmPrefab: {fileID: 2620797968232274998, guid: 5029f65c5a54f5e429002b01f9ff2ea7, type: 3}
+  labPrefab: {fileID: 5077927331825663528, guid: fa4869cc021d7ff41bdcea3bc1e4e1ee, type: 3}
+  hasRecoveryDemo: 1
