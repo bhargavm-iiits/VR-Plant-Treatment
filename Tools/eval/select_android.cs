@@ -1,0 +1,1 @@
+UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup = UnityEditor.BuildTargetGroup.Android; return "selected=" + UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup + " active=" + UnityEditor.EditorUserBuildSettings.activeBuildTarget;
