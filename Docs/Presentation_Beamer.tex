@@ -1,0 +1,309 @@
+% Plant Disease VR Experience -- Beamer (Metropolis) slides
+% Compile with XeLaTeX (Overleaf: Menu -> Compiler -> XeLaTeX).
+% Images are read from ../Tools/out/previews/ ; on Overleaf, upload the four
+% scene_*.png files next to this .tex and the \graphicspath still finds them.
+
+\documentclass[aspectratio=169,11pt]{beamer}
+\usetheme[progressbar=frametitle, numbering=counter]{metropolis}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\graphicspath{{../Tools/out/previews/}{./}}
+
+% ---- Colours: Metropolis dark teal + plant green + orange alerts ----
+\definecolor{mDarkTeal}{HTML}{23373B}
+\definecolor{PlantGreen}{HTML}{3B8C5A}
+\definecolor{PlantGreenText}{HTML}{2D7048}
+\definecolor{AlertOrange}{HTML}{A6560C}
+\setbeamercolor{progress bar}{fg=PlantGreen, bg=PlantGreen!20}
+\setbeamercolor{title separator}{fg=PlantGreen}
+\setbeamercolor{alerted text}{fg=AlertOrange}
+\setbeamercolor{example text}{fg=PlantGreenText}
+\setbeamercolor{block title}{bg=mDarkTeal!12, fg=mDarkTeal}
+\setbeamercolor{block body}{bg=mDarkTeal!5}
+\setbeamercolor{block title example}{bg=PlantGreen!22, fg=PlantGreenText}
+\setbeamercolor{block body example}{bg=PlantGreen!10}
+\setbeamercolor{block title alerted}{bg=orange!20, fg=AlertOrange}
+\setbeamercolor{block body alerted}{bg=orange!8}
+\metroset{block=fill}
+
+\newcommand{\preview}[2][\linewidth]{\includegraphics[width=#1]{#2}}
+\newcommand{\figcap}[1]{{\scriptsize\textcolor{PlantGreenText}{Figure:} #1}}
+
+\title{Plant Disease VR Experience}
+\subtitle{Exploring plants in a virtual farm and an illustrative disease scenario in a lab}
+\author{Bhargav M}
+\institute{B.Tech Project (BTP) \textperiodcentered{} Interactive VR prototype}
+\date{September 2026}
+
+\begin{document}
+
+% 1 ------------------------------------------------------------------
+\maketitle
+\note{0:25 -- Introduce the project as an interactive VR prototype.}
+
+% 2 ------------------------------------------------------------------
+\begin{frame}{Problem and Motivation}
+  \begin{columns}[T]
+    \begin{column}{0.44\textwidth}
+      \begin{exampleblock}{Why it matters}
+        {\Huge\textbf{20--40\%}}\\[4pt]
+        of global crop yields are lost to plant pests and diseases each year~[1]
+      \end{exampleblock}
+      \begin{itemize}
+        \item Leaf symptoms and disease progression are hard to communicate with static pictures alone.
+        \item \textbf{Objective:} let a learner inspect 3D plants and explore one visual recovery example in VR.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.53\textwidth}
+      \preview{scene_spawn.png}\\
+      \figcap{Built farm scene (Unity editor preview)}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% 3 ------------------------------------------------------------------
+\begin{frame}{Literature Review}
+  \begin{columns}[T]
+    \begin{column}{0.31\textwidth}
+      \begin{block}{Mohanty et al. (2016) [2]}
+        \textbf{Image-based disease recognition}\\[3pt]
+        Recognition from plant images is possible, but results can change outside controlled image conditions.
+      \end{block}
+    \end{column}
+    \begin{column}{0.31\textwidth}
+      \begin{block}{Cheng (2024) [3]}
+        \textbf{Immersive VR for plant learning}\\[3pt]
+        Plant-learning research has explored immersive VR as a way to engage learners.
+      \end{block}
+    \end{column}
+    \begin{column}{0.31\textwidth}
+      \begin{exampleblock}{This project}
+        \textbf{VR exploration first}\\[3pt]
+        Explore plants and visualize one example disease journey. Automated classification is future work.
+      \end{exampleblock}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% 4 ------------------------------------------------------------------
+\begin{frame}{Quick Recap: Previous Evaluation}
+  From watching 360$^\circ$ video to exploring a real-time Unity scene
+  \vspace{1em}
+  \begin{columns}[c]
+    \begin{column}{0.43\textwidth}
+      \begin{block}{Previous evaluation}
+        \textbf{360$^\circ$ VR Movie Player}
+        \begin{itemize}
+          \item Plays VR movies
+          \item Completed as a separate project
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.08\textwidth}
+      \centering{\Huge\textcolor{PlantGreen}{$\Rightarrow$}}
+    \end{column}
+    \begin{column}{0.43\textwidth}
+      \begin{exampleblock}{Current evaluation}
+        \textbf{Plant Disease VR Experience}
+        \begin{itemize}
+          \item A new, real-time Unity project
+          \item Selectable 3D plants in a farm and a lab
+        \end{itemize}
+      \end{exampleblock}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% 5 ------------------------------------------------------------------
+\begin{frame}{Methodology: The Learner's Journey}
+  \begin{columns}[T]
+    \begin{column}{0.24\textwidth}
+      \preview{scene_spawn.png}\\[2pt]
+      \textcolor{PlantGreenText}{\textbf{1 \textperiodcentered{} Farm}}\\
+      {\small Start in the farm and inspect a labeled plant.}
+    \end{column}
+    \begin{column}{0.24\textwidth}
+      \preview{scene_specimens.png}\\[2pt]
+      \textcolor{PlantGreenText}{\textbf{2 \textperiodcentered{} Select plant}}\\
+      {\small Select a plant and enter the lab through a world-space button.}
+    \end{column}
+    \begin{column}{0.24\textwidth}
+      \preview{scene_lab_plant.png}\\[2pt]
+      \textcolor{PlantGreenText}{\textbf{3 \textperiodcentered{} Lab}}\\
+      {\small Inspect its 3D model and information panel.}
+    \end{column}
+    \begin{column}{0.24\textwidth}
+      \preview{scene_lab_left.png}\\[2pt]
+      \textcolor{PlantGreenText}{\textbf{4 \textperiodcentered{} Tomato demo}}\\
+      {\small Six-week Early Blight visualization, then return to the farm.}
+    \end{column}
+  \end{columns}
+  \vspace{0.8em}
+  \begin{alertblock}{Design boundary}
+    The six-week values are illustrative sample data. The experience does not infer disease from a camera image.
+  \end{alertblock}
+\end{frame}
+
+% 6 ------------------------------------------------------------------
+\begin{frame}{Implementation: Unity and XR Architecture}
+  \begin{columns}[T]
+    \begin{column}{0.42\textwidth}
+      \begin{description}[Transitions]
+        \item[Engine] Unity 6000.5.5f1, Universal Render Pipeline
+        \item[XR] OpenXR, XR Interaction Toolkit, XR Hands
+        \item[Scenes] One persistent XR bootstrap; farm and lab load as separate environment scenes
+        \item[Transitions] Fade, keeping the selected plant
+      \end{description}
+    \end{column}
+    \begin{column}{0.55\textwidth}
+      \centering
+      \colorbox{mDarkTeal}{\parbox{0.9\linewidth}{\centering\color{white}\textbf{XRBootstrap}\\{\scriptsize persistent XR rig \textperiodcentered{} camera \textperiodcentered{} interaction}}}\\[2pt]
+      {\color{PlantGreen}$\Downarrow$\hspace{0.4\linewidth}$\Downarrow$}\\[2pt]
+      \begin{minipage}{0.48\linewidth}\centering
+        \preview{scene_spawn.png}\\{\scriptsize\textbf{Farm} (Envirornment.unity)}
+      \end{minipage}\hfill
+      \begin{minipage}{0.48\linewidth}\centering
+        \preview{scene_lab_plant.png}\\{\scriptsize\textbf{Lab}}
+      \end{minipage}\\[3pt]
+      \figcap{Unity editor previews}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% 7 ------------------------------------------------------------------
+\begin{frame}{Implementation: Plants and Asset Workflow}
+  \begin{columns}[T]
+    \begin{column}{0.5\textwidth}
+      \preview{scene_specimens.png}\\
+      \figcap{Farm scene (Unity editor preview)}
+    \end{column}
+    \begin{column}{0.47\textwidth}
+      \begin{exampleblock}{Mesh reduction (Tomato, farm)}
+        {\LARGE\textbf{1.62M $\rightarrow$ 8,000}} triangles
+      \end{exampleblock}
+      \begin{enumerate}\small
+        \item Supplied FBX / GLB plant models
+        \item Heavy meshes reduced in Blender
+        \item Textures and URP materials in Unity
+        \item Farm and lab prefabs; billboards at a distance
+      \end{enumerate}
+    \end{column}
+  \end{columns}
+  \vspace{0.6em}
+  {\small\textcolor{PlantGreenText}{\textbf{Integrated plants:}} Apple \textperiodcentered{} Bell Pepper \textperiodcentered{} Cherry \textperiodcentered{} Corn (Maize) \textperiodcentered{} Potato \textperiodcentered{} Strawberry \textperiodcentered{} Tomato}
+\end{frame}
+
+% 8 ------------------------------------------------------------------
+\begin{frame}{Implementation: Lab and Tomato Demo}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \preview{scene_lab_plant.png}\\
+      \figcap{Central plant pedestal (Unity editor preview)}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \preview{scene_lab_left.png}\\
+      \figcap{Selection panel and week timeline (Unity editor preview)}
+    \end{column}
+  \end{columns}
+  \vspace{0.5em}
+  \begin{itemize}\small
+    \item World-space selection, information and recovery panels around a central pedestal
+    \item Six selectable weeks of Early Blight; health bars and plant appearance change by week
+    \item Week 3 is labeled \textbf{Demo treatment applied}
+  \end{itemize}
+  {\small\alert{\textit{On screen: ``Illustrative prototype. Not diagnostic or treatment advice.''}}}
+\end{frame}
+
+% 9 ------------------------------------------------------------------
+\begin{frame}{Results: Verified Project Outputs}
+  \begin{columns}[T]
+    \begin{column}{0.62\textwidth}
+      \small
+      \begin{tabular}{@{}p{0.44\linewidth}p{0.5\linewidth}@{}}
+        \toprule
+        \textbf{Verified in the project folder} & \textbf{Evidence} \\
+        \midrule
+        Three enabled scenes & XR bootstrap, farm and lab in Build Settings \\
+        Seven integrated crops & Plant catalog plus 14 farm/lab prefabs \\
+        Tomato six-week example & Recovery data asset and UI code \\
+        \textbf{16/16 EditMode tests passed} & Unity Editor test log \\
+        Quest APK and Windows .exe & Builds/Quest and Builds/Windows \\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+    \begin{column}{0.34\textwidth}
+      \begin{exampleblock}{Unit tests}
+        {\Huge\textbf{16/16}}\\[3pt]
+        {\small EditMode tests passed: catalog, selection and timeline logic}
+      \end{exampleblock}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% 10 -----------------------------------------------------------------
+\begin{frame}{Analysis: Limits of the Current Evaluation}
+  \begin{columns}[T]
+    \begin{column}{0.47\textwidth}
+      \begin{exampleblock}{Verified now}
+        \begin{itemize}\small
+          \item Three scenes, seven crops and the Tomato example exist
+          \item 16 of 16 EditMode tests pass
+          \item Quest APK and Windows executable are packaged
+        \end{itemize}
+      \end{exampleblock}
+    \end{column}
+    \begin{column}{0.47\textwidth}
+      \begin{alertblock}{Next validation}
+        \begin{itemize}\small
+          \item No recorded Quest 2/3 or PC headset performance results yet
+          \item Controller and hand interaction need on-device checks
+          \item Grape and Peach models not yet in the selector
+          \item Tomato percentages are sample values; no classification or treatment guidance
+        \end{itemize}
+      \end{alertblock}
+    \end{column}
+  \end{columns}
+  \vspace{1em}
+  \centering\textit{A functional Unity prototype, not yet a validated plant diagnosis system.}
+\end{frame}
+
+% 11 -----------------------------------------------------------------
+\begin{frame}{Conclusion and Future Work}
+  \begin{exampleblock}{Current result}
+    A farm-to-lab VR prototype with seven selectable plants and one illustrative Tomato example.
+  \end{exampleblock}
+  \begin{columns}[T]
+    \begin{column}{0.24\textwidth}
+      \begin{block}{Next validation}\scriptsize Quest 2/3 and PC VR: frame rate, interaction, learner usability\end{block}
+    \end{column}
+    \begin{column}{0.24\textwidth}
+      \begin{block}{Next plants}\scriptsize Optimize and integrate Grape and Peach\end{block}
+    \end{column}
+    \begin{column}{0.24\textwidth}
+      \begin{block}{Disease system}\scriptsize Five verified diseases per plant, plus a healthy class\end{block}
+    \end{column}
+    \begin{column}{0.24\textwidth}
+      \begin{block}{Interactive care}\scriptsize Choose treatments and, where appropriate, fertilizer type and proportion; see a simulated response\end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% 12 -----------------------------------------------------------------
+\begin{frame}[allowframebreaks]{References}
+  \small
+  \begin{itemize}
+    \item[{[1]}] FAO. \emph{Understanding the context: Pest and Pesticide Management.} \url{https://www.fao.org/pest-and-pesticide-management/about/understanding-the-context/en/}
+    \item[{[2]}] S.~P. Mohanty, D.~P. Hughes and M.~Salath\'e. Using deep learning for image-based plant disease detection. \emph{Frontiers in Plant Science}, 7:1419, 2016.
+    \item[{[3]}] K.-H. Cheng. Development of an immersive virtual reality system for learning about plants in primary education. \emph{Educational Technology Research and Development}, 72:845--867, 2024.
+    \item[{[4]}] Unity project source, assets, editor test log and build outputs, reviewed 25 September 2026.
+  \end{itemize}
+\end{frame}
+
+% 13 -----------------------------------------------------------------
+\begin{frame}[standout]
+  Thank you\\[0.5em]
+  {\normalsize Questions?}
+\end{frame}
+
+\end{document}
