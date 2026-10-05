@@ -9,17 +9,18 @@ using UnityEngine.UI;
 namespace BTP.Lab
 {
     /// <summary>
-    /// Recovery Demo panel and week timeline. For Tomato it runs the illustrative six-week
-    /// Early Blight demo: metrics, timeline and a diseased (Week 1) / current-week comparison
-    /// on the pedestal plant. Every other plant shows a "Tomato demo only" state instead, so no
-    /// disease history is invented for it.
+    /// Recovery Demo panel and week timeline for every plant. It runs the illustrative six-week
+    /// prototype: the same fixed example metrics, the timeline and a diseased (Week 1) / current-week
+    /// comparison on the pedestal plant. The disease named on the panel is only an example from the
+    /// plant's PlantVillage classes (the user can cycle through them); it is not a diagnosis, and the
+    /// values are not measurements or advice.
     /// </summary>
     public sealed class RecoveryDemoPanel : MonoBehaviour
     {
         [SerializeField] TomatoRecoveryData data;
         [SerializeField] LabPlantDisplay display;
 
-        [Header("Demo state (Tomato)")]
+        [Header("Demo state")]
         [SerializeField] GameObject demoContent;
         [SerializeField] TMP_Text weekTitle;
         [SerializeField] TMP_Text weekCaption;
@@ -27,9 +28,14 @@ namespace BTP.Lab
         [SerializeField] MetricBar chlorophyllBar;
         [SerializeField] MetricBar severityBar;
 
-        [Header("Other plants")]
-        [SerializeField] GameObject unavailableContent;
-        [SerializeField] Button viewTomatoDemoButton;
+        [Header("Example disease")]
+        [SerializeField] DiseaseGalleryCatalog diseases;
+        [SerializeField] TMP_Text subtitle;
+        [SerializeField] GameObject diseaseRow;
+        [SerializeField] TMP_Text diseaseName;
+        [SerializeField] RawImage diseaseLeaf;
+        [SerializeField] Button previousDiseaseButton;
+        [SerializeField] Button nextDiseaseButton;
 
         [Header("Timeline")]
         [SerializeField] GameObject timeline;
@@ -50,6 +56,8 @@ namespace BTP.Lab
 
         RecoveryTimeline timelineState;
         LeafDiseaseVisual visual;
+        PlantDefinition currentPlant;
+        int diseaseIndex;
         bool demoActive;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
@@ -71,10 +79,16 @@ namespace BTP.Lab
             severityBar = severity;
         }
 
-        internal void BindUnavailable(GameObject content, Button viewTomato)
+        internal void BindDisease(DiseaseGalleryCatalog catalog, TMP_Text subtitleText, GameObject row, TMP_Text nameText,
+            RawImage leafImage, Button previous, Button next)
         {
-            unavailableContent = content;
-            viewTomatoDemoButton = viewTomato;
+            diseases = catalog;
+            subtitle = subtitleText;
+            diseaseRow = row;
+            diseaseName = nameText;
+            diseaseLeaf = leafImage;
+            previousDiseaseButton = previous;
+            nextDiseaseButton = next;
         }
 
         internal void BindTimeline(GameObject root, Button previous, Button next, Button reset, List<Button> weeks, List<SelectedStateVisual> weekVisuals)
@@ -110,11 +124,8 @@ namespace BTP.Lab
                 weekButtons[i].onClick.AddListener(() => timelineState.SetWeek(week));
             }
 
-            viewTomatoDemoButton.onClick.AddListener(() =>
-            {
-                if (SelectionState.Instance != null)
-                    SelectionState.Instance.SelectPlant(data.PlantId);
-            });
+            previousDiseaseButton.onClick.AddListener(() => StepDisease(-1));
+            nextDiseaseButton.onClick.AddListener(() => StepDisease(1));
         }
 
         void OnEnable()
@@ -135,6 +146,8 @@ namespace BTP.Lab
         void OnModelChanged(PlantDefinition plant, GameObject model)
         {
             demoActive = plant != null && plant.HasRecoveryDemo && model != null;
+            currentPlant = plant;
+            diseaseIndex = plant != null ? DiseaseClasses.DefaultIndex(plant.PlantId) : 0;
             visual = null;
             if (demoActive)
             {
@@ -146,8 +159,37 @@ namespace BTP.Lab
             demoContent.SetActive(demoActive);
             timeline.SetActive(demoActive);
             comparisonMarker.SetActive(demoActive);
-            unavailableContent.SetActive(!demoActive);
             Refresh();
+        }
+
+        void StepDisease(int delta)
+        {
+            if (currentPlant == null || diseases == null)
+                return;
+            diseaseIndex = DiseaseClasses.Step(diseaseIndex, diseases.GetDiseases(currentPlant.PlantId).Count, delta);
+            RefreshDisease();
+        }
+
+        /// <summary>Names the example disease (from the PlantVillage classes) in the subtitle and shows its sample leaf.</summary>
+        void RefreshDisease()
+        {
+            var entries = diseases != null && currentPlant != null ? diseases.GetDiseases(currentPlant.PlantId) : null;
+            if (entries == null || entries.Count == 0)
+            {
+                subtitle.text = currentPlant != null ? $"{currentPlant.DisplayName} · illustrative demo" : string.Empty;
+                diseaseRow.SetActive(false);
+                return;
+            }
+
+            diseaseIndex = Mathf.Clamp(diseaseIndex, 0, entries.Count - 1);
+            var entry = entries[diseaseIndex];
+            subtitle.text = $"{currentPlant.DisplayName} · {entry.displayName}";
+            diseaseName.text = entry.displayName;
+            diseaseLeaf.texture = entry.leaf;
+            diseaseRow.SetActive(true);
+            var cycle = entries.Count > 1;
+            previousDiseaseButton.gameObject.SetActive(cycle);
+            nextDiseaseButton.gameObject.SetActive(cycle);
         }
 
         void OnWeekChanged(int week)
@@ -161,6 +203,7 @@ namespace BTP.Lab
             if (!demoActive)
                 return;
 
+            RefreshDisease();
             var current = timelineState.Current;
             var baseline = data.GetWeek(RecoveryTimeline.FirstWeek);
 

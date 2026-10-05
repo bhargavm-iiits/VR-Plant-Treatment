@@ -16,8 +16,10 @@ namespace BTP.Lab
     }
 
     /// <summary>
-    /// Fixed example values for the illustrative Tomato / Early Blight recovery prototype.
-    /// They drive the UI and leaf visuals reproducibly; they are not measured or scientific data.
+    /// Fixed example values for the illustrative six-week recovery prototype, shared by all nine plants
+    /// (the class and asset keep their original Tomato name so existing references stay valid; the Tomato
+    /// values are unchanged). They drive the UI and leaf visuals reproducibly; they are not measured or
+    /// scientific data, and the disease shown is only an example from the PlantVillage classes.
     /// </summary>
     [CreateAssetMenu(menuName = "BTP/Tomato Recovery Data", fileName = "TomatoRecoveryData")]
     public sealed class TomatoRecoveryData : ScriptableObject
