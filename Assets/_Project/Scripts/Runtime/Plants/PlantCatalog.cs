@@ -3,15 +3,12 @@ using UnityEngine;
 
 namespace BTP.Plants
 {
-    /// <summary>The seven selectable plants, in selector order.</summary>
+    /// <summary>The nine selectable plants, in selector order.</summary>
     [CreateAssetMenu(menuName = "BTP/Plant Catalog", fileName = "PlantCatalog")]
     public sealed class PlantCatalog : ScriptableObject
     {
-        public const int ExpectedPlantCount = 7;
+        public const int ExpectedPlantCount = 9;
         public const string DefaultPlantId = "tomato";
-
-        /// <summary>Requested species with no supplied model. They must never be selectable.</summary>
-        public static readonly IReadOnlyList<string> MissingPlantIds = new[] { "grape", "peach" };
 
         [SerializeField] List<PlantDefinition> plants = new List<PlantDefinition>();
 
@@ -60,14 +57,8 @@ namespace BTP.Plants
                     problems.Add($"{plant.DisplayName} has no farm model.");
                 if (plant.LabPrefab == null)
                     problems.Add($"{plant.DisplayName} has no lab model.");
-                foreach (var missingId in MissingPlantIds)
-                {
-                    if (plant.PlantId == missingId)
-                        problems.Add($"{plant.DisplayName} has no supplied model and must not be selectable.");
-                }
-
-                if (plant.HasRecoveryDemo && plant.PlantId != DefaultPlantId)
-                    problems.Add($"Only Tomato has the recovery demo, but {plant.DisplayName} is marked as having one.");
+                if (!plant.HasRecoveryDemo)
+                    problems.Add($"{plant.DisplayName} has no recovery demo; every plant has the illustrative demo.");
             }
 
             if (!seen.Contains(DefaultPlantId))

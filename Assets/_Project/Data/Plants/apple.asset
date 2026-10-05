@@ -21,4 +21,4 @@ MonoBehaviour:
     usually grafted onto a rootstock that controls their size.
   farmPrefab: {fileID: 2656813605469251265, guid: d5bf630e8628f0045bf5147d42263095, type: 3}
   labPrefab: {fileID: 7093662484981171034, guid: c96962a1099d1884987ad4c26891115d, type: 3}
-  hasRecoveryDemo: 0
+  hasRecoveryDemo: 1

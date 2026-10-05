@@ -21,4 +21,4 @@ MonoBehaviour:
     which grows in small clusters on long stalks.'
   farmPrefab: {fileID: 5134248242029245659, guid: 08fce50efc46cf844a21640ab6260cbd, type: 3}
   labPrefab: {fileID: 1101624319935265375, guid: 10d58f215a5bf0d418fd66304fe8add3, type: 3}
-  hasRecoveryDemo: 0
+  hasRecoveryDemo: 1

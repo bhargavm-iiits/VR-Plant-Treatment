@@ -21,4 +21,4 @@ MonoBehaviour:
     receptacle carrying the true fruits, the small seed-like achenes.
   farmPrefab: {fileID: 7465245381717199715, guid: 4e17fe67f13589c48bee02e847bf57b4, type: 3}
   labPrefab: {fileID: 7185656600520238397, guid: a2fef51731a16f34bab5c85e1dfbbb9c, type: 3}
-  hasRecoveryDemo: 0
+  hasRecoveryDemo: 1
