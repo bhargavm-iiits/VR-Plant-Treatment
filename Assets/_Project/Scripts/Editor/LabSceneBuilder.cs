@@ -30,7 +30,8 @@ namespace BTP.Editor
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
             var catalog = AssetDatabase.LoadAssetAtPath<PlantCatalog>(ProjectPaths.Catalog);
             var recovery = AssetDatabase.LoadAssetAtPath<TomatoRecoveryData>(ProjectPaths.RecoveryData);
-            if (catalog == null || recovery == null)
+            var diseases = AssetDatabase.LoadAssetAtPath<DiseaseGalleryCatalog>(ProjectPaths.DiseaseCatalog);
+            if (catalog == null || recovery == null || diseases == null)
                 throw new System.InvalidOperationException("Run BTP/Setup/2 - Build Plant Assets first.");
 
             EnvironmentKit.DisableGlobalIllumination(ProjectPaths.Data + "/Lighting/LabLighting.lighting");
@@ -51,7 +52,7 @@ namespace BTP.Editor
             var ui = new GameObject("LabUI").transform;
             BuildPlantPanel(ui, catalog);
             BuildInfoPanel(ui);
-            BuildRecoveryPanel(ui, recovery, pedestal);
+            BuildRecoveryPanel(ui, recovery, diseases, pedestal);
             BuildExitPanel(ui);
 
             var spawn = new GameObject("SpawnAnchor", typeof(SpawnAnchor));
@@ -181,7 +182,7 @@ namespace BTP.Editor
         static void BuildPlantPanel(Transform ui, PlantCatalog catalog)
         {
             const float width = 560f;
-            var panel = Panel(ui, "PlantPanel", new Vector2(width, 800f), PanelPosition(-38f, 1.35f));
+            var panel = Panel(ui, "PlantPanel", new Vector2(width, 960f), PanelPosition(-38f, 1.32f));
             Header(panel, "Plant", "Choose a species to study", width);
 
             var y = 140f;
@@ -191,9 +192,9 @@ namespace BTP.Editor
                 var button = UIFactory.Button($"Plant_{plant.PlantId}", panel, text, 30f, out var selected);
                 button.GetComponentInChildren<TextMeshProUGUI>().alignment = TextAlignmentOptions.MidlineLeft;
                 button.GetComponentInChildren<TextMeshProUGUI>().margin = new Vector4(18f, 0f, 0f, 0f);
-                UIFactory.Place((RectTransform)button.transform, 28f, y, width - 56f, 84f);
+                UIFactory.Place((RectTransform)button.transform, 28f, y, width - 56f, 80f);
                 button.gameObject.AddComponent<PlantButton>().Bind(plant.PlantId, selected);
-                y += 92f;
+                y += 88f; // nine buttons: 140 + 9 x 88 fits the 960 panel
             }
         }
 
@@ -229,11 +230,14 @@ namespace BTP.Editor
             panel.gameObject.AddComponent<PlantInfoPanel>().Bind(title, scientific, details, summary, turntable);
         }
 
-        static void BuildRecoveryPanel(Transform ui, TomatoRecoveryData recovery, LabPlantDisplay display)
+        static void BuildRecoveryPanel(Transform ui, TomatoRecoveryData recovery, DiseaseGalleryCatalog diseases, LabPlantDisplay display)
         {
             const float width = 640f;
-            var panel = Panel(ui, "RecoveryDemoPanel", new Vector2(width, 800f), PanelPosition(38f, 1.35f));
-            Header(panel, "Recovery Demo", $"Tomato · {recovery.DiseaseName}", width);
+            var panel = Panel(ui, "RecoveryDemoPanel", new Vector2(width, 960f), PanelPosition(38f, 1.32f));
+            Header(panel, "Recovery Demo", null, width);
+            // The example disease follows the selected plant (set by RecoveryDemoPanel).
+            var subtitle = UIFactory.Text("Subtitle", panel, "", 26f, UIPalette.Cyan);
+            UIFactory.Place(subtitle.rectTransform, 32f, 86f, width - 64f, 40f);
 
             var disclaimer = UIFactory.RoundedImage("Disclaimer", panel, new Color(0.35f, 0.26f, 0.05f, 0.9f), ProceduralTextures.RoundedFill);
             disclaimer.raycastTarget = false;
@@ -241,7 +245,7 @@ namespace BTP.Editor
             UIFactory.Stretch(UIFactory.Text("Text", disclaimer.transform, TomatoRecoveryData.Disclaimer, 24f, UIPalette.Warning,
                 TextAlignmentOptions.Center, FontStyles.Italic).rectTransform, 10f);
 
-            // Demo state (Tomato).
+            // Demo state (every plant).
             var demo = UIFactory.Node("DemoContent", panel);
             UIFactory.Stretch(demo);
             var weekTitle = UIFactory.Text("WeekTitle", demo, "Week 1 of 6", 40f, Color.white, TextAlignmentOptions.TopLeft, FontStyles.Bold);
@@ -255,16 +259,20 @@ namespace BTP.Editor
             UIFactory.Place(UIFactory.Text("Hint", demo, "Left half of the plant: Week 1 (diseased).\nRight half: the selected week.", 24f,
                 UIPalette.TextSecondary).rectTransform, 32f, 650f, width - 64f, 90f);
 
-            // Other plants: no disease history is invented.
-            var unavailable = UIFactory.Node("UnavailableContent", panel);
-            UIFactory.Stretch(unavailable);
-            UIFactory.Place(UIFactory.Text("Title", unavailable, "Tomato demo only", 40f, Color.white, TextAlignmentOptions.TopLeft, FontStyles.Bold).rectTransform, 32f, 250f, width - 64f, 54f);
-            UIFactory.Place(UIFactory.Text("Body", unavailable,
-                "The six-week recovery demo is an illustrative prototype for Tomato only. No disease history is shown for this plant.",
-                28f, UIPalette.TextSecondary).rectTransform, 32f, 320f, width - 64f, 170f);
-            var viewTomato = UIFactory.Button("ViewTomatoDemo", unavailable, "View Tomato Demo", 34f, out _, UIPalette.Cyan, new Color(0.02f, 0.11f, 0.14f));
-            UIFactory.Place((RectTransform)viewTomato.transform, 32f, 520f, width - 64f, 120f);
-            unavailable.gameObject.SetActive(false);
+            // Example disease row: PlantVillage sample leaf, name, and previous/next to cycle through the plant's classes.
+            var diseaseRow = UIFactory.Node("DiseaseRow", demo);
+            UIFactory.Place(diseaseRow, 0f, 760f, width, 180f);
+            var leafNode = UIFactory.Node("SampleLeaf", diseaseRow);
+            var leafImage = leafNode.gameObject.AddComponent<RawImage>();
+            leafImage.raycastTarget = false;
+            UIFactory.Place(leafNode, 32f, 0f, 150f, 150f);
+            var diseaseName = UIFactory.Text("DiseaseName", diseaseRow, "", 28f, Color.white, TextAlignmentOptions.TopLeft, FontStyles.Bold);
+            UIFactory.Place(diseaseName.rectTransform, 200f, 0f, 260f, 110f);
+            UIFactory.Place(UIFactory.Text("SampleCaption", diseaseRow, "PlantVillage sample (example disease)", 20f, UIPalette.TextSecondary).rectTransform, 200f, 116f, 400f, 36f);
+            var previousDisease = UIFactory.Button("PreviousDisease", diseaseRow, "<", 40f, out _);
+            UIFactory.Place((RectTransform)previousDisease.transform, 470f, 10f, 60f, 70f);
+            var nextDisease = UIFactory.Button("NextDisease", diseaseRow, ">", 40f, out _);
+            UIFactory.Place((RectTransform)nextDisease.transform, 540f, 10f, 60f, 70f);
 
             // Timeline console below the plant, tilted up towards the viewer.
             var timeline = BuildTimeline(ui, out var previous, out var next, out var reset, out var weeks, out var weekVisuals, recovery);
@@ -275,7 +283,7 @@ namespace BTP.Editor
             var controller = panel.gameObject.AddComponent<RecoveryDemoPanel>();
             controller.BindData(recovery, display);
             controller.BindDemo(demo.gameObject, weekTitle, caption, leaf, chlorophyll, severity);
-            controller.BindUnavailable(unavailable.gameObject, viewTomato);
+            controller.BindDisease(diseases, subtitle, diseaseRow.gameObject, diseaseName, leafImage, previousDisease, nextDisease);
             controller.BindTimeline(timeline, previous, next, reset, weeks, weekVisuals);
             controller.BindComparison(marker, baseline, current, currentBackground);
         }

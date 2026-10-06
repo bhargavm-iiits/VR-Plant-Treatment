@@ -74,14 +74,15 @@ namespace BTP.Editor
         }
 
         /// <summary>Ray (trigger) or pinch selects the specimen; see <see cref="SelectablePlant"/>.</summary>
-        public static void MakeSelectableSpecimen(GameObject root, string plantId, SelectionRing ring, PlantNameCard card)
+        public static void MakeSelectableSpecimen(GameObject root, string plantId, SelectionRing ring, PlantNameCard card,
+            DiseaseGalleryController gallery = null)
         {
             if (root.GetComponent<XRSimpleInteractable>() == null)
                 root.AddComponent<XRSimpleInteractable>();
             var selectable = root.GetComponent<SelectablePlant>();
             if (selectable == null)
                 selectable = root.AddComponent<SelectablePlant>();
-            selectable.Bind(plantId, ring, card);
+            selectable.Bind(plantId, ring, card, gallery);
         }
 
         /// <summary>World-space canvases need the tracked-device raycaster for XR rays and pokes.</summary>

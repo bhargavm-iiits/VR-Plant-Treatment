@@ -13,10 +13,10 @@ using Object = UnityEngine.Object;
 namespace BTP.Editor
 {
     /// <summary>
-    /// Builds everything the seven selectable plants need from the optimized models in
+    /// Builds everything the nine selectable plants need from the optimized models in
     /// Assets/_Project/Models/Plants (see Tools/decimate_all.ps1): import settings, URP
     /// materials, lab prefabs, farm prefabs (near mesh + baked billboard LOD), the plant
-    /// catalog and the Tomato recovery data. Safe to run again; assets are updated in place.
+    /// catalog and the recovery demo data. Safe to run again; assets are updated in place.
     /// </summary>
     public static class PlantAssetPipeline
     {
@@ -36,9 +36,11 @@ namespace BTP.Editor
             public string FarmAlbedo;
             public bool Cutout;              // alpha-clipped leaf cards
             public bool RecoveryDemo;
-            public float BillboardAt = 0.12f; // screen height where the near mesh gives way to the billboard
+            // Screen height where the near mesh gives way to the billboard. Quest 2 (LOD bias 1) shows the mesh out to
+            // roughly height / (2.2 x value) metres; PC (bias 2+) about twice as far. Lower value = mesh stays longer.
+            public float BillboardAt = 0.05f;
             public float CullAt = 0.012f;
-            public int BillboardViewSize = 256;
+            public int BillboardViewSize = 1024; // per-view bake size; the atlas is two views wide (2048 x 1024)
         }
 
         const string Meshy = ProjectPaths.SourcePlants;
@@ -52,7 +54,7 @@ namespace BTP.Editor
                 Height = 3.5f, LabModel = ProjectPaths.Models + "/Apple_Lab.fbx", FarmModel = ProjectPaths.Models + "/Apple_Farm.fbx",
                 LabAlbedo = Meshy + "/Apple_new/Meshy_AI_apple_tree_3d_0923203849_image-to-3d-texture_fbx/Meshy_AI_apple_tree_3d_0923203849_image-to-3d-texture.png",
                 LabNormal = Meshy + "/Apple_new/Meshy_AI_apple_tree_3d_0923203849_image-to-3d-texture_fbx/Meshy_AI_apple_tree_3d_0923203849_image-to-3d-texture_normal.png",
-                BillboardAt = 0.45f, CullAt = 0.008f, BillboardViewSize = 512
+                BillboardAt = 0.23f, CullAt = 0.008f
             },
             new PlantSpec
             {
@@ -61,7 +63,7 @@ namespace BTP.Editor
                 Height = 0.7f, LabModel = ProjectPaths.Models + "/BellPepper_Lab.fbx", FarmModel = ProjectPaths.Models + "/BellPepper_Farm.fbx",
                 LabAlbedo = Meshy + "/Bell Pepper/Meshy_AI_Colorful_Bell_Pepper__0923184552_texture_fbx/Meshy_AI_Colorful_Bell_Pepper__0923184552_texture.png",
                 LabNormal = Meshy + "/Bell Pepper/Meshy_AI_Colorful_Bell_Pepper__0923184552_texture_fbx/Meshy_AI_Colorful_Bell_Pepper__0923184552_texture_normal.png",
-                BillboardAt = 0.16f
+                BillboardAt = 0.055f
             },
             new PlantSpec
             {
@@ -70,14 +72,32 @@ namespace BTP.Editor
                 Height = 3.5f, LabModel = ProjectPaths.Models + "/Cherry_Lab.fbx", FarmModel = ProjectPaths.Models + "/Cherry_Lab.fbx",
                 LabAlbedo = ProjectPaths.PlantTextures + "/Cherry_BaseAlpha.png",
                 LabNormal = Meshy + "/Cherry/fbx/Cherry1_Normal.tga",
-                Cutout = true, BillboardAt = 0.3f, CullAt = 0.008f, BillboardViewSize = 512
+                Cutout = true, BillboardAt = 0.13f, CullAt = 0.008f
             },
             new PlantSpec
             {
                 Id = "corn", Name = "Corn (Maize)", Scientific = "Zea mays", Family = "Poaceae", Type = "Annual cereal grass",
                 Summary = "Tall annual grass grown for its grain, one of the world's major cereal crops. Each plant carries a tassel on top and ears lower on the stalk.",
                 // 60 corn plants in the field: keep full meshes to about 4 m so the block stays near 45k triangles.
-                Height = 2.2f, Cutout = true, BillboardAt = 0.25f, CullAt = 0.01f, BillboardViewSize = 512
+                Height = 2.2f, Cutout = true, BillboardAt = 0.18f, CullAt = 0.01f
+            },
+            new PlantSpec
+            {
+                Id = "grape", Name = "Grape", Scientific = "Vitis vinifera", Family = "Vitaceae", Type = "Perennial climbing fruit vine",
+                Summary = "Woody perennial vine grown for its berries, which hang in clusters. Vines climb by tendrils and are usually trained on a trellis and pruned hard each year.",
+                Height = 1.6f, LabModel = ProjectPaths.Models + "/Grape_Lab.fbx", FarmModel = ProjectPaths.Models + "/Grape_Farm.fbx",
+                LabAlbedo = Meshy + "/Grapes/Meshy_AI_Mature_Indian_Grapevi_0924170001_image-to-3d-texture_fbx/Meshy_AI_Mature_Indian_Grapevi_0924170001_image-to-3d-texture.png",
+                LabNormal = Meshy + "/Grapes/Meshy_AI_Mature_Indian_Grapevi_0924170001_image-to-3d-texture_fbx/Meshy_AI_Mature_Indian_Grapevi_0924170001_image-to-3d-texture_normal.png",
+                BillboardAt = 0.09f, CullAt = 0.008f
+            },
+            new PlantSpec
+            {
+                Id = "peach", Name = "Peach", Scientific = "Prunus persica", Family = "Rosaceae", Type = "Deciduous fruit tree",
+                Summary = "Temperate orchard tree grown for its fleshy stone fruit (a drupe). Peaches flower early in spring, so late frosts are a common risk.",
+                Height = 2.5f, LabModel = ProjectPaths.Models + "/Peach_Lab.fbx", FarmModel = ProjectPaths.Models + "/Peach_Farm.fbx",
+                LabAlbedo = Meshy + "/Peach/Meshy_AI_Mature_Peach_Tree_0924191204_image-to-3d-texture_fbx/Meshy_AI_Mature_Peach_Tree_0924191204_image-to-3d-texture.png",
+                LabNormal = Meshy + "/Peach/Meshy_AI_Mature_Peach_Tree_0924191204_image-to-3d-texture_fbx/Meshy_AI_Mature_Peach_Tree_0924191204_image-to-3d-texture_normal.png",
+                BillboardAt = 0.16f, CullAt = 0.008f
             },
             new PlantSpec
             {
@@ -86,14 +106,15 @@ namespace BTP.Editor
                 Height = 0.5f, LabModel = ProjectPaths.Models + "/Potato_Lab.fbx", FarmModel = ProjectPaths.Models + "/Potato_Farm.fbx",
                 LabAlbedo = ProjectPaths.PlantTextures + "/Potato_BaseAlpha.png",
                 LabNormal = Meshy + "/potato-plants-collection/textures/Potato_Atlas_PBR_NORMAL.jpg",
-                Cutout = true
+                Cutout = true, BillboardAt = 0.04f
             },
             new PlantSpec
             {
                 Id = "strawberry", Name = "Strawberry", Scientific = "Fragaria × ananassa", Family = "Rosaceae", Type = "Low-growing perennial",
                 Summary = "Low-growing perennial that spreads by runners. Its red 'fruit' is an enlarged receptacle carrying the true fruits, the small seed-like achenes.",
                 Height = 0.3f, LabModel = ProjectPaths.Models + "/Strawberry_Lab.fbx", FarmModel = ProjectPaths.Models + "/Strawberry_Farm.fbx",
-                LabAlbedo = Meshy + "/Strawberry_1/Meshy_AI_strawberry_plant_0923200556_texture_fbx/Meshy_AI_strawberry_plant_0923200556_texture.png"
+                LabAlbedo = Meshy + "/Strawberry_1/Meshy_AI_strawberry_plant_0923200556_texture_fbx/Meshy_AI_strawberry_plant_0923200556_texture.png",
+                BillboardAt = 0.03f
             },
             new PlantSpec
             {
@@ -103,7 +124,7 @@ namespace BTP.Editor
                 LabAlbedo = Meshy + "/Tomato_asset/Meshy_AI_Single_Stem_Tomato_Pl_0923211133_image-to-3d-texture_fbx/Meshy_AI_Single_Stem_Tomato_Pl_0923211133_image-to-3d-texture.png",
                 LabNormal = Meshy + "/Tomato_asset/Meshy_AI_Single_Stem_Tomato_Pl_0923211133_image-to-3d-texture_fbx/Meshy_AI_Single_Stem_Tomato_Pl_0923211133_image-to-3d-texture_normal.png",
                 FarmAlbedo = Meshy + "/Tomato/Meshy_AI_Tomato_Plant_0923194145_texture_fbx/Meshy_AI_Tomato_Plant_0923194145_texture.png",
-                RecoveryDemo = true
+                RecoveryDemo = true, BillboardAt = 0.06f
             },
         };
 
@@ -132,6 +153,8 @@ namespace BTP.Editor
                     definitions.Add(SaveDefinition(spec, farm, lab));
                 }
 
+                QualityTuning.Apply();
+                DiseaseGalleryBuilder.Build();
                 SaveCatalog(definitions);
                 SaveRecoveryData();
                 AssetDatabase.SaveAssets();
@@ -145,35 +168,48 @@ namespace BTP.Editor
 
         static (GameObject farm, GameObject lab) BuildMeshPlant(PlantSpec spec)
         {
-            var farmAlbedoPath = spec.FarmAlbedo ?? spec.LabAlbedo;
+            var farmSourcePath = spec.FarmAlbedo ?? spec.LabAlbedo;
             ConfigureTexture(spec.LabAlbedo, spec.Cutout);
-            if (farmAlbedoPath != spec.LabAlbedo)
-                ConfigureTexture(farmAlbedoPath, spec.Cutout);
+            if (farmSourcePath != spec.LabAlbedo)
+                ConfigureTexture(farmSourcePath, spec.Cutout);
             if (spec.LabNormal != null)
                 TextureSettings.ConfigureNormal(spec.LabNormal);
 
+            // Farm plants are all shown with illustrative unhealthy foliage: a baked copy of the albedo
+            // (leaf-coloured pixels only). Near mesh and billboard LOD both use it; the Lab stays healthy.
+            var fileName = spec.Name.Replace(" ", "");
+            var farmAlbedoPath = FarmDiseaseTextures.Create(farmSourcePath,
+                $"{ProjectPaths.PlantTextures}/{fileName}_FarmDiseased.{(spec.Cutout ? "png" : "jpg")}", spec.Id, spec.Cutout);
+
             ConfigureModel(spec.LabModel, spec.LabNormal != null, spec.Height);
+            // The decimated Farm mesh keeps the same UVs, so the Lab normal map works on it too (needs tangents).
+            // Tomato's Farm mesh comes from a different source model than its Lab normal map, so it is skipped.
+            var farmNormal = spec.LabNormal != null && spec.FarmAlbedo == null;
             if (spec.FarmModel != spec.LabModel)
-                ConfigureModel(spec.FarmModel, false, spec.Height);
+                ConfigureModel(spec.FarmModel, farmNormal, spec.Height);
 
             var labAlbedo = Load<Texture2D>(spec.LabAlbedo);
             var labNormal = spec.LabNormal != null ? Load<Texture2D>(spec.LabNormal) : null;
-            var fileName = spec.Name.Replace(" ", "");
 
             Material labMaterial;
-            if (spec.RecoveryDemo)
+            if (spec.Id == "tomato")
             {
+                // Tomato keeps its hand-derived mask, vertex stem mask and default lesion colours (unchanged).
                 TextureSettings.ConfigureData(TomatoDiseaseMask);
                 labMaterial = MaterialFactory.LeafDisease($"{ProjectPaths.PlantMaterials}/{fileName}_Lab.mat",
                     labAlbedo, labNormal, Load<Texture2D>(TomatoDiseaseMask));
             }
             else
             {
-                labMaterial = MaterialFactory.SimpleLit($"{ProjectPaths.PlantMaterials}/{fileName}_Lab.mat", labAlbedo, labNormal, spec.Cutout);
+                // Every other plant: a generated mask (leaf pixels + lesion/chlorosis threshold fields) on the same shader.
+                var maskPath = LabDiseaseMasks.Create(spec.LabAlbedo, $"{ProjectPaths.PlantTextures}/{fileName}_LabDiseaseMask.png", spec.Id);
+                var (core, ring, halo) = FarmDiseaseTextures.LesionColors(spec.Id);
+                labMaterial = MaterialFactory.LeafDisease($"{ProjectPaths.PlantMaterials}/{fileName}_Lab.mat",
+                    labAlbedo, labNormal, Load<Texture2D>(maskPath), false, core, ring, halo, spec.Cutout);
             }
 
             var farmMaterial = MaterialFactory.SimpleLit($"{ProjectPaths.PlantMaterials}/{fileName}_Farm.mat",
-                Load<Texture2D>(farmAlbedoPath), null, spec.Cutout);
+                Load<Texture2D>(farmAlbedoPath), farmNormal ? labNormal : null, spec.Cutout);
 
             var lab = SaveModelPrefab($"{fileName}_Lab", Load<GameObject>(spec.LabModel), labMaterial);
             var farm = SaveFarmPrefab(spec, fileName, Load<GameObject>(spec.FarmModel), farmMaterial, null);
@@ -190,17 +226,40 @@ namespace BTP.Editor
 
             var (mesh, sourceMaterials) = CombineCorn(source, spec.Height);
             var materials = new Material[sourceMaterials.Count];
+            var farmMaterials = new Material[sourceMaterials.Count];
             for (var i = 0; i < sourceMaterials.Count; i++)
             {
                 var gltf = sourceMaterials[i];
                 var albedo = FindTexture(gltf, "baseColorTexture", "_BaseMap", "_MainTex", "basecolor");
                 var normal = FindTexture(gltf, "normalTexture", "_BumpMap", "normal");
                 var cutout = gltf.name.ToLowerInvariant().Contains("alpha") || gltf.renderQueue >= (int)RenderQueue.AlphaTest;
-                materials[i] = MaterialFactory.SimpleLit($"{ProjectPaths.PlantMaterials}/Corn_{i}_{Sanitize(gltf.name)}.mat", albedo, normal, cutout);
+                var labPath = $"{ProjectPaths.PlantMaterials}/Corn_{i}_{Sanitize(gltf.name)}.mat";
+                if (albedo != null)
+                {
+                    // Lab corn runs the same Leaf Disease shader as every plant, with a mask baked from this albedo.
+                    var maskPath = LabDiseaseMasks.Create(albedo, $"{ProjectPaths.PlantTextures}/Corn_{i}_{Sanitize(gltf.name)}_LabDiseaseMask.png", spec.Id);
+                    var (core, ring, halo) = FarmDiseaseTextures.LesionColors(spec.Id);
+                    materials[i] = MaterialFactory.LeafDisease(labPath, albedo, normal, Load<Texture2D>(maskPath), false, core, ring, halo, cutout);
+                }
+                else
+                {
+                    materials[i] = MaterialFactory.SimpleLit(labPath, albedo, normal, cutout);
+                }
+
+                // Farm copy with illustrative unhealthy foliage baked into the albedo (the Lab keeps the healthy one).
+                var farmAlbedo = albedo;
+                if (albedo != null)
+                {
+                    var diseasedPath = FarmDiseaseTextures.Create(albedo,
+                        $"{ProjectPaths.PlantTextures}/Corn_{i}_{Sanitize(gltf.name)}_FarmDiseased.{(cutout ? "png" : "jpg")}", spec.Id, cutout);
+                    farmAlbedo = Load<Texture2D>(diseasedPath);
+                }
+
+                farmMaterials[i] = MaterialFactory.SimpleLit($"{ProjectPaths.PlantMaterials}/Corn_{i}_{Sanitize(gltf.name)}_Farm.mat", farmAlbedo, normal, cutout);
             }
 
             var lab = SaveMeshPrefab("Corn_Lab", mesh, materials, true);
-            var farm = SaveFarmPrefab(spec, "Corn", null, null, (mesh, materials));
+            var farm = SaveFarmPrefab(spec, "Corn", null, null, (mesh, farmMaterials));
             return (farm, lab);
         }
 
@@ -465,7 +524,7 @@ namespace BTP.Editor
         static PlantDefinition SaveDefinition(PlantSpec spec, GameObject farm, GameObject lab)
         {
             var definition = LoadOrCreate<PlantDefinition>($"{ProjectPaths.PlantData}/{spec.Id}.asset");
-            definition.Configure(spec.Id, spec.Name, spec.Scientific, spec.Family, spec.Type, spec.Summary, spec.RecoveryDemo);
+            definition.Configure(spec.Id, spec.Name, spec.Scientific, spec.Family, spec.Type, spec.Summary, true); // every plant has the illustrative recovery demo
             definition.SetPrefabs(farm, lab);
             EditorUtility.SetDirty(definition);
             return definition;

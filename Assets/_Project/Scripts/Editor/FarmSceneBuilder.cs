@@ -62,8 +62,9 @@ namespace BTP.Editor
             var crops = new GameObject("Crops").transform;
             PlantCrops(crops, catalog, materials);
 
+            var gallery = BuildDiseaseGallery();
             var specimens = new GameObject("Specimens").transform;
-            BuildSpecimens(specimens, catalog, materials);
+            BuildSpecimens(specimens, catalog, materials, gallery);
 
             BuildNoticeBoard(new GameObject("NoticeBoard").transform, materials);
             BuildNavigation(navigation);
@@ -165,8 +166,9 @@ namespace BTP.Editor
                     var position = new Vector3(x + rowOffset + ((float)random.NextDouble() - 0.5f) * 0.08f, yBase, z);
                     var instance = EnvironmentKit.Place(plant.FarmPrefab, group, position, (float)random.NextDouble() * 360f,
                         0.9f + (float)random.NextDouble() * 0.2f);
-                    if (random.NextDouble() < stressedShare)
-                        PlantTint.ApplyStressedFoliage(instance);
+                    // Every Farm plant already carries illustrative unhealthy foliage in its Farm albedo (leaves only),
+                    // so the old whole-material yellow tint (stressedShare) is no longer applied; it also tinted fruit.
+                    random.NextDouble(); // keeps the random sequence, and so the plant layout, unchanged
                     if (stakes)
                         EnvironmentKit.Cylinder("Stake", instance.transform.parent, position + new Vector3(0.12f, 0.55f, 0f), 0.012f, 1.1f, m.Stake, false);
                 }
@@ -186,11 +188,15 @@ namespace BTP.Editor
             for (var x = 6.4f; x <= 9.4f; x += 1.0f)
                 Row("corn", x, 2.2f, 13.5f, 0.8f, 0f, false, 0f);
 
+            // Vines along the east fence, clear of the corn block and the central aisle.
+            Row("grape", 11.0f, 2.5f, 23f, 3.2f, 0.15f, false, 0f);
+
             // Orchard edge on the left.
             var orchard = new[]
             {
                 ("apple", -8.0f, 8.0f), ("cherry", -8.0f, 14.0f), ("apple", -8.0f, 20.0f),
                 ("cherry", -10.5f, -1.5f), ("apple", -10.5f, 5.0f), ("cherry", -10.5f, 11.0f), ("apple", -10.5f, 17.0f),
+                ("peach", -10.5f, 23.0f), ("peach", -10.5f, -7.5f),
             };
             var trees = EnvironmentKit.Group("Orchard", crops).transform;
             foreach (var (id, x, z) in orchard)
@@ -204,7 +210,7 @@ namespace BTP.Editor
 
         // ------------------------------------------------------------------ specimens
 
-        static void BuildSpecimens(Transform parent, PlantCatalog catalog, Materials m)
+        static void BuildSpecimens(Transform parent, PlantCatalog catalog, Materials m, DiseaseGalleryController gallery)
         {
             // Position (base), and which side the aisle is on (+1: aisle towards +X).
             var layout = new Dictionary<string, (Vector3 position, float aisleSide)>
@@ -215,6 +221,8 @@ namespace BTP.Editor
                 ["potato"] = (new Vector3(2.3f, BedHeight, -3.6f), -1f),
                 ["apple"] = (new Vector3(-8.0f, 0f, -4.5f), 1f),
                 ["cherry"] = (new Vector3(-8.0f, 0f, 2.2f), 1f),
+                ["peach"] = (new Vector3(-8.0f, 0f, -1.2f), 1f),
+                ["grape"] = (new Vector3(9.5f, 0f, -4.5f), -1f),
                 ["corn"] = (new Vector3(6.4f, 0f, 1.6f), -1f),
             };
 
@@ -226,11 +234,12 @@ namespace BTP.Editor
                     continue;
                 }
 
-                BuildSpecimen(parent, plant, place.position, place.aisleSide, m);
+                BuildSpecimen(parent, plant, place.position, place.aisleSide, m, gallery);
             }
         }
 
-        static void BuildSpecimen(Transform parent, PlantDefinition plant, Vector3 position, float aisleSide, Materials m)
+        static void BuildSpecimen(Transform parent, PlantDefinition plant, Vector3 position, float aisleSide, Materials m,
+            DiseaseGalleryController gallery)
         {
             var root = new GameObject($"Specimen_{plant.PlantId}");
             root.transform.SetParent(parent, false);
@@ -286,7 +295,22 @@ namespace BTP.Editor
             nameCard.Bind(cardContent.gameObject, title, subtitle);
             cardContent.gameObject.SetActive(false);
 
-            XRSceneWiring.MakeSelectableSpecimen(root, plant.PlantId, selectionRing, nameCard);
+            XRSceneWiring.MakeSelectableSpecimen(root, plant.PlantId, selectionRing, nameCard, gallery);
+        }
+
+        /// <summary>The disease gallery: one controller with a pooled ring of cards (see DiseaseGalleryController).</summary>
+        static DiseaseGalleryController BuildDiseaseGallery()
+        {
+            var diseases = AssetDatabase.LoadAssetAtPath<DiseaseGalleryCatalog>(ProjectPaths.DiseaseCatalog);
+            if (diseases == null)
+                throw new System.InvalidOperationException("Run BTP/Setup/2 - Build Plant Assets first (it builds the disease gallery data).");
+
+            var border = MaterialFactory.Unlit($"{ProjectPaths.UIMaterials}/DiseaseCard_Border.mat", UIPalette.Cyan);
+            var panel = MaterialFactory.Unlit($"{ProjectPaths.UIMaterials}/DiseaseCard_Panel.mat", new Color(0.07f, 0.09f, 0.11f));
+            var image = MaterialFactory.Unlit($"{ProjectPaths.UIMaterials}/DiseaseCard_Leaf.mat", Color.white);
+            var controller = new GameObject("DiseaseGallery", typeof(DiseaseGalleryController)).GetComponent<DiseaseGalleryController>();
+            controller.Bind(diseases, border, panel, image);
+            return controller;
         }
 
         static Bounds LocalBounds(GameObject model, Transform space)
@@ -411,8 +435,9 @@ namespace BTP.Editor
             UIFactory.Place(UIFactory.Text("Intro", rect, "Pick a plant in the field, then study it up close in the lab.", 32f, UIPalette.TextSecondary).rectTransform, 50f, 125f, 1300f, 50f);
             UIFactory.Place(UIFactory.Text("Steps", rect,
                 "1  Point at a labelled plant and pull the trigger, or pinch, to select it.\n" +
-                "2  Press <b>Enter Lab</b>. With no plant selected the lab opens with Tomato.",
-                30f, Color.white).rectTransform, 50f, 200f, 1300f, 130f);
+                "2  Press <b>Enter Lab</b>. With no plant selected the lab opens with Tomato.\n" +
+                "3  Within 4 m, selecting a plant also shows PlantVillage sample leaves of its diseases.",
+                30f, Color.white).rectTransform, 50f, 200f, 1300f, 165f);
 
             var readout = UIFactory.Text("Selection", rect, "", 36f, UIPalette.Cyan);
             UIFactory.Place(readout.rectTransform, 50f, 370f, 1300f, 60f);
@@ -425,6 +450,8 @@ namespace BTP.Editor
             colors.pressedColor = UIPalette.ButtonPressed;
             enter.colors = colors;
             enter.gameObject.AddComponent<EnvironmentButton>().Action = EnvironmentButton.ButtonAction.EnterLab;
+
+            UIFactory.Place(UIFactory.Text("Credit", rect, DiseaseClasses.Credit, 22f, UIPalette.TextSecondary).rectTransform, 50f, 800f, 1300f, 36f);
 
             var recenter = UIFactory.Button("Recenter", rect, "Recenter view", 34f, out _);
             UIFactory.Place((RectTransform)recenter.transform, 920f, 600f, 430f, 180f);

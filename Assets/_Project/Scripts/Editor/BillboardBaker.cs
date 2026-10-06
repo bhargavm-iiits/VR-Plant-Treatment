@@ -26,7 +26,9 @@ namespace BTP.Editor
         {
             var scene = EditorSceneManager.NewPreviewScene();
             var temporaries = new List<Object>();
-            var target = new RenderTexture(viewSize, viewSize, 24, RenderTextureFormat.ARGB32, RenderTextureReadWrite.sRGB)
+            // Smooth silhouettes by supersampling: render at 2x and box-downsample. No MSAA here: reading
+            // pixels from a multisampled target returned black.
+            var target = new RenderTexture(viewSize * 2, viewSize * 2, 24, RenderTextureFormat.ARGB32, RenderTextureReadWrite.sRGB)
             {
                 antiAliasing = 1
             };
@@ -61,8 +63,8 @@ namespace BTP.Editor
 
                 var distance = size * 2f;
                 // Front: looking along +Z (image right = +X). Side: looking along +X (image right = -Z).
-                var front = CaptureView(camera, target, centre - Vector3.forward * distance, Quaternion.LookRotation(Vector3.forward));
-                var side = CaptureView(camera, target, centre - Vector3.right * distance, Quaternion.LookRotation(Vector3.right));
+                var front = CaptureView(camera, target, centre - Vector3.forward * distance, Quaternion.LookRotation(Vector3.forward), viewSize);
+                var side = CaptureView(camera, target, centre - Vector3.right * distance, Quaternion.LookRotation(Vector3.right), viewSize);
 
                 var atlas = new Color32[viewSize * 2 * viewSize];
                 for (var y = 0; y < viewSize; y++)
@@ -74,7 +76,8 @@ namespace BTP.Editor
                     }
                 }
 
-                Dilate(atlas, viewSize * 2, viewSize, 8);
+                EnsureNotBlank(atlas, name);
+                Dilate(atlas, viewSize * 2, viewSize, 16);
                 var texture = SaveTexture(atlas, viewSize * 2, viewSize, $"{ProjectPaths.BillboardTextures}/{name}_Billboard.png");
                 var mesh = SaveMesh(BuildCrossQuads(centre, size, $"{name}_Billboard"), $"{ProjectPaths.BillboardMeshes}/{name}_Billboard.asset");
                 return new Result { Mesh = mesh, Texture = texture };
@@ -125,11 +128,59 @@ namespace BTP.Editor
             return bounds;
         }
 
-        static Color32[] CaptureView(Camera camera, RenderTexture target, Vector3 position, Quaternion rotation)
+        /// <summary>Throws if the baked atlas is empty or uniform, so a broken bake can never ship silently.</summary>
+        static void EnsureNotBlank(Color32[] atlas, string name)
+        {
+            var maxAlpha = 0;
+            var maxColour = 0;
+            var first = atlas[0];
+            var uniform = true;
+            foreach (var p in atlas)
+            {
+                maxAlpha = Mathf.Max(maxAlpha, p.a);
+                maxColour = Mathf.Max(maxColour, Mathf.Max(p.r, Mathf.Max(p.g, p.b)));
+                if (uniform && (p.r != first.r || p.g != first.g || p.b != first.b || p.a != first.a))
+                    uniform = false;
+            }
+
+            if (maxAlpha == 0 || maxColour == 0 || uniform)
+                throw new System.InvalidOperationException(
+                    $"[BTP] Billboard bake for '{name}' is blank (max alpha {maxAlpha}, max colour {maxColour}, uniform {uniform}). " +
+                    "Check the plant's materials and the bake camera.");
+        }
+
+        static Color32[] Downsample2x(Color32[] source, int size)
+        {
+            var half = size / 2;
+            var result = new Color32[half * half];
+            for (var y = 0; y < half; y++)
+            {
+                for (var x = 0; x < half; x++)
+                {
+                    int r = 0, g = 0, b = 0;
+                    for (var dy = 0; dy < 2; dy++)
+                    {
+                        for (var dx = 0; dx < 2; dx++)
+                        {
+                            var p = source[(y * 2 + dy) * size + x * 2 + dx];
+                            r += p.r;
+                            g += p.g;
+                            b += p.b;
+                        }
+                    }
+
+                    result[y * half + x] = new Color32((byte)(r / 4), (byte)(g / 4), (byte)(b / 4), 255);
+                }
+            }
+
+            return result;
+        }
+
+        static Color32[] CaptureView(Camera camera, RenderTexture target, Vector3 position, Quaternion rotation, int viewSize)
         {
             camera.transform.SetPositionAndRotation(position, rotation);
-            var onBlack = Render(camera, target, Color.black);
-            var onWhite = Render(camera, target, Color.white);
+            var onBlack = Downsample2x(Render(camera, target, Color.black), target.width);
+            var onWhite = Downsample2x(Render(camera, target, Color.white), target.width);
 
             // Alpha from how much the background shows through; colour un-premultiplied.
             var result = new Color32[onBlack.Length];
@@ -260,7 +311,7 @@ namespace BTP.Editor
             Object.DestroyImmediate(texture);
 
             AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate);
-            TextureSettings.ConfigureCutout(path, 1024);
+            TextureSettings.ConfigureCutout(path, 2048, 2048);
             return AssetDatabase.LoadAssetAtPath<Texture2D>(path);
         }
 
