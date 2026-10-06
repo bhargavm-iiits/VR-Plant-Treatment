@@ -65,13 +65,13 @@ The previous evaluation was a **360° VR Movie Player**, completed as a separate
 1. Start in the farm and inspect a labeled plant.
 2. Select a plant and enter the lab through a world-space button.
 3. Inspect its 3D model and information panel.
-4. For Tomato, move through a six-week Early Blight visualization, then return to the farm.
+4. For any plant, move through an illustrative six-week disease-recovery visualization, then return to the farm.
 
 **Design boundary:** The six-week values are illustrative sample data. The experience does not infer disease from a camera image.
 
 **Visual:** Use built farm and lab scene screenshots with the short labels *Farm*, *Select plant*, *Lab*, and *Tomato demo*. Do not use concept images.
 
-**Speaker cue:** Describe the journey from the learner's perspective before discussing software. Mention that the source list has nine species, while seven are integrated into the current selector.
+**Speaker cue:** Describe the journey from the learner's perspective before discussing software. Mention that the source list has nine species and all nine are integrated into the selector.
 
 ## Slide 6 — Implementation Details: Unity and XR architecture (0:55)
 
@@ -95,18 +95,18 @@ The previous evaluation was a **360° VR Movie Player**, completed as a separate
 - I applied textures and URP materials, then made separate farm and lab prefabs.
 - Farm prefabs switch to lightweight billboard versions at a distance.
 
-**Visual:** Use the actual Unity farm editor preview below. Caption: *Farm scene, Unity editor preview*. Put the seven current plant names in a simple readable strip.
+**Visual:** Use the actual Unity farm editor preview below. Caption: *Farm scene, Unity editor preview*. Put the nine current plant names in a simple readable strip.
 
 ![Farm scene, Unity editor preview](../Tools/out/previews/scene_specimens.png)
 
-**Speaker cue:** Describe the sequence: source model, Blender optimization, Unity texture and material setup, then separate Farm and Lab prefabs. The Tomato triangle reduction is documented in the asset-processing log. Grape and Peach source models have now been added, but their Unity prefabs and selector entries are still pending.
+**Speaker cue:** Describe the sequence: source model, Blender optimization, Unity texture and material setup, then separate Farm and Lab prefabs. The Tomato triangle reduction is documented in the asset-processing log. Grape and Peach were added later in the same way, with their own Farm and Lab prefabs and selector entries.
 
 ## Slide 8 — Implementation Details: lab and Tomato demo (1:00)
 
 **On-slide text**
 
 - The lab uses a central plant pedestal and world-space selection, information, and recovery panels.
-- The Tomato example shows Early Blight across six selectable weeks.
+- Every plant shows an example disease across six selectable weeks (Tomato: Early Blight).
 - Week 3 is labeled **Demo treatment applied**; health bars and plant appearance change by week.
 - The interface states **Illustrative prototype. Not diagnostic or treatment advice.**
 
@@ -116,7 +116,7 @@ The previous evaluation was a **360° VR Movie Player**, completed as a separate
 
 ![Lab selection panel, Unity editor preview](../Tools/out/previews/scene_lab_left.png)
 
-**Speaker cue:** Describe the fixed example values and before/current visual comparison. Other selectable species can be inspected, but their panel redirects to the Tomato demo rather than inventing species-specific recovery data.
+**Speaker cue:** Describe the fixed example values and before/current visual comparison. All nine species now share the same illustrative demo and example metrics; the disease shown for each is only an example from its PlantVillage classes, not a diagnosis or treatment advice.
 
 ## Slide 9 — Results and Analysis: verified project outputs (1:05)
 
@@ -125,8 +125,8 @@ The previous evaluation was a **360° VR Movie Player**, completed as a separate
 | Verified in the project folder | Evidence |
 |---|---|
 | Three enabled scenes | XR bootstrap, farm, and lab in Build Settings |
-| Seven integrated crops | Plant catalog plus 14 farm/lab prefabs |
-| Tomato six-week example | Recovery data asset and UI code |
+| Nine integrated crops | Plant catalog plus 18 farm/lab prefabs |
+| Six-week example for all nine plants | Recovery data asset, per-plant leaf masks and UI code |
 | **16 of 16 EditMode tests passed** | Unity Editor test log |
 | Quest APK and Windows executable created | Files in Builds/Quest and Builds/Windows |
 
@@ -140,7 +140,6 @@ The previous evaluation was a **360° VR Movie Player**, completed as a separate
 
 - No recorded Quest 2, Quest 3, or PC headset performance results are in the folder.
 - Controller and hand interaction still need on-device usability checks.
-- Grape and Peach source models exist but are not integrated into the selector.
 - The Tomato percentages are sample values; disease classification and treatment guidance are not implemented.
 
 **Visual:** Two-column *Verified now* / *Next validation* table. Keep the distinction visible throughout the spoken explanation.
@@ -151,9 +150,8 @@ The previous evaluation was a **360° VR Movie Player**, completed as a separate
 
 **On-slide text**
 
-- **Current result:** a farm-to-lab VR prototype with seven selectable plants and one illustrative Tomato example.
+- **Current result:** a farm-to-lab VR prototype with nine selectable plants, each with the same illustrative six-week recovery example.
 - **Next validation:** test on Quest 2/3 and PC VR; measure frame rate, interaction, and learner usability.
-- **Next plants:** optimize and integrate the new Grape and Peach source models.
 - **Future disease system:** classify five verified diseases for each supported plant, plus a healthy class.
 - **Future interactive care:** let users choose treatments; where appropriate, choose fertilizer type and proportion, then view a simulated response.
 

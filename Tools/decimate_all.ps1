@@ -17,17 +17,18 @@ New-Item -ItemType Directory -Force (Split-Path $log) | Out-Null
 
 # Heights are real-world metres. Budgets follow the Quest 2 plan: Lab = one close-up model,
 # Farm = near LOD of a repeated plant (Unity adds a billboard LOD for distance).
+# Farm budgets were raised for Strawberry, Potato and Tomato (5k/5k/8k -> 8k/8k/10k) when the near-mesh LOD distance was extended.
 # Bell Pepper (~1,200 topological handles) and Apple cannot collapse below ~14k / ~40k
 # triangles without shredding, so their farm budgets sit above those floors. Only the
 # nearest plants use these meshes; distant ones switch to the billboard LOD.
 $plants = @(
-    @{ Name = 'Strawberry'; Height = 0.3; Lab = 50000; Farm = 5000
+    @{ Name = 'Strawberry'; Height = 0.3; Lab = 50000; Farm = 8000
        Src = 'Strawberry_1\Meshy_AI_strawberry_plant_0923200556_texture_fbx\Meshy_AI_strawberry_plant_0923200556_texture.fbx' }
-    @{ Name = 'Potato'; Height = 0.5; Lab = 60000; Farm = 5000; Extra = '--pick Potato_03'
+    @{ Name = 'Potato'; Height = 0.5; Lab = 60000; Farm = 8000; Extra = '--pick Potato_03'
        Src = 'potato-plants-collection\source\Potato_plants_Collection.fbx' }
     @{ Name = 'Cherry'; Height = 3.5; Lab = 60000; Farm = 7000
        Src = 'Cherry\fbx\Cherry1.fbx' }
-    @{ Name = 'Tomato'; Height = 1.0; Lab = 60000; Farm = 8000
+    @{ Name = 'Tomato'; Height = 1.0; Lab = 60000; Farm = 10000
        Src = 'Tomato\Meshy_AI_Tomato_Plant_0923194145_texture_fbx\Meshy_AI_Tomato_Plant_0923194145_texture.fbx' }
     @{ Name = 'TomatoSingleStem'; Height = 1.0; Lab = 70000; Farm = 0
        Src = 'Tomato_asset\Meshy_AI_Single_Stem_Tomato_Pl_0923211133_image-to-3d-texture_fbx\Meshy_AI_Single_Stem_Tomato_Pl_0923211133_image-to-3d-texture.fbx' }
@@ -35,6 +36,10 @@ $plants = @(
        Src = 'Bell Pepper\Meshy_AI_Colorful_Bell_Pepper__0923184552_texture_fbx\Meshy_AI_Colorful_Bell_Pepper__0923184552_texture.fbx' }
     @{ Name = 'Apple'; Height = 3.5; Lab = 80000; Farm = 50000
        Src = 'Apple_new\Meshy_AI_apple_tree_3d_0923203849_image-to-3d-texture_fbx\Meshy_AI_apple_tree_3d_0923203849_image-to-3d-texture.fbx' }
+    @{ Name = 'Grape'; Height = 1.6; Lab = 70000; Farm = 25000
+       Src = 'Grapes\Meshy_AI_Mature_Indian_Grapevi_0924170001_image-to-3d-texture_fbx\Meshy_AI_Mature_Indian_Grapevi_0924170001_image-to-3d-texture.fbx' }
+    @{ Name = 'Peach'; Height = 2.5; Lab = 80000; Farm = 30000
+       Src = 'Peach\Meshy_AI_Mature_Peach_Tree_0924191204_image-to-3d-texture_fbx\Meshy_AI_Mature_Peach_Tree_0924191204_image-to-3d-texture.fbx' }
 )
 
 function Invoke-Blender([string]$label, [string[]]$arguments) {
