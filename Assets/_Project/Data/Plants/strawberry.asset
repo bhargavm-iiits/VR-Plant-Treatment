@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2b0cc17509af1c41a7aae1e17ea3e9c, type: 3}
+  m_Name: strawberry
+  m_EditorClassIdentifier: BTP.Runtime::BTP.Plants.PlantDefinition
+  plantId: strawberry
+  displayName: Strawberry
+  scientificName: "Fragaria \xD7 ananassa"
+  family: Rosaceae
+  plantType: Low-growing perennial
+  summary: Low-growing perennial that spreads by runners. Its red 'fruit' is an enlarged
+    receptacle carrying the true fruits, the small seed-like achenes.
+  farmPrefab: {fileID: 7465245381717199715, guid: 4e17fe67f13589c48bee02e847bf57b4, type: 3}
+  labPrefab: {fileID: 7185656600520238397, guid: a2fef51731a16f34bab5c85e1dfbbb9c, type: 3}
+  hasRecoveryDemo: 0
