@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2b0cc17509af1c41a7aae1e17ea3e9c, type: 3}
+  m_Name: cherry
+  m_EditorClassIdentifier: BTP.Runtime::BTP.Plants.PlantDefinition
+  plantId: cherry
+  displayName: Cherry
+  scientificName: Prunus avium
+  family: Rosaceae
+  plantType: Deciduous fruit tree
+  summary: 'Sweet cherry: a temperate orchard tree grown for its stone fruit (a drupe),
+    which grows in small clusters on long stalks.'
+  farmPrefab: {fileID: 5134248242029245659, guid: 08fce50efc46cf844a21640ab6260cbd, type: 3}
+  labPrefab: {fileID: 1101624319935265375, guid: 10d58f215a5bf0d418fd66304fe8add3, type: 3}
+  hasRecoveryDemo: 0
