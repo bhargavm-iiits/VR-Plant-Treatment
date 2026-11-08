@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7148e15ba832d3348bb33988374788a0, type: 3}
+  m_Name: TomatoRecoveryData
+  m_EditorClassIdentifier: BTP.Runtime::BTP.Lab.TomatoRecoveryData
+  plantId: tomato
+  diseaseName: Early Blight
+  weeks:
+  - week: 1
+    leafHealth: 25
+    chlorophyll: 30
+    diseaseSeverity: 85
+    caption: 
+  - week: 2
+    leafHealth: 40
+    chlorophyll: 45
+    diseaseSeverity: 70
+    caption: 
+  - week: 3
+    leafHealth: 65
+    chlorophyll: 70
+    diseaseSeverity: 25
+    caption: Demo treatment applied
+  - week: 4
+    leafHealth: 75
+    chlorophyll: 80
+    diseaseSeverity: 18
+    caption: 
+  - week: 5
+    leafHealth: 88
+    chlorophyll: 90
+    diseaseSeverity: 8
+    caption: 
+  - week: 6
+    leafHealth: 96
+    chlorophyll: 96
+    diseaseSeverity: 2
+    caption: 
