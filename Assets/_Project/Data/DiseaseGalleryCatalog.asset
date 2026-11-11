@@ -1,0 +1,105 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0ad4a3c64254094485b31290095fdbd, type: 3}
+  m_Name: DiseaseGalleryCatalog
+  m_EditorClassIdentifier: BTP.Runtime::BTP.Plants.DiseaseGalleryCatalog
+  plants:
+  - plantId: apple
+    diseases:
+    - id: apple_scab
+      displayName: Apple Scab
+      leaf: {fileID: 2800000, guid: 90351681c46f7a84d85f8f1be16f7f5a, type: 3}
+    - id: black_rot
+      displayName: Black Rot
+      leaf: {fileID: 2800000, guid: a5f6e6571563f314da37cbbd45f3fd87, type: 3}
+    - id: cedar_apple_rust
+      displayName: Cedar Apple Rust
+      leaf: {fileID: 2800000, guid: 0236c8be757519b469b2e2cbd4ad4066, type: 3}
+  - plantId: bell_pepper
+    diseases:
+    - id: bacterial_spot
+      displayName: Bacterial Spot
+      leaf: {fileID: 2800000, guid: 402961f9ad2df094ea3bbd76458be12b, type: 3}
+  - plantId: cherry
+    diseases:
+    - id: powdery_mildew
+      displayName: Powdery Mildew
+      leaf: {fileID: 2800000, guid: 5dcf0a018903a3f44888aea4c25b557b, type: 3}
+  - plantId: corn
+    diseases:
+    - id: gray_leaf_spot
+      displayName: Gray Leaf Spot (Cercospora)
+      leaf: {fileID: 2800000, guid: 48fb4b8ec4b752f4598815ccd5ab087b, type: 3}
+    - id: common_rust
+      displayName: Common Rust
+      leaf: {fileID: 2800000, guid: 979ca1db452e66b4cb8a16cb81ea0ef9, type: 3}
+    - id: northern_leaf_blight
+      displayName: Northern Leaf Blight
+      leaf: {fileID: 2800000, guid: f780e8a312f6ee94685b506437121d25, type: 3}
+  - plantId: grape
+    diseases:
+    - id: black_rot
+      displayName: Black Rot
+      leaf: {fileID: 2800000, guid: 78feb03806e50624a939160f78eb12dd, type: 3}
+    - id: esca
+      displayName: Esca (Black Measles)
+      leaf: {fileID: 2800000, guid: 41fda5ac5f7d9bc43b243282518d3eed, type: 3}
+    - id: leaf_blight
+      displayName: Leaf Blight (Isariopsis Leaf Spot)
+      leaf: {fileID: 2800000, guid: 8aab25670affb734e92341f7698ca8fe, type: 3}
+  - plantId: peach
+    diseases:
+    - id: bacterial_spot
+      displayName: Bacterial Spot
+      leaf: {fileID: 2800000, guid: 8e50c424e525d314d8badf3f9845c0d4, type: 3}
+  - plantId: potato
+    diseases:
+    - id: early_blight
+      displayName: Early Blight
+      leaf: {fileID: 2800000, guid: 8d66e1b28dd58e541a5ade5a0ee03fc6, type: 3}
+    - id: late_blight
+      displayName: Late Blight
+      leaf: {fileID: 2800000, guid: b403a8827b4188848b6d7dcf617437e3, type: 3}
+  - plantId: strawberry
+    diseases:
+    - id: leaf_scorch
+      displayName: Leaf Scorch
+      leaf: {fileID: 2800000, guid: fc9d91fd4231ec747b9de96a2d5b0a3d, type: 3}
+  - plantId: tomato
+    diseases:
+    - id: bacterial_spot
+      displayName: Bacterial Spot
+      leaf: {fileID: 2800000, guid: 13b7f4d5b8cb40c4eb079f7178240e83, type: 3}
+    - id: early_blight
+      displayName: Early Blight
+      leaf: {fileID: 2800000, guid: 6986c63f847c86a4f97175e25c7d264f, type: 3}
+    - id: late_blight
+      displayName: Late Blight
+      leaf: {fileID: 2800000, guid: 9b2bba449ff49f8479be539b1cc8ee68, type: 3}
+    - id: leaf_mold
+      displayName: Leaf Mold
+      leaf: {fileID: 2800000, guid: 790987391bd9ac147848b45705c64568, type: 3}
+    - id: septoria_leaf_spot
+      displayName: Septoria Leaf Spot
+      leaf: {fileID: 2800000, guid: e9efcd4c7c3f64545a0d814a3ff075af, type: 3}
+    - id: spider_mites
+      displayName: Two-Spotted Spider Mite
+      leaf: {fileID: 2800000, guid: f7ed68ec77b503a4ebd292d5e09686c9, type: 3}
+    - id: target_spot
+      displayName: Target Spot
+      leaf: {fileID: 2800000, guid: b657b8e702785b7448b505d3ad17b1bf, type: 3}
+    - id: yellow_leaf_curl_virus
+      displayName: Yellow Leaf Curl Virus
+      leaf: {fileID: 2800000, guid: abe16be69ccf69f499e7601d3f07350a, type: 3}
+    - id: mosaic_virus
+      displayName: Mosaic Virus
+      leaf: {fileID: 2800000, guid: 8821821f58cb91f4f8d78009d8c652ec, type: 3}

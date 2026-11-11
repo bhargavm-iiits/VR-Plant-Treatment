@@ -18,6 +18,7 @@ namespace BTP.Farm
         [SerializeField] SelectionRing ring;
         [SerializeField] PlantNameCard nameCard;
         [SerializeField] string selectedDetail = "Selected. Press Enter Lab on the notice board.";
+        [SerializeField] DiseaseGalleryController gallery;
 
         XRSimpleInteractable interactable;
         bool hovered;
@@ -25,11 +26,12 @@ namespace BTP.Farm
 
         public string PlantId => plantId;
 
-        internal void Bind(string id, SelectionRing selectionRing, PlantNameCard card)
+        internal void Bind(string id, SelectionRing selectionRing, PlantNameCard card, DiseaseGalleryController diseaseGallery = null)
         {
             plantId = id;
             ring = selectionRing;
             nameCard = card;
+            gallery = diseaseGallery;
         }
 
         void Awake() => interactable = GetComponent<XRSimpleInteractable>();
@@ -59,6 +61,24 @@ namespace BTP.Farm
         {
             if (SelectionState.Instance != null)
                 SelectionState.Instance.SelectPlant(plantId);
+
+            // Selecting also opens the disease ring when the viewer is near; the selection above is unchanged.
+            if (gallery == null)
+                return;
+            var bounds = GetComponent<Collider>();
+            var extent = bounds != null ? Mathf.Max(bounds.bounds.extents.x, bounds.bounds.extents.z) : 0.5f;
+            if (!gallery.HandlePlantClicked(plantId, transform, extent))
+                ShowHint();
+        }
+
+        void ShowHint()
+        {
+            if (nameCard == null)
+                return;
+            var current = SelectionState.Instance != null ? SelectionState.Instance.Current : null;
+            nameCard.Show(current != null ? current.DisplayName : plantId, DiseaseGalleryController.HintText);
+            CancelInvoke(nameof(Refresh));
+            Invoke(nameof(Refresh), 2.5f);
         }
 
         void OnFirstHoverEntered(HoverEnterEventArgs args)
