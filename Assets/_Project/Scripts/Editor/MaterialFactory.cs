@@ -49,6 +49,9 @@ namespace BTP.Editor
             material.SetFloat("_AlphaClip", cutout ? 1f : 0f);
             material.SetFloat("_Cutoff", 0.5f);
             material.SetFloat("_Cull", cutout ? 0f : 2f);
+            // Alpha to coverage (needs MSAA, on in both URP assets) smooths alpha-clipped leaf edges when the shader supports it.
+            if (material.HasProperty("_AlphaToMask"))
+                material.SetFloat("_AlphaToMask", cutout ? 1f : 0f);
             material.SetFloat("_SpecularHighlights", 0f);
             material.SetFloat("_Smoothness", 0.15f);
             material.enableInstancing = true;
@@ -86,14 +89,30 @@ namespace BTP.Editor
             return material;
         }
 
-        /// <summary>Material for the illustrative tomato leaf disease (BTP/Leaf Disease).</summary>
-        public static Material LeafDisease(string path, Texture albedo, Texture normal, Texture diseaseMask)
+        /// <summary>
+        /// Material for the illustrative Lab leaf disease (BTP/Leaf Disease). The Tomato uses its vertex stem mask and the
+        /// shader's default colours; other plants pass <paramref name="useVertexStemMask"/> = false and their own lesion colours.
+        /// </summary>
+        public static Material LeafDisease(string path, Texture albedo, Texture normal, Texture diseaseMask,
+            bool useVertexStemMask = true, Color? lesion = null, Color? lesionRing = null, Color? halo = null, bool cutout = false)
         {
             var material = GetOrCreate(path, LeafDiseaseShader);
             material.SetTexture("_BaseMap", albedo);
             material.SetTexture("_BumpMap", normal);
             material.SetTexture("_DiseaseMask", diseaseMask);
-            material.SetFloat("_UseVertexStemMask", 1f);
+            material.SetFloat("_UseVertexStemMask", useVertexStemMask ? 1f : 0f);
+            if (lesion.HasValue)
+                material.SetColor("_LesionColor", lesion.Value);
+            if (lesionRing.HasValue)
+                material.SetColor("_LesionRingColor", lesionRing.Value);
+            if (halo.HasValue)
+                material.SetColor("_HaloColor", halo.Value);
+            material.SetFloat("_Cutoff", 0.5f);
+            material.SetFloat("_Cull", cutout ? 0f : 2f);
+            if (cutout)
+                material.EnableKeyword("_ALPHATEST_ON");
+            else
+                material.DisableKeyword("_ALPHATEST_ON");
             if (normal != null)
                 material.EnableKeyword("_NORMALMAP");
             else

@@ -23,6 +23,10 @@ namespace BTP.Core
             if (highEnd && GraphicsSettings.currentRenderPipeline is UniversalRenderPipelineAsset urp)
             {
                 urp.renderScale = highEndQuestRenderScale;
+                // Quest 3 / Pro headroom: near plant meshes stay longer and sharper texture filtering.
+                // Quest 2 keeps the mobile quality level as authored (LOD bias 1, per-texture anisotropy, 20 m shadows).
+                QualitySettings.lodBias = 2f;
+                QualitySettings.anisotropicFiltering = AnisotropicFiltering.ForceEnable;
                 Debug.Log($"[BTP] {device}: render scale {highEndQuestRenderScale}.");
             }
         }

@@ -6,19 +6,21 @@ namespace BTP.Editor
     /// <summary>Import settings sized for Quest 2 first (ASTC on Android), BC7 on PC.</summary>
     static class TextureSettings
     {
-        public static void ConfigureAlbedo(string path, int maxSize = 2048) =>
-            Configure(path, maxSize, TextureImporterType.Default, true, false, TextureImporterFormat.ASTC_6x6);
+        // maxSize applies to PC (BC7); androidMax to Quest (ASTC). Quest 2 and Quest 3 share one Android
+        // build, so the Android size is the Quest 2 budget; PC VR gets the full-size textures.
+        public static void ConfigureAlbedo(string path, int maxSize = 4096, int androidMax = 2048) =>
+            Configure(path, maxSize, androidMax, TextureImporterType.Default, true, false, TextureImporterFormat.ASTC_6x6, 4);
 
-        public static void ConfigureCutout(string path, int maxSize = 2048) =>
-            Configure(path, maxSize, TextureImporterType.Default, true, true, TextureImporterFormat.ASTC_6x6);
+        public static void ConfigureCutout(string path, int maxSize = 4096, int androidMax = 2048) =>
+            Configure(path, maxSize, androidMax, TextureImporterType.Default, true, true, TextureImporterFormat.ASTC_6x6, 4);
 
-        public static void ConfigureNormal(string path, int maxSize = 1024) =>
-            Configure(path, maxSize, TextureImporterType.NormalMap, false, false, TextureImporterFormat.ASTC_6x6);
+        public static void ConfigureNormal(string path, int maxSize = 2048, int androidMax = 1024) =>
+            Configure(path, maxSize, androidMax, TextureImporterType.NormalMap, false, false, TextureImporterFormat.ASTC_6x6, 2);
 
         /// <summary>Data texture (disease fields): linear, clamped, higher-quality ASTC.</summary>
         public static void ConfigureData(string path, int maxSize = 1024)
         {
-            Configure(path, maxSize, TextureImporterType.Default, false, false, TextureImporterFormat.ASTC_4x4);
+            Configure(path, maxSize, maxSize, TextureImporterType.Default, false, false, TextureImporterFormat.ASTC_4x4, 1);
             var importer = (TextureImporter)AssetImporter.GetAtPath(path);
             if (importer.wrapMode != TextureWrapMode.Clamp)
             {
@@ -27,8 +29,8 @@ namespace BTP.Editor
             }
         }
 
-        static void Configure(string path, int maxSize, TextureImporterType type, bool sRGB, bool cutout,
-            TextureImporterFormat androidFormat)
+        static void Configure(string path, int maxSize, int androidMax, TextureImporterType type, bool sRGB, bool cutout,
+            TextureImporterFormat androidFormat, int anisoLevel)
         {
             var importer = AssetImporter.GetAtPath(path) as TextureImporter;
             if (importer == null)
@@ -44,12 +46,14 @@ namespace BTP.Editor
             importer.mipMapsPreserveCoverage = cutout;
             importer.alphaTestReferenceValue = 0.5f;
             importer.isReadable = false;
+            importer.anisoLevel = anisoLevel;
+            importer.mipmapFilter = TextureImporterMipFilter.KaiserFilter;
 
             importer.SetPlatformTextureSettings(new TextureImporterPlatformSettings
             {
                 name = "Android",
                 overridden = true,
-                maxTextureSize = maxSize,
+                maxTextureSize = androidMax,
                 format = androidFormat,
                 compressionQuality = 50
             });

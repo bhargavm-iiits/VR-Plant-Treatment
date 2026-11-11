@@ -26,6 +26,8 @@ namespace BTP.Editor
 
         public const string Catalog = Data + "/PlantCatalog.asset";
         public const string RecoveryData = Data + "/TomatoRecoveryData.asset";
+        public const string DiseaseCatalog = Data + "/DiseaseGalleryCatalog.asset";
+        public const string DiseaseLeaves = Root + "/Textures/DiseaseLeaves";
 
         public const string Scenes = "Assets/Scenes";
         public const string BootstrapScene = Scenes + "/XRBootstrap.unity";

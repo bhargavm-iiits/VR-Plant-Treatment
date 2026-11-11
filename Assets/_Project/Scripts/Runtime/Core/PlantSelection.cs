@@ -22,7 +22,7 @@ namespace BTP.Core
 
         public event Action<PlantDefinition> Changed;
 
-        /// <summary>Selects a plant by ID. Unknown IDs, including Grape and Peach, are rejected.</summary>
+        /// <summary>Selects a plant by ID. Unknown IDs are rejected.</summary>
         public bool Select(string plantId)
         {
             if (catalog == null || !catalog.TryGet(plantId, out var plant))
