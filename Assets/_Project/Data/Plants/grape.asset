@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2b0cc17509af1c41a7aae1e17ea3e9c, type: 3}
+  m_Name: grape
+  m_EditorClassIdentifier: BTP.Runtime::BTP.Plants.PlantDefinition
+  plantId: grape
+  displayName: Grape
+  scientificName: Vitis vinifera
+  family: Vitaceae
+  plantType: Perennial climbing fruit vine
+  summary: Woody perennial vine grown for its berries, which hang in clusters. Vines
+    climb by tendrils and are usually trained on a trellis and pruned hard each year.
+  farmPrefab: {fileID: 1512166047934762886, guid: 966e3a5a4f9b134499f61be13188a89a, type: 3}
+  labPrefab: {fileID: 4407587824833323148, guid: 8361674abddb46d449272394bf5a3e03, type: 3}
+  hasRecoveryDemo: 1

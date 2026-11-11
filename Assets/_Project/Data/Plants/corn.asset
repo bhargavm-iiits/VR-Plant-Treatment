@@ -21,4 +21,4 @@ MonoBehaviour:
     crops. Each plant carries a tassel on top and ears lower on the stalk.
   farmPrefab: {fileID: 5980774274042258925, guid: ec2cf70e29347554091ffda6824e9d13, type: 3}
   labPrefab: {fileID: 8099629368708888612, guid: 955189405f4ba5b4093362897bc42e2f, type: 3}
-  hasRecoveryDemo: 0
+  hasRecoveryDemo: 1

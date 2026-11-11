@@ -21,4 +21,4 @@ MonoBehaviour:
     fruit, which ripens from green to red, yellow or orange.
   farmPrefab: {fileID: 6407762495998516744, guid: 36fd401bcdfb82b498d21a472d29b859, type: 3}
   labPrefab: {fileID: 5753325314962084831, guid: a8f43c8c1d8ab1b4f83d528631dff597, type: 3}
-  hasRecoveryDemo: 0
+  hasRecoveryDemo: 1

@@ -15,7 +15,7 @@ namespace BTP.Plants
         [SerializeField, TextArea(2, 5)] string summary;
         [SerializeField] GameObject farmPrefab;
         [SerializeField] GameObject labPrefab;
-        [Tooltip("Only Tomato has the illustrative recovery demo.")]
+        [Tooltip("All nine plants have the illustrative six-week recovery demo in the Lab.")]
         [SerializeField] bool hasRecoveryDemo;
 
         public string PlantId => plantId;

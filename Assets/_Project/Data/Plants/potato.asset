@@ -21,4 +21,4 @@ MonoBehaviour:
     usually planted from seed tubers rather than seed.
   farmPrefab: {fileID: 5745276654349098247, guid: 423323b3963300144b3b0951b75d20cd, type: 3}
   labPrefab: {fileID: 6663836791642695980, guid: bed20b19002edb04abf6443d9da0e0b0, type: 3}
-  hasRecoveryDemo: 0
+  hasRecoveryDemo: 1

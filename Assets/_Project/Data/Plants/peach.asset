@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2b0cc17509af1c41a7aae1e17ea3e9c, type: 3}
+  m_Name: peach
+  m_EditorClassIdentifier: BTP.Runtime::BTP.Plants.PlantDefinition
+  plantId: peach
+  displayName: Peach
+  scientificName: Prunus persica
+  family: Rosaceae
+  plantType: Deciduous fruit tree
+  summary: Temperate orchard tree grown for its fleshy stone fruit (a drupe). Peaches
+    flower early in spring, so late frosts are a common risk.
+  farmPrefab: {fileID: 7414328078469711200, guid: a97ac1aa356a6794fb1ccf810f06a601, type: 3}
+  labPrefab: {fileID: 7842569973947519712, guid: b6fb5d249d51e9b4f8f78f1adbadeb97, type: 3}
+  hasRecoveryDemo: 1
