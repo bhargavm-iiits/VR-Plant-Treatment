@@ -30,6 +30,45 @@ namespace BTP.Tests
         }
 
         [Test]
+        public void TheSameWeeklyTableServesEveryPlant()
+        {
+            // One shared, deterministic example table: Tomato's values are the brief's, and no plant has its own.
+            Assert.That(data.WeekCount, Is.EqualTo(6));
+            Assert.That(data.GetWeek(1).diseaseSeverity, Is.EqualTo(85));
+            Assert.That(data.GetWeek(6).leafHealth, Is.EqualTo(96));
+            foreach (var plant in new[] { "apple", "bell_pepper", "cherry", "corn", "grape", "peach", "potato", "strawberry", "tomato" })
+                Assert.That(BTP.Plants.DiseaseClasses.For(plant).Count, Is.GreaterThan(0), plant);
+        }
+
+        [Test]
+        public void EveryPlantHasADefaultExampleDisease()
+        {
+            var expected = new System.Collections.Generic.Dictionary<string, string>
+            {
+                ["tomato"] = "Early Blight", ["apple"] = "Apple Scab", ["bell_pepper"] = "Bacterial Spot",
+                ["cherry"] = "Powdery Mildew", ["corn"] = "Common Rust", ["grape"] = "Black Rot",
+                ["peach"] = "Bacterial Spot", ["potato"] = "Early Blight", ["strawberry"] = "Leaf Scorch",
+            };
+            foreach (var pair in expected)
+            {
+                var list = BTP.Plants.DiseaseClasses.For(pair.Key);
+                Assert.That(list[BTP.Plants.DiseaseClasses.DefaultIndex(pair.Key)].DisplayName, Is.EqualTo(pair.Value), pair.Key);
+            }
+
+            Assert.That(BTP.Plants.DiseaseClasses.DefaultIndex("banana"), Is.EqualTo(0));
+        }
+
+        [Test]
+        public void DiseaseCycling_WrapsAround()
+        {
+            Assert.That(BTP.Plants.DiseaseClasses.Step(0, 3, 1), Is.EqualTo(1));
+            Assert.That(BTP.Plants.DiseaseClasses.Step(2, 3, 1), Is.EqualTo(0));
+            Assert.That(BTP.Plants.DiseaseClasses.Step(0, 3, -1), Is.EqualTo(2));
+            Assert.That(BTP.Plants.DiseaseClasses.Step(0, 1, 1), Is.EqualTo(0));
+            Assert.That(BTP.Plants.DiseaseClasses.Step(5, 0, 1), Is.EqualTo(0));
+        }
+
+        [Test]
         public void OnlyWeekThreeIsMarkedAsTreatment()
         {
             Assert.That(data.WeekCount, Is.EqualTo(6));
