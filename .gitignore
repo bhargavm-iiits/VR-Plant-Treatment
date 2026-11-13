@@ -15,3 +15,21 @@ Tools/logs/
 *.csproj
 *.sln
 *.slnx
+# CropScan XR launcher build output
+Tools/CropScanLauncher/bin/
+Tools/CropScanLauncher/obj/
+
+# CropScan XR: this machine's API address (the installer writes one next to the player)
+CropScanXR.config.json
+
+node_modules/
+.env
+.env.local
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+dist/
+.pytest_cache/
+
