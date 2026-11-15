@@ -29,7 +29,7 @@ namespace BTP.Editor
             public string Type;
             public string Summary;
             public float Height;             // real-world height in metres
-            public string LabModel;          // null: built from the corn glTF
+            public string LabModel;          // null: built by its own branch (corn glTF, Blender bell pepper)
             public string FarmModel;
             public string LabAlbedo;
             public string LabNormal;
@@ -60,10 +60,9 @@ namespace BTP.Editor
             {
                 Id = "bell_pepper", Name = "Bell Pepper", Scientific = "Capsicum annuum", Family = "Solanaceae", Type = "Warm-season fruiting vegetable",
                 Summary = "Nightshade-family crop grown as an annual for its large, mild, blocky fruit, which ripens from green to red, yellow or orange.",
-                Height = 0.7f, LabModel = ProjectPaths.Models + "/BellPepper_Lab.fbx", FarmModel = ProjectPaths.Models + "/BellPepper_Farm.fbx",
-                LabAlbedo = Meshy + "/Bell Pepper/Meshy_AI_Colorful_Bell_Pepper__0923184552_texture_fbx/Meshy_AI_Colorful_Bell_Pepper__0923184552_texture.png",
-                LabNormal = Meshy + "/Bell Pepper/Meshy_AI_Colorful_Bell_Pepper__0923184552_texture_fbx/Meshy_AI_Colorful_Bell_Pepper__0923184552_texture_normal.png",
-                BillboardAt = 0.055f
+                // Built by BellPepperPlantBuilder from the Blender plant (Tools/blender_bell_pepper_plant.py), exported
+                // at this height; its LOD switch points are its own.
+                Height = 0.9f
             },
             new PlantSpec
             {
@@ -71,7 +70,7 @@ namespace BTP.Editor
                 Summary = "Sweet cherry: a temperate orchard tree grown for its stone fruit (a drupe), which grows in small clusters on long stalks.",
                 Height = 3.5f, LabModel = ProjectPaths.Models + "/Cherry_Lab.fbx", FarmModel = ProjectPaths.Models + "/Cherry_Lab.fbx",
                 LabAlbedo = ProjectPaths.PlantTextures + "/Cherry_BaseAlpha.png",
-                LabNormal = Meshy + "/Cherry/fbx/Cherry1_Normal.tga",
+                LabNormal = BlenderTreeBuilder.CherryAtlasNormal,
                 Cutout = true, BillboardAt = 0.13f, CullAt = 0.008f
             },
             new PlantSpec
@@ -120,6 +119,8 @@ namespace BTP.Editor
             {
                 Id = "tomato", Name = "Tomato", Scientific = "Solanum lycopersicum", Family = "Solanaceae", Type = "Warm-season fruiting vegetable",
                 Summary = "Warm-season nightshade crop grown for its fruit. Vining types are usually staked or caged and trained to one or a few main stems.",
+                // Height and the Meshy models only size this interim build: TomatoPlantBuilder then replaces both prefabs'
+                // content with the real-size (~1.75 m) Blender plants, which it never rescales.
                 Height = 1.0f, LabModel = ProjectPaths.Models + "/Tomato_Lab.fbx", FarmModel = ProjectPaths.Models + "/Tomato_Farm.fbx",
                 LabAlbedo = Meshy + "/Tomato_asset/Meshy_AI_Single_Stem_Tomato_Pl_0923211133_image-to-3d-texture_fbx/Meshy_AI_Single_Stem_Tomato_Pl_0923211133_image-to-3d-texture.png",
                 LabNormal = Meshy + "/Tomato_asset/Meshy_AI_Single_Stem_Tomato_Pl_0923211133_image-to-3d-texture_fbx/Meshy_AI_Single_Stem_Tomato_Pl_0923211133_image-to-3d-texture_normal.png",
@@ -130,6 +131,10 @@ namespace BTP.Editor
 
         const string CornSource = ProjectPaths.SourcePlants + "/maize_corn_plant.glb";
         const string TomatoDiseaseMask = ProjectPaths.PlantTextures + "/TomatoLab_DiseaseMask.png";
+        // Shared with TomatoPlantBuilder, whose billboards blend the same way.
+        internal const string BillboardNoisePath = ProjectPaths.PlantTextures + "/FarmRecoveryNoise.png";
+        internal const float BillboardMaskScale = 4f;
+        static Texture2D billboardNoise;
 
         [MenuItem("BTP/Setup/2 - Build Plant Assets", priority = 2)]
         public static void BuildAll()
@@ -144,15 +149,30 @@ namespace BTP.Editor
                     ProjectPaths.EnsureFolder(folder);
 
                 CreateSetupErrorMaterial();
+                billboardNoise = Load<Texture2D>(FarmRecoveryMasks.CreateNoise(BillboardNoisePath));
                 var definitions = new List<PlantDefinition>();
                 for (var i = 0; i < Specs.Length; i++)
                 {
                     var spec = Specs[i];
                     EditorUtility.DisplayProgressBar("BTP plant assets", spec.Name, (float)i / Specs.Length);
-                    var (farm, lab) = spec.Id == "corn" ? BuildCorn(spec) : BuildMeshPlant(spec);
+                    var (farm, lab) = spec.Id switch
+                    {
+                        "corn" => BuildCorn(spec),
+                        "bell_pepper" => BuildBellPepper(),
+                        _ => BuildMeshPlant(spec),
+                    };
                     definitions.Add(SaveDefinition(spec, farm, lab));
                 }
 
+                // Apple, peach, grape and cherry use the Blender trees (Assets/Plant_Asstes/Apple_Tree, Peach, Grapes,
+                // Cherry_Tree), applied in place. The cherry reuses the Cherry1 atlas bakes made above.
+                BlenderTreeBuilder.ApplyApple();
+                BlenderTreeBuilder.ApplyPeach();
+                BlenderTreeBuilder.ApplyGrape();
+                BlenderTreeBuilder.ApplyCherry();
+                // Tomato: the nine Blender disease plants (SourceAssets/Tomato_Plant via Tools/blender_tomato_plants.py);
+                // Tomato_Farm/Tomato_Lab built above from the Meshy tomato are rebuilt in place from early blight.
+                TomatoPlantBuilder.Apply();
                 QualityTuning.Apply();
                 DiseaseGalleryBuilder.Build();
                 SaveCatalog(definitions);
@@ -208,12 +228,28 @@ namespace BTP.Editor
                     labAlbedo, labNormal, Load<Texture2D>(maskPath), false, core, ring, halo, spec.Cutout);
             }
 
-            var farmMaterial = MaterialFactory.SimpleLit($"{ProjectPaths.PlantMaterials}/{fileName}_Farm.mat",
-                Load<Texture2D>(farmAlbedoPath), farmNormal ? labNormal : null, spec.Cutout);
+            // Six-week timeline: the Farm material blends the healthy albedo (Week 6) with the diseased bake (Week 1).
+            var recoveryMask = FarmRecoveryMasks.Create(farmSourcePath, $"{ProjectPaths.PlantTextures}/{fileName}_FarmRecoveryMask.png", spec.Id);
+            var farmMaterial = MaterialFactory.FarmRecovery($"{ProjectPaths.PlantMaterials}/{fileName}_Farm.mat", Load<Texture2D>(farmSourcePath),
+                Load<Texture2D>(farmAlbedoPath), Load<Texture2D>(recoveryMask), farmNormal ? labNormal : null, spec.Cutout);
 
             var lab = SaveModelPrefab($"{fileName}_Lab", Load<GameObject>(spec.LabModel), labMaterial);
             var farm = SaveFarmPrefab(spec, fileName, Load<GameObject>(spec.FarmModel), farmMaterial, null);
             return (farm, lab);
+        }
+
+        // ------------------------------------------------------------------ bell pepper (Blender)
+
+        /// <summary>
+        /// The Blender bell pepper (BellPepperPlantBuilder). Without its export the prefabs already built are kept, so
+        /// the catalog still points at them.
+        /// </summary>
+        static (GameObject farm, GameObject lab) BuildBellPepper()
+        {
+            var (farm, lab) = BellPepperPlantBuilder.Build();
+            if (farm != null && lab != null)
+                return (farm, lab);
+            return (Load<GameObject>(BellPepperPlantBuilder.FarmPrefab), Load<GameObject>(BellPepperPlantBuilder.LabPrefab));
         }
 
         // ------------------------------------------------------------------ corn (glTFast)
@@ -246,16 +282,21 @@ namespace BTP.Editor
                     materials[i] = MaterialFactory.SimpleLit(labPath, albedo, normal, cutout);
                 }
 
-                // Farm copy with illustrative unhealthy foliage baked into the albedo (the Lab keeps the healthy one).
-                var farmAlbedo = albedo;
+                // Farm copy: healthy glTF albedo plus the illustrative diseased bake, blended by the six-week timeline.
+                var farmPath = $"{ProjectPaths.PlantMaterials}/Corn_{i}_{Sanitize(gltf.name)}_Farm.mat";
                 if (albedo != null)
                 {
                     var diseasedPath = FarmDiseaseTextures.Create(albedo,
                         $"{ProjectPaths.PlantTextures}/Corn_{i}_{Sanitize(gltf.name)}_FarmDiseased.{(cutout ? "png" : "jpg")}", spec.Id, cutout);
-                    farmAlbedo = Load<Texture2D>(diseasedPath);
+                    var recoveryMask = FarmRecoveryMasks.Create(albedo,
+                        $"{ProjectPaths.PlantTextures}/Corn_{i}_{Sanitize(gltf.name)}_FarmRecoveryMask.png", spec.Id);
+                    farmMaterials[i] = MaterialFactory.FarmRecovery(farmPath, albedo, Load<Texture2D>(diseasedPath),
+                        Load<Texture2D>(recoveryMask), normal, cutout);
                 }
-
-                farmMaterials[i] = MaterialFactory.SimpleLit($"{ProjectPaths.PlantMaterials}/Corn_{i}_{Sanitize(gltf.name)}_Farm.mat", farmAlbedo, normal, cutout);
+                else
+                {
+                    farmMaterials[i] = MaterialFactory.SimpleLit(farmPath, albedo, normal, cutout);
+                }
             }
 
             var lab = SaveMeshPrefab("Corn_Lab", mesh, materials, true);
@@ -404,8 +445,9 @@ namespace BTP.Editor
                     : AddModel(root, model, material, scene);
 
                 var billboard = BillboardBaker.Bake(root, fileName, spec.BillboardViewSize);
-                var billboardMaterial = MaterialFactory.SimpleLit($"{ProjectPaths.PlantMaterials}/{fileName}_Billboard.mat",
-                    billboard.Texture, null, true);
+                // Healthy and diseased atlases, blended like the near mesh (tiled threshold noise instead of a UV mask).
+                var billboardMaterial = MaterialFactory.FarmRecovery($"{ProjectPaths.PlantMaterials}/{fileName}_Billboard.mat",
+                    billboard.HealthyTexture, billboard.Texture, billboardNoise, null, true, BillboardMaskScale);
                 var far = AddMesh(root, "Billboard", billboard.Mesh, new[] { billboardMaterial }, false);
 
                 var lodGroup = root.AddComponent<LODGroup>();

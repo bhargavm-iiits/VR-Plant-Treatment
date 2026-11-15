@@ -22,14 +22,31 @@ namespace BTP.Editor
             }
 
             catalog.Clear();
-            foreach (var info in DiseaseClasses.All)
+            // The 24 Farm classes first (the Farm gallery reads only those plants), then the 34 Lab-only conditions for the
+            // Lab's reference card: a PlantVillage photo (.jpg) where the dataset has one, otherwise a render of the
+            // supplied specimen (.png, Tools/prepare_leaf_references.py), labelled as such.
+            foreach (var info in DiseaseClasses.AllCases)
             {
                 var path = $"{ProjectPaths.DiseaseLeaves}/{info.PlantId}/{info.DiseaseId}.jpg";
+                string note = null;
+                if (DiseaseClasses.IsLabOnlyPlant(info.PlantId))
+                {
+                    note = "PlantVillage photo";
+                    if (!System.IO.File.Exists(path))
+                    {
+                        path = $"{ProjectPaths.DiseaseLeaves}/{info.PlantId}/{info.DiseaseId}.png";
+                        note = "Specimen render, not a field photo";
+                    }
+
+                    if (System.IO.File.Exists(path))
+                        AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceSynchronousImport);
+                }
+
                 var importer = AssetImporter.GetAtPath(path) as TextureImporter;
                 if (importer == null)
                 {
                     Debug.LogError($"[BTP] Disease gallery: leaf image missing: {path}");
-                    catalog.Add(info.PlantId, info.DiseaseId, info.DisplayName, null);
+                    catalog.Add(info.PlantId, info.DiseaseId, info.DisplayName, null, note);
                     continue;
                 }
 
@@ -44,11 +61,12 @@ namespace BTP.Editor
                 importer.isReadable = false;
                 importer.wrapMode = TextureWrapMode.Clamp;
                 importer.SaveAndReimport();
-                catalog.Add(info.PlantId, info.DiseaseId, info.DisplayName, AssetDatabase.LoadAssetAtPath<Texture2D>(path));
+                catalog.Add(info.PlantId, info.DiseaseId, info.DisplayName, AssetDatabase.LoadAssetAtPath<Texture2D>(path), note);
             }
 
             EditorUtility.SetDirty(catalog);
-            Debug.Log($"[BTP] Disease gallery: {catalog.TotalCount} diseases across {DiseaseClasses.All.Count} classes.");
+            Debug.Log($"[BTP] Disease gallery: {catalog.TotalCount} reference images ({DiseaseClasses.All.Count} Farm classes + " +
+                      $"{DiseaseClasses.LabOnly.Count} Lab-only).");
             return catalog;
         }
     }

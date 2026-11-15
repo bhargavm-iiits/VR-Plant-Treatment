@@ -19,7 +19,10 @@ namespace BTP.Editor
         public struct Result
         {
             public Mesh Mesh;
+            /// <summary>Diseased atlas (Week 1): the near mesh's _DiseasedMap, or _BaseMap when it has none.</summary>
             public Texture2D Texture;
+            /// <summary>Healthy atlas (Week 6): the near mesh's _BaseMap.</summary>
+            public Texture2D HealthyTexture;
         }
 
         public static Result Bake(GameObject plant, string name, int viewSize)
@@ -39,7 +42,11 @@ namespace BTP.Editor
                 instance.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
                 foreach (var lodGroup in instance.GetComponentsInChildren<LODGroup>())
                     lodGroup.enabled = false;
-                UseUnlitMaterials(instance, temporaries);
+                var renderers = instance.GetComponentsInChildren<Renderer>();
+                var originals = new Material[renderers.Length][];
+                for (var i = 0; i < renderers.Length; i++)
+                    originals[i] = renderers[i].sharedMaterials;
+                UseUnlitMaterials(renderers, originals, "_DiseasedMap", temporaries);
 
                 var bounds = RendererBounds(instance);
                 var size = Mathf.Max(Mathf.Max(bounds.size.x, bounds.size.z), bounds.size.y) * 1.04f;
@@ -62,25 +69,12 @@ namespace BTP.Editor
                 camera.targetTexture = target;
 
                 var distance = size * 2f;
-                // Front: looking along +Z (image right = +X). Side: looking along +X (image right = -Z).
-                var front = CaptureView(camera, target, centre - Vector3.forward * distance, Quaternion.LookRotation(Vector3.forward), viewSize);
-                var side = CaptureView(camera, target, centre - Vector3.right * distance, Quaternion.LookRotation(Vector3.right), viewSize);
-
-                var atlas = new Color32[viewSize * 2 * viewSize];
-                for (var y = 0; y < viewSize; y++)
-                {
-                    for (var x = 0; x < viewSize; x++)
-                    {
-                        atlas[y * viewSize * 2 + x] = front[y * viewSize + x];
-                        atlas[y * viewSize * 2 + viewSize + x] = side[y * viewSize + x];
-                    }
-                }
-
-                EnsureNotBlank(atlas, name);
-                Dilate(atlas, viewSize * 2, viewSize, 16);
-                var texture = SaveTexture(atlas, viewSize * 2, viewSize, $"{ProjectPaths.BillboardTextures}/{name}_Billboard.png");
+                var texture = BakeAtlas(camera, target, centre, distance, viewSize, name, $"{ProjectPaths.BillboardTextures}/{name}_Billboard.png");
+                UseUnlitMaterials(renderers, originals, "_BaseMap", temporaries);
+                var healthy = BakeAtlas(camera, target, centre, distance, viewSize, name + " (healthy)",
+                    $"{ProjectPaths.BillboardTextures}/{name}_BillboardHealthy.png");
                 var mesh = SaveMesh(BuildCrossQuads(centre, size, $"{name}_Billboard"), $"{ProjectPaths.BillboardMeshes}/{name}_Billboard.asset");
-                return new Result { Mesh = mesh, Texture = texture };
+                return new Result { Mesh = mesh, Texture = texture, HealthyTexture = healthy };
             }
             finally
             {
@@ -92,18 +86,59 @@ namespace BTP.Editor
             }
         }
 
-        static void UseUnlitMaterials(GameObject instance, List<Object> temporaries)
+        /// <summary>Front and side views packed side by side, checked for blankness, dilated and saved.</summary>
+        static Texture2D BakeAtlas(Camera camera, RenderTexture target, Vector3 centre, float distance, int viewSize, string name, string path)
+        {
+            // Front: looking along +Z (image right = +X). Side: looking along +X (image right = -Z).
+            var front = CaptureView(camera, target, centre - Vector3.forward * distance, Quaternion.LookRotation(Vector3.forward), viewSize);
+            var side = CaptureView(camera, target, centre - Vector3.right * distance, Quaternion.LookRotation(Vector3.right), viewSize);
+
+            var atlas = new Color32[viewSize * 2 * viewSize];
+            for (var y = 0; y < viewSize; y++)
+            {
+                for (var x = 0; x < viewSize; x++)
+                {
+                    atlas[y * viewSize * 2 + x] = front[y * viewSize + x];
+                    atlas[y * viewSize * 2 + viewSize + x] = side[y * viewSize + x];
+                }
+            }
+
+            EnsureNotBlank(atlas, name);
+            Dilate(atlas, viewSize * 2, viewSize, 16);
+            return SaveTexture(atlas, viewSize * 2, viewSize, path);
+        }
+
+        /// <summary>
+        /// Replaces every material with an unlit copy showing <paramref name="albedoProperty"/> of the original
+        /// (falling back to _BaseMap), so the bake captures either the diseased or the healthy albedo.
+        /// </summary>
+        static void UseUnlitMaterials(Renderer[] renderers, Material[][] originals, string albedoProperty, List<Object> temporaries)
         {
             var unlitShader = Shader.Find(MaterialFactory.UnlitShader);
-            foreach (var renderer in instance.GetComponentsInChildren<Renderer>())
+            for (var r = 0; r < renderers.Length; r++)
             {
-                var materials = renderer.sharedMaterials;
+                var renderer = renderers[r];
+                var materials = (Material[])originals[r].Clone();
                 for (var i = 0; i < materials.Length; i++)
                 {
                     var source = materials[i];
+                    if (source != null && source.shader.name == BerryImpostors.Shader)
+                    {
+                        // Impostor berries are quads: URP Unlit would bake squares. Their own unlit mode bakes the discs.
+                        var berries = new Material(source);
+                        berries.SetFloat("_BerryUnlit", 1f);
+                        berries.EnableKeyword("_BERRY_UNLIT");
+                        materials[i] = berries;
+                        temporaries.Add(berries);
+                        continue;
+                    }
+
                     var unlit = new Material(unlitShader);
-                    if (source != null && source.HasProperty("_BaseMap"))
-                        unlit.SetTexture("_BaseMap", source.GetTexture("_BaseMap"));
+                    var property = source != null && source.HasProperty(albedoProperty) && source.GetTexture(albedoProperty) != null
+                        ? albedoProperty
+                        : "_BaseMap";
+                    if (source != null && source.HasProperty(property))
+                        unlit.SetTexture("_BaseMap", source.GetTexture(property));
                     if (source != null && source.HasProperty("_BaseColor"))
                         unlit.SetColor("_BaseColor", source.GetColor("_BaseColor"));
                     var cutout = source != null && source.HasProperty("_AlphaClip") && source.GetFloat("_AlphaClip") > 0.5f;

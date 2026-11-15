@@ -22,7 +22,7 @@ namespace BTP.Editor
         const float LesionCells = 26f;     // seed grid across the UV range
         const float LesionCoverage = 1.5f; // G = rank * 1.5: severity 0.85 covers about 57% of the leaf area
 
-        static int SeedFor(string plantId)
+        internal static int SeedFor(string plantId)
         {
             unchecked
             {
@@ -112,7 +112,7 @@ namespace BTP.Editor
         }
 
         /// <summary>Distance to the nearest lesion seed (0 at a seed), slightly roughened. Seeds sit in a jittered grid.</summary>
-        static float LesionDistance(float u, float v, int seed)
+        internal static float LesionDistance(float u, float v, int seed)
         {
             var px = u * LesionCells;
             var py = v * LesionCells;
@@ -143,7 +143,7 @@ namespace BTP.Editor
         }
 
         /// <summary>Sorted values of the leaf pixels, used to convert a value into its percentile.</summary>
-        static float[] RankTable(float[] leaf, float[] values)
+        internal static float[] RankTable(float[] leaf, float[] values)
         {
             var list = new System.Collections.Generic.List<float>(values.Length / 2);
             for (var i = 0; i < values.Length; i++)
@@ -157,7 +157,7 @@ namespace BTP.Editor
             return table;
         }
 
-        static float Rank(float[] table, float value)
+        internal static float Rank(float[] table, float value)
         {
             if (table.Length == 0)
                 return 1f;

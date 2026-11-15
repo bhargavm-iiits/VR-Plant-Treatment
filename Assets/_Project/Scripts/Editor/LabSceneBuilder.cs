@@ -53,6 +53,7 @@ namespace BTP.Editor
             BuildPlantPanel(ui, catalog);
             BuildInfoPanel(ui);
             BuildRecoveryPanel(ui, recovery, diseases, pedestal);
+            ConfigureLeafDisplay(pedestal, ui);
             BuildExitPanel(ui);
 
             var spawn = new GameObject("SpawnAnchor", typeof(SpawnAnchor));
@@ -124,11 +125,28 @@ namespace BTP.Editor
                 EnvironmentKit.Box("Planter", planters, new Vector3(x, 0.3f, 5.3f), new Vector3(1.5f, 0.6f, 0.8f), dark, true);
                 EnvironmentKit.Box("PlanterSoil", planters, new Vector3(x, 0.605f, 5.3f), new Vector3(1.4f, 0.02f, 0.7f), soil, false);
                 if (catalog.TryGet(decorIds[i], out var plant) && plant.FarmPrefab != null)
-                {
-                    EnvironmentKit.Place(plant.FarmPrefab, planters, new Vector3(x - 0.35f, 0.61f, 5.3f), i * 40f);
-                    EnvironmentKit.Place(plant.FarmPrefab, planters, new Vector3(x + 0.35f, 0.61f, 5.3f), i * 70f);
-                }
+                    PlaceDecor(planters, plant, x, i);
             }
+        }
+
+        // The tomato is real size (~1.75 m tall, ~1.3 m across; TomatoPlantBuilder): two would not fit a 1.5 x 0.8 m
+        // planter, so it stands alone in the middle, scaled to ~0.7 m across and ~1 m tall. Decoration only.
+        internal const float DecorTomatoScale = 0.55f;
+
+        /// <summary>
+        /// The plants on one back-wall planter (also used by TomatoLayoutUpdater to update a built scene in place):
+        /// two side by side, or the one scaled tomato.
+        /// </summary>
+        internal static void PlaceDecor(Transform planters, PlantDefinition plant, float x, int index)
+        {
+            if (plant.PlantId == "tomato")
+            {
+                EnvironmentKit.Place(plant.FarmPrefab, planters, new Vector3(x, 0.61f, 5.3f), index * 40f, DecorTomatoScale);
+                return;
+            }
+
+            EnvironmentKit.Place(plant.FarmPrefab, planters, new Vector3(x - 0.35f, 0.61f, 5.3f), index * 40f);
+            EnvironmentKit.Place(plant.FarmPrefab, planters, new Vector3(x + 0.35f, 0.61f, 5.3f), index * 70f);
         }
 
         static LabPlantDisplay BuildPedestal(Transform pedestal)
@@ -183,19 +201,14 @@ namespace BTP.Editor
         {
             const float width = 560f;
             var panel = Panel(ui, "PlantPanel", new Vector2(width, 960f), PanelPosition(-38f, 1.32f));
-            Header(panel, "Plant", "Choose a species to study", width);
+            var plants = catalog.AllPlants;
+            Header(panel, "Plant", $"Choose a species to study ({plants.Count} crops)", width);
 
-            var y = 140f;
-            foreach (var plant in catalog.Plants)
-            {
-                var text = $"<b>{plant.DisplayName}</b>\n<size=70%><i>{plant.ScientificName}</i></size>";
-                var button = UIFactory.Button($"Plant_{plant.PlantId}", panel, text, 30f, out var selected);
-                button.GetComponentInChildren<TextMeshProUGUI>().alignment = TextAlignmentOptions.MidlineLeft;
-                button.GetComponentInChildren<TextMeshProUGUI>().margin = new Vector4(18f, 0f, 0f, 0f);
-                UIFactory.Place((RectTransform)button.transform, 28f, y, width - 56f, 80f);
-                button.gameObject.AddComponent<PlantButton>().Bind(plant.PlantId, selected);
-                y += 88f; // nine buttons: 140 + 9 x 88 fits the 960 panel
-            }
+            // Nine Farm crops on page 1, the ten Lab-only crops on page 2 (see LabOnlyCropSetup, which patches a saved Lab).
+            var buttons = new List<Button>();
+            foreach (var plant in plants)
+                buttons.Add(LabOnlyCropSetup.LabPlantButton(panel, plant));
+            LabOnlyCropSetup.LayoutLabPanel(panel, plants, buttons);
         }
 
         static void BuildInfoPanel(Transform ui)
@@ -256,7 +269,7 @@ namespace BTP.Editor
             var leaf = UIFactory.Metric("LeafHealth", demo, "Leaf health", true, 32f, 420f, width - 64f);
             var chlorophyll = UIFactory.Metric("Chlorophyll", demo, "Chlorophyll", true, 32f, 490f, width - 64f);
             var severity = UIFactory.Metric("Severity", demo, "Disease severity", false, 32f, 560f, width - 64f);
-            UIFactory.Place(UIFactory.Text("Hint", demo, "Left half of the plant: Week 1 (diseased).\nRight half: the selected week.", 24f,
+            UIFactory.Place(UIFactory.Text("Hint", demo, "Left half: supplied diseased leaf.\nRight half: selected week (illustrative).", 24f,
                 UIPalette.TextSecondary).rectTransform, 32f, 650f, width - 64f, 90f);
 
             // Example disease row: PlantVillage sample leaf, name, and previous/next to cycle through the plant's classes.
@@ -322,6 +335,93 @@ namespace BTP.Editor
             return canvas.gameObject;
         }
 
+        /// <summary>Configures either the existing lab or a newly generated lab.</summary>
+        public static void ConfigureLeafDisplay(LabPlantDisplay display, Transform ui)
+        {
+            var catalog = AssetDatabase.LoadAssetAtPath<LeafCatalog>(LeafAssetPipeline.CatalogPath);
+            if (catalog == null)
+                throw new System.InvalidOperationException("Prepare leaf display assets first.");
+            display.BindLeaves(catalog);
+            var serialized = new SerializedObject(display);
+            serialized.FindProperty("maxDisplaySize").vector2Value = new Vector2(0.9f, 0.88f);
+            serialized.ApplyModifiedPropertiesWithoutUndo();
+            var existing = ui.Find("LeafDiseaseSelector");
+            if (existing != null) Object.DestroyImmediate(existing.gameObject);
+            var canvas = UIFactory.WorldCanvas("LeafDiseaseSelector", ui, new Vector2(1140f, 322f),
+                new Vector3(0f, 2.22f, -0.05f), Quaternion.identity);
+            var rect = (RectTransform)canvas.transform;
+            rect.pivot = new Vector2(0.5f, 1f);
+            UIFactory.Panel(rect);
+            var title = UIFactory.Text("Title", rect, "Choose a leaf condition", 28f, UIPalette.Cyan,
+                TextAlignmentOptions.MidlineLeft, FontStyles.Bold);
+            UIFactory.Place(title.rectTransform, 18f, 10f, 1104f, 42f);
+            var buttons = new List<Button>();
+            var states = new List<SelectedStateVisual>();
+            for (int i = 0; i < 9; i++)
+            {
+                var button = UIFactory.Button("Disease_" + i, rect, "", 26f, out var selected);
+                UIFactory.Place((RectTransform)button.transform, 16f + (i % 3) * 372.6f, 62f + (i / 3) * 82f, 362.6f, 72f);
+                var label = button.GetComponentInChildren<TMP_Text>();
+                label.enableAutoSizing = true;
+                label.fontSizeMin = 22f;
+                label.fontSizeMax = 26f;
+                buttons.Add(button);
+                states.Add(selected);
+            }
+            rect.gameObject.AddComponent<LeafDiseaseSelector>().Bind(display, title, buttons, states);
+            var timeline = ui.Find("Timeline");
+            if (timeline != null)
+            {
+                ((RectTransform)timeline).anchoredPosition3D = new Vector3(0f, 0.88f, -0.50f);
+                timeline.localRotation = Quaternion.Euler(30f, 0f, 0f);
+            }
+            var marker = display.transform.Find("ComparisonMarker");
+            if (marker != null)
+            {
+                ((RectTransform)marker.Find("ComparisonLabels")).anchoredPosition3D = new Vector3(0f, 1.80f, -0.04f);
+                var beam = marker.Find("Beam");
+                beam.localPosition = new Vector3(0f, 1.28f, -0.08f);
+                beam.localScale = new Vector3(0.009f, 0.96f, 1f);
+                var sheet = marker.Find("SplitSheet");
+                sheet.localPosition = new Vector3(0f, 1.28f, 0f);
+                sheet.localScale = new Vector3(0.22f, 0.96f, 1f);
+            }
+            foreach (var text in ui.GetComponentsInChildren<TMP_Text>(true))
+            {
+                if (text.name == "Hint")
+                    text.text = "Left half: supplied diseased leaf.\nRight half: selected week (illustrative).";
+                if (text.name == "MetricsTitle") text.text = "Leaf health metrics (example values)";
+            }
+            var note = display.transform.Find("ScaleNote");
+            if (note != null)
+            {
+                ((RectTransform)note).sizeDelta = new Vector2(600f, 70f);
+                note.GetComponentInChildren<TMP_Text>().fontSize = 22f;
+            }
+            var facing = display.GetComponent<LeafViewerFacing>();
+            if (facing == null) facing = display.gameObject.AddComponent<LeafViewerFacing>();
+            facing.Bind(display.ModelRoot, marker, ui, note != null ? (RectTransform)note : null);
+            EditorUtility.SetDirty(facing);
+            EditorUtility.SetDirty(display);
+        }
+
+        [MenuItem("BTP/Setup/7 - Update Lab Leaf Display")]
+        public static void UpdateLeafDisplay()
+        {
+            if (EditorApplication.isPlaying)
+                throw new System.InvalidOperationException("Exit Play mode before updating the saved Lab.");
+            var scene = UnityEngine.SceneManagement.SceneManager.GetSceneByPath(ProjectPaths.LabScene);
+            if (!scene.isLoaded)
+                scene = EditorSceneManager.OpenScene(ProjectPaths.LabScene, OpenSceneMode.Single);
+            var display = Object.FindFirstObjectByType<LabPlantDisplay>();
+            if (display == null || display.gameObject.scene != scene)
+                throw new System.InvalidOperationException("Lab display not found.");
+            ConfigureLeafDisplay(display, GameObject.Find("LabUI").transform);
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene);
+            Debug.Log("[BTP] Lab updated with individual leaves and disease choices.");
+        }
+
         static GameObject BuildComparisonMarker(Transform pedestal, out TMP_Text baseline, out TMP_Text current, out Image currentBackground)
         {
             var marker = new GameObject("ComparisonMarker").transform;
@@ -360,6 +460,7 @@ namespace BTP.Editor
             var recenter = UIFactory.Button("Recenter", panel, "Recenter view", 28f, out _);
             UIFactory.Place((RectTransform)recenter.transform, 28f, 236f, width - 56f, 72f);
             recenter.gameObject.AddComponent<EnvironmentButton>().Action = EnvironmentButton.ButtonAction.Recenter;
+            TreatmentSceneBuilder.AddLabTreatmentControls(panel);
         }
     }
 }

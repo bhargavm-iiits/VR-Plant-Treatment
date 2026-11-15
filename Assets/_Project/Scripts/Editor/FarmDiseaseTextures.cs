@@ -157,7 +157,15 @@ namespace BTP.Editor
             }
 
             Apply(pixels, width, height, StyleFor(plantId), cutout);
+            return Save(pixels, width, height, outputPath, cutout);
+        }
 
+        /// <summary>
+        /// Encodes a baked albedo (PNG for cut-outs, JPG otherwise) and imports it with the matching settings.
+        /// Shared with <see cref="DiseaseLesionTextures"/>, whose per-disease bakes are saved the same way.
+        /// </summary>
+        internal static string Save(Color32[] pixels, int width, int height, string outputPath, bool cutout)
+        {
             var texture = new Texture2D(width, height, TextureFormat.RGBA32, false);
             texture.SetPixels32(pixels);
             texture.Apply();

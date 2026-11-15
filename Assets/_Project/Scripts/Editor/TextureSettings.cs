@@ -17,6 +17,10 @@ namespace BTP.Editor
         public static void ConfigureNormal(string path, int maxSize = 2048, int androidMax = 1024) =>
             Configure(path, maxSize, androidMax, TextureImporterType.NormalMap, false, false, TextureImporterFormat.ASTC_6x6, 2);
 
+        /// <summary>Tiling linear mask (URP metallic/smoothness: R metallic, A smoothness), repeat wrap.</summary>
+        public static void ConfigureMask(string path, int maxSize = 2048, int androidMax = 1024) =>
+            Configure(path, maxSize, androidMax, TextureImporterType.Default, false, false, TextureImporterFormat.ASTC_6x6, 2, keepAlpha: true);
+
         /// <summary>Data texture (disease fields): linear, clamped, higher-quality ASTC.</summary>
         public static void ConfigureData(string path, int maxSize = 1024)
         {
@@ -30,7 +34,7 @@ namespace BTP.Editor
         }
 
         static void Configure(string path, int maxSize, int androidMax, TextureImporterType type, bool sRGB, bool cutout,
-            TextureImporterFormat androidFormat, int anisoLevel)
+            TextureImporterFormat androidFormat, int anisoLevel, bool keepAlpha = false)
         {
             var importer = AssetImporter.GetAtPath(path) as TextureImporter;
             if (importer == null)
@@ -41,7 +45,7 @@ namespace BTP.Editor
             importer.mipmapEnabled = true;
             importer.maxTextureSize = maxSize;
             importer.textureCompression = TextureImporterCompression.CompressedHQ;
-            importer.alphaSource = cutout ? TextureImporterAlphaSource.FromInput : TextureImporterAlphaSource.None;
+            importer.alphaSource = cutout || keepAlpha ? TextureImporterAlphaSource.FromInput : TextureImporterAlphaSource.None;
             importer.alphaIsTransparency = cutout;
             importer.mipMapsPreserveCoverage = cutout;
             importer.alphaTestReferenceValue = 0.5f;

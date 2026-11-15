@@ -27,6 +27,31 @@ namespace BTP.Editor
             (1.00f, new Color(0.88f, 0.90f, 0.93f)),
         });
 
+        /// <summary>Low rolling hills on the Farm horizon: olive at the foot to a pale grey-green crest (fog adds the haze).</summary>
+        public static Texture2D Hills => VerticalGradient("Hills", new[]
+        {
+            (0.00f, new Color(0.29f, 0.35f, 0.21f)),
+            (0.40f, new Color(0.35f, 0.41f, 0.26f)),
+            (0.75f, new Color(0.42f, 0.46f, 0.35f)),
+            (1.00f, new Color(0.52f, 0.55f, 0.48f)),
+        });
+
+        /// <summary>Dry, pale roadside grass for the verge beside the road.</summary>
+        public static Texture2D Verge => Noise("Verge", new Color(0.43f, 0.43f, 0.25f), new Color(0.62f, 0.59f, 0.38f), new Color(0.72f, 0.66f, 0.47f), 53);
+
+        /// <summary>
+        /// Asphalt across one road width (V) and one repeat along it (U), with the white edge lines painted in,
+        /// so the markings cannot z-fight with the road surface.
+        /// </summary>
+        public static Texture2D Road => RoadTexture("Road", 512);
+
+        /// <summary>
+        /// The greenhouse's polyethylene film, one tile per 4 x 4 m (the cover mesh's UVs are in metres): faint
+        /// wrinkles running across U and one overlapping sheet seam across V, on near-white. Alpha (0.8 to 1) scales
+        /// the material's own, so the seam and wrinkle crests read slightly more opaque. 128 px, about 3 cm a texel.
+        /// </summary>
+        public static Texture2D GreenhouseFilm => FilmTexture("GreenhouseFilm", 128);
+
         /// <summary>9-sliced rounded rectangle (fill) and outline sprites for panels and buttons.</summary>
         public static Sprite RoundedFill => RoundedSprite("RoundedFill", 0);
         public static Sprite RoundedOutline => RoundedSprite("RoundedOutline", 4);
@@ -131,6 +156,71 @@ namespace BTP.Editor
             return Save(path, pixels, width, height, TextureWrapMode.Clamp);
         }
 
+        static Texture2D RoadTexture(string name, int size)
+        {
+            var path = $"{Folder}/{name}.png";
+            var existing = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+            if (existing != null)
+                return existing;
+
+            var dark = new Color(0.19f, 0.19f, 0.20f);
+            var light = new Color(0.29f, 0.29f, 0.30f);
+            var paint = new Color(0.90f, 0.90f, 0.88f);
+            var offset = new Vector2(29f, 7f);
+            var pixels = new Color[size * size];
+            for (var y = 0; y < size; y++)
+            {
+                var v = (y + 0.5f) / size;
+                // Edge lines about 0.2 m wide, 0.25 m in from each edge of a 6.5 m road.
+                var line = (v > 0.038f && v < 0.068f) || (v > 0.932f && v < 0.962f);
+                for (var x = 0; x < size; x++)
+                {
+                    var n = TileableNoise(x, y, size, 16, offset) * 0.5f + TileableNoise(x, y, size, 64, offset * 2f) * 0.5f;
+                    var speck = TileableNoise(x, y, size, 128, offset * 3f);
+                    var color = Color.Lerp(dark, light, n);
+                    color = Color.Lerp(color, new Color(0.40f, 0.40f, 0.40f), Mathf.Clamp01((speck - 0.75f) * 3f));
+                    if (line)
+                        color = Color.Lerp(paint, color, Mathf.Clamp01((TileableNoise(x, y, size, 32, offset * 5f) - 0.72f) * 2.5f));
+                    pixels[y * size + x] = color;
+                }
+            }
+
+            return Save(path, pixels, size, size, TextureWrapMode.Repeat, size);
+        }
+
+        static Texture2D FilmTexture(string name, int size)
+        {
+            var path = $"{Folder}/{name}.png";
+            var existing = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+            if (existing != null)
+                return existing;
+
+            var offset = new Vector2(41f, 17f);
+            var pixels = new Color[size * size];
+            for (var y = 0; y < size; y++)
+            {
+                var v = (y + 0.5f) / size;
+                // A sheet overlap across the tile: a slightly denser band with a fine edge line either side.
+                var seamDistance = Mathf.Abs(v - 0.5f) * size;
+                var seam = Mathf.Clamp01(2.5f - seamDistance) * 0.6f + Mathf.Clamp01(1.2f - Mathf.Abs(seamDistance - 3f)) * 0.4f;
+                for (var x = 0; x < size; x++)
+                {
+                    var u = (x + 0.5f) / size;
+                    // Wrinkles: wavy stripes along V (integer frequencies keep the tile seamless).
+                    var wander = Mathf.Sin(v * Mathf.PI * 4f + u * Mathf.PI * 2f) * 0.18f;
+                    var wrinkle = Mathf.Pow(0.5f + 0.5f * Mathf.Sin((u * 7f + wander) * Mathf.PI * 2f), 3f);
+                    var mottle = TileableNoise(x, y, size, 4, offset);
+                    var shade = 0.96f + wrinkle * 0.018f + mottle * 0.015f;
+                    var alpha = 0.84f + wrinkle * 0.06f + mottle * 0.06f;
+                    shade = Mathf.Lerp(shade, 0.985f, seam);
+                    alpha = Mathf.Lerp(alpha, 1f, seam);
+                    pixels[y * size + x] = new Color(shade, shade, shade, alpha);
+                }
+            }
+
+            return Save(path, pixels, size, size, TextureWrapMode.Repeat, size);
+        }
+
         static Sprite RoundedSprite(string name, int stroke)
         {
             var path = $"{UIFolder}/{name}.png";
@@ -179,17 +269,19 @@ namespace BTP.Editor
             return Mathf.Clamp01((a + b) * 0.5f * 1.3f - 0.15f);
         }
 
-        static Texture2D Save(string path, Color[] pixels, int width, int height, TextureWrapMode wrap)
+        static Texture2D Save(string path, Color[] pixels, int width, int height, TextureWrapMode wrap, int maxSize = 256)
         {
             ProjectPaths.EnsureFolder(Folder);
             WritePng(path, pixels, width, height);
             var importer = (TextureImporter)AssetImporter.GetAtPath(path);
             importer.wrapMode = wrap;
-            importer.maxTextureSize = 256;
+            importer.maxTextureSize = maxSize;
+            if (maxSize > 256)
+                importer.anisoLevel = 8; // the road is seen at grazing angles
             importer.textureCompression = TextureImporterCompression.CompressedHQ;
             importer.SetPlatformTextureSettings(new TextureImporterPlatformSettings
             {
-                name = "Android", overridden = true, maxTextureSize = 256, format = TextureImporterFormat.ASTC_6x6
+                name = "Android", overridden = true, maxTextureSize = maxSize, format = TextureImporterFormat.ASTC_6x6
             });
             importer.SaveAndReimport();
             return AssetDatabase.LoadAssetAtPath<Texture2D>(path);

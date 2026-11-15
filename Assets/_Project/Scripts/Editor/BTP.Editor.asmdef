@@ -16,7 +16,9 @@
         "Unity.XR.OpenXR",
         "Unity.XR.OpenXR.Editor",
         "Unity.XR.OpenXR.Features.MetaQuestSupport",
-        "Unity.XR.Hands"
+        "Unity.XR.Hands",
+        "Gilzoide.SqliteNet",
+        "Gilzoide.SqliteNet.Editor"
     ],
     "includePlatforms": [
         "Editor"

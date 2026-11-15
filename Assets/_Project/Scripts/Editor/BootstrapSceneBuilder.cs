@@ -68,6 +68,9 @@ namespace BTP.Editor
             systems.AddComponent<EnvironmentController>().Bind(SceneName(ProjectPaths.FarmScene), SceneName(ProjectPaths.LabScene),
                 rig.transform, camera.transform, fade);
             systems.AddComponent<DeviceQualityProfile>();
+            TreatmentSceneBuilder.WireBootstrap(systems);
+            // CropScan XR sessions (inactive unless the player starts with -xr-fixture or -xr-api).
+            systems.AddComponent<BTP.XR.XrSessionCoordinator>();
 
             EditorSceneManager.SaveScene(scene, ProjectPaths.BootstrapScene);
             UpdateBuildScenes();
@@ -135,11 +138,11 @@ namespace BTP.Editor
 
         static string SceneName(string path) => Path.GetFileNameWithoutExtension(path);
 
-        /// <summary>XRBootstrap first (it loads the Farm), then the two environments.</summary>
+        /// <summary>XRBootstrap first (it loads the Farm), then the Farm, visiting Lab and Treatment lab.</summary>
         public static void UpdateBuildScenes()
         {
             var scenes = new List<EditorBuildSettingsScene>();
-            foreach (var path in new[] { ProjectPaths.BootstrapScene, ProjectPaths.FarmScene, ProjectPaths.LabScene })
+            foreach (var path in new[] { ProjectPaths.BootstrapScene, ProjectPaths.FarmScene, ProjectPaths.LabScene, ProjectPaths.TreatmentScene })
             {
                 if (File.Exists(path))
                     scenes.Add(new EditorBuildSettingsScene(path, true));

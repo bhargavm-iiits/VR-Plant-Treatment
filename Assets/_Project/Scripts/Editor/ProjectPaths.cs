@@ -28,12 +28,17 @@ namespace BTP.Editor
         public const string RecoveryData = Data + "/TomatoRecoveryData.asset";
         public const string DiseaseCatalog = Data + "/DiseaseGalleryCatalog.asset";
         public const string DiseaseLeaves = Root + "/Textures/DiseaseLeaves";
+        /// <summary>One Farm prefab per plant disease for the Farm disease rows (DiseaseVariantBuilder).</summary>
+        public const string VariantPrefabs = PlantPrefabs + "/Variants";
+        public const string VariantCatalog = Data + "/DiseaseVariantCatalog.asset";
+        public const string VariantMeshes = Meshes + "/Variants";
 
         public const string Scenes = "Assets/Scenes";
         public const string BootstrapScene = Scenes + "/XRBootstrap.unity";
         // The Farm lives in the project's existing environment scene (name kept as created).
         public const string FarmScene = Scenes + "/Envirornment.unity";
         public const string LabScene = Scenes + "/Lab.unity";
+        public const string TreatmentScene = Scenes + "/Treatment.unity";
 
         /// <summary>Creates an asset folder (and its parents) if missing.</summary>
         public static void EnsureFolder(string path)

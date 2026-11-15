@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using BTP.Core;
 using BTP.Farm;
+using BTP.Lab;
 using BTP.Plants;
 using BTP.UI;
 using TMPro;
@@ -12,67 +13,94 @@ using UnityEngine.UI;
 namespace BTP.Editor
 {
     /// <summary>
-    /// Builds Farm.unity after the farm reference: a compact field with a central dirt aisle,
-    /// raised soil beds, an orchard edge, a corn block clear of the route, a timber fence,
-    /// a water tower, distant mountains and the entry notice board with Enter Lab. Every plant
-    /// type has one labelled, selectable specimen near the entrance.
+    /// Builds the Farm (Envirornment.unity): one row per plant disease, 58 in all (FarmDiseaseRows), in seven bands
+    /// along a central dirt aisle with a labelled head path per band, a timber fence, and the entry notice board with
+    /// Enter Lab. Selecting any plant in a row selects that plant and its disease. GreenhouseParkBuilder adds the
+    /// greenhouse frame over the fenced field and the bush belts, road and hills around it, and sets the hazy
+    /// daylight. The whole field floor is a teleport area; the aisle and head paths are teleport areas too, with
+    /// viewing points at each band. A fresh build is complete: it also adds the treatment status the Treatment
+    /// step (BTP/Treatment/4) would add, so no later step needs to be replayed.
     /// </summary>
     public static class FarmSceneBuilder
     {
-        static readonly Vector3 SpawnPosition = new Vector3(0f, 0f, -9.5f);
+        static readonly Vector3 SpawnPosition = new Vector3(0f, 0f, -6.5f);
         static readonly Vector3 SpawnHead = SpawnPosition + Vector3.up * 1.6f;
-        static readonly Vector3 BoardPosition = new Vector3(-2.6f, 0f, -7.4f);
+        static readonly Vector3 BoardPosition = new Vector3(-2.6f, 0f, -4.4f);
         // Viewing point 0.75 m in front of the board, close enough to poke its buttons.
         static readonly Vector3 BoardViewpoint = BoardPosition + new Vector3(SpawnPosition.x - BoardPosition.x, 0f, SpawnPosition.z - BoardPosition.z).normalized * 0.75f;
-        const float BedHeight = 0.25f;
+        // The timber fence around the field (35 x 94.5 m; it was 35 x 46 m before the soybean, cereal, cotton,
+        // chilli, sugarcane, shrub and tropical orchard bands, which lie beyond Z = 37);
+        // GreenhouseParkBuilder fits its greenhouse frame just outside it.
+        internal const float FenceMinX = -17.5f, FenceMaxX = 17.5f, FenceMinZ = -9f, FenceMaxZ = 85.5f;
+        /// <summary>Length of the field when its ground textures were tiled; the longer field keeps that texel size.</summary>
+        const float TiledLength = 46f;
 
-        sealed class Materials
+        internal sealed class Materials
         {
-            public Material Grass, Soil, Dirt, Wood, DarkWood, Rock, Metal, Pipe, Mountain, Ring, Stake;
+            public Material Soil, Dirt, Wood, DarkWood, Metal, Pipe, Ring, Stake;
+            /// <summary>Soil and dirt tiled for the full length of the field (the field floor and the central aisle).</summary>
+            public Material FieldSoil, Aisle;
         }
 
         [MenuItem("BTP/Setup/4 - Build Farm Scene", priority = 4)]
         public static void Build()
         {
+            if (EditorApplication.isPlaying)
+                throw new System.InvalidOperationException("Exit Play mode before rebuilding the Farm.");
             // Load assets after NewScene: opening a scene unloads unused assets loaded before it.
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
             var catalog = AssetDatabase.LoadAssetAtPath<PlantCatalog>(ProjectPaths.Catalog);
             if (catalog == null)
                 throw new System.InvalidOperationException("Run BTP/Setup/2 - Build Plant Assets first.");
+            var variants = AssetDatabase.LoadAssetAtPath<DiseaseVariantCatalog>(ProjectPaths.VariantCatalog);
+            if (variants == null)
+                throw new System.InvalidOperationException("Run BTP/Setup/26 - Build Farm Disease Variants first.");
             EnvironmentKit.DisableGlobalIllumination(ProjectPaths.Data + "/Lighting/FarmLighting.lighting");
             var materials = CreateMaterials();
 
             var lighting = new GameObject("Lighting").transform;
-            EnvironmentKit.ConfigureLighting(lighting,
-                sunColor: new Color(1f, 0.93f, 0.80f), sunIntensity: 1.35f, sunEuler: new Vector3(42f, -35f, 0f),
-                skyTint: new Color(0.42f, 0.55f, 0.78f),
-                ambientSky: new Color(0.58f, 0.68f, 0.84f), ambientEquator: new Color(0.52f, 0.55f, 0.47f),
-                ambientGround: new Color(0.33f, 0.28f, 0.21f),
-                fogColor: new Color(0.70f, 0.79f, 0.88f), fogStart: 110f, fogEnd: 650f,
-                skyboxPath: ProjectPaths.EnvironmentMaterials + "/FarmSky.mat");
+            GreenhouseParkBuilder.ConfigureLighting(lighting);
 
             var environment = new GameObject("Environment").transform;
             var navigation = new GameObject("Navigation").transform;
             BuildGroundAndPaths(environment, navigation, materials);
-            BuildBeds(environment, materials);
             BuildFence(environment, materials);
-            BuildWaterTower(environment, materials);
-            BuildScenery(environment, materials, catalog);
-
-            var crops = new GameObject("Crops").transform;
-            PlantCrops(crops, catalog, materials);
+            // The ground, the greenhouse frame over the field, and the bush belts, road and hills outside it.
+            GreenhouseParkBuilder.Build(environment);
 
             var gallery = BuildDiseaseGallery();
-            var specimens = new GameObject("Specimens").transform;
-            BuildSpecimens(specimens, catalog, materials, gallery);
+            var crops = new GameObject("Crops").transform;
+            var beds = EnvironmentKit.Group("RaisedBeds", environment).transform;
+            var rowMaterials = new FarmDiseaseRows.Materials
+            {
+                Soil = materials.Soil, Dirt = materials.Dirt, Wood = materials.Wood, Pipe = materials.Pipe, Ring = materials.Ring, Stake = materials.Stake,
+            };
+            var rows = FarmDiseaseRows.Build(crops, beds, variants, AssetDatabase.LoadAssetAtPath<DiseaseGalleryCatalog>(ProjectPaths.DiseaseCatalog),
+                rowMaterials, gallery);
+
+            var recovery = AssetDatabase.LoadAssetAtPath<TomatoRecoveryData>(ProjectPaths.RecoveryData);
+            if (recovery == null)
+                throw new System.InvalidOperationException("Run BTP/Setup/2 - Build Plant Assets first (it builds the recovery data).");
+            BuildCropRecovery(catalog, variants, recovery);
+            gallery.BindConsole(BuildTimelineConsole(recovery));
 
             BuildNoticeBoard(new GameObject("NoticeBoard").transform, materials);
+            // Pipes along every row, the tank and the one-button console right of the entrance (after the rows).
+            FarmIrrigationBuilder.Build(materials.Soil, materials.Wood, materials.DarkWood);
             BuildNavigation(navigation);
 
             new GameObject("BootstrapGuard", typeof(BootstrapGuard));
 
+            // What BTP/Treatment/4 adds to the Farm: each row's saved treatment status under its label.
+            var labels = 0;
+            foreach (var row in rows)
+                labels += TreatmentSceneBuilder.AddFarmStatus(row) ? 1 : 0;
+
             EditorSceneManager.SaveScene(scene, ProjectPaths.FarmScene);
-            Debug.Log($"[BTP] Built {ProjectPaths.FarmScene}.");
+            // The greenhouse cover, frame shell and door frames are generated meshes rebuilt in place for the new
+            // footprint; save them with the scene, or the scene would reference the old, smaller ones on disk.
+            AssetDatabase.SaveAssets();
+            Debug.Log($"[BTP] Built {ProjectPaths.FarmScene}: {rows.Count} disease rows, {labels} treatment status labels.");
         }
 
         static Materials CreateMaterials()
@@ -80,223 +108,55 @@ namespace BTP.Editor
             string M(string name) => $"{ProjectPaths.EnvironmentMaterials}/Farm_{name}.mat";
             var m = new Materials
             {
-                Grass = MaterialFactory.Solid(M("Grass"), Color.white, 0.05f, ProceduralTextures.Grass),
                 Soil = MaterialFactory.Solid(M("Soil"), Color.white, 0.05f, ProceduralTextures.Soil),
                 Dirt = MaterialFactory.Solid(M("Dirt"), Color.white, 0.05f, ProceduralTextures.DirtPath),
                 Wood = MaterialFactory.Solid(M("Wood"), Color.white, 0.1f, ProceduralTextures.Wood),
                 DarkWood = MaterialFactory.Solid(M("DarkWood"), new Color(0.55f, 0.45f, 0.38f), 0.1f, ProceduralTextures.Wood),
-                Rock = MaterialFactory.Solid(M("Rock"), new Color(0.56f, 0.53f, 0.49f), 0.15f),
                 Metal = MaterialFactory.Solid(M("Metal"), new Color(0.35f, 0.37f, 0.39f), 0.4f),
                 Pipe = MaterialFactory.Solid(M("DripLine"), new Color(0.06f, 0.06f, 0.07f), 0.3f),
                 Stake = MaterialFactory.Solid(M("Stake"), new Color(0.62f, 0.50f, 0.34f), 0.1f),
-                Mountain = MaterialFactory.Solid(M("Mountains"), Color.white, 0f, ProceduralTextures.Mountain),
                 Ring = MaterialFactory.Glow(M("SelectionRing"), UIPalette.Cyan, 1.5f),
             };
-            m.Grass.SetTextureScale("_BaseMap", new Vector2(160f, 160f));
             m.Soil.SetTextureScale("_BaseMap", new Vector2(2f, 8f));
             m.Dirt.SetTextureScale("_BaseMap", new Vector2(3f, 30f));
             m.Wood.SetTextureScale("_BaseMap", new Vector2(1f, 1f));
+            var stretch = (FenceMaxZ - FenceMinZ) / TiledLength;
+            m.FieldSoil = MaterialFactory.Solid(M("FieldSoil"), Color.white, 0.05f, ProceduralTextures.Soil);
+            m.FieldSoil.SetTextureScale("_BaseMap", new Vector2(2f, 8f * stretch));
+            m.Aisle = MaterialFactory.Solid(M("DirtAisle"), Color.white, 0.05f, ProceduralTextures.DirtPath);
+            m.Aisle.SetTextureScale("_BaseMap", new Vector2(3f, 30f * stretch));
             return m;
         }
 
-        // ------------------------------------------------------------------ ground, paths, beds
+        // ------------------------------------------------------------------ ground and paths
 
         static void BuildGroundAndPaths(Transform environment, Transform navigation, Materials m)
         {
-            var ground = EnvironmentKit.Primitive(PrimitiveType.Plane, "Ground", environment, Vector3.zero,
-                new Vector3(60f, 1f, 60f), m.Grass, true, Quaternion.identity, false);
-            ground.GetComponent<MeshRenderer>().receiveShadows = true;
+            // The grass ground itself is laid by GreenhouseParkBuilder.Build.
+            // Worked soil over the whole fenced field (the paths sit slightly above it). Layers sit centimetres apart
+            // (ground 0, field soil 0.012, paths 0.03) to avoid z-fighting at distance. The soil is a teleport area,
+            // so every walkway between beds and trees can be reached; beds, plants and their selection volumes stop
+            // the teleport ray, so nobody lands on a bed.
+            const float inset = 0.4f;
+            var field = EnvironmentKit.Box("FieldSoil", navigation,
+                new Vector3((FenceMinX + FenceMaxX) * 0.5f, 0.002f, (FenceMinZ + FenceMaxZ) * 0.5f),
+                new Vector3(FenceMaxX - FenceMinX - inset * 2f, 0.02f, FenceMaxZ - FenceMinZ - inset * 2f), m.FieldSoil, true, 0f, false);
+            XRSceneWiring.MakeTeleportArea(field);
 
-            // Worked soil under the bed area (the aisle and paths sit slightly above it).
-            // Layers sit centimetres apart (ground 0, field soil 0.012, paths 0.03) to avoid z-fighting at distance.
-            EnvironmentKit.Box("FieldSoil", environment, new Vector3(0f, 0.002f, 6.5f), new Vector3(12f, 0.02f, 29f), m.Soil, false, 0f, false);
-
-            // Teleportable surfaces: the central aisle and the cross path to the orchard and corn.
-            var aisle = EnvironmentKit.Box("CentralAisle", navigation, new Vector3(0f, 0.01f, 5.75f), new Vector3(2.4f, 0.04f, 34.5f), m.Dirt, true, 0f, false);
+            // The central aisle from the entrance to the far end, and the head path of each band of rows.
+            var aisle = EnvironmentKit.Box("CentralAisle", navigation, new Vector3(0f, 0.01f, (FenceMinZ + FenceMaxZ) * 0.5f),
+                new Vector3(FarmDiseaseRows.AisleHalfWidth * 2f, 0.04f, FenceMaxZ - FenceMinZ - inset * 2f), m.Aisle, true, 0f, false);
             XRSceneWiring.MakeTeleportArea(aisle);
-            foreach (var side in new[] { -1f, 1f })
+            foreach (var (name, z) in FarmDiseaseRows.HeadPaths)
             {
-                var path = EnvironmentKit.Box(side < 0 ? "CrossPath_Orchard" : "CrossPath_Corn", navigation,
-                    new Vector3(side * 4.85f, 0.01f, 0f), new Vector3(7.3f, 0.04f, 1.6f), m.Dirt, true, 0f, false);
+                // Turned 90 degrees, so the dirt texture runs along the path as it does along the aisle.
+                var path = EnvironmentKit.Box(name, navigation, new Vector3(0f, 0.012f, z + FarmDiseaseRows.PathWidth * 0.5f),
+                    new Vector3(FarmDiseaseRows.PathWidth, 0.04f, FenceMaxX - FenceMinX - 2f), m.Dirt, true, 90f, false);
                 XRSceneWiring.MakeTeleportArea(path);
             }
         }
 
-        static readonly (string name, float x, float zStart, float zEnd)[] Beds =
-        {
-            ("Bed_Demo_Left", -2.3f, -6.6f, -2.6f),
-            ("Bed_Demo_Right", 2.3f, -6.6f, -2.6f),
-            ("Bed_L1", -2.3f, 1.5f, 9.5f), ("Bed_L2", -2.3f, 11f, 19f),
-            ("Bed_R1", 2.3f, 1.5f, 9.5f), ("Bed_R2", 2.3f, 11f, 19f),
-            ("Bed_LL1", -4.6f, 1.5f, 9.5f), ("Bed_LL2", -4.6f, 11f, 19f),
-            ("Bed_RR1", 4.6f, 1.5f, 9.5f), ("Bed_RR2", 4.6f, 11f, 19f),
-        };
-
-        static void BuildBeds(Transform environment, Materials m)
-        {
-            var group = EnvironmentKit.Group("RaisedBeds", environment).transform;
-            foreach (var (name, x, zStart, zEnd) in Beds)
-            {
-                var length = zEnd - zStart;
-                EnvironmentKit.Box(name, group, new Vector3(x, BedHeight * 0.5f, (zStart + zEnd) * 0.5f),
-                    new Vector3(1.2f, BedHeight, length), m.Soil, true);
-                // Drip irrigation line along the bed, as in the reference.
-                var pipe = EnvironmentKit.Cylinder($"{name}_DripLine", group, new Vector3(x + 0.42f, BedHeight + 0.015f, (zStart + zEnd) * 0.5f),
-                    0.012f, length, m.Pipe, false, false);
-                pipe.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
-            }
-        }
-
-        // ------------------------------------------------------------------ crops
-
-        static void PlantCrops(Transform crops, PlantCatalog catalog, Materials m)
-        {
-            PlantDefinition Plant(string id) => catalog.TryGet(id, out var plant) ? plant : null;
-            var random = new System.Random(42);
-
-            void Row(string id, float x, float zStart, float zEnd, float spacing, float stressedShare = 0f, bool stakes = false,
-                float yBase = BedHeight, float rowOffset = 0f)
-            {
-                var plant = Plant(id);
-                if (plant == null || plant.FarmPrefab == null)
-                    return;
-                var group = EnvironmentKit.Group($"{plant.DisplayName} {x:0.0}/{zStart:0}", crops).transform;
-                for (var z = zStart + spacing * 0.5f; z < zEnd; z += spacing)
-                {
-                    var position = new Vector3(x + rowOffset + ((float)random.NextDouble() - 0.5f) * 0.08f, yBase, z);
-                    var instance = EnvironmentKit.Place(plant.FarmPrefab, group, position, (float)random.NextDouble() * 360f,
-                        0.9f + (float)random.NextDouble() * 0.2f);
-                    // Every Farm plant already carries illustrative unhealthy foliage in its Farm albedo (leaves only),
-                    // so the old whole-material yellow tint (stressedShare) is no longer applied; it also tinted fruit.
-                    random.NextDouble(); // keeps the random sequence, and so the plant layout, unchanged
-                    if (stakes)
-                        EnvironmentKit.Cylinder("Stake", instance.transform.parent, position + new Vector3(0.12f, 0.55f, 0f), 0.012f, 1.1f, m.Stake, false);
-                }
-            }
-
-            Row("tomato", -2.3f, 1.5f, 9.5f, 0.75f, 0.35f, true);
-            Row("bell_pepper", -2.3f, 11f, 19f, 0.65f, 0.2f);
-            Row("strawberry", 2.3f, 1.5f, 9.5f, 0.45f, 0.2f, rowOffset: -0.25f);
-            Row("strawberry", 2.3f, 1.5f, 9.5f, 0.45f, 0.2f, rowOffset: 0.25f);
-            Row("potato", 2.3f, 11f, 19f, 0.55f, 0.3f);
-            Row("potato", -4.6f, 1.5f, 9.5f, 0.55f, 0.3f);
-            Row("tomato", -4.6f, 11f, 19f, 0.75f, 0.35f, true);
-            Row("tomato", 4.6f, 1.5f, 9.5f, 0.75f, 0.35f, true);
-            Row("bell_pepper", 4.6f, 11f, 19f, 0.65f, 0.2f);
-
-            // Corn block on the right, clear of the central route; the specimen stands at its front corner.
-            for (var x = 6.4f; x <= 9.4f; x += 1.0f)
-                Row("corn", x, 2.2f, 13.5f, 0.8f, 0f, false, 0f);
-
-            // Vines along the east fence, clear of the corn block and the central aisle.
-            Row("grape", 11.0f, 2.5f, 23f, 3.2f, 0.15f, false, 0f);
-
-            // Orchard edge on the left.
-            var orchard = new[]
-            {
-                ("apple", -8.0f, 8.0f), ("cherry", -8.0f, 14.0f), ("apple", -8.0f, 20.0f),
-                ("cherry", -10.5f, -1.5f), ("apple", -10.5f, 5.0f), ("cherry", -10.5f, 11.0f), ("apple", -10.5f, 17.0f),
-                ("peach", -10.5f, 23.0f), ("peach", -10.5f, -7.5f),
-            };
-            var trees = EnvironmentKit.Group("Orchard", crops).transform;
-            foreach (var (id, x, z) in orchard)
-            {
-                var plant = Plant(id);
-                if (plant != null && plant.FarmPrefab != null)
-                    EnvironmentKit.Place(plant.FarmPrefab, trees, new Vector3(x, 0f, z), (float)random.NextDouble() * 360f,
-                        0.9f + (float)random.NextDouble() * 0.2f);
-            }
-        }
-
-        // ------------------------------------------------------------------ specimens
-
-        static void BuildSpecimens(Transform parent, PlantCatalog catalog, Materials m, DiseaseGalleryController gallery)
-        {
-            // Position (base), and which side the aisle is on (+1: aisle towards +X).
-            var layout = new Dictionary<string, (Vector3 position, float aisleSide)>
-            {
-                ["tomato"] = (new Vector3(-2.3f, BedHeight, -5.8f), 1f),
-                ["bell_pepper"] = (new Vector3(-2.3f, BedHeight, -3.6f), 1f),
-                ["strawberry"] = (new Vector3(2.3f, BedHeight, -5.8f), -1f),
-                ["potato"] = (new Vector3(2.3f, BedHeight, -3.6f), -1f),
-                ["apple"] = (new Vector3(-8.0f, 0f, -4.5f), 1f),
-                ["cherry"] = (new Vector3(-8.0f, 0f, 2.2f), 1f),
-                ["peach"] = (new Vector3(-8.0f, 0f, -1.2f), 1f),
-                ["grape"] = (new Vector3(9.5f, 0f, -4.5f), -1f),
-                ["corn"] = (new Vector3(6.4f, 0f, 1.6f), -1f),
-            };
-
-            foreach (var plant in catalog.Plants)
-            {
-                if (!layout.TryGetValue(plant.PlantId, out var place))
-                {
-                    Debug.LogError($"[BTP] No farm specimen position for '{plant.PlantId}'.");
-                    continue;
-                }
-
-                BuildSpecimen(parent, plant, place.position, place.aisleSide, m, gallery);
-            }
-        }
-
-        static void BuildSpecimen(Transform parent, PlantDefinition plant, Vector3 position, float aisleSide, Materials m,
-            DiseaseGalleryController gallery)
-        {
-            var root = new GameObject($"Specimen_{plant.PlantId}");
-            root.transform.SetParent(parent, false);
-            root.transform.localPosition = position;
-
-            var model = plant.FarmPrefab != null
-                ? EnvironmentKit.Place(plant.FarmPrefab, root.transform, Vector3.zero, 20f)
-                : PlantSpawner.CreateSetupErrorMarker($"{plant.DisplayName} farm model missing", root.transform);
-
-            var bounds = LocalBounds(model, root.transform);
-            var radius = Mathf.Clamp(Mathf.Max(bounds.extents.x, bounds.extents.z), 0.3f, 1.6f);
-            var height = Mathf.Max(bounds.size.y, 0.3f);
-
-            // Selection volume: a trunk-to-canopy box, generous for small plants.
-            var collider = root.AddComponent<BoxCollider>();
-            collider.center = new Vector3(bounds.center.x, height * 0.5f, bounds.center.z);
-            collider.size = new Vector3(Mathf.Max(bounds.size.x, 0.5f), height, Mathf.Max(bounds.size.z, 0.5f));
-
-            var ringMesh = ProceduralMeshes.Ring($"SelectionRing_{radius:0.00}", radius, radius + 0.06f);
-            var ring = EnvironmentKit.MeshObject("SelectionRing", root.transform, ringMesh, m.Ring, new Vector3(0f, 0.02f, 0f),
-                Quaternion.identity, Vector3.one, false, false);
-            var selectionRing = ring.AddComponent<SelectionRing>();
-            selectionRing.Bind(ring.GetComponent<MeshRenderer>());
-
-            // Label sign on the aisle side.
-            var toAisle = new Vector3(aisleSide, 0f, 0f);
-            var signBase = toAisle * (radius + 0.35f) + Vector3.back * 0.1f;
-            var signGround = -position.y;
-            var post = EnvironmentKit.Box("SignPost", root.transform, signBase + new Vector3(0f, signGround + 0.45f, 0f), new Vector3(0.05f, 0.9f, 0.05f), m.Wood, false);
-            GameObjectUtility.SetStaticEditorFlags(post, 0);
-            var signPosition = signBase + new Vector3(0f, signGround + 0.95f, 0f);
-            var sign = UIFactory.WorldCanvas("NameSign", root.transform, new Vector2(420f, 170f), signPosition,
-                UIFactory.Facing(position + signPosition, SpawnHead + new Vector3(0f, 0f, 2f), 12f));
-            var signRect = (RectTransform)sign.transform;
-            UIFactory.Panel(signRect, new Color(0.24f, 0.17f, 0.10f, 0.95f), false);
-            UIFactory.Stretch(UIFactory.Text("Name", signRect, plant.DisplayName, 46f, Color.white, TextAlignmentOptions.Top, FontStyles.Bold).rectTransform, 14f);
-            UIFactory.Stretch(UIFactory.Text("Scientific", signRect, plant.ScientificName, 26f, new Color(0.93f, 0.88f, 0.8f), TextAlignmentOptions.Bottom, FontStyles.Italic).rectTransform, 16f);
-
-            // Name card shown while this plant is selected.
-            var cardHeight = Mathf.Min(height + 0.35f, 2.1f);
-            var cardPosition = toAisle * Mathf.Min(radius, 0.6f) + new Vector3(0f, cardHeight, 0f);
-            var card = UIFactory.WorldCanvas("NameCard", root.transform, new Vector2(560f, 200f), cardPosition, Quaternion.identity);
-            card.gameObject.AddComponent<FaceCamera>();
-            var cardRect = (RectTransform)card.transform;
-            var cardContent = UIFactory.Node("Content", cardRect);
-            UIFactory.Stretch(cardContent);
-            UIFactory.Panel(cardContent);
-            var title = UIFactory.Text("Title", cardContent, plant.DisplayName, 50f, Color.white, TextAlignmentOptions.Top, FontStyles.Bold);
-            UIFactory.Stretch(title.rectTransform, 18f);
-            var subtitle = UIFactory.Text("Subtitle", cardContent, "Selected", 26f, UIPalette.Cyan, TextAlignmentOptions.Bottom);
-            UIFactory.Stretch(subtitle.rectTransform, 20f);
-            var nameCard = card.gameObject.AddComponent<PlantNameCard>();
-            nameCard.Bind(cardContent.gameObject, title, subtitle);
-            cardContent.gameObject.SetActive(false);
-
-            XRSceneWiring.MakeSelectableSpecimen(root, plant.PlantId, selectionRing, nameCard, gallery);
-        }
+        // ------------------------------------------------------------------ gallery
 
         /// <summary>The disease gallery: one controller with a pooled ring of cards (see DiseaseGalleryController).</summary>
         static DiseaseGalleryController BuildDiseaseGallery()
@@ -313,35 +173,143 @@ namespace BTP.Editor
             return controller;
         }
 
-        static Bounds LocalBounds(GameObject model, Transform space)
+        // ------------------------------------------------------------------ six-week timeline
+
+        /// <summary>
+        /// One driver for every crop's BTP/Farm Recovery materials (near meshes and billboards, from the plant's Farm
+        /// prefab and all of its disease variants, so every disease row of a crop follows that crop's week).
+        /// At run time it swaps them for per-crop copies on every renderer in the scene.
+        /// </summary>
+        static void BuildCropRecovery(PlantCatalog catalog, DiseaseVariantCatalog variants, TomatoRecoveryData recovery)
         {
-            var renderers = model.GetComponentsInChildren<Renderer>();
-            var bounds = new Bounds(Vector3.zero, Vector3.zero);
-            var first = true;
-            foreach (var renderer in renderers)
+            var crops = new List<FarmCropRecovery.Crop>();
+            // Every crop with Farm rows: the nine PlantVillage plants and the ten field and tropical crops.
+            foreach (var plant in catalog.AllPlants)
             {
-                if (renderer.gameObject.name == "Billboard")
+                if (plant == null || plant.FarmPrefab == null)
                     continue;
-                var b = renderer.bounds;
-                var min = space.InverseTransformPoint(b.min);
-                var max = space.InverseTransformPoint(b.max);
-                var local = new Bounds((min + max) * 0.5f, max - min);
-                if (first)
-                    bounds = local;
-                else
-                    bounds.Encapsulate(local);
-                first = false;
+                var crop = new FarmCropRecovery.Crop { plantId = plant.PlantId, materials = FarmRecoveryMaterials(plant.FarmPrefab) };
+                foreach (var entry in variants.Entries)
+                {
+                    if (entry.plantId != plant.PlantId || entry.farmPrefab == null)
+                        continue;
+                    foreach (var material in FarmRecoveryMaterials(entry.farmPrefab))
+                    {
+                        if (!crop.materials.Contains(material))
+                            crop.materials.Add(material);
+                    }
+                }
+
+                if (crop.materials.Count == 0)
+                    Debug.LogError($"[BTP] {plant.DisplayName} farm prefab has no Farm Recovery materials; run Build Plant Assets.");
+                crops.Add(crop);
             }
 
-            return bounds;
+            var driver = new GameObject("FarmCropRecovery", typeof(FarmCropRecovery)).GetComponent<FarmCropRecovery>();
+            driver.Bind(recovery, crops);
         }
 
-        // ------------------------------------------------------------------ fence, tower, scenery
+        /// <summary>A Farm prefab's BTP/Farm Recovery materials (every LOD), the ones the timeline drives.</summary>
+        internal static List<Material> FarmRecoveryMaterials(GameObject farmPrefab)
+        {
+            var materials = new List<Material>();
+            foreach (var renderer in farmPrefab.GetComponentsInChildren<Renderer>(true))
+            {
+                foreach (var material in renderer.sharedMaterials)
+                {
+                    if (material != null && material.shader != null && material.shader.name == MaterialFactory.FarmRecoveryShader &&
+                        !materials.Contains(material))
+                        materials.Add(material);
+                }
+            }
+
+            return materials;
+        }
+
+        /// <summary>
+        /// The six-week console that opens with a plant's disease ring: a 1000 x 340 mm world-space canvas with the
+        /// same controls as the Lab bar, a status line, three small metric bars and the prototype disclaimer.
+        /// </summary>
+        static FarmTimelineConsole BuildTimelineConsole(TomatoRecoveryData recovery)
+        {
+            var host = new GameObject("FarmTimeline");
+            var canvas = UIFactory.WorldCanvas("TimelineConsole", host.transform, new Vector2(1000f, 340f), Vector3.zero, Quaternion.identity);
+            var rect = (RectTransform)canvas.transform;
+            UIFactory.Panel(rect);
+            canvas.gameObject.AddComponent<FarmConsolePressGuard>();
+
+            var title = UIFactory.Text("Title", rect, "Six-week timeline", 26f, UIPalette.TextSecondary, TextAlignmentOptions.MidlineLeft);
+            UIFactory.Place(title.rectTransform, 22f, 6f, 600f, 40f);
+            // Centred over the Week 3 button, on one line.
+            var treatmentX = 100f + (TomatoRecoveryData.TreatmentWeek - 1) * 113f + 52f - 160f;
+            var marker = UIFactory.Text("TreatmentMarker", rect, TomatoRecoveryData.TreatmentCaption, 24f, UIPalette.Cyan, TextAlignmentOptions.Bottom);
+            marker.textWrappingMode = TextWrappingModes.NoWrap;
+            UIFactory.Place(marker.rectTransform, treatmentX, 48f, 320f, 38f);
+
+            Button ConsoleButton(string name, string text, float size, float x, float width, out SelectedStateVisual visual)
+            {
+                var button = UIFactory.Button(name, rect, text, size, out visual);
+                UIFactory.Place((RectTransform)button.transform, x, 90f, width, 96f);
+                button.gameObject.AddComponent<FarmConsolePressGuard>();
+                return button;
+            }
+
+            var previous = ConsoleButton("Previous", "<", 52f, 18f, 70f, out _);
+            var weeks = new List<Button>();
+            var visuals = new List<SelectedStateVisual>();
+            for (var i = 0; i < recovery.WeekCount; i++)
+            {
+                weeks.Add(ConsoleButton($"Week{i + 1}", $"Week {i + 1}", 26f, 100f + i * 113f, 104f, out var visual));
+                visuals.Add(visual);
+            }
+
+            var next = ConsoleButton("Next", ">", 52f, 782f, 70f, out _);
+            var reset = ConsoleButton("Reset", "Reset", 28f, 866f, 116f, out _);
+
+            var status = UIFactory.Text("Status", rect, "Week 1 of 6", 26f, Color.white, TextAlignmentOptions.MidlineLeft, FontStyles.Bold);
+            UIFactory.Place(status.rectTransform, 22f, 194f, 960f, 38f);
+            var leaf = MiniMetric("LeafHealth", rect, "Leaf", true, 22f, 236f, 310f);
+            var chlorophyll = MiniMetric("Chlorophyll", rect, "Chlorophyll", true, 345f, 236f, 310f);
+            var severity = MiniMetric("Severity", rect, "Severity", false, 668f, 236f, 310f);
+
+            var disclaimer = UIFactory.Text("Disclaimer", rect, TomatoRecoveryData.Disclaimer, 22f, UIPalette.Warning,
+                TextAlignmentOptions.MidlineLeft, FontStyles.Italic);
+            UIFactory.Place(disclaimer.rectTransform, 22f, 292f, 960f, 36f);
+
+            var console = host.AddComponent<FarmTimelineConsole>();
+            console.Bind(recovery, canvas.gameObject, title, status, previous, next, reset, weeks, visuals, leaf, chlorophyll, severity);
+            canvas.gameObject.SetActive(false);
+            return console;
+        }
+
+        /// <summary>A compact metric row for the Farm console: label and bar on one 44 mm line (the values are in the status line).</summary>
+        static MetricBar MiniMetric(string name, Transform parent, string label, bool higherIsBetter, float x, float y, float width)
+        {
+            var row = UIFactory.Place(UIFactory.Node(name, parent), x, y, width, 44f);
+            UIFactory.Place(UIFactory.Text("Name", row, label, 22f, UIPalette.TextPrimary, TextAlignmentOptions.MidlineLeft).rectTransform,
+                0f, 0f, 140f, 44f);
+            var track = UIFactory.RoundedImage("Track", row, UIPalette.TrackBackground, ProceduralTextures.RoundedFill);
+            track.raycastTarget = false;
+            track.pixelsPerUnitMultiplier = 4f;
+            UIFactory.Place(track.rectTransform, 146f, 14f, width - 166f, 16f);
+            var fill = UIFactory.RoundedImage("Fill", track.transform, UIPalette.HealthGood, ProceduralTextures.RoundedFill);
+            fill.raycastTarget = false;
+            fill.pixelsPerUnitMultiplier = 4f;
+            var fillRect = fill.rectTransform;
+            fillRect.anchorMin = Vector2.zero;
+            fillRect.anchorMax = new Vector2(0.5f, 1f);
+            fillRect.offsetMin = fillRect.offsetMax = Vector2.zero;
+            var bar = row.gameObject.AddComponent<MetricBar>();
+            bar.Bind(fillRect, fill, null, higherIsBetter);
+            return bar;
+        }
+
+        // ------------------------------------------------------------------ fence
 
         static void BuildFence(Transform environment, Materials m)
         {
             var fence = EnvironmentKit.Group("TimberFence", environment).transform;
-            const float minX = -12f, maxX = 12f, minZ = -12f, maxZ = 25f;
+            const float minX = FenceMinX, maxX = FenceMaxX, minZ = FenceMinZ, maxZ = FenceMaxZ;
             void Side(Vector3 from, Vector3 to)
             {
                 var length = Vector3.Distance(from, to);
@@ -363,58 +331,6 @@ namespace BTP.Editor
             Side(new Vector3(minX, 0f, maxZ), new Vector3(minX, 0f, minZ));
         }
 
-        static void BuildWaterTower(Transform environment, Materials m)
-        {
-            var tower = EnvironmentKit.Group("WaterTower", environment).transform;
-            tower.localPosition = new Vector3(15.5f, 0f, 21.5f);
-            foreach (var x in new[] { -1.3f, 1.3f })
-            foreach (var z in new[] { -1.3f, 1.3f })
-                EnvironmentKit.Box("Leg", tower, new Vector3(x, 3.5f, z), new Vector3(0.25f, 7f, 0.25f), m.DarkWood, false);
-            foreach (var y in new[] { 2.2f, 4.6f })
-            {
-                EnvironmentKit.Box("Brace", tower, new Vector3(0f, y, -1.3f), new Vector3(2.7f, 0.15f, 0.12f), m.DarkWood, false);
-                EnvironmentKit.Box("Brace", tower, new Vector3(0f, y, 1.3f), new Vector3(2.7f, 0.15f, 0.12f), m.DarkWood, false);
-                EnvironmentKit.Box("Brace", tower, new Vector3(-1.3f, y, 0f), new Vector3(0.12f, 0.15f, 2.7f), m.DarkWood, false);
-                EnvironmentKit.Box("Brace", tower, new Vector3(1.3f, y, 0f), new Vector3(0.12f, 0.15f, 2.7f), m.DarkWood, false);
-            }
-
-            EnvironmentKit.Box("Platform", tower, new Vector3(0f, 7.05f, 0f), new Vector3(3.3f, 0.12f, 3.3f), m.DarkWood, false);
-            EnvironmentKit.Cylinder("Tank", tower, new Vector3(0f, 8.35f, 0f), 1.6f, 2.5f, m.Wood, false);
-            EnvironmentKit.MeshObject("Roof", tower, ProceduralMeshes.Cone("WaterTowerRoof", 1.85f, 1.1f), m.DarkWood,
-                new Vector3(0f, 9.6f, 0f), Quaternion.identity, Vector3.one, true);
-        }
-
-        static void BuildScenery(Transform environment, Materials m, PlantCatalog catalog)
-        {
-            EnvironmentKit.MeshObject("Mountains", environment,
-                ProceduralMeshes.MountainRing("FarmMountainsTall", 210f, 330f, 45f, 125f, 5), m.Mountain,
-                Vector3.zero, Quaternion.identity, Vector3.one);
-
-            var rocks = EnvironmentKit.Group("Boulders", environment).transform;
-            foreach (var (position, scale) in new[]
-                     {
-                         (new Vector3(12.8f, 0.3f, 20.5f), new Vector3(2.2f, 1.5f, 1.8f)),
-                         (new Vector3(-12.9f, 0.2f, -9f), new Vector3(1.4f, 0.9f, 1.2f)),
-                         (new Vector3(13f, 0.15f, -4f), new Vector3(0.9f, 0.6f, 1.1f)),
-                     })
-                EnvironmentKit.Primitive(PrimitiveType.Sphere, "Boulder", rocks, position, scale, m.Rock, false, Quaternion.Euler(0f, position.x * 10f, 0f), true);
-
-            // Distant trees outside the fence: farm prefabs, so they draw as billboards.
-            var background = EnvironmentKit.Group("BackgroundTrees", environment).transform;
-            var random = new System.Random(7);
-            var treeIds = new[] { "cherry", "apple" };
-            for (var i = 0; i < 22; i++)
-            {
-                var angle = (float)random.NextDouble() * Mathf.PI * 2f;
-                var distance = 26f + (float)random.NextDouble() * 30f;
-                var position = new Vector3(Mathf.Sin(angle) * distance, 0f, 6f + Mathf.Cos(angle) * distance);
-                if (position.z < -15f && Mathf.Abs(position.x) < 10f)
-                    continue; // keep the view behind the spawn point open
-                if (catalog.TryGet(treeIds[i % 2], out var tree) && tree.FarmPrefab != null)
-                    EnvironmentKit.Place(tree.FarmPrefab, background, position, (float)random.NextDouble() * 360f, 1.3f + (float)random.NextDouble() * 0.5f);
-            }
-        }
-
         // ------------------------------------------------------------------ notice board and navigation
 
         static void BuildNoticeBoard(Transform board, Materials m)
@@ -432,11 +348,11 @@ namespace BTP.Editor
             var rect = (RectTransform)canvas.transform;
             UIFactory.Panel(rect);
             UIFactory.Place(UIFactory.Text("Title", rect, "Plant Disease Lab", 64f, Color.white, TextAlignmentOptions.TopLeft, FontStyles.Bold).rectTransform, 50f, 40f, 1300f, 80f);
-            UIFactory.Place(UIFactory.Text("Intro", rect, "Pick a plant in the field, then study it up close in the lab.", 32f, UIPalette.TextSecondary).rectTransform, 50f, 125f, 1300f, 50f);
+            UIFactory.Place(UIFactory.Text("Intro", rect, "Every row shows one disease. Pick a row, then study its leaf in the lab.", 32f, UIPalette.TextSecondary).rectTransform, 50f, 125f, 1300f, 50f);
             UIFactory.Place(UIFactory.Text("Steps", rect,
-                "1  Point at a labelled plant and pull the trigger, or pinch, to select it.\n" +
-                "2  Press <b>Enter Lab</b>. With no plant selected the lab opens with Tomato.\n" +
-                "3  Within 4 m, selecting a plant also shows PlantVillage sample leaves of its diseases.",
+                "1  Seven bands of rows, from tomatoes here to the mango and orange orchard at the far end. Each row's sign names its disease.\n" +
+                "2  Point at any plant in a row and pull the trigger, or pinch, to select it and its disease.\n" +
+                "3  Press <b>Enter Lab</b> to study that disease's leaf. Up close, selecting also shows sample leaves.",
                 30f, Color.white).rectTransform, 50f, 200f, 1300f, 165f);
 
             var readout = UIFactory.Text("Selection", rect, "", 36f, UIPalette.Cyan);
@@ -465,12 +381,11 @@ namespace BTP.Editor
             spawn.transform.SetPositionAndRotation(SpawnPosition, Quaternion.identity);
             EnvironmentKit.PreviewCamera(spawn.transform);
 
-            // Viewing points; the aisle and cross paths are teleportable everywhere else.
+            // Viewing points on the head paths; the whole field floor is teleportable everywhere else.
             XRSceneWiring.CreateTeleportAnchor(navigation, "Viewpoint_NoticeBoard", BoardViewpoint,
                 UIFactory.Facing(BoardPosition, BoardViewpoint).eulerAngles.y);
-            XRSceneWiring.CreateTeleportAnchor(navigation, "Viewpoint_Orchard", new Vector3(-6.2f, 0f, 0f), -90f);
-            XRSceneWiring.CreateTeleportAnchor(navigation, "Viewpoint_Corn", new Vector3(5.2f, 0f, 0f), 90f);
-            XRSceneWiring.CreateTeleportAnchor(navigation, "Viewpoint_FieldEnd", new Vector3(0f, 0f, 21f), 180f);
+            foreach (var (name, position, yaw) in FarmDiseaseRows.Viewpoints)
+                XRSceneWiring.CreateTeleportAnchor(navigation, name, position, yaw);
         }
     }
 }
