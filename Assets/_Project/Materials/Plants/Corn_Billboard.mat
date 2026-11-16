@@ -21,19 +21,18 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Corn_Billboard
-  m_Shader: {fileID: 4800000, guid: 8d2bb70cbf9db8d4da26e15b26e74248, type: 3}
+  m_Shader: {fileID: 4800000, guid: f297f8a5e954e524ca0afde0da3f4b2c, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ALPHATEST_ON
+  m_InvalidKeywords:
   - _SPECULAR_COLOR
-  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 1
-  m_CustomRenderQueue: 2450
-  stringTagMap:
-    RenderType: TransparentCutout
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
   m_LockedProperties: 
@@ -41,11 +40,15 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 77442d1a4da46d343a29f7273200b970, type: 3}
+        m_Texture: {fileID: 2800000, guid: ace2be02938b60f4b974508974320c0a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DiseasedMap:
+        m_Texture: {fileID: 2800000, guid: 77442d1a4da46d343a29f7273200b970, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
@@ -54,6 +57,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: 77442d1a4da46d343a29f7273200b970, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RecoveryMask:
+        m_Texture: {fileID: 2800000, guid: 7f90666bb990ed14b86166ab5a0e318d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
@@ -82,9 +89,11 @@ Material:
     - _BumpScale: 1
     - _Cull: 0
     - _Cutoff: 0.5
+    - _DiseaseAmount: 1
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _GlossinessSource: 0
+    - _MaskScale: 4
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Shininess: 0

@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: sugarcane_red_rot
+  m_Shader: {fileID: 4800000, guid: 524a7e724cffc6a4da315a687a2a6dc2, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 2800000, guid: 48afc681573c3da4da106fef17a85590, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 2800000, guid: b0c254d67463f674d974f91a872c54e8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _HealthyMap:
+        m_Texture: {fileID: 2800000, guid: f064c5bbe9b365e47bd52b3d6694f0d4, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RecoveryMap:
+        m_Texture: {fileID: 2800000, guid: a2138fad24a444645b7563bd417ed66b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RoughnessMap:
+        m_Texture: {fileID: 2800000, guid: 3a7a1b24f390c5044b00d5022e2ef75c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _BaselineFrom: 0
+    - _BaselineRecovery: 0
+    - _BumpScale: 0.65
+    - _GreenGain: 0
+    - _Recovery: 0
+    - _RecoveryFrom: 0
+    - _SplitEnabled: 1
+    - _SpotFade: 0
+    - _Transmission: 0.12
+    - _TreatGlow: 0
+    - _VeinGain: 0
+    - _Worsen: 0
+    - _YellowFade: 0
+    m_Colors:
+    - _SplitPlane: {r: 1, g: 0, b: 0, a: 0}
+    - _TransitionParams: {r: 1, g: 0, b: 1, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1

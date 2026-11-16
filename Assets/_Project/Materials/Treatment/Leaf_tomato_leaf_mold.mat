@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Leaf_tomato_leaf_mold
+  m_Shader: {fileID: 4800000, guid: 524a7e724cffc6a4da315a687a2a6dc2, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 2800000, guid: 01193fca39ea5904dbccb5963c24573d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 2800000, guid: 850ce49eda4e9484d8a6c4af57cb797d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _HealthyMap:
+        m_Texture: {fileID: 2800000, guid: 4b6741f5a1530234c85884416bdbf422, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RecoveryMap:
+        m_Texture: {fileID: 2800000, guid: cb1e73b50396aa94f86451df9a9a7791, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RoughnessMap:
+        m_Texture: {fileID: 2800000, guid: 5ad8b81c259f4d1439d6b7f5504df5e8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _BaselineFrom: 0
+    - _BaselineRecovery: 0
+    - _BumpScale: 0.65
+    - _GreenGain: 0
+    - _Recovery: 0
+    - _RecoveryFrom: 0
+    - _SplitEnabled: 0
+    - _SpotFade: 0
+    - _Transmission: 0.12
+    - _TreatGlow: 0
+    - _VeinGain: 0
+    - _Worsen: 0
+    - _YellowFade: 0
+    m_Colors:
+    - _HealthyTint: {r: 0.19999996, g: 0.47999996, b: 0.054999977, a: 1}
+    - _SplitPlane: {r: 1, g: 0, b: 0, a: 0}
+    - _TransitionParams: {r: 1, g: 0, b: 1, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
+--- !u!114 &3752404921379526899
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Editor::UnityEditor.Rendering.Universal.AssetVersion
+  version: 10
