@@ -56,7 +56,8 @@ namespace BTP.Tests
             if (catalog == null)
                 Assert.Ignore("DiseaseGalleryCatalog.asset not built yet: run BTP > Setup > 2 - Build Plant Assets.");
 
-            Assert.That(catalog.TotalCount, Is.EqualTo(24));
+            // 24 Farm classes (PlantVillage photos) + 34 Lab-only reference images for the Lab card.
+            Assert.That(catalog.TotalCount, Is.EqualTo(58));
             foreach (var (plant, count) in Expected)
             {
                 var diseases = catalog.GetDiseases(plant);

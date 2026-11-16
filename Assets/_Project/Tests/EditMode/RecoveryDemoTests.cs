@@ -19,7 +19,7 @@ namespace BTP.Tests
         [TestCase(3, 65, 70, 25)]
         [TestCase(4, 75, 80, 18)]
         [TestCase(5, 88, 90, 8)]
-        [TestCase(6, 96, 96, 2)]
+        [TestCase(6, 100, 100, 0)]
         public void WeeksMatchTheBrief(int week, int leafHealth, int chlorophyll, int severity)
         {
             var row = data.GetWeek(week);
@@ -35,7 +35,7 @@ namespace BTP.Tests
             // One shared, deterministic example table: Tomato's values are the brief's, and no plant has its own.
             Assert.That(data.WeekCount, Is.EqualTo(6));
             Assert.That(data.GetWeek(1).diseaseSeverity, Is.EqualTo(85));
-            Assert.That(data.GetWeek(6).leafHealth, Is.EqualTo(96));
+            Assert.That(data.GetWeek(6).leafHealth, Is.EqualTo(100));
             foreach (var plant in new[] { "apple", "bell_pepper", "cherry", "corn", "grape", "peach", "potato", "strawberry", "tomato" })
                 Assert.That(BTP.Plants.DiseaseClasses.For(plant).Count, Is.GreaterThan(0), plant);
         }

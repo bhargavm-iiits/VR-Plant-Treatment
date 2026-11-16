@@ -3,8 +3,11 @@
     "rootNamespace": "BTP.Tests",
     "references": [
         "BTP.Runtime",
+        "Unity.XR.Interaction.Toolkit",
+        "UnityEngine.UI",
         "UnityEngine.TestRunner",
-        "UnityEditor.TestRunner"
+        "UnityEditor.TestRunner",
+        "Gilzoide.SqliteNet"
     ],
     "includePlatforms": [
         "Editor"
