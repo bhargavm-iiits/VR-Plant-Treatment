@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2b0cc17509af1c41a7aae1e17ea3e9c, type: 3}
+  m_Name: squash
+  m_EditorClassIdentifier: BTP.Runtime::BTP.Plants.PlantDefinition
+  plantId: squash
+  displayName: Squash
+  scientificName: Cucurbita pepo
+  family: Cucurbitaceae
+  plantType: Annual vine vegetable
+  summary: Summer squash and pumpkin relatives with large lobed leaves on hollow
+    petioles.
+  farmPrefab: {fileID: 8116721813648404088, guid: 69c3cdb4d7c65204395c6c0b7f66afcb, type: 3}
+  labPrefab: {fileID: 7127091814148178380, guid: d41aa3046f1d641499280dd6e77f985b, type: 3}
+  hasRecoveryDemo: 1

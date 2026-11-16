@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2b0cc17509af1c41a7aae1e17ea3e9c, type: 3}
+  m_Name: chilli
+  m_EditorClassIdentifier: BTP.Runtime::BTP.Plants.PlantDefinition
+  plantId: chilli
+  displayName: Chilli
+  scientificName: Capsicum annuum
+  family: Solanaceae
+  plantType: Warm-season fruiting vegetable
+  summary: Hot pepper grown for its pungent fruit. Whitefly-borne leaf curl virus
+    is a major constraint in South Asia.
+  farmPrefab: {fileID: 2227986114005816450, guid: 6c97b7a3c224e744d9153bf8ac30c477, type: 3}
+  labPrefab: {fileID: 5513886431027153070, guid: 3d07d9f5790e1384eb59d4a02c244180, type: 3}
+  hasRecoveryDemo: 1

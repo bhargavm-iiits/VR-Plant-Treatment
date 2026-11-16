@@ -9,6 +9,10 @@
 #if defined(LOD_FADE_CROSSFADE)
     #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/LODCrossFade.hlsl"
 #endif
+#if defined(_LEAF_WIND)
+    // BTP/Farm Recovery only (BTP/Leaf Disease never defines it).
+    #include "LeafWind.hlsl"
+#endif
 
 struct Attributes
 {
@@ -16,7 +20,7 @@ struct Attributes
     float3 normalOS      : NORMAL;
     float4 tangentOS     : TANGENT;
     float2 texcoord      : TEXCOORD0;
-    float2 staticLightmapUV    : TEXCOORD1;
+    float2 staticLightmapUV    : TEXCOORD1;    // with _LEAF_WIND: the wind UV (leaf index + 1, base flag); wind meshes are never lightmapped
     float2 dynamicLightmapUV    : TEXCOORD2;
     half4 color          : COLOR;
     UNITY_VERTEX_INPUT_INSTANCE_ID
@@ -147,6 +151,11 @@ Varyings LeafDiseasePassVertex(Attributes input)
     UNITY_SETUP_INSTANCE_ID(input);
     UNITY_TRANSFER_INSTANCE_ID(input, output);
     UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
+
+#if defined(_LEAF_WIND)
+    // After the instance setup: the per-tree phase reads UNITY_MATRIX_M.
+    ApplyLeafWind(input.positionOS.xyz, input.normalOS, input.tangentOS, input.staticLightmapUV);
+#endif
 
     VertexPositionInputs vertexInput = GetVertexPositionInputs(input.positionOS.xyz);
     VertexNormalInputs normalInput = GetVertexNormalInputs(input.normalOS, input.tangentOS);

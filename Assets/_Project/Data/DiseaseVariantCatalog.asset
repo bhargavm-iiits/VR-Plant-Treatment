@@ -1,0 +1,247 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fccaae0cfa9ea94eb3451bf3aa2b3ef, type: 3}
+  m_Name: DiseaseVariantCatalog
+  m_EditorClassIdentifier: BTP.Runtime::BTP.Plants.DiseaseVariantCatalog
+  entries:
+  - plantId: apple
+    diseaseId: apple_scab
+    farmPrefab: {fileID: 2252055590100533229, guid: 501c4afa9f11a2742860ee10bb535243, type: 3}
+    leafMaterial: {fileID: 2100000, guid: f817f38222e07f349b386a961409b508, type: 2}
+  - plantId: apple
+    diseaseId: black_rot
+    farmPrefab: {fileID: 305962644859553088, guid: 441fd03d6871d3c459de85b39f37b0ee, type: 3}
+    leafMaterial: {fileID: 2100000, guid: dffd6b2de1ee44446bce8f5d9ae1f978, type: 2}
+  - plantId: apple
+    diseaseId: cedar_apple_rust
+    farmPrefab: {fileID: 4725219789913861128, guid: 7ad17da5f3ae15c47b42518d452e575b, type: 3}
+    leafMaterial: {fileID: 2100000, guid: 97a272397f0b2b04689c1a82808fdd19, type: 2}
+  - plantId: bell_pepper
+    diseaseId: bacterial_spot
+    farmPrefab: {fileID: 2293242418428393518, guid: c674fa4364d7fa44c87d988656a4cc31, type: 3}
+    leafMaterial: {fileID: 2100000, guid: 86699462fd484a34fb0d8ac9ad4d39fe, type: 2}
+  - plantId: cherry
+    diseaseId: powdery_mildew
+    farmPrefab: {fileID: 4830207457134340496, guid: 9a95923651d130f4bb3040b7aa10a4c5, type: 3}
+    leafMaterial: {fileID: 2100000, guid: 2810a34387820fc46b32af22685f710a, type: 2}
+  - plantId: corn
+    diseaseId: gray_leaf_spot
+    farmPrefab: {fileID: 382255570840356004, guid: 9b36478d6cb3a3647854a7bc39b038aa, type: 3}
+    leafMaterial: {fileID: 2100000, guid: 6e0a185b17cbb1544959d54bbbe57345, type: 2}
+  - plantId: corn
+    diseaseId: common_rust
+    farmPrefab: {fileID: 8406337693473950084, guid: 54f25d07fda463049a507dfca073b04f, type: 3}
+    leafMaterial: {fileID: 2100000, guid: 8324b7c719225ad4198cf315f2cde6a5, type: 2}
+  - plantId: corn
+    diseaseId: northern_leaf_blight
+    farmPrefab: {fileID: 7106460377029458852, guid: 9eaebf27c440aea489f8e215ed3a68e3, type: 3}
+    leafMaterial: {fileID: 2100000, guid: 39289342223231a44b91493e3d1d6715, type: 2}
+  - plantId: grape
+    diseaseId: black_rot
+    farmPrefab: {fileID: 2630214110409484279, guid: 6bb74328942a5dc4984514c5c4acb787, type: 3}
+    leafMaterial: {fileID: 2100000, guid: af0fc5bb88c59f542b5146059a14354d, type: 2}
+  - plantId: grape
+    diseaseId: esca
+    farmPrefab: {fileID: 7621282875440308752, guid: 5882c7d75407c4347938b90bd5460cb4, type: 3}
+    leafMaterial: {fileID: 2100000, guid: d90b7378058bf274891dad99ffc91801, type: 2}
+  - plantId: grape
+    diseaseId: leaf_blight
+    farmPrefab: {fileID: 3972123458878092256, guid: 70913e3548c2c9044bb5cc2830d653b8, type: 3}
+    leafMaterial: {fileID: 2100000, guid: f80aecf3ad9a68d40a6ca45c46ba290a, type: 2}
+  - plantId: peach
+    diseaseId: bacterial_spot
+    farmPrefab: {fileID: 8457665628225328965, guid: 71c709b3fc7cd4247b312b1cdbb2be5f, type: 3}
+    leafMaterial: {fileID: 2100000, guid: ee155dc31f911774592393821101e26c, type: 2}
+  - plantId: potato
+    diseaseId: early_blight
+    farmPrefab: {fileID: 3718251836486556262, guid: c9a31fa8541725f4b9a149470accdf54, type: 3}
+    leafMaterial: {fileID: 2100000, guid: 605a05dd51ac671458e8b71af4c70942, type: 2}
+  - plantId: potato
+    diseaseId: late_blight
+    farmPrefab: {fileID: 2860183226864979936, guid: e5de720b304daec40b253ef8b86f898f, type: 3}
+    leafMaterial: {fileID: 2100000, guid: 5298338ff90529d4abb2046314a93f7a, type: 2}
+  - plantId: strawberry
+    diseaseId: leaf_scorch
+    farmPrefab: {fileID: 8775643148360418984, guid: 9d777491f627bbc41ad651f28aeea1c7, type: 3}
+    leafMaterial: {fileID: 2100000, guid: d3aa25c802c1aac44a3ab1d2bb806fc6, type: 2}
+  - plantId: tomato
+    diseaseId: bacterial_spot
+    farmPrefab: {fileID: 5261136285009691821, guid: 669fab89ca0e83341868e1c99eb43521, type: 3}
+    leafMaterial: {fileID: 2100000, guid: ebd9ced8d018aba48b13ed18fe0f6d63, type: 2}
+  - plantId: tomato
+    diseaseId: early_blight
+    farmPrefab: {fileID: 1768307953125316461, guid: bc4e2377c957b0545807c11209239e10, type: 3}
+    leafMaterial: {fileID: 2100000, guid: 1a84a843361f9f54e968b009a59936d7, type: 2}
+  - plantId: tomato
+    diseaseId: late_blight
+    farmPrefab: {fileID: 4308273206750817012, guid: 0c3bf2685de900e4589662c420773410, type: 3}
+    leafMaterial: {fileID: 2100000, guid: 39c5cc8691214ba48ba98bd824af024c, type: 2}
+  - plantId: tomato
+    diseaseId: leaf_mold
+    farmPrefab: {fileID: 1849484014620651024, guid: ef661741fc738aa43b650c9d7fc22f4b, type: 3}
+    leafMaterial: {fileID: 2100000, guid: bef0f953ab2aba347bf2de677f3fca6d, type: 2}
+  - plantId: tomato
+    diseaseId: septoria_leaf_spot
+    farmPrefab: {fileID: 8524565569813312661, guid: e7311e5819bb96f41a06cea52ed8145a, type: 3}
+    leafMaterial: {fileID: 2100000, guid: a0d8778f17ea84a43bbcfc176bf6e663, type: 2}
+  - plantId: tomato
+    diseaseId: spider_mites
+    farmPrefab: {fileID: 327543125245116595, guid: 9adade66c096a334db3cfb9dce822e77, type: 3}
+    leafMaterial: {fileID: 2100000, guid: 83c064dfbf48da142af40b882e03cee2, type: 2}
+  - plantId: tomato
+    diseaseId: target_spot
+    farmPrefab: {fileID: 6994697466670421352, guid: 23299b923a6208c40975cb11ee2ec435, type: 3}
+    leafMaterial: {fileID: 2100000, guid: 0b0713ad9d725be419898617e02575c4, type: 2}
+  - plantId: tomato
+    diseaseId: yellow_leaf_curl_virus
+    farmPrefab: {fileID: 3864491959738978730, guid: 792ffa1f9e8ac2e49aabee5dff3c7c32, type: 3}
+    leafMaterial: {fileID: 2100000, guid: 60aa627d55274a849abc68608878faa1, type: 2}
+  - plantId: tomato
+    diseaseId: mosaic_virus
+    farmPrefab: {fileID: 135563126002047379, guid: 7f0df859ed7ab8b4abb1e473a5666fc8, type: 3}
+    leafMaterial: {fileID: 2100000, guid: 88fef6a236926354e87bc901b0170146, type: 2}
+  - plantId: blueberry
+    diseaseId: rust
+    farmPrefab: {fileID: 5130704195703820797, guid: 022f9a50fa7586441a39f6f34c215138, type: 3}
+    leafMaterial: {fileID: 2100000, guid: c2cf7d674c65cc1489259d475934e32e, type: 2}
+  - plantId: chilli
+    diseaseId: anthracnose
+    farmPrefab: {fileID: 6761379991154468499, guid: 571b9f018102c654db415de75497b9d1, type: 3}
+    leafMaterial: {fileID: 2100000, guid: f99dccee56d88864fadc5b031f37fff3, type: 2}
+  - plantId: chilli
+    diseaseId: cercospora_leaf_spot
+    farmPrefab: {fileID: 6988371847257106222, guid: 92c88966cbb66a7468fff36cef89ccd8, type: 3}
+    leafMaterial: {fileID: 2100000, guid: 4f0d5fd508426874994091f3c6f184ad, type: 2}
+  - plantId: chilli
+    diseaseId: leaf_curl
+    farmPrefab: {fileID: 5269895927064589600, guid: 02a2f7ccdb0757a4a9ba8f5081543143, type: 3}
+    leafMaterial: {fileID: 2100000, guid: 0071b0216cd2f524cbc63a7bed1d021e, type: 2}
+  - plantId: cotton
+    diseaseId: bacterial_blight
+    farmPrefab: {fileID: 8064937815132234069, guid: 2144fed1743d07945ac5b7ca4ab1e6aa, type: 3}
+    leafMaterial: {fileID: 2100000, guid: 9ef2f8663a13c1f40821079943c1a37c, type: 2}
+  - plantId: cotton
+    diseaseId: fusarium_wilt
+    farmPrefab: {fileID: 7218920716355582268, guid: 2215147eb9946674fac68261efb53083, type: 3}
+    leafMaterial: {fileID: 2100000, guid: e88c93dcedae64748905d38dca6fa8a9, type: 2}
+  - plantId: cotton
+    diseaseId: leaf_curl_virus
+    farmPrefab: {fileID: 319727296210986229, guid: 7cad842818540b24bad0a24a4a0fcaf1, type: 3}
+    leafMaterial: {fileID: 2100000, guid: 8888949a6c8c79e429da73beabb22059, type: 2}
+  - plantId: mango
+    diseaseId: anthracnose
+    farmPrefab: {fileID: 5086859290392506295, guid: 9c435bcdc76c2df4391d3f107c8fc857, type: 3}
+    leafMaterial: {fileID: 2100000, guid: 1d55c9bd546888f45862925744024dbd, type: 2}
+  - plantId: mango
+    diseaseId: bacterial_canker
+    farmPrefab: {fileID: 8142152778189414346, guid: f95f636fc3ac1a548adda967771aa4d1, type: 3}
+    leafMaterial: {fileID: 2100000, guid: 0f60be191045a7b4ca8b3697423b63e0, type: 2}
+  - plantId: mango
+    diseaseId: die_back
+    farmPrefab: {fileID: 7683149974830170618, guid: 212623bceb7969a4db6d04db68da7d9b, type: 3}
+    leafMaterial: {fileID: 2100000, guid: 35a9560fe8fd9cf4ebb4edd1292a77df, type: 2}
+  - plantId: mango
+    diseaseId: gall_midge
+    farmPrefab: {fileID: 8475464502379273041, guid: 9f6db8f5d1a51e540bab216a066aee39, type: 3}
+    leafMaterial: {fileID: 2100000, guid: a74d3b75d14db744fba6d0a2f64780dc, type: 2}
+  - plantId: orange
+    diseaseId: huanglongbing
+    farmPrefab: {fileID: 6453028076410844469, guid: f1ee35cb5d8fc2542b50c68cf99aee0d, type: 3}
+    leafMaterial: {fileID: 2100000, guid: fc51e594cc059df47812593c381fdf25, type: 2}
+  - plantId: rice
+    diseaseId: bacterial_leaf_blight
+    farmPrefab: {fileID: 971650877502347349, guid: 9b39f514670c7f049b2ded1fa5a06f99, type: 3}
+    leafMaterial: {fileID: 2100000, guid: 3e93d0a4e87393d42a1e32a7a2f268b4, type: 2}
+  - plantId: rice
+    diseaseId: brown_spot
+    farmPrefab: {fileID: 1932184843384498968, guid: 17c26b28784b5724b976258edecee024, type: 3}
+    leafMaterial: {fileID: 2100000, guid: 249f5480704234942af4992ab0a6a1b4, type: 2}
+  - plantId: rice
+    diseaseId: leaf_blast
+    farmPrefab: {fileID: 8983047988182338953, guid: b067ac92f082097449ab153b944e27c5, type: 3}
+    leafMaterial: {fileID: 2100000, guid: 8165d6f7b8f5ba64baafcd0fa4c7fdb3, type: 2}
+  - plantId: rice
+    diseaseId: sheath_blight
+    farmPrefab: {fileID: 4708657599737534683, guid: 4ea53ba54395bcc49938c10a6702689b, type: 3}
+    leafMaterial: {fileID: 2100000, guid: 686f84afca8089d44a4c28dcb3d3d6ba, type: 2}
+  - plantId: rice
+    diseaseId: tungro
+    farmPrefab: {fileID: 3159795793851468048, guid: d47a0605340358245a744a7abd47fc1d, type: 3}
+    leafMaterial: {fileID: 2100000, guid: cbac947d967644f40b47cbb75e97912f, type: 2}
+  - plantId: soybean
+    diseaseId: bacterial_blight
+    farmPrefab: {fileID: 6396542365933579786, guid: 082a465c1aa97564ca1d84e80306d255, type: 3}
+    leafMaterial: {fileID: 2100000, guid: bb552d8f79efe2b44b5a5fd0e3473bb6, type: 2}
+  - plantId: soybean
+    diseaseId: cercospora_leaf_blight
+    farmPrefab: {fileID: 7117758105718128849, guid: 7f3770213ab718d4aa29cf92993300ea, type: 3}
+    leafMaterial: {fileID: 2100000, guid: f01c6a0f3bca42b44910bcd773238260, type: 2}
+  - plantId: soybean
+    diseaseId: downy_mildew
+    farmPrefab: {fileID: 7011689983378605462, guid: a28b4ae0d6f55c44faf5d95fe6c41702, type: 3}
+    leafMaterial: {fileID: 2100000, guid: b704ed5a1cc1224469a5ad39c64ea757, type: 2}
+  - plantId: soybean
+    diseaseId: frogeye_leaf_spot
+    farmPrefab: {fileID: 5892278789164878391, guid: dd2538de8db4d474aaf990ccc6de0e75, type: 3}
+    leafMaterial: {fileID: 2100000, guid: 750410b89de1be24c90dc474f0491eae, type: 2}
+  - plantId: soybean
+    diseaseId: mosaic_virus
+    farmPrefab: {fileID: 3449225389226015139, guid: ebd21b3c6f7546f4aaf6bc155508ab8e, type: 3}
+    leafMaterial: {fileID: 2100000, guid: b0449831b3950534c9293a7ff2041940, type: 2}
+  - plantId: soybean
+    diseaseId: septoria_brown_spot
+    farmPrefab: {fileID: 1471918349275845283, guid: 1de650529f9ede94589ca5c954a05a8f, type: 3}
+    leafMaterial: {fileID: 2100000, guid: ccc2ab20f4024c840a34bafccb810081, type: 2}
+  - plantId: soybean
+    diseaseId: soybean_rust
+    farmPrefab: {fileID: 8154176986577353463, guid: 3ad74759d87e4ac4f94681d16378e727, type: 3}
+    leafMaterial: {fileID: 2100000, guid: 21ea494346ef9354ba3b89d323288e53, type: 2}
+  - plantId: soybean
+    diseaseId: sudden_death_syndrome
+    farmPrefab: {fileID: 1155129771513343600, guid: 52365321a70c9cd45aed02db8e8195dc, type: 3}
+    leafMaterial: {fileID: 2100000, guid: 7e93b074e82abbf47b57bbda92aa6edb, type: 2}
+  - plantId: soybean
+    diseaseId: target_spot
+    farmPrefab: {fileID: 8959445789359705817, guid: 881626ce2dec7d54ba965ab73742a674, type: 3}
+    leafMaterial: {fileID: 2100000, guid: e7fcb57eac1a0814dbad5d334c725ee8, type: 2}
+  - plantId: squash
+    diseaseId: powdery_mildew
+    farmPrefab: {fileID: 4232499029028317765, guid: 22f3cf52865ed9343b800263a9ea3313, type: 3}
+    leafMaterial: {fileID: 2100000, guid: 62798ce4162621141be4ea8e31f5aa24, type: 2}
+  - plantId: sugarcane
+    diseaseId: mosaic
+    farmPrefab: {fileID: 8291080455465736318, guid: 45bf922ca1fcadd4783e59aec87184e9, type: 3}
+    leafMaterial: {fileID: 2100000, guid: 23f783c5c8ff2c947a0d194e74f1a0fd, type: 2}
+  - plantId: sugarcane
+    diseaseId: red_rot
+    farmPrefab: {fileID: 5374309230134028751, guid: 999569735bffed14990b9f9584c5bd88, type: 3}
+    leafMaterial: {fileID: 2100000, guid: 984dbadfd59b25344a76ff451cfe4828, type: 2}
+  - plantId: sugarcane
+    diseaseId: rust
+    farmPrefab: {fileID: 2961797123384473154, guid: f74ddb46fbec9ea46bb552f5c2eecda0, type: 3}
+    leafMaterial: {fileID: 2100000, guid: c5796186c36da6d448873666484bfef8, type: 2}
+  - plantId: sugarcane
+    diseaseId: yellow_leaf
+    farmPrefab: {fileID: 985663165637275504, guid: 95bc9842ac1c19c4387d6cd7561f5df1, type: 3}
+    leafMaterial: {fileID: 2100000, guid: 60b3ad2eaf4ac1d43b1d3d2c753bc5e0, type: 2}
+  - plantId: wheat
+    diseaseId: blast
+    farmPrefab: {fileID: 3137370395945270307, guid: 0dd623e71d22dcd47b6ef1cec7c7c10f, type: 3}
+    leafMaterial: {fileID: 2100000, guid: 0f4fca0e53625ed4586997c500b15a65, type: 2}
+  - plantId: wheat
+    diseaseId: leaf_blight
+    farmPrefab: {fileID: 6275782896042574205, guid: 6a1c7f0d60565fc499c4288de61f0eca, type: 3}
+    leafMaterial: {fileID: 2100000, guid: 5ed18a81852767047830024cd85578e0, type: 2}
+  - plantId: wheat
+    diseaseId: rust
+    farmPrefab: {fileID: 3116002483869798582, guid: 8a5ff9e6eee3d46488e373cfdf5bdc5a, type: 3}
+    leafMaterial: {fileID: 2100000, guid: 2cb2d97f6ff302d4c9d70342d1cea391, type: 2}

@@ -41,7 +41,7 @@ MonoBehaviour:
     diseaseSeverity: 8
     caption: 
   - week: 6
-    leafHealth: 96
-    chlorophyll: 96
-    diseaseSeverity: 2
+    leafHealth: 100
+    chlorophyll: 100
+    diseaseSeverity: 0
     caption: 

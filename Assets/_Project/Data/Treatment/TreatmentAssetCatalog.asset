@@ -1,0 +1,586 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bfa62976da02474da93a4f2fee5106c, type: 3}
+  m_Name: TreatmentAssetCatalog
+  m_EditorClassIdentifier: BTP.Runtime::BTP.Treatment.TreatmentAssetCatalog
+  content: {fileID: -6750239444755058063, guid: 9a664f3f306fe4749be86ed28d77d260, type: 3}
+  entries:
+  - key: leafmat.apple.apple_scab
+    asset: {fileID: 2100000, guid: 895cc8c9c81d10f4b84996290a5fb071, type: 2}
+  - key: leafmat.healthy.apple
+    asset: {fileID: 2100000, guid: e709701f3ac93124ebf17ea6465488c3, type: 2}
+  - key: leafmat.new_growth.apple
+    asset: {fileID: 2100000, guid: e709701f3ac93124ebf17ea6465488c3, type: 2}
+  - key: leafmat.apple.black_rot
+    asset: {fileID: 2100000, guid: fc5b5b1cb1e1fe64ba95b75d4d9c3bab, type: 2}
+  - key: leafmat.apple.cedar_apple_rust
+    asset: {fileID: 2100000, guid: d48d18e781f00ef4a8ca10c47bd7f42a, type: 2}
+  - key: leafmat.bell_pepper.bacterial_spot
+    asset: {fileID: 2100000, guid: eee175c493ed12244b4cc9c0535fc57d, type: 2}
+  - key: leafmat.healthy.bell_pepper
+    asset: {fileID: 2100000, guid: 50f57931ac1d8fe41bdb5bff743b4195, type: 2}
+  - key: leafmat.new_growth.bell_pepper
+    asset: {fileID: 2100000, guid: 50f57931ac1d8fe41bdb5bff743b4195, type: 2}
+  - key: leafmat.cherry.powdery_mildew
+    asset: {fileID: 2100000, guid: 9d739b7f29f36fc49a835d00e751a7c2, type: 2}
+  - key: leafmat.healthy.cherry
+    asset: {fileID: 2100000, guid: 002ba95426cc51a449ffd3da1e01e97c, type: 2}
+  - key: leafmat.new_growth.cherry
+    asset: {fileID: 2100000, guid: 002ba95426cc51a449ffd3da1e01e97c, type: 2}
+  - key: leafmat.corn.gray_leaf_spot
+    asset: {fileID: 2100000, guid: 75116d90ddee1ca42bb1e8b808aac12f, type: 2}
+  - key: leafmat.healthy.corn
+    asset: {fileID: 2100000, guid: 86da98a15e9bbad49aa4bed7d60271cc, type: 2}
+  - key: leafmat.new_growth.corn
+    asset: {fileID: 2100000, guid: 86da98a15e9bbad49aa4bed7d60271cc, type: 2}
+  - key: leafmat.corn.common_rust
+    asset: {fileID: 2100000, guid: 305d853fda4699241bc628f83ef6b235, type: 2}
+  - key: leafmat.corn.northern_leaf_blight
+    asset: {fileID: 2100000, guid: 716b9c415187a154494edc5a32c4d407, type: 2}
+  - key: leafmat.grape.black_rot
+    asset: {fileID: 2100000, guid: dcc376145516b8e4589a7291a2413cb5, type: 2}
+  - key: leafmat.healthy.grape
+    asset: {fileID: 2100000, guid: aeeecd1da58b9cd459c18558809c14e9, type: 2}
+  - key: leafmat.new_growth.grape
+    asset: {fileID: 2100000, guid: aeeecd1da58b9cd459c18558809c14e9, type: 2}
+  - key: leafmat.grape.esca
+    asset: {fileID: 2100000, guid: 3c337864e1fbf8441982626afb539843, type: 2}
+  - key: leafmat.grape.leaf_blight
+    asset: {fileID: 2100000, guid: 5608df0ef79bf5d41852509be28d644d, type: 2}
+  - key: leafmat.peach.bacterial_spot
+    asset: {fileID: 2100000, guid: c1ea88feda86fa1459002811fd9d9af0, type: 2}
+  - key: leafmat.healthy.peach
+    asset: {fileID: 2100000, guid: 8b3b8bc665a87714d9c0db8d00879cfc, type: 2}
+  - key: leafmat.new_growth.peach
+    asset: {fileID: 2100000, guid: 8b3b8bc665a87714d9c0db8d00879cfc, type: 2}
+  - key: leafmat.potato.early_blight
+    asset: {fileID: 2100000, guid: 28395ce855352a744a92bf6b6f39ded7, type: 2}
+  - key: leafmat.healthy.potato
+    asset: {fileID: 2100000, guid: cb076a886edc0914287eac4a23ab9259, type: 2}
+  - key: leafmat.new_growth.potato
+    asset: {fileID: 2100000, guid: cb076a886edc0914287eac4a23ab9259, type: 2}
+  - key: leafmat.potato.late_blight
+    asset: {fileID: 2100000, guid: c489c0f54d285e1418fc39ab39103a25, type: 2}
+  - key: leafmat.strawberry.leaf_scorch
+    asset: {fileID: 2100000, guid: a79d344c15f8b3742bf5cec817827ef3, type: 2}
+  - key: leafmat.healthy.strawberry
+    asset: {fileID: 2100000, guid: 7d9a61317e8420141a2fde0f41d30b31, type: 2}
+  - key: leafmat.new_growth.strawberry
+    asset: {fileID: 2100000, guid: 7d9a61317e8420141a2fde0f41d30b31, type: 2}
+  - key: leafmat.tomato.bacterial_spot
+    asset: {fileID: 2100000, guid: a7577d08a6bbf0147adf587bfd2a5e4e, type: 2}
+  - key: leafmat.healthy.tomato
+    asset: {fileID: 2100000, guid: adf7cb65bd7856646970d95bee26dc3d, type: 2}
+  - key: leafmat.new_growth.tomato
+    asset: {fileID: 2100000, guid: adf7cb65bd7856646970d95bee26dc3d, type: 2}
+  - key: leafmat.tomato.early_blight
+    asset: {fileID: 2100000, guid: 2fd27e14c92a5214aaadf04a1f81648e, type: 2}
+  - key: leafmat.tomato.late_blight
+    asset: {fileID: 2100000, guid: d3692ad2ba3f2ac4b9b455e935c20d49, type: 2}
+  - key: leafmat.tomato.leaf_mold
+    asset: {fileID: 2100000, guid: 9c3969754e5e3e74382d8d8ce0b39dbd, type: 2}
+  - key: leafmat.tomato.septoria_leaf_spot
+    asset: {fileID: 2100000, guid: 37f63beeddd8f0648bceb9dc9d0ff202, type: 2}
+  - key: leafmat.tomato.spider_mites
+    asset: {fileID: 2100000, guid: 6b690124e6babd845b9ff5f7590012b3, type: 2}
+  - key: leafmat.tomato.target_spot
+    asset: {fileID: 2100000, guid: 0193a9a9af30b5c4b9a95c85a07d5077, type: 2}
+  - key: leafmat.tomato.yellow_leaf_curl_virus
+    asset: {fileID: 2100000, guid: 5aadf727e1ab8e74b8aeedce69afa9ce, type: 2}
+  - key: leafmat.tomato.mosaic_virus
+    asset: {fileID: 2100000, guid: 379b09ac2f7e0da41a177e20b6a6763e, type: 2}
+  - key: leafmat.blueberry.rust
+    asset: {fileID: 2100000, guid: f0ff6f16d31cce8458a2559644bd8c78, type: 2}
+  - key: leafmat.healthy.blueberry
+    asset: {fileID: 2100000, guid: f585224fd1500b14bbff7e5f8fbac675, type: 2}
+  - key: leafmat.new_growth.blueberry
+    asset: {fileID: 2100000, guid: f585224fd1500b14bbff7e5f8fbac675, type: 2}
+  - key: leafmat.chilli.anthracnose
+    asset: {fileID: 2100000, guid: 086e543773aedb84984d6b1d3df8f109, type: 2}
+  - key: leafmat.healthy.chilli
+    asset: {fileID: 2100000, guid: aa0faeaa52e7fa842809fcf328fd3f57, type: 2}
+  - key: leafmat.new_growth.chilli
+    asset: {fileID: 2100000, guid: aa0faeaa52e7fa842809fcf328fd3f57, type: 2}
+  - key: leafmat.chilli.cercospora_leaf_spot
+    asset: {fileID: 2100000, guid: 9f75180367c777743bb7c39db6bfd9a9, type: 2}
+  - key: leafmat.chilli.leaf_curl
+    asset: {fileID: 2100000, guid: cc8deb6063900594685c4dca1de1c40f, type: 2}
+  - key: leafmat.cotton.bacterial_blight
+    asset: {fileID: 2100000, guid: 68c2affa0f60ad142b92629115e6fc0d, type: 2}
+  - key: leafmat.healthy.cotton
+    asset: {fileID: 2100000, guid: 440acf29e0b80e74f9a5e6d2d2a206e7, type: 2}
+  - key: leafmat.new_growth.cotton
+    asset: {fileID: 2100000, guid: 440acf29e0b80e74f9a5e6d2d2a206e7, type: 2}
+  - key: leafmat.cotton.fusarium_wilt
+    asset: {fileID: 2100000, guid: 8bb75947b82d8b34cb94cb8d16993107, type: 2}
+  - key: leafmat.cotton.leaf_curl_virus
+    asset: {fileID: 2100000, guid: 9f3074893c1e9b84194b5687510a6d97, type: 2}
+  - key: leafmat.mango.anthracnose
+    asset: {fileID: 2100000, guid: a604fbf895cf33e4d928068aac5f32ff, type: 2}
+  - key: leafmat.healthy.mango
+    asset: {fileID: 2100000, guid: 506ef92b30ab0c24cb2b98bd3c206d4f, type: 2}
+  - key: leafmat.new_growth.mango
+    asset: {fileID: 2100000, guid: 506ef92b30ab0c24cb2b98bd3c206d4f, type: 2}
+  - key: leafmat.mango.bacterial_canker
+    asset: {fileID: 2100000, guid: c4eb649ac6765844c95e09d518c374e1, type: 2}
+  - key: leafmat.mango.die_back
+    asset: {fileID: 2100000, guid: fe71e8c34ebc62f408ca8de1b10aaa20, type: 2}
+  - key: leafmat.mango.gall_midge
+    asset: {fileID: 2100000, guid: e91820473a51e844d98123cd084c0b43, type: 2}
+  - key: leafmat.orange.huanglongbing
+    asset: {fileID: 2100000, guid: 85cbca47805097c4697c41d254354887, type: 2}
+  - key: leafmat.healthy.orange
+    asset: {fileID: 2100000, guid: 63d450157fb9b6b419f6385139ca410d, type: 2}
+  - key: leafmat.new_growth.orange
+    asset: {fileID: 2100000, guid: 63d450157fb9b6b419f6385139ca410d, type: 2}
+  - key: leafmat.rice.bacterial_leaf_blight
+    asset: {fileID: 2100000, guid: b822c4776d4983342b7ba64614ec730f, type: 2}
+  - key: leafmat.healthy.rice
+    asset: {fileID: 2100000, guid: d72f5b1dbb228a5478f599629b96369a, type: 2}
+  - key: leafmat.new_growth.rice
+    asset: {fileID: 2100000, guid: d72f5b1dbb228a5478f599629b96369a, type: 2}
+  - key: leafmat.rice.brown_spot
+    asset: {fileID: 2100000, guid: 56eb1e5831f7ff44fb9fa87f30ab5569, type: 2}
+  - key: leafmat.rice.leaf_blast
+    asset: {fileID: 2100000, guid: ce9429b99f05241429508b740e50384c, type: 2}
+  - key: leafmat.rice.sheath_blight
+    asset: {fileID: 2100000, guid: 7949606ceeb75e74c95f72dccf295121, type: 2}
+  - key: leafmat.rice.tungro
+    asset: {fileID: 2100000, guid: 8831c86b3fa67814d95e8e60f9d00b89, type: 2}
+  - key: leafmat.soybean.bacterial_blight
+    asset: {fileID: 2100000, guid: 7c62a0b233c8bac45b9abcbca9c8bc66, type: 2}
+  - key: leafmat.healthy.soybean
+    asset: {fileID: 2100000, guid: cf8d3b823f681cd4e86256694b6506e5, type: 2}
+  - key: leafmat.new_growth.soybean
+    asset: {fileID: 2100000, guid: cf8d3b823f681cd4e86256694b6506e5, type: 2}
+  - key: leafmat.soybean.cercospora_leaf_blight
+    asset: {fileID: 2100000, guid: 97048ef8241e5c34b922850417d7eb11, type: 2}
+  - key: leafmat.soybean.downy_mildew
+    asset: {fileID: 2100000, guid: 08f438b4329e37f4ab458782084eaa74, type: 2}
+  - key: leafmat.soybean.frogeye_leaf_spot
+    asset: {fileID: 2100000, guid: a729c03e383eb7b41b097a0cd2f87205, type: 2}
+  - key: leafmat.soybean.mosaic_virus
+    asset: {fileID: 2100000, guid: 67922ee6ed6326648b426a23eedf647c, type: 2}
+  - key: leafmat.soybean.septoria_brown_spot
+    asset: {fileID: 2100000, guid: 0343f737467c42840ba43cd323b5eb07, type: 2}
+  - key: leafmat.soybean.soybean_rust
+    asset: {fileID: 2100000, guid: 499aec0ec6980a24db9f5ba2c908e51c, type: 2}
+  - key: leafmat.soybean.sudden_death_syndrome
+    asset: {fileID: 2100000, guid: ab756f207cb77ec40b15a0257af210e3, type: 2}
+  - key: leafmat.soybean.target_spot
+    asset: {fileID: 2100000, guid: eb555fb1ecaf61f47b58264c48446f8b, type: 2}
+  - key: leafmat.squash.powdery_mildew
+    asset: {fileID: 2100000, guid: 9cf684c82595c9f4eb64259fa52e0df4, type: 2}
+  - key: leafmat.healthy.squash
+    asset: {fileID: 2100000, guid: 2c5c380962a115f49b3eae9d77ca636a, type: 2}
+  - key: leafmat.new_growth.squash
+    asset: {fileID: 2100000, guid: 2c5c380962a115f49b3eae9d77ca636a, type: 2}
+  - key: leafmat.sugarcane.mosaic
+    asset: {fileID: 2100000, guid: 2bf9f2f573edc8647a10ff50c8a0890a, type: 2}
+  - key: leafmat.healthy.sugarcane
+    asset: {fileID: 2100000, guid: a75a4099103ba444f9b6df6d2ed66135, type: 2}
+  - key: leafmat.new_growth.sugarcane
+    asset: {fileID: 2100000, guid: a75a4099103ba444f9b6df6d2ed66135, type: 2}
+  - key: leafmat.sugarcane.red_rot
+    asset: {fileID: 2100000, guid: ccfb207436dee1d4dbb6394e2c3f42af, type: 2}
+  - key: leafmat.sugarcane.rust
+    asset: {fileID: 2100000, guid: 064b4263cc9d8f74483a9f179eedbae3, type: 2}
+  - key: leafmat.sugarcane.yellow_leaf
+    asset: {fileID: 2100000, guid: d28ea3a37f458614f882f184e61b4822, type: 2}
+  - key: leafmat.wheat.blast
+    asset: {fileID: 2100000, guid: 31e0ecdf3788d4646a4b2bebd8abdf0f, type: 2}
+  - key: leafmat.healthy.wheat
+    asset: {fileID: 2100000, guid: 668639a6c9e3f70408367131c4913215, type: 2}
+  - key: leafmat.new_growth.wheat
+    asset: {fileID: 2100000, guid: 668639a6c9e3f70408367131c4913215, type: 2}
+  - key: leafmat.wheat.leaf_blight
+    asset: {fileID: 2100000, guid: e7c5cf9e77f82ac4296d41ac45bd3c7f, type: 2}
+  - key: leafmat.wheat.rust
+    asset: {fileID: 2100000, guid: ab974fb43b9950342824f558526ae20c, type: 2}
+  - key: ui.marker
+    asset: {fileID: 3794483720853553488, guid: e30d5639fce5f0e4b88dea03048f4685, type: 3}
+  - key: ui.rack_label
+    asset: {fileID: 2398556192101454687, guid: cacbe2436bb9aaf43b7083120f1993b7, type: 3}
+  - key: tool.hand
+    asset: {fileID: 3599366744672047719, guid: 6c4734d5049ebd94680c67982b3f00f7, type: 3}
+  - key: tool.magnifier
+    asset: {fileID: 273167917862459645, guid: 810e2971a84932a4eb22a4757737e4bc, type: 3}
+  - key: tool.shears
+    asset: {fileID: 7647923857863127786, guid: 417f55547cc03154a83155ff0a6e33da, type: 3}
+  - key: tool.sprayer
+    asset: {fileID: 5204572383184059339, guid: ed3a471724308ed4587212395644309f, type: 3}
+  - key: tool.drip
+    asset: {fileID: 888041135987779528, guid: 25f8d0b9b6053964aa104bff8a452cff, type: 3}
+  - key: tool.wand
+    asset: {fileID: 5635000229035017604, guid: 7c2b30f5dd0673f4292fdd99c562b28a, type: 3}
+  - key: tool.stake
+    asset: {fileID: 2823287703704057858, guid: 0afbc479b9299d240ab27351306a4db2, type: 3}
+  - key: tool.mulch
+    asset: {fileID: 8597910989912369186, guid: 7c12ad2688ba4f646b024445b257cf97, type: 3}
+  - key: tool.rake
+    asset: {fileID: 5243057001279057496, guid: e0c3ded733dae144fb4f40d8960bec4c, type: 3}
+  - key: tool.tie
+    asset: {fileID: 3051489414752536662, guid: fd3dbad264d17ba478ecbb8c258b0d45, type: 3}
+  - key: tool.predator
+    asset: {fileID: 3285755554369675659, guid: bb9e18c6a0946f545860e65a9d4cee79, type: 3}
+  - key: tool.bag
+    asset: {fileID: 8970309667651454745, guid: 199425c6314f5b946abc725a63e6bdad, type: 3}
+  - key: tool.spade
+    asset: {fileID: 6872207351565140063, guid: 8767a05f6c6c4e84b8f796a29ff751da, type: 3}
+  - key: tool.transplant
+    asset: {fileID: 7872302813354359693, guid: 588038dcdc881ef48bf40fe19622ca7b, type: 3}
+  - key: tool.mesh
+    asset: {fileID: 563572006218837221, guid: 41693b154c4451d4bb85070764f9eaca, type: 3}
+  - key: tool.card
+    asset: {fileID: 7962983803408631874, guid: cc6ee895a006a0f45b1a27d5f5efec54, type: 3}
+  - key: target.leaf.apple.apple_scab
+    asset: {fileID: 1635049163585369556, guid: 2ede7fe5cc947be4f85625d1034b72f2, type: 3}
+  - key: target.leaf.apple.black_rot
+    asset: {fileID: 3202065370663703151, guid: 14639f5bc915d8f4a886b3545b9ec0c7, type: 3}
+  - key: target.leaf.apple.cedar_apple_rust
+    asset: {fileID: 8352119638041031988, guid: e59a8111dae6b7f438976393583d4372, type: 3}
+  - key: target.leaf.bell_pepper.bacterial_spot
+    asset: {fileID: 4762374147449554449, guid: 8c4a3217d88c2f6418b5ca7b1375ccf1, type: 3}
+  - key: target.leaf.cherry.powdery_mildew
+    asset: {fileID: 3288310420069513873, guid: 496e8d9ff62407c46871b432547d67fa, type: 3}
+  - key: target.leaf.corn.gray_leaf_spot
+    asset: {fileID: 4274129196327871008, guid: e9323646b330cf64b9da869c52240222, type: 3}
+  - key: target.leaf.corn.common_rust
+    asset: {fileID: 5794147607650803708, guid: 11eeaa8caceddaa46939c9045feb755b, type: 3}
+  - key: target.leaf.corn.northern_leaf_blight
+    asset: {fileID: 8979642979568572568, guid: 31e39ee7ac611e840b4198a140932343, type: 3}
+  - key: target.leaf.grape.black_rot
+    asset: {fileID: 2057594970840246539, guid: 350fd511e695eb04c900a6b57d2a3f14, type: 3}
+  - key: target.leaf.grape.esca
+    asset: {fileID: 5112945188520567956, guid: cfad874522b299a40b4109dc2d317326, type: 3}
+  - key: target.leaf.grape.leaf_blight
+    asset: {fileID: 1648683922479899780, guid: d6ff9be6570a0404ca422dc7ddda4e35, type: 3}
+  - key: target.leaf.peach.bacterial_spot
+    asset: {fileID: 5092049674978256452, guid: 728acb47c964095408ec6acfe9c398f8, type: 3}
+  - key: target.leaf.potato.early_blight
+    asset: {fileID: 4163642498985414555, guid: f0a6ae7f9802e9b4cb26efd5f909436d, type: 3}
+  - key: target.leaf.potato.late_blight
+    asset: {fileID: 52994675407154426, guid: f104b45258818ef4e9becc1e138e330e, type: 3}
+  - key: target.leaf.strawberry.leaf_scorch
+    asset: {fileID: 2821700806192490426, guid: 79a3cf0fabc3e8d449a299627c115891, type: 3}
+  - key: target.leaf.tomato.bacterial_spot
+    asset: {fileID: 1305976960990423934, guid: ca857698ffc1f9e4796223fdb0e1b5fd, type: 3}
+  - key: target.leaf.tomato.early_blight
+    asset: {fileID: 8285444916511256393, guid: e77ec8ffed3f1f04ca9416d49627a7b1, type: 3}
+  - key: target.leaf.tomato.late_blight
+    asset: {fileID: 7624453317132559591, guid: 4ee4d29024664ff4ab5d60abeb83b0b2, type: 3}
+  - key: target.leaf.tomato.leaf_mold
+    asset: {fileID: 4904054114955285412, guid: 84e1ba09ae1567d4e85654c7a68c167b, type: 3}
+  - key: target.leaf.tomato.septoria_leaf_spot
+    asset: {fileID: 4411901882618675380, guid: 8399046fad475dd43b14f4a7fd4da02d, type: 3}
+  - key: target.leaf.tomato.spider_mites
+    asset: {fileID: 8055111894889210712, guid: 04fbf6c4dafd498448d778be1b4f0ff2, type: 3}
+  - key: target.leaf.tomato.target_spot
+    asset: {fileID: 2794200603725721153, guid: f67eff98896ac954cba2bc7166bdff3c, type: 3}
+  - key: target.leaf.tomato.yellow_leaf_curl_virus
+    asset: {fileID: 5347628562272034285, guid: 2b476bf1ec88571449cc21787737d11b, type: 3}
+  - key: target.leaf.tomato.mosaic_virus
+    asset: {fileID: 2928619492475862778, guid: 25f2c947f5cd81d40abbb21f22454d12, type: 3}
+  - key: target.leaf.blueberry.rust
+    asset: {fileID: 2761220546970908408, guid: 19794477c917778468b72c96b257c266, type: 3}
+  - key: target.leaf.chilli.anthracnose
+    asset: {fileID: 8316268127823611706, guid: 4f82ea5c794861c449c7f77af64277d1, type: 3}
+  - key: target.leaf.chilli.cercospora_leaf_spot
+    asset: {fileID: 7999406960306551442, guid: 2784ac1730786e94e9ff74f28ef2b439, type: 3}
+  - key: target.leaf.chilli.leaf_curl
+    asset: {fileID: 8285320211128392416, guid: 448e1bf0fb8639c42a29fe44610d9442, type: 3}
+  - key: target.leaf.cotton.bacterial_blight
+    asset: {fileID: 2317300684189647432, guid: 64352b3a160389d47828a1c8a3506dee, type: 3}
+  - key: target.leaf.cotton.fusarium_wilt
+    asset: {fileID: 5487253409215432577, guid: 54402c35ff83f9646bb9f70e7486dbdc, type: 3}
+  - key: target.leaf.cotton.leaf_curl_virus
+    asset: {fileID: 2423306661824655127, guid: 64368573aa662b74d9ce270c7225ddc5, type: 3}
+  - key: target.leaf.mango.anthracnose
+    asset: {fileID: 1642913629102322638, guid: 33488b7b4b1141646933657c65b41870, type: 3}
+  - key: target.leaf.mango.bacterial_canker
+    asset: {fileID: 8316320904289303882, guid: fb71146dce9b6584ab1bf9cbee907e7a, type: 3}
+  - key: target.leaf.mango.die_back
+    asset: {fileID: 4570641830381506159, guid: 358c13f64d63106438672f90c88c3bf6, type: 3}
+  - key: target.leaf.mango.gall_midge
+    asset: {fileID: 965341713391669901, guid: 26bac40c4255737429ccabebf6251f24, type: 3}
+  - key: target.leaf.orange.huanglongbing
+    asset: {fileID: 568758928333522765, guid: 21601200626e9b442b44df9365155f5e, type: 3}
+  - key: target.leaf.rice.bacterial_leaf_blight
+    asset: {fileID: 6351102941632106556, guid: adfbe5c5382432541827485e57b348ca, type: 3}
+  - key: target.leaf.rice.brown_spot
+    asset: {fileID: 1624073225082133677, guid: 4baa768ed990c9a49b8d512b5cb59d88, type: 3}
+  - key: target.leaf.rice.leaf_blast
+    asset: {fileID: 6304587580338598946, guid: 8ebeb581e667005429500addefb1fb6a, type: 3}
+  - key: target.leaf.rice.sheath_blight
+    asset: {fileID: 1739166010291298752, guid: 60badc38874d44a42af7f52396c16501, type: 3}
+  - key: target.leaf.rice.tungro
+    asset: {fileID: 5912188217010186123, guid: c04a8181120f7404a8a0cef1fb7f9c47, type: 3}
+  - key: target.leaf.soybean.bacterial_blight
+    asset: {fileID: 8058497592520980450, guid: d95ec99f530315644bc65517aaac7e3c, type: 3}
+  - key: target.leaf.soybean.cercospora_leaf_blight
+    asset: {fileID: 8518570147090404192, guid: 3fb9d76618724ea48a9084eecfe4a997, type: 3}
+  - key: target.leaf.soybean.downy_mildew
+    asset: {fileID: 7099299181503323840, guid: d28d98c3239c342478de0130f719d725, type: 3}
+  - key: target.leaf.soybean.frogeye_leaf_spot
+    asset: {fileID: 5109571753851216046, guid: 7d9894eb3393f7c4692439fa65558355, type: 3}
+  - key: target.leaf.soybean.mosaic_virus
+    asset: {fileID: 3262832584047178294, guid: 6e16d9c9584e111488b6bc97e777a514, type: 3}
+  - key: target.leaf.soybean.septoria_brown_spot
+    asset: {fileID: 9121179786060534129, guid: f0abe360fb43d2849a2b53915b7ff343, type: 3}
+  - key: target.leaf.soybean.soybean_rust
+    asset: {fileID: 3355305136229164973, guid: 4733475fc7bfd8945bf8005f7d06ba44, type: 3}
+  - key: target.leaf.soybean.sudden_death_syndrome
+    asset: {fileID: 6688306731432343299, guid: 9897f35f652271a468603dcc200179a2, type: 3}
+  - key: target.leaf.soybean.target_spot
+    asset: {fileID: 2225819950659975322, guid: 07af75781f6324f47aa1b32832b07c9a, type: 3}
+  - key: target.leaf.squash.powdery_mildew
+    asset: {fileID: 3859945084161060952, guid: e99f5a34f88d50a42b30cff09d16c13c, type: 3}
+  - key: target.leaf.sugarcane.mosaic
+    asset: {fileID: 1876459997916510927, guid: b9a2f60a7afd58e4db989c2f8908a657, type: 3}
+  - key: target.leaf.sugarcane.red_rot
+    asset: {fileID: 423131563472416951, guid: 181d2551938981843a68c0a5781b805c, type: 3}
+  - key: target.leaf.sugarcane.rust
+    asset: {fileID: 5802060713232420388, guid: bda8c705f6de29945aac5be25d4e5797, type: 3}
+  - key: target.leaf.sugarcane.yellow_leaf
+    asset: {fileID: 4456070070913369118, guid: 6de57a5666da6eb4a90d8323f935ee15, type: 3}
+  - key: target.leaf.wheat.blast
+    asset: {fileID: 4864271214112583700, guid: faccec351920ac54eb5b6964c1074c34, type: 3}
+  - key: target.leaf.wheat.leaf_blight
+    asset: {fileID: 4155745798918379217, guid: 102861d09fa61114da125dc009e17855, type: 3}
+  - key: target.leaf.wheat.rust
+    asset: {fileID: 1978094692526751560, guid: 1c36b50990dcefb46909a4fdb3028f11, type: 3}
+  - key: target.stem_marker
+    asset: {fileID: 5001766192613375540, guid: 602c58f034db11447a79d4bf23cf74da, type: 3}
+  - key: target.root_zone
+    asset: {fileID: 5437463805264618392, guid: 74f2a3cf88ddcf64794f38eb25e474a3, type: 3}
+  - key: target.soil_surface
+    asset: {fileID: 6510834241048421207, guid: dc208a2d565d4d84cbf820f9214614b0, type: 3}
+  - key: target.support_point
+    asset: {fileID: 2388754294933352048, guid: 0f770d478808fe5429c6160f5e25217c, type: 3}
+  - key: target.mummy
+    asset: {fileID: 3803825535970163884, guid: 089795eb5bf36d949bf10961268851de, type: 3}
+  - key: target.leaf_litter
+    asset: {fileID: 6862710579736103180, guid: b66744eae38182740b49c6c54e5a4fa6, type: 3}
+  - key: target.branch
+    asset: {fileID: 5533401285054122337, guid: fe3fe75870781d24b915c2f9b9b31b26, type: 3}
+  - key: target.gall
+    asset: {fileID: 752535177317319685, guid: a3fc592981ca6ca4d84af0e7e17c478d, type: 3}
+  - key: target.plant_volume
+    asset: {fileID: 7650215642105388262, guid: dbb716ef7be756c4c861b3bf1a8dfa42, type: 3}
+  - key: target.canopy
+    asset: {fileID: 5489830166064601003, guid: 980b9011b4d106c4bb4c061517476f52, type: 3}
+  - key: target.weed
+    asset: {fileID: 4971357080723241085, guid: 177830f5e245d68409724ea529dd7863, type: 3}
+  - key: target.volunteer
+    asset: {fileID: 3257843198730823989, guid: 59dfa358e57cb9d478d4f1d304f2bcd8, type: 3}
+  - key: target.trunk_cutaway
+    asset: {fileID: 4496872354125269899, guid: 9826b7eeff4b13947a9d4f0dfadabf47, type: 3}
+  - key: target.tuber
+    asset: {fileID: 2024189657957781915, guid: c4b081eb9a76bad418ce06405e343758, type: 3}
+  - key: target.mites
+    asset: {fileID: 4711463175493124476, guid: 94166e7b7c45a7740802a40c8689c9ee, type: 3}
+  - key: target.whiteflies
+    asset: {fileID: 5078282853345645096, guid: b6cb417c987fdda42905afdaac718c14, type: 3}
+  - key: target.seedling
+    asset: {fileID: 6663063108570756556, guid: 5f9a8902dbeac5b49a0ab0f3d32cb482, type: 3}
+  - key: target.seedling_spotted
+    asset: {fileID: 3571183132861838920, guid: b8b3ee83d5c67544a96198d6a2b2cd2d, type: 3}
+  - key: target.ties
+    asset: {fileID: 6707027557001818750, guid: a85e6b457069a9648b202c77d70ff1f7, type: 3}
+  - key: target.old_foliage
+    asset: {fileID: 1872190951707707028, guid: 8f63369e296345545aaa650f2b0e0ee0, type: 3}
+  - key: target.cull_pile
+    asset: {fileID: 8846845426901636417, guid: 25cf43f61443d16429323c40fcda7e29, type: 3}
+  - key: target.cluster
+    asset: {fileID: 5701714742864862809, guid: 134377f781ee2f8418314c7953a48b5e, type: 3}
+  - key: target.fruit
+    asset: {fileID: 8470239828046784455, guid: ec7c1a7150fc84749a649c4cd6219929, type: 3}
+  - key: target.juniper
+    asset: {fileID: 2969161035031149395, guid: 54c499c6253b55044aa51bb0470b4ea1, type: 3}
+  - key: fx.disposal_bin
+    asset: {fileID: 350699749202148954, guid: aeec7fd8e62c03340ac5700789b38677, type: 3}
+  - key: fx.sanitation
+    asset: {fileID: 8218616648559137875, guid: bace81b241d728843b038ede088e74d0, type: 3}
+  - key: fx.valve
+    asset: {fileID: 993785962843946380, guid: 65f9c64abb2513e4085cf7b64217224c, type: 3}
+  - key: fx.vent
+    asset: {fileID: 2514810738487707885, guid: d0ba2b71f2a117a42b785ba495f93f86, type: 3}
+  - key: fx.fan
+    asset: {fileID: 3125884190335890756, guid: 897d6e0fc0596854fa63caf6543f7e28, type: 3}
+  - key: fx.display
+    asset: {fileID: 4381498066661073505, guid: e9539f9bcb9319146acf8481a3b14e14, type: 3}
+  - key: fx.risk_card
+    asset: {fileID: 1828693546857351665, guid: f9e123d3a38bc4c45a47c078f5673011, type: 3}
+  - key: fx.board
+    asset: {fileID: 8590366132995496418, guid: c72c8936fd57dec45925c98eacb60212, type: 3}
+  - key: fx.lab_result
+    asset: {fileID: 662350879469953253, guid: 9f0723b3a9158a44e9cc946229c4a969, type: 3}
+  - key: fx.neighbour
+    asset: {fileID: 176162141746231220, guid: f3368db155bae3446803ac1afd69824a, type: 3}
+  - key: fx.containment
+    asset: {fileID: 4342105209382808311, guid: 656d775c6455f3841bc37f3869266a89, type: 3}
+  - key: fx.clean_pot
+    asset: {fileID: 6750903177450540552, guid: 9211a8f524b265c4788249c021492a0f, type: 3}
+  - key: fx.mesh_frame
+    asset: {fileID: 4458738764076266386, guid: 42a619edf48cc9b429b415b02525d37b, type: 3}
+  - key: fx.bag_overlay
+    asset: {fileID: 7771387485105811305, guid: d10015ab29ced3046a55d24352cb9874, type: 3}
+  - key: specimen.apple
+    asset: {fileID: 2656813605469251265, guid: d5bf630e8628f0045bf5147d42263095, type: 3}
+  - key: specimen.bell_pepper
+    asset: {fileID: 6407762495998516744, guid: 36fd401bcdfb82b498d21a472d29b859, type: 3}
+  - key: specimen.cherry
+    asset: {fileID: 5134248242029245659, guid: 08fce50efc46cf844a21640ab6260cbd, type: 3}
+  - key: specimen.corn
+    asset: {fileID: 5980774274042258925, guid: ec2cf70e29347554091ffda6824e9d13, type: 3}
+  - key: specimen.grape
+    asset: {fileID: 1512166047934762886, guid: 966e3a5a4f9b134499f61be13188a89a, type: 3}
+  - key: specimen.peach
+    asset: {fileID: 7414328078469711200, guid: a97ac1aa356a6794fb1ccf810f06a601, type: 3}
+  - key: specimen.potato
+    asset: {fileID: 5745276654349098247, guid: 423323b3963300144b3b0951b75d20cd, type: 3}
+  - key: specimen.strawberry
+    asset: {fileID: 7465245381717199715, guid: 4e17fe67f13589c48bee02e847bf57b4, type: 3}
+  - key: specimen.tomato
+    asset: {fileID: 2620797968232274998, guid: 5029f65c5a54f5e429002b01f9ff2ea7, type: 3}
+  - key: target.spot
+    asset: {fileID: 3450059167706514832, guid: 6bc8f7c077740ad4c95e576be911faaf, type: 3}
+  - key: target.petiole
+    asset: {fileID: 8905850208348629890, guid: 05e9188409a5c7040aef5b82f6b6e727, type: 3}
+  - key: target.leaf_proxy
+    asset: {fileID: 4488987996719617610, guid: 8e08aef8686f7bc43b26b42bde6c031f, type: 3}
+  - key: ui.cut_mark
+    asset: {fileID: 1183464596784769438, guid: bd275c24c4797ae4480df163da894ecb, type: 3}
+  - key: leafspecimen.apple.apple_scab
+    asset: {fileID: 4000468968034265899, guid: 363eb1f170f790441b3e5b9d4fc5cb52, type: 3}
+  - key: leafspecimen.apple.black_rot
+    asset: {fileID: 1706016900324975537, guid: 2069a92aaf487624e84080d126960398, type: 3}
+  - key: leafspecimen.apple.cedar_apple_rust
+    asset: {fileID: 2165268956654840158, guid: f9527d5c68b3df44ea177898ec111d7c, type: 3}
+  - key: leafspecimen.bell_pepper.bacterial_spot
+    asset: {fileID: 2956372953871500372, guid: 027a79ee9ef560845a136686cd1f9a94, type: 3}
+  - key: leafspecimen.cherry.powdery_mildew
+    asset: {fileID: 5934921158518100081, guid: 84114475f3a26c941865b7275266a712, type: 3}
+  - key: leafspecimen.corn.gray_leaf_spot
+    asset: {fileID: 2339218021319623306, guid: d2059dd1eedf5294eb38066b8f8314f5, type: 3}
+  - key: leafspecimen.corn.common_rust
+    asset: {fileID: 2307107235611357216, guid: 2ba28c547fbbf0c4784ab9b7bab212ab, type: 3}
+  - key: leafspecimen.corn.northern_leaf_blight
+    asset: {fileID: 8664303166737687218, guid: 00fe9676caaf52a4fa43d8622279865e, type: 3}
+  - key: leafspecimen.grape.black_rot
+    asset: {fileID: 3761074696890693710, guid: 2b52c11e3bfc1bf43ae3f40877ea8db5, type: 3}
+  - key: leafspecimen.grape.esca
+    asset: {fileID: 6115949864334402648, guid: 68a05756a38d5c5409b450989ad38812, type: 3}
+  - key: leafspecimen.grape.leaf_blight
+    asset: {fileID: 6688838223212376393, guid: c7532acce20b48b4c93472b43a2cc8b8, type: 3}
+  - key: leafspecimen.peach.bacterial_spot
+    asset: {fileID: 342452779636773768, guid: 566d9f0c387c7224198eaabfac411023, type: 3}
+  - key: leafspecimen.potato.early_blight
+    asset: {fileID: 5451912711139591383, guid: 26fc7912ad739d440b5cb6059ac7145f, type: 3}
+  - key: leafspecimen.potato.late_blight
+    asset: {fileID: 4826791360257424024, guid: 14e985dbc0be714419f9da7d1fbd9e71, type: 3}
+  - key: leafspecimen.strawberry.leaf_scorch
+    asset: {fileID: 9080147034728565314, guid: 184c9e8f951cd7342a2955ce403573ba, type: 3}
+  - key: leafspecimen.tomato.bacterial_spot
+    asset: {fileID: 3383223083081666652, guid: 12783dce5bf19144a990afe49f942e15, type: 3}
+  - key: leafspecimen.tomato.early_blight
+    asset: {fileID: 3712015326272053875, guid: 234386588d38855408436edd5bc70b7f, type: 3}
+  - key: leafspecimen.tomato.late_blight
+    asset: {fileID: 3073173968309108420, guid: 6b1039abca80d344089352631ccd2d5f, type: 3}
+  - key: leafspecimen.tomato.leaf_mold
+    asset: {fileID: 6531186185362515513, guid: f92289f4d34d20943895f6f1536c5bcd, type: 3}
+  - key: leafspecimen.tomato.septoria_leaf_spot
+    asset: {fileID: 1879631466474273339, guid: 6ec4d388f07a70e4185f8de6559c6c51, type: 3}
+  - key: leafspecimen.tomato.spider_mites
+    asset: {fileID: 3134883440162488237, guid: b9ccf4d9cfb0ba045b4386c13a94a68e, type: 3}
+  - key: leafspecimen.tomato.target_spot
+    asset: {fileID: 551931413847261260, guid: bbeddeb71b8f7b14ab9f5a4a6e61bf93, type: 3}
+  - key: leafspecimen.tomato.yellow_leaf_curl_virus
+    asset: {fileID: 3107930769545045318, guid: 323a7f2dc5dee5846aefaa618c615337, type: 3}
+  - key: leafspecimen.tomato.mosaic_virus
+    asset: {fileID: 8910046797795442676, guid: 3be726b7023a882439f150c1a1970401, type: 3}
+  - key: leafspecimen.blueberry.rust
+    asset: {fileID: 16338488702806179, guid: 31bfd31090b07264289ecccc757a8d04, type: 3}
+  - key: leafspecimen.chilli.anthracnose
+    asset: {fileID: 4737301197747226623, guid: a392745326be70445ae5f85601a78d47, type: 3}
+  - key: leafspecimen.chilli.cercospora_leaf_spot
+    asset: {fileID: 8430828986711736655, guid: 4f0df6cb28380954a80f88eb8051cecb, type: 3}
+  - key: leafspecimen.chilli.leaf_curl
+    asset: {fileID: 2342948172094512284, guid: b1526723f97db79458a65fe9563c265b, type: 3}
+  - key: leafspecimen.cotton.bacterial_blight
+    asset: {fileID: 4796972341680760867, guid: 13ff54a3971055846ba705d3ae535428, type: 3}
+  - key: leafspecimen.cotton.fusarium_wilt
+    asset: {fileID: 8694918342731652575, guid: 872b7168a4d72244f86184b5342e0772, type: 3}
+  - key: leafspecimen.cotton.leaf_curl_virus
+    asset: {fileID: 2912181522257267193, guid: 05e8ab60a1fedad45a5c864ceca311de, type: 3}
+  - key: leafspecimen.mango.anthracnose
+    asset: {fileID: 3739848998254606655, guid: eba5169bf953e9744ae80e22e4431341, type: 3}
+  - key: leafspecimen.mango.bacterial_canker
+    asset: {fileID: 4203531720000798213, guid: 406cdc5c7a48e2d43b934f88c82b03a4, type: 3}
+  - key: leafspecimen.mango.die_back
+    asset: {fileID: 3320350489537967250, guid: 0fd916cecd0ef4f42be14904bb0535dd, type: 3}
+  - key: leafspecimen.mango.gall_midge
+    asset: {fileID: 1868182281305490579, guid: ba4a30829f226634390aa8f397260b82, type: 3}
+  - key: leafspecimen.orange.huanglongbing
+    asset: {fileID: 1917621087364203996, guid: 1dd9edbe279c0124bb3f7b2d80a089ab, type: 3}
+  - key: leafspecimen.rice.bacterial_leaf_blight
+    asset: {fileID: 4052928481515817262, guid: 93b8dba5a5958ee4c8bac28b5e4cb2f2, type: 3}
+  - key: leafspecimen.rice.brown_spot
+    asset: {fileID: 2848807463258641555, guid: 14b10bc8df325584797811840ec837f1, type: 3}
+  - key: leafspecimen.rice.leaf_blast
+    asset: {fileID: 5499382026613638652, guid: bbab1c0a3f1113e4eaa1df20eaa738df, type: 3}
+  - key: leafspecimen.rice.sheath_blight
+    asset: {fileID: 2293944489275778378, guid: 0d16f1efae40cc240b81543ae27813ce, type: 3}
+  - key: leafspecimen.rice.tungro
+    asset: {fileID: 8777068263738193488, guid: 0501a90b51573b043872bb957bcc5c58, type: 3}
+  - key: leafspecimen.soybean.bacterial_blight
+    asset: {fileID: 1216060144750883359, guid: bfd8d7aadfaaba24c8e6e946fbf5eae8, type: 3}
+  - key: leafspecimen.soybean.cercospora_leaf_blight
+    asset: {fileID: 8677342242425692025, guid: 3715f67f980c58048806a85146bc63f6, type: 3}
+  - key: leafspecimen.soybean.downy_mildew
+    asset: {fileID: 4017829804744189884, guid: 4c4c870dfe84f7049b229b592adf4196, type: 3}
+  - key: leafspecimen.soybean.frogeye_leaf_spot
+    asset: {fileID: 6557964092618063311, guid: 7aa7ab4fe4eeca946b08375e539259cd, type: 3}
+  - key: leafspecimen.soybean.mosaic_virus
+    asset: {fileID: 1589066578822585082, guid: 85c83bba4cdbe9d48b206b1804ba435e, type: 3}
+  - key: leafspecimen.soybean.septoria_brown_spot
+    asset: {fileID: 1848283895792733890, guid: 28458efe6080cdf498123b260b20df59, type: 3}
+  - key: leafspecimen.soybean.soybean_rust
+    asset: {fileID: 3697053447573825869, guid: f4ef189001bf0084f9c7dfaed0c64b6e, type: 3}
+  - key: leafspecimen.soybean.sudden_death_syndrome
+    asset: {fileID: 1645923381122369427, guid: 16a3a4364c35f15428c3bcce89542635, type: 3}
+  - key: leafspecimen.soybean.target_spot
+    asset: {fileID: 2260774220235832822, guid: 69ba0ce0607f1894994aa5184121891c, type: 3}
+  - key: leafspecimen.squash.powdery_mildew
+    asset: {fileID: 5887279548019258766, guid: 8ac58914891e5ce4888e7bc34170cc4e, type: 3}
+  - key: leafspecimen.sugarcane.mosaic
+    asset: {fileID: 2048906117216398852, guid: eedac0edfa4e0f6429243ac9291445a5, type: 3}
+  - key: leafspecimen.sugarcane.red_rot
+    asset: {fileID: 3305934924234505288, guid: 4b2672f77db658242a98cae652bfc0a2, type: 3}
+  - key: leafspecimen.sugarcane.rust
+    asset: {fileID: 7546669172817513090, guid: 4dee5fd6b99601541a551a44d2ae4bb8, type: 3}
+  - key: leafspecimen.sugarcane.yellow_leaf
+    asset: {fileID: 8674356673331695273, guid: ca36d935bf9ea7c4085fba07bded6d82, type: 3}
+  - key: leafspecimen.wheat.blast
+    asset: {fileID: 6354089271290793600, guid: b14e11bd70050fa479aada671b2de727, type: 3}
+  - key: leafspecimen.wheat.leaf_blight
+    asset: {fileID: 8626382058149074225, guid: ab51d90607f825549988302e4f5f6bf6, type: 3}
+  - key: leafspecimen.wheat.rust
+    asset: {fileID: 75476321876657419, guid: 993125fda03bd5d4a8ab02eaeec5d045, type: 3}
+  - key: env.greenhouse
+    asset: {fileID: 2780968052987032360, guid: 3bf361a8a6e7be94f8182c71475c182d, type: 3}
+  - key: env.orchard
+    asset: {fileID: 1014806085192100497, guid: 47f0e347985dde447b69fbf26e43fb39, type: 3}
+  - key: env.vineyard
+    asset: {fileID: 2930374481872799105, guid: 1c742e75ce100da4797ca9c01c3087b9, type: 3}
+  - key: env.field
+    asset: {fileID: 8507193783008354831, guid: 616257564eb4b4b4c8bc3b8f60b88bdd, type: 3}

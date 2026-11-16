@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2b0cc17509af1c41a7aae1e17ea3e9c, type: 3}
+  m_Name: soybean
+  m_EditorClassIdentifier: BTP.Runtime::BTP.Plants.PlantDefinition
+  plantId: soybean
+  displayName: Soybean
+  scientificName: Glycine max
+  family: Fabaceae
+  plantType: Annual legume
+  summary: Oilseed and protein legume with trifoliate leaves; it fixes nitrogen through
+    root nodules.
+  farmPrefab: {fileID: 957474558086311895, guid: b0c3625398d7f0d469b1ae103da91429, type: 3}
+  labPrefab: {fileID: 3693292599282643312, guid: 6340991d39e91494b88b8da39074545c, type: 3}
+  hasRecoveryDemo: 1

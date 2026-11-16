@@ -22,3 +22,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 09052f0835ae8d64b8ea1b4f8e0ee630, type: 2}
   - {fileID: 11400000, guid: a8f8217b9e23de043bab263f705c25b2, type: 2}
   - {fileID: 11400000, guid: 90bc4b86578b8594599dee7bef882471, type: 2}
+  labOnlyPlants:
+  - {fileID: 11400000, guid: 72d3a37333275604a9783b79ea783afc, type: 2}
+  - {fileID: 11400000, guid: 2b2a076b54a57544e9bea99892eaeb73, type: 2}
+  - {fileID: 11400000, guid: 20fa6ea5b4ab4624ead421a1062fa590, type: 2}
+  - {fileID: 11400000, guid: 683c4e3de2dd9c049a89324cc7d86020, type: 2}
+  - {fileID: 11400000, guid: 51945f0fdbf3c21418896edeae5e57d0, type: 2}
+  - {fileID: 11400000, guid: 0ac338360620dfe4c91c7b0604ee2f4b, type: 2}
+  - {fileID: 11400000, guid: 26e33d18c366367449c8378649c16070, type: 2}
+  - {fileID: 11400000, guid: 9460d084d3a40c34b9981ab3f3044bcc, type: 2}
+  - {fileID: 11400000, guid: c3a16f901eb379c468da7f874a98e3da, type: 2}
+  - {fileID: 11400000, guid: 8bd6732d77e38c541a206ccc2a43caa0, type: 2}

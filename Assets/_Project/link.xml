@@ -1,0 +1,7 @@
+<linker>
+  <!-- sqlite-net maps query rows by reflection: keep the library and the treatment row types under IL2CPP stripping. -->
+  <assembly fullname="Gilzoide.SqliteNet" preserve="all" />
+  <assembly fullname="BTP.Runtime">
+    <namespace fullname="BTP.Treatment" preserve="all" />
+  </assembly>
+</linker>

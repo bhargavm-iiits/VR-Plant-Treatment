@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2b0cc17509af1c41a7aae1e17ea3e9c, type: 3}
+  m_Name: orange
+  m_EditorClassIdentifier: BTP.Runtime::BTP.Plants.PlantDefinition
+  plantId: orange
+  displayName: Orange
+  scientificName: Citrus sinensis
+  family: Rutaceae
+  plantType: Evergreen citrus tree
+  summary: Sweet orange. Huanglongbing, spread by the Asian citrus psyllid, is the
+    most damaging citrus disease.
+  farmPrefab: {fileID: 4673816367658212590, guid: e111c0ce73f72324196607f2b0e95832, type: 3}
+  labPrefab: {fileID: 1853917015586838310, guid: 748f3240af7d0b74b877b8031f9200c4, type: 3}
+  hasRecoveryDemo: 1

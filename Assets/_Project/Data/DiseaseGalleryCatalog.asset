@@ -18,88 +18,268 @@ MonoBehaviour:
     - id: apple_scab
       displayName: Apple Scab
       leaf: {fileID: 2800000, guid: 90351681c46f7a84d85f8f1be16f7f5a, type: 3}
+      note: 
     - id: black_rot
       displayName: Black Rot
       leaf: {fileID: 2800000, guid: a5f6e6571563f314da37cbbd45f3fd87, type: 3}
+      note: 
     - id: cedar_apple_rust
       displayName: Cedar Apple Rust
       leaf: {fileID: 2800000, guid: 0236c8be757519b469b2e2cbd4ad4066, type: 3}
+      note: 
   - plantId: bell_pepper
     diseases:
     - id: bacterial_spot
       displayName: Bacterial Spot
       leaf: {fileID: 2800000, guid: 402961f9ad2df094ea3bbd76458be12b, type: 3}
+      note: 
   - plantId: cherry
     diseases:
     - id: powdery_mildew
       displayName: Powdery Mildew
       leaf: {fileID: 2800000, guid: 5dcf0a018903a3f44888aea4c25b557b, type: 3}
+      note: 
   - plantId: corn
     diseases:
     - id: gray_leaf_spot
       displayName: Gray Leaf Spot (Cercospora)
       leaf: {fileID: 2800000, guid: 48fb4b8ec4b752f4598815ccd5ab087b, type: 3}
+      note: 
     - id: common_rust
       displayName: Common Rust
       leaf: {fileID: 2800000, guid: 979ca1db452e66b4cb8a16cb81ea0ef9, type: 3}
+      note: 
     - id: northern_leaf_blight
       displayName: Northern Leaf Blight
       leaf: {fileID: 2800000, guid: f780e8a312f6ee94685b506437121d25, type: 3}
+      note: 
   - plantId: grape
     diseases:
     - id: black_rot
       displayName: Black Rot
       leaf: {fileID: 2800000, guid: 78feb03806e50624a939160f78eb12dd, type: 3}
+      note: 
     - id: esca
       displayName: Esca (Black Measles)
       leaf: {fileID: 2800000, guid: 41fda5ac5f7d9bc43b243282518d3eed, type: 3}
+      note: 
     - id: leaf_blight
       displayName: Leaf Blight (Isariopsis Leaf Spot)
       leaf: {fileID: 2800000, guid: 8aab25670affb734e92341f7698ca8fe, type: 3}
+      note: 
   - plantId: peach
     diseases:
     - id: bacterial_spot
       displayName: Bacterial Spot
       leaf: {fileID: 2800000, guid: 8e50c424e525d314d8badf3f9845c0d4, type: 3}
+      note: 
   - plantId: potato
     diseases:
     - id: early_blight
       displayName: Early Blight
       leaf: {fileID: 2800000, guid: 8d66e1b28dd58e541a5ade5a0ee03fc6, type: 3}
+      note: 
     - id: late_blight
       displayName: Late Blight
       leaf: {fileID: 2800000, guid: b403a8827b4188848b6d7dcf617437e3, type: 3}
+      note: 
   - plantId: strawberry
     diseases:
     - id: leaf_scorch
       displayName: Leaf Scorch
       leaf: {fileID: 2800000, guid: fc9d91fd4231ec747b9de96a2d5b0a3d, type: 3}
+      note: 
   - plantId: tomato
     diseases:
     - id: bacterial_spot
       displayName: Bacterial Spot
       leaf: {fileID: 2800000, guid: 13b7f4d5b8cb40c4eb079f7178240e83, type: 3}
+      note: 
     - id: early_blight
       displayName: Early Blight
       leaf: {fileID: 2800000, guid: 6986c63f847c86a4f97175e25c7d264f, type: 3}
+      note: 
     - id: late_blight
       displayName: Late Blight
       leaf: {fileID: 2800000, guid: 9b2bba449ff49f8479be539b1cc8ee68, type: 3}
+      note: 
     - id: leaf_mold
       displayName: Leaf Mold
       leaf: {fileID: 2800000, guid: 790987391bd9ac147848b45705c64568, type: 3}
+      note: 
     - id: septoria_leaf_spot
       displayName: Septoria Leaf Spot
       leaf: {fileID: 2800000, guid: e9efcd4c7c3f64545a0d814a3ff075af, type: 3}
+      note: 
     - id: spider_mites
       displayName: Two-Spotted Spider Mite
       leaf: {fileID: 2800000, guid: f7ed68ec77b503a4ebd292d5e09686c9, type: 3}
+      note: 
     - id: target_spot
       displayName: Target Spot
       leaf: {fileID: 2800000, guid: b657b8e702785b7448b505d3ad17b1bf, type: 3}
+      note: 
     - id: yellow_leaf_curl_virus
       displayName: Yellow Leaf Curl Virus
       leaf: {fileID: 2800000, guid: abe16be69ccf69f499e7601d3f07350a, type: 3}
+      note: 
     - id: mosaic_virus
       displayName: Mosaic Virus
       leaf: {fileID: 2800000, guid: 8821821f58cb91f4f8d78009d8c652ec, type: 3}
+      note: 
+  - plantId: blueberry
+    diseases:
+    - id: rust
+      displayName: Leaf Rust
+      leaf: {fileID: 2800000, guid: a04ca5e4c42b792458f95dc7543c4f95, type: 3}
+      note: Specimen render, not a field photo
+  - plantId: chilli
+    diseases:
+    - id: anthracnose
+      displayName: Anthracnose
+      leaf: {fileID: 2800000, guid: 12017e6145ea3d74fa2110e4e3da6038, type: 3}
+      note: Specimen render, not a field photo
+    - id: cercospora_leaf_spot
+      displayName: Cercospora Leaf Spot
+      leaf: {fileID: 2800000, guid: 99de1e1da1f97cf4597cb5df4b96a826, type: 3}
+      note: Specimen render, not a field photo
+    - id: leaf_curl
+      displayName: Leaf Curl Virus
+      leaf: {fileID: 2800000, guid: 593bf7dce779dd144911c2d632c647b1, type: 3}
+      note: Specimen render, not a field photo
+  - plantId: cotton
+    diseases:
+    - id: bacterial_blight
+      displayName: Bacterial Blight
+      leaf: {fileID: 2800000, guid: ab6993f5d3939e346ab8ab9d471b51d1, type: 3}
+      note: Specimen render, not a field photo
+    - id: fusarium_wilt
+      displayName: Fusarium Wilt
+      leaf: {fileID: 2800000, guid: eceb2a057ab647f408b4846b09b215a6, type: 3}
+      note: Specimen render, not a field photo
+    - id: leaf_curl_virus
+      displayName: Leaf Curl Virus
+      leaf: {fileID: 2800000, guid: bea003378a190234d956ecbc68dc60ed, type: 3}
+      note: Specimen render, not a field photo
+  - plantId: mango
+    diseases:
+    - id: anthracnose
+      displayName: Anthracnose
+      leaf: {fileID: 2800000, guid: ccf2d79d2ba017d448496109e590fd6d, type: 3}
+      note: Specimen render, not a field photo
+    - id: bacterial_canker
+      displayName: Bacterial Canker (Black Spot)
+      leaf: {fileID: 2800000, guid: fdae390f6a181444c95f46fc0ba70c34, type: 3}
+      note: Specimen render, not a field photo
+    - id: die_back
+      displayName: Die Back
+      leaf: {fileID: 2800000, guid: 918ae26e2f2a88043b85921c0b9378f4, type: 3}
+      note: Specimen render, not a field photo
+    - id: gall_midge
+      displayName: Leaf Gall Midge
+      leaf: {fileID: 2800000, guid: dcd4ca86eccaaa743b8ed7bdbcbe56fe, type: 3}
+      note: Specimen render, not a field photo
+  - plantId: orange
+    diseases:
+    - id: huanglongbing
+      displayName: Huanglongbing (Citrus Greening)
+      leaf: {fileID: 2800000, guid: 1d80ef48f7fcce647ab2edb725db5d78, type: 3}
+      note: PlantVillage photo
+  - plantId: rice
+    diseases:
+    - id: bacterial_leaf_blight
+      displayName: Bacterial Leaf Blight
+      leaf: {fileID: 2800000, guid: 24de8fd987aaf7548acdb5aefb1057fe, type: 3}
+      note: Specimen render, not a field photo
+    - id: brown_spot
+      displayName: Brown Spot
+      leaf: {fileID: 2800000, guid: 5136056a09126c84f96100bc031a593f, type: 3}
+      note: Specimen render, not a field photo
+    - id: leaf_blast
+      displayName: Leaf Blast
+      leaf: {fileID: 2800000, guid: 6693e90bd73c58a4da9c9da4c637d533, type: 3}
+      note: Specimen render, not a field photo
+    - id: sheath_blight
+      displayName: Sheath Blight
+      leaf: {fileID: 2800000, guid: 99435d7c1b6a4ce44b20fdca58630d0c, type: 3}
+      note: Specimen render, not a field photo
+    - id: tungro
+      displayName: Tungro
+      leaf: {fileID: 2800000, guid: d22d89f23aa44be44bf51617fb481e6e, type: 3}
+      note: Specimen render, not a field photo
+  - plantId: soybean
+    diseases:
+    - id: bacterial_blight
+      displayName: Bacterial Blight
+      leaf: {fileID: 2800000, guid: 3ad4cc153d8ce224aa52d1fecb49d2d9, type: 3}
+      note: Specimen render, not a field photo
+    - id: cercospora_leaf_blight
+      displayName: Cercospora Leaf Blight
+      leaf: {fileID: 2800000, guid: 995128ce2f4aceb4095a48ccbd3b0f9d, type: 3}
+      note: Specimen render, not a field photo
+    - id: downy_mildew
+      displayName: Downy Mildew
+      leaf: {fileID: 2800000, guid: 197c6d1059af8594a9e8b50d2bfc3b63, type: 3}
+      note: Specimen render, not a field photo
+    - id: frogeye_leaf_spot
+      displayName: Frogeye Leaf Spot
+      leaf: {fileID: 2800000, guid: 1e7f4c39764371d42bf7ef189f0ff8ef, type: 3}
+      note: Specimen render, not a field photo
+    - id: mosaic_virus
+      displayName: Mosaic Virus
+      leaf: {fileID: 2800000, guid: d26e0e08dff982f4cab33bfdc77e222b, type: 3}
+      note: Specimen render, not a field photo
+    - id: septoria_brown_spot
+      displayName: Septoria Brown Spot
+      leaf: {fileID: 2800000, guid: 5d4b6517cb536c34e914c9dc2fedd75a, type: 3}
+      note: Specimen render, not a field photo
+    - id: soybean_rust
+      displayName: Soybean Rust
+      leaf: {fileID: 2800000, guid: c682dfc803f8112469d7b0a3acd31bde, type: 3}
+      note: Specimen render, not a field photo
+    - id: sudden_death_syndrome
+      displayName: Sudden Death Syndrome
+      leaf: {fileID: 2800000, guid: cbd55dc87711e5842b5fa6bf2e3930f8, type: 3}
+      note: Specimen render, not a field photo
+    - id: target_spot
+      displayName: Target Spot
+      leaf: {fileID: 2800000, guid: a4752a255ba891d468621d0516dc580c, type: 3}
+      note: Specimen render, not a field photo
+  - plantId: squash
+    diseases:
+    - id: powdery_mildew
+      displayName: Powdery Mildew
+      leaf: {fileID: 2800000, guid: 816a7613d2f063d4f96c2f5e5311b84e, type: 3}
+      note: PlantVillage photo
+  - plantId: sugarcane
+    diseases:
+    - id: mosaic
+      displayName: Mosaic
+      leaf: {fileID: 2800000, guid: 367213dc77bbc664c9f722f767cde530, type: 3}
+      note: Specimen render, not a field photo
+    - id: red_rot
+      displayName: Red Rot
+      leaf: {fileID: 2800000, guid: e1861aa413b63e84fb5c41cb73f938a7, type: 3}
+      note: Specimen render, not a field photo
+    - id: rust
+      displayName: Rust
+      leaf: {fileID: 2800000, guid: c78b580f0ac3bc54cb90d9a4a4ae2f00, type: 3}
+      note: Specimen render, not a field photo
+    - id: yellow_leaf
+      displayName: Yellow Leaf
+      leaf: {fileID: 2800000, guid: 09207bdcbb1bec848988704ccd4ddbf0, type: 3}
+      note: Specimen render, not a field photo
+  - plantId: wheat
+    diseases:
+    - id: blast
+      displayName: Wheat Blast
+      leaf: {fileID: 2800000, guid: 1ec1297ba2a89c04d9d7858544d2fb55, type: 3}
+      note: Specimen render, not a field photo
+    - id: leaf_blight
+      displayName: Leaf Blight (Spot Blotch)
+      leaf: {fileID: 2800000, guid: fa8f6a20e801a58438e006c7103ab7f2, type: 3}
+      note: Specimen render, not a field photo
+    - id: rust
+      displayName: Leaf Rust
+      leaf: {fileID: 2800000, guid: ce868d5f3ceba9f499b7463bf8c6c322, type: 3}
+      note: Specimen render, not a field photo

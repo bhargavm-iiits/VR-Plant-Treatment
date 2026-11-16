@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2b0cc17509af1c41a7aae1e17ea3e9c, type: 3}
+  m_Name: sugarcane
+  m_EditorClassIdentifier: BTP.Runtime::BTP.Plants.PlantDefinition
+  plantId: sugarcane
+  displayName: Sugarcane
+  scientificName: Saccharum spp. hybrids
+  family: Poaceae
+  plantType: Perennial grass grown for sugar
+  summary: Tall grass propagated from stem cuttings (setts), so diseases often travel
+    with the planting material.
+  farmPrefab: {fileID: 6128074509155456887, guid: bb76419cd9cd15149bd0f71f0e25e87b, type: 3}
+  labPrefab: {fileID: 4218799221186957527, guid: b9f248b2daf80d348b79ea24acec56b0, type: 3}
+  hasRecoveryDemo: 1

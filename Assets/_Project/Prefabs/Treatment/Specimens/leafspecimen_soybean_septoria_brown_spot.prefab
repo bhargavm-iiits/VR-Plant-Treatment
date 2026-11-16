@@ -1,0 +1,253 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &231963332361509327
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6201445124620628116}
+  - component: {fileID: 3469914508176631734}
+  - component: {fileID: 8456112457323325653}
+  m_Layer: 0
+  m_Name: Leaf
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6201445124620628116
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 231963332361509327}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.000016475078, y: -0.00009632548, z: -0.00013888783}
+  m_LocalScale: {x: 0.7002051, y: 0.7002051, z: 0.7002051}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7198763552873632656}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &3469914508176631734
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 231963332361509327}
+  m_Mesh: {fileID: -5208761447301690781, guid: b60a4f9e8ff58044da7e683f98a9b720, type: 3}
+--- !u!23 &8456112457323325653
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 231963332361509327}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 0343f737467c42840ba43cd323b5eb07, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &1848283895792733890
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7198763552873632656}
+  - component: {fileID: 3305679771227099740}
+  m_Layer: 0
+  m_Name: leafspecimen_soybean_septoria_brown_spot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7198763552873632656
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1848283895792733890}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6201445124620628116}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3305679771227099740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1848283895792733890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ead664781a5ba5242aec8f9f6ee8b534, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: BTP.Runtime::BTP.Treatment.LeafAnchors
+  lesions:
+  - position: {x: -0.16498493, y: 0.19090909, z: 0.002476437}
+    normal: {x: -0.007194533, y: -0.007690496, z: -0.9999445}
+  - position: {x: -0.20164824, y: 0.28636366, z: 0.007562981}
+    normal: {x: 0.23588371, y: 0.020043973, z: -0.97157454}
+  - position: {x: -0.091658294, y: 0.09545454, z: 0.0070027676}
+    normal: {x: -0.03474264, y: -0.11366476, z: -0.9929116}
+  - position: {x: 0.036663312, y: 0.09545454, z: 0.014711187}
+    normal: {x: 0.15798748, y: -0.069314755, z: -0.9850053}
+  healthy:
+  - position: {x: -0.10998993, y: 0.46136364, z: 0.0009642799}
+    normal: {x: -0.2808372, y: -0.08457194, z: -0.956022}
+  - position: {x: 3.8744474e-10, y: 0.3340909, z: -0.03238796}
+    normal: {x: 0.08648186, y: -0.051570117, z: -0.9949178}
+  - position: {x: -0.1283216, y: 0.5727273, z: 0.0054686936}
+    normal: {x: -0.67147875, y: -0.09055809, z: -0.7354696}
+  underside:
+  - position: {x: -0.16498493, y: 0.19090909, z: 0.0057890834}
+    normal: {x: 0.03902834, y: 0.022502884, z: 0.9989847}
+  - position: {x: -0.20164824, y: 0.28636363, z: 0.01123886}
+    normal: {x: -0.24512906, y: -0.013617634, z: 0.9693948}
+  - position: {x: -0.09165828, y: 0.09545454, z: 0.01054073}
+    normal: {x: 0.0335186, y: 0.113025315, z: 0.9930266}
+  - position: {x: 0.036663312, y: 0.09545454, z: 0.01810509}
+    normal: {x: -0.14925863, y: 0.05576302, z: 0.9872245}
+  petiole:
+    position: {x: 0, y: 0.03181818, z: 0.008241685}
+    normal: {x: 0.15165468, y: 0.16901505, z: -0.9738762}
+  leafBounds:
+    m_Center: {x: 0, y: 0.35, z: 0}
+    m_Extent: {x: 0.27497485, y: 0.35, z: 0.03367158}
+  veins:
+  - position: {x: 0.018331673, y: 0.03181818, z: 0.012081803}
+    normal: {x: 0.20980178, y: 0.23224565, z: -0.9497606}
+  - position: {x: 0.018331673, y: 0.12727274, z: 0.009041748}
+    normal: {x: 0.0238382, y: 0.41698635, z: -0.90860015}
+  - position: {x: 0.018331673, y: 0.12727274, z: 0.009041748}
+    normal: {x: 0.0238382, y: 0.41698635, z: -0.90860015}
+  - position: {x: 3.274181e-10, y: 0.14318183, z: 0.0066863433}
+    normal: {x: 0.18930008, y: -0.27134207, z: -0.94368374}
+  - position: {x: 3.274181e-10, y: 0.14318183, z: 0.0066863433}
+    normal: {x: 0.18930008, y: -0.27134207, z: -0.94368374}
+  - position: {x: -6.511982e-10, y: 0.22272727, z: -0.0039134542}
+    normal: {x: 0.17141338, y: -0.17772773, z: -0.9690358}
+  - position: {x: -6.511982e-10, y: 0.22272727, z: -0.0039134542}
+    normal: {x: 0.17141338, y: -0.17772773, z: -0.9690358}
+  - position: {x: -9.476935e-10, y: 0.27045456, z: -0.01781435}
+    normal: {x: 0.47399244, y: -0.20560135, z: -0.85618883}
+  - position: {x: -9.476935e-10, y: 0.27045456, z: -0.01781435}
+    normal: {x: 0.47399244, y: -0.20560135, z: -0.85618883}
+  - position: {x: -2.0372681e-10, y: 0.30227274, z: -0.025362022}
+    normal: {x: 0.21475808, y: -0.25905177, z: -0.9416853}
+  - position: {x: -2.0372681e-10, y: 0.30227274, z: -0.025362022}
+    normal: {x: 0.21475808, y: -0.25905177, z: -0.9416853}
+  - position: {x: -6.511982e-10, y: 0.365909, z: -0.030924873}
+    normal: {x: 0.1476621, y: 0.005337464, z: -0.9890235}
+  - position: {x: -6.511982e-10, y: 0.365909, z: -0.030924873}
+    normal: {x: 0.1476621, y: 0.005337464, z: -0.9890235}
+  - position: {x: -8.54925e-10, y: 0.41363633, z: -0.02899915}
+    normal: {x: 0.2688345, y: -0.11953991, z: -0.9557396}
+  - position: {x: -8.54925e-10, y: 0.41363633, z: -0.02899915}
+    normal: {x: 0.2688345, y: -0.11953991, z: -0.9557396}
+  - position: {x: 6.530172e-10, y: 0.47727275, z: -0.02616508}
+    normal: {x: -0.0936566, y: 0.13721986, z: -0.986103}
+  - position: {x: 6.530172e-10, y: 0.47727275, z: -0.02616508}
+    normal: {x: -0.0936566, y: 0.13721986, z: -0.986103}
+  - position: {x: 1.6370905e-10, y: 0.525, z: -0.015961869}
+    normal: {x: -0.1844306, y: 0.2547991, z: -0.94924325}
+  - position: {x: 1.6370905e-10, y: 0.525, z: -0.015961869}
+    normal: {x: -0.1844306, y: 0.2547991, z: -0.94924325}
+  - position: {x: -0.000000001711669, y: 0.58863634, z: 0.0032438282}
+    normal: {x: 0.16892254, y: 0.73204964, z: -0.6599761}
+  - position: {x: -0.000000001711669, y: 0.58863634, z: 0.0032438282}
+    normal: {x: 0.16892254, y: 0.73204964, z: -0.6599761}
+  - position: {x: -0.018331656, y: 0.62045455, z: 0.006669695}
+    normal: {x: 0.5125274, y: -0.0023493378, z: -0.8586677}
+  - position: {x: 0.018331673, y: 0.12727274, z: 0.009041748}
+    normal: {x: 0.0238382, y: 0.41698635, z: -0.90860015}
+  - position: {x: -0.10998993, y: 0.20681818, z: 0.00002166738}
+    normal: {x: -0.2534213, y: -0.07492142, z: -0.9644503}
+  - position: {x: 0.018331673, y: 0.12727274, z: 0.009041748}
+    normal: {x: 0.0238382, y: 0.41698635, z: -0.90860015}
+  - position: {x: 0.14665325, y: 0.20681818, z: -0.009406683}
+    normal: {x: -0.13769497, y: -0.16664244, z: -0.97635573}
+  - position: {x: -6.511982e-10, y: 0.22272727, z: -0.0039134542}
+    normal: {x: 0.17141338, y: -0.17772773, z: -0.9690358}
+  - position: {x: -0.16498493, y: 0.30227274, z: 0.0055666454}
+    normal: {x: -0.19415298, y: 0.0012091529, z: -0.9809705}
+  - position: {x: -6.511982e-10, y: 0.22272727, z: -0.0039134542}
+    normal: {x: 0.17141338, y: -0.17772773, z: -0.9690358}
+  - position: {x: 0.1649849, y: 0.30227277, z: -0.011391155}
+    normal: {x: 0.047922187, y: 0.096044526, z: -0.9942228}
+  - position: {x: -2.0372681e-10, y: 0.30227274, z: -0.025362022}
+    normal: {x: 0.21475808, y: -0.25905177, z: -0.9416853}
+  - position: {x: -0.16498493, y: 0.38181818, z: 0.006158878}
+    normal: {x: -0.14056383, y: 0.003181767, z: -0.9900666}
+  - position: {x: -2.0372681e-10, y: 0.30227274, z: -0.025362022}
+    normal: {x: 0.21475808, y: -0.25905177, z: -0.9416853}
+  - position: {x: 0.16498491, y: 0.38181818, z: -0.0056941495}
+    normal: {x: 0.44547972, y: 0.268395, z: -0.85411465}
+  - position: {x: -8.54925e-10, y: 0.41363633, z: -0.02899915}
+    normal: {x: 0.2688345, y: -0.11953991, z: -0.9557396}
+  - position: {x: -0.16498493, y: 0.49318185, z: 0.016114185}
+    normal: {x: 0.08944577, y: 0.2748867, z: -0.95730704}
+  - position: {x: -8.54925e-10, y: 0.41363633, z: -0.02899915}
+    normal: {x: 0.2688345, y: -0.11953991, z: -0.9557396}
+  - position: {x: 0.16498491, y: 0.49318182, z: 0.014303083}
+    normal: {x: 0.21751384, y: 0.119100764, z: -0.96876353}
+  - position: {x: 1.6370905e-10, y: 0.525, z: -0.015961869}
+    normal: {x: -0.1844306, y: 0.2547991, z: -0.94924325}
+  - position: {x: -0.1283216, y: 0.60454553, z: 0.010039612}
+    normal: {x: 0.37022603, y: -0.031139769, z: -0.9284197}
+  - position: {x: 1.6370905e-10, y: 0.525, z: -0.015961869}
+    normal: {x: -0.1844306, y: 0.2547991, z: -0.94924325}
+  - position: {x: 0.10998993, y: 0.6045455, z: 0.022897668}
+    normal: {x: -0.53430647, y: 0.1873555, z: -0.8242661}
