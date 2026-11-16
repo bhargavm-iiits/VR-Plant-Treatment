@@ -158,7 +158,7 @@ All sources are under `Assets/Plant_Asstes/` (the exact folder name, typo includ
 | 3 | 65% | 70% | 25% |
 | 4 | 75% | 80% | 18% |
 | 5 | 88% | 90% | 8% |
-| 6 | 96% | 96% | 2% |
+| 6 | 100% | 100% | 0% |
 
 - **All nine plants** use the same fixed example table above. There is no "Tomato demo only" state any more. Selecting another plant in the Plant panel switches the demo to that plant without leaving the Lab.
 
