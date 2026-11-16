@@ -1,0 +1,352 @@
+{
+  "entries": [
+    {
+      "plantId": "apple",
+      "diseaseId": "black_rot",
+      "model": "Assets/_Project/Models/Leaves/apple_black_rot.fbx",
+      "albedo": "Assets/Leaf_Assets/Apple/Apple Black Rot/Meshy_AI_Diseased_Green_Leaf_3_1013213243_image-to-3d-texture_fbx/Meshy_AI_Diseased_Green_Leaf_3_1013213243_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "apple",
+      "diseaseId": "apple_scab",
+      "model": "Assets/_Project/Models/Leaves/apple_apple_scab.fbx",
+      "albedo": "Assets/Leaf_Assets/Apple/Apple Scab/Meshy_AI_Diseased_Leaf_3D_Mode_1013212833_image-to-3d-texture_fbx/Meshy_AI_Diseased_Leaf_3D_Mode_1013212833_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "apple",
+      "diseaseId": "cedar_apple_rust",
+      "model": "Assets/_Project/Models/Leaves/apple_cedar_apple_rust.fbx",
+      "albedo": "Assets/Leaf_Assets/Apple/Cedar Apple Rust/Meshy_AI_Rust_Infected_Leaf_3D_1013213913_image-to-3d-texture_fbx/Meshy_AI_Rust_Infected_Leaf_3D_1013213913_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "bell_pepper",
+      "diseaseId": "bacterial_spot",
+      "model": "Assets/_Project/Models/Leaves/bell_pepper_bacterial_spot.fbx",
+      "albedo": "Assets/Leaf_Assets/Bell Pepper/Bacterial Spot/Meshy_AI_Spotted_Leaf_3D_Model_1013230233_image-to-3d-texture_fbx/Meshy_AI_Spotted_Leaf_3D_Model_1013230233_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "cherry",
+      "diseaseId": "powdery_mildew",
+      "model": "Assets/_Project/Models/Leaves/cherry_powdery_mildew.fbx",
+      "albedo": "Assets/Leaf_Assets/Cherry/Powdery Mildew/Meshy_AI_Powdery_Mildew_Leaf_3_1013230847_image-to-3d-texture_fbx/Meshy_AI_Powdery_Mildew_Leaf_3_1013230847_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "corn",
+      "diseaseId": "common_rust",
+      "model": "Assets/_Project/Models/Leaves/corn_common_rust.fbx",
+      "albedo": "Assets/Leaf_Assets/Corn(Maize)/Common Rust/Meshy_AI_Full_Length_Maize_Lea_1013231725_image-to-3d-texture_fbx/Meshy_AI_Full_Length_Maize_Lea_1013231725_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "corn",
+      "diseaseId": "gray_leaf_spot",
+      "model": "Assets/_Project/Models/Leaves/corn_gray_leaf_spot.fbx",
+      "albedo": "Assets/Leaf_Assets/Corn(Maize)/Gray Leaf Spot (Cercospora)/Meshy_AI_Diseased_Maize_Leaf_3_1013231332_image-to-3d-texture_fbx/Meshy_AI_Diseased_Maize_Leaf_3_1013231332_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "corn",
+      "diseaseId": "northern_leaf_blight",
+      "model": "Assets/_Project/Models/Leaves/corn_northern_leaf_blight.fbx",
+      "albedo": "Assets/Leaf_Assets/Corn(Maize)/Northern Leaf Blight/Meshy_AI_Full_Length_Blighted__1013232050_image-to-3d-texture_fbx/Meshy_AI_Full_Length_Blighted__1013232050_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "grape",
+      "diseaseId": "black_rot",
+      "model": "Assets/_Project/Models/Leaves/grape_black_rot.fbx",
+      "albedo": "Assets/Leaf_Assets/Grape/Black Rot/Meshy_AI_Diseased_Grape_Leaf_3_1013232509_image-to-3d-texture_fbx/Meshy_AI_Diseased_Grape_Leaf_3_1013232509_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "grape",
+      "diseaseId": "esca",
+      "model": "Assets/_Project/Models/Leaves/grape_esca.fbx",
+      "albedo": "Assets/Leaf_Assets/Grape/Esca (Black Measles)/Meshy_AI_Striped_Diseased_Grap_1013232926_image-to-3d-texture_fbx/Meshy_AI_Striped_Diseased_Grap_1013232926_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "grape",
+      "diseaseId": "leaf_blight",
+      "model": "Assets/_Project/Models/Leaves/grape_leaf_blight.fbx",
+      "albedo": "Assets/Leaf_Assets/Grape/Leaf Blight (Isariopsis Leaf Spot)/Meshy_AI_Chlorotic_Diseased_Gr_1013233433_image-to-3d-texture_fbx/Meshy_AI_Chlorotic_Diseased_Gr_1013233433_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "peach",
+      "diseaseId": "bacterial_spot",
+      "model": "Assets/_Project/Models/Leaves/peach_bacterial_spot.fbx",
+      "albedo": "Assets/Leaf_Assets/Peach/Bacterial Spot/Meshy_AI_Spotted_Peach_Leaf_3D_1013233735_image-to-3d-texture_fbx/Meshy_AI_Spotted_Peach_Leaf_3D_1013233735_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "potato",
+      "diseaseId": "early_blight",
+      "model": "Assets/_Project/Models/Leaves/potato_early_blight.fbx",
+      "albedo": "Assets/Leaf_Assets/Potato/Early Blight/Meshy_AI_Concentric_Blight_Lea_1013234036_image-to-3d-texture_fbx/Meshy_AI_Concentric_Blight_Lea_1013234036_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "potato",
+      "diseaseId": "late_blight",
+      "model": "Assets/_Project/Models/Leaves/potato_late_blight.fbx",
+      "albedo": "Assets/Leaf_Assets/Potato/Late Blight/Meshy_AI_Late_Blight_Potato_Le_1013234338_image-to-3d-texture_fbx/Meshy_AI_Late_Blight_Potato_Le_1013234338_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "strawberry",
+      "diseaseId": "leaf_scorch",
+      "model": "Assets/_Project/Models/Leaves/strawberry_leaf_scorch.fbx",
+      "albedo": "Assets/Leaf_Assets/Strawberry/Leaf Scorch/Meshy_AI_Strawberry_Leaf_Clust_1013234713_image-to-3d-texture_fbx/Meshy_AI_Strawberry_Leaf_Clust_1013234713_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "tomato",
+      "diseaseId": "bacterial_spot",
+      "model": "Assets/_Project/Models/Leaves/tomato_bacterial_spot.fbx",
+      "albedo": "Assets/Leaf_Assets/Tomato/Bacterial Spot/Meshy_AI_Diseased_Tomato_Leaf__1013214454_image-to-3d-texture_fbx/Meshy_AI_Diseased_Tomato_Leaf__1013214454_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "tomato",
+      "diseaseId": "early_blight",
+      "model": "Assets/_Project/Models/Leaves/tomato_early_blight.fbx",
+      "albedo": "Assets/Leaf_Assets/Tomato/Early Blight/Meshy_AI_Necrotic_Leaf_3D_Mode_1013215035_image-to-3d-texture_fbx/Meshy_AI_Necrotic_Leaf_3D_Mode_1013215035_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "tomato",
+      "diseaseId": "late_blight",
+      "model": "Assets/_Project/Models/Leaves/tomato_late_blight.fbx",
+      "albedo": "Assets/Leaf_Assets/Tomato/Late Blight/Meshy_AI_Blighted_Tomato_Leaf__1013215452_image-to-3d-texture_fbx/Meshy_AI_Blighted_Tomato_Leaf__1013215452_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "tomato",
+      "diseaseId": "leaf_mold",
+      "model": "Assets/_Project/Models/Leaves/tomato_leaf_mold.fbx",
+      "albedo": "Assets/Leaf_Assets/Tomato/Leaf Mold/Meshy_AI_Mottled_Tomato_Leaf_3_1013221447_image-to-3d-texture_fbx/Meshy_AI_Mottled_Tomato_Leaf_3_1013221447_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "tomato",
+      "diseaseId": "mosaic_virus",
+      "model": "Assets/_Project/Models/Leaves/tomato_mosaic_virus.fbx",
+      "albedo": "Assets/Leaf_Assets/Tomato/Mosaic Virus/Meshy_AI_Mottled_Variegated_Le_1013225615_image-to-3d-texture_fbx/Meshy_AI_Mottled_Variegated_Le_1013225615_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "tomato",
+      "diseaseId": "septoria_leaf_spot",
+      "model": "Assets/_Project/Models/Leaves/tomato_septoria_leaf_spot.fbx",
+      "albedo": "Assets/Leaf_Assets/Tomato/Septoria Leaf Spot/Meshy_AI_Compound_Tomato_Leaf__1013222458_image-to-3d-texture_fbx/Meshy_AI_Compound_Tomato_Leaf__1013222458_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "tomato",
+      "diseaseId": "target_spot",
+      "model": "Assets/_Project/Models/Leaves/tomato_target_spot.fbx",
+      "albedo": "Assets/Leaf_Assets/Tomato/Target Spot/Meshy_AI_Necrotic_Diseased_Lea_1013224112_image-to-3d-texture_fbx/Meshy_AI_Necrotic_Diseased_Lea_1013224112_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "tomato",
+      "diseaseId": "spider_mites",
+      "model": "Assets/_Project/Models/Leaves/tomato_spider_mites.fbx",
+      "albedo": "Assets/Leaf_Assets/Tomato/Two-Spotted Spider Mite/Meshy_AI_Mites_on_Stippled_Lea_1013223434_image-to-3d-texture_fbx/Meshy_AI_Mites_on_Stippled_Lea_1013223434_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "tomato",
+      "diseaseId": "yellow_leaf_curl_virus",
+      "model": "Assets/_Project/Models/Leaves/tomato_yellow_leaf_curl_virus.fbx",
+      "albedo": "Assets/Leaf_Assets/Tomato/Yellow leaf Curl Virus/Meshy_AI_Yellow_Curled_Leaf_3D_1013225257_image-to-3d-texture_fbx/Meshy_AI_Yellow_Curled_Leaf_3D_1013225257_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "blueberry",
+      "diseaseId": "rust",
+      "model": "Assets/_Project/Models/Leaves/blueberry_rust.fbx",
+      "albedo": "Assets/Leaf_Assets/Blueberry/Rust/Meshy_AI_Diseased_Lanceolate_Leaf_Specimen_20261111_image-to-3d-texture_fbx/Meshy_AI_Diseased_Lanceolate_Leaf_Specimen_20261111_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "chilli",
+      "diseaseId": "anthracnose",
+      "model": "Assets/_Project/Models/Leaves/chilli_anthracnose.fbx",
+      "albedo": "Assets/Leaf_Assets/Chilli/Anthracnose/Meshy_AI_Chilli_Chlorosis_Leaf_Specimen_20261111_image-to-3d-texture_fbx/Meshy_AI_Chilli_Chlorosis_Leaf_Specimen_20261111_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "chilli",
+      "diseaseId": "cercospora_leaf_spot",
+      "model": "Assets/_Project/Models/Leaves/chilli_cercospora_leaf_spot.fbx",
+      "albedo": "Assets/Leaf_Assets/Chilli/Cercospora Leaf Spot/Meshy_AI_Pepper_Leaf_Spot_Specimen_20261111_image-to-3d-texture_fbx/Meshy_AI_Pepper_Leaf_Spot_Specimen_20261111_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "chilli",
+      "diseaseId": "leaf_curl",
+      "model": "Assets/_Project/Models/Leaves/chilli_leaf_curl.fbx",
+      "albedo": "Assets/Leaf_Assets/Chilli/Leaf Curl/Meshy_AI_Pepper_Leaf_Curl_Specimen_20261111_image-to-3d-texture_fbx/Meshy_AI_Pepper_Leaf_Curl_Specimen_20261111_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "cotton",
+      "diseaseId": "bacterial_blight",
+      "model": "Assets/_Project/Models/Leaves/cotton_bacterial_blight.fbx",
+      "albedo": "Assets/Leaf_Assets/Cotton/Bacterial Blight/Meshy_AI_Cotton_Bacterial_Blight_Leaf_20261111_image-to-3d-texture_fbx/Meshy_AI_Cotton_Bacterial_Blight_Leaf_20261111_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "cotton",
+      "diseaseId": "fusarium_wilt",
+      "model": "Assets/_Project/Models/Leaves/cotton_fusarium_wilt.fbx",
+      "albedo": "Assets/Leaf_Assets/Cotton/Fusarium Wilt/Meshy_AI_Scorched_Cotton_Leaf_20261111_image-to-3d-texture_fbx/Meshy_AI_Scorched_Cotton_Leaf_20261111_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "cotton",
+      "diseaseId": "leaf_curl_virus",
+      "model": "Assets/_Project/Models/Leaves/cotton_leaf_curl_virus.fbx",
+      "albedo": "Assets/Leaf_Assets/Cotton/Leaf Curl Virus/Meshy_AI_Cotton_Leaf_Curl_Virus_20261111_image-to-3d-texture_fbx/Meshy_AI_Cotton_Leaf_Curl_Virus_20261111_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "mango",
+      "diseaseId": "anthracnose",
+      "model": "Assets/_Project/Models/Leaves/mango_anthracnose.fbx",
+      "albedo": "Assets/Leaf_Assets/Mango/Anthracnose/Meshy_AI_Mango_Leaf_Spot_Specimen_20261111_image-to-3d-texture_fbx/Meshy_AI_Mango_Leaf_Spot_Specimen_20261111_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "mango",
+      "diseaseId": "bacterial_canker",
+      "model": "Assets/_Project/Models/Leaves/mango_bacterial_canker.fbx",
+      "albedo": "Assets/Leaf_Assets/Mango/Bacterial Canker/Meshy_AI_Severe_Mango_Leaf_Spot_Specimen_20261111_image-to-3d-texture_fbx/Meshy_AI_Severe_Mango_Leaf_Spot_Specimen_20261111_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "mango",
+      "diseaseId": "die_back",
+      "model": "Assets/_Project/Models/Leaves/mango_die_back.fbx",
+      "albedo": "Assets/Leaf_Assets/Mango/Die Back/Meshy_AI_Mango_Leaf_Dieback_Specimen_20261111_image-to-3d-texture_fbx/Meshy_AI_Mango_Leaf_Dieback_Specimen_20261111_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "mango",
+      "diseaseId": "gall_midge",
+      "model": "Assets/_Project/Models/Leaves/mango_gall_midge.fbx",
+      "albedo": "Assets/Leaf_Assets/Mango/Gall Midge/Meshy_AI_Mango_Leaf_Gall_Specimen_20261111_image-to-3d-texture_fbx/Meshy_AI_Mango_Leaf_Gall_Specimen_20261111_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "orange",
+      "diseaseId": "huanglongbing",
+      "model": "Assets/_Project/Models/Leaves/orange_huanglongbing.fbx",
+      "albedo": "Assets/Leaf_Assets/Orange/Orange Huanglongbing (Citrus Greening)/Meshy_AI_Citrus_Greening_Leaf_20261111_image-to-3d-texture_fbx/Meshy_AI_Citrus_Greening_Leaf_20261111_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "rice",
+      "diseaseId": "bacterial_leaf_blight",
+      "model": "Assets/_Project/Models/Leaves/rice_bacterial_leaf_blight.fbx",
+      "albedo": "Assets/Leaf_Assets/Rice/Bacterial Leaf Blight/Meshy_AI_Diseased_Rice_Leaf_20261111_image-to-3d-texture_fbx/Meshy_AI_Diseased_Rice_Leaf_20261111_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "rice",
+      "diseaseId": "brown_spot",
+      "model": "Assets/_Project/Models/Leaves/rice_brown_spot.fbx",
+      "albedo": "Assets/Leaf_Assets/Rice/Brown Spot/Meshy_AI_Rice_Brown_Spot_Leaf_20261111_image-to-3d-texture_fbx/Meshy_AI_Rice_Brown_Spot_Leaf_20261111_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "rice",
+      "diseaseId": "leaf_blast",
+      "model": "Assets/_Project/Models/Leaves/rice_leaf_blast.fbx",
+      "albedo": "Assets/Leaf_Assets/Rice/Leaf Blast/Meshy_AI_Rice_Blast_Leaf_20261111_image-to-3d-texture_fbx/Meshy_AI_Rice_Blast_Leaf_20261111_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "rice",
+      "diseaseId": "sheath_blight",
+      "model": "Assets/_Project/Models/Leaves/rice_sheath_blight.fbx",
+      "albedo": "Assets/Leaf_Assets/Rice/Sheath Blight/Meshy_AI_Rice_Leaf_Scald_20261111_image-to-3d-texture_fbx/Meshy_AI_Rice_Leaf_Scald_20261111_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "rice",
+      "diseaseId": "tungro",
+      "model": "Assets/_Project/Models/Leaves/rice_tungro.fbx",
+      "albedo": "Assets/Leaf_Assets/Rice/Tungro/Meshy_AI_Chlorotic_Streak_Rice_Leaf_20261111_image-to-3d-texture_fbx/Meshy_AI_Chlorotic_Streak_Rice_Leaf_20261111_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "soybean",
+      "diseaseId": "bacterial_blight",
+      "model": "Assets/_Project/Models/Leaves/soybean_bacterial_blight.fbx",
+      "albedo": "Assets/Leaf_Assets/Soybean/Bacterial Blight/Meshy_AI_Bean_Leaf_Spot_Specimen_20261111_image-to-3d-texture_fbx/Meshy_AI_Bean_Leaf_Spot_Specimen_20261111_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "soybean",
+      "diseaseId": "cercospora_leaf_blight",
+      "model": "Assets/_Project/Models/Leaves/soybean_cercospora_leaf_blight.fbx",
+      "albedo": "Assets/Leaf_Assets/Soybean/Cercospora Leaf Blight/Meshy_AI_Soybean_Leaf_Rust_Specimen_20261111_image-to-3d-texture_fbx/Meshy_AI_Soybean_Leaf_Rust_Specimen_20261111_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "soybean",
+      "diseaseId": "downy_mildew",
+      "model": "Assets/_Project/Models/Leaves/soybean_downy_mildew.fbx",
+      "albedo": "Assets/Leaf_Assets/Soybean/Downy Mildew/Meshy_AI_Soybean_Yellow_Mosaic_Leaf_20261111_image-to-3d-texture_fbx/Meshy_AI_Soybean_Yellow_Mosaic_Leaf_20261111_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "soybean",
+      "diseaseId": "frogeye_leaf_spot",
+      "model": "Assets/_Project/Models/Leaves/soybean_frogeye_leaf_spot.fbx",
+      "albedo": "Assets/Leaf_Assets/Soybean/Frogeye Leaf Spot/Meshy_AI_Fungal_Leaf_Spot_Specimen_20261111_image-to-3d-texture_fbx/Meshy_AI_Fungal_Leaf_Spot_Specimen_20261111_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "soybean",
+      "diseaseId": "mosaic_virus",
+      "model": "Assets/_Project/Models/Leaves/soybean_mosaic_virus.fbx",
+      "albedo": "Assets/Leaf_Assets/Soybean/Mosaic Virus/Meshy_AI_Powdery_Mildew_Broadleaf_Specimen_20261111_image-to-3d-texture_fbx/Meshy_AI_Powdery_Mildew_Broadleaf_Specimen_20261111_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "soybean",
+      "diseaseId": "septoria_brown_spot",
+      "model": "Assets/_Project/Models/Leaves/soybean_septoria_brown_spot.fbx",
+      "albedo": "Assets/Leaf_Assets/Soybean/Septoria Brown Spot/Meshy_AI_Chlorotic_Speckled_Broadleaf_Specimen_20261111_image-to-3d-texture_fbx/Meshy_AI_Chlorotic_Speckled_Broadleaf_Specimen_20261111_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "soybean",
+      "diseaseId": "soybean_rust",
+      "model": "Assets/_Project/Models/Leaves/soybean_soybean_rust.fbx",
+      "albedo": "Assets/Leaf_Assets/Soybean/Soybean Rust/Meshy_AI_Diseased_Broadleaf_Specimen_20261111_image-to-3d-texture_fbx/Meshy_AI_Diseased_Broadleaf_Specimen_20261111_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "soybean",
+      "diseaseId": "sudden_death_syndrome",
+      "model": "Assets/_Project/Models/Leaves/soybean_sudden_death_syndrome.fbx",
+      "albedo": "Assets/Leaf_Assets/Soybean/Sudden Death Syndrome/Meshy_AI_Interveinal_Necrosis_Leaf_Specimen_20261111_image-to-3d-texture_fbx/Meshy_AI_Interveinal_Necrosis_Leaf_Specimen_20261111_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "soybean",
+      "diseaseId": "target_spot",
+      "model": "Assets/_Project/Models/Leaves/soybean_target_spot.fbx",
+      "albedo": "Assets/Leaf_Assets/Soybean/Target Spot/Meshy_AI_Target_Spot_Broadleaf_Specimen_20261111_image-to-3d-texture_fbx/Meshy_AI_Target_Spot_Broadleaf_Specimen_20261111_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "squash",
+      "diseaseId": "powdery_mildew",
+      "model": "Assets/_Project/Models/Leaves/squash_powdery_mildew.fbx",
+      "albedo": "Assets/Leaf_Assets/Squash/Powdery Mildew/Meshy_AI_Powdery_Mildew_Cucurbit_Leaf_20261111_image-to-3d-texture_fbx/Meshy_AI_Powdery_Mildew_Cucurbit_Leaf_20261111_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "sugarcane",
+      "diseaseId": "mosaic",
+      "model": "Assets/_Project/Models/Leaves/sugarcane_mosaic.fbx",
+      "albedo": "Assets/Leaf_Assets/Sugarcane/Mosaic/Meshy_AI_Sugarcane_Mosaic_Leaf_20261111_image-to-3d-texture_fbx/Meshy_AI_Sugarcane_Mosaic_Leaf_20261111_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "sugarcane",
+      "diseaseId": "red_rot",
+      "model": "Assets/_Project/Models/Leaves/sugarcane_red_rot.fbx",
+      "albedo": "Assets/Leaf_Assets/Sugarcane/Red Rot/Meshy_AI_Sugarcane_Red_Rot_Leaf_20261111_image-to-3d-texture_fbx/Meshy_AI_Sugarcane_Red_Rot_Leaf_20261111_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "sugarcane",
+      "diseaseId": "rust",
+      "model": "Assets/_Project/Models/Leaves/sugarcane_rust.fbx",
+      "albedo": "Assets/Leaf_Assets/Sugarcane/Rust/Meshy_AI_Sugarcane_Leaf_Rust_20261111_image-to-3d-texture_fbx/Meshy_AI_Sugarcane_Leaf_Rust_20261111_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "sugarcane",
+      "diseaseId": "yellow_leaf",
+      "model": "Assets/_Project/Models/Leaves/sugarcane_yellow_leaf.fbx",
+      "albedo": "Assets/Leaf_Assets/Sugarcane/Yellow Leaf/Meshy_AI_Chlorotic_Sugarcane_Leaf_20261111_image-to-3d-texture_fbx/Meshy_AI_Chlorotic_Sugarcane_Leaf_20261111_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "wheat",
+      "diseaseId": "blast",
+      "model": "Assets/_Project/Models/Leaves/wheat_blast.fbx",
+      "albedo": "Assets/Leaf_Assets/Wheat/Blast/Meshy_AI_Rice_Brown_Spot_Streak_Leaf_20261111_image-to-3d-texture_fbx/Meshy_AI_Rice_Brown_Spot_Streak_Leaf_20261111_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "wheat",
+      "diseaseId": "leaf_blight",
+      "model": "Assets/_Project/Models/Leaves/wheat_leaf_blight.fbx",
+      "albedo": "Assets/Leaf_Assets/Wheat/Leaf Blight/Meshy_AI_Northern_Corn_Leaf_Blight_20261111_image-to-3d-texture_fbx/Meshy_AI_Northern_Corn_Leaf_Blight_20261111_image-to-3d-texture.png"
+    },
+    {
+      "plantId": "wheat",
+      "diseaseId": "rust",
+      "model": "Assets/_Project/Models/Leaves/wheat_rust.fbx",
+      "albedo": "Assets/Leaf_Assets/Wheat/Rust/Meshy_AI_Rice_Leaf_Rust_20261111_image-to-3d-texture_fbx/Meshy_AI_Rice_Leaf_Rust_20261111_image-to-3d-texture.png"
+    }
+  ]
+}

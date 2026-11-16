@@ -1,0 +1,11 @@
+var controls = UnityEngine.Object.FindAnyObjectByType<BTP.Core.DesktopDemoControls>();
+var f = typeof(BTP.Core.DesktopDemoControls).GetField("head", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+var head = (UnityEngine.Camera)f.GetValue(controls);
+var cams = controls.GetComponentsInChildren<UnityEngine.Camera>(true);
+var sb = new System.Text.StringBuilder();
+sb.Append($"head={head.name} active={head.isActiveAndEnabled} fwd={head.transform.forward} | ");
+foreach (var c in cams) sb.Append($"{c.name}:{c.isActiveAndEnabled}:{c.transform.forward} ");
+var rf = typeof(BTP.Core.DesktopDemoControls).GetField("mouseRay", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+var ray = (UnityEngine.Component)rf.GetValue(controls);
+sb.Append($" ray={ray.name} fwd={ray.transform.forward} parent={ray.transform.parent.name}");
+return sb.ToString();

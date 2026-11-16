@@ -1,0 +1,468 @@
+{
+  "entries": [
+    {
+      "name": "apple_black_rot",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "apple_apple_scab",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "apple_cedar_apple_rust",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "bell_pepper_bacterial_spot",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "cherry_powdery_mildew",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "corn_common_rust",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "corn_gray_leaf_spot",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "corn_northern_leaf_blight",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "grape_black_rot",
+      "euler": [
+        0,
+        0,
+        -90
+      ]
+    },
+    {
+      "name": "grape_esca",
+      "euler": [
+        0,
+        0,
+        -90
+      ]
+    },
+    {
+      "name": "grape_leaf_blight",
+      "euler": [
+        0,
+        0,
+        90
+      ]
+    },
+    {
+      "name": "peach_bacterial_spot",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "potato_early_blight",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "potato_late_blight",
+      "euler": [
+        0,
+        0,
+        180
+      ]
+    },
+    {
+      "name": "strawberry_leaf_scorch",
+      "euler": [
+        0,
+        0,
+        -60
+      ]
+    },
+    {
+      "name": "tomato_bacterial_spot",
+      "euler": [
+        0,
+        0,
+        180
+      ]
+    },
+    {
+      "name": "tomato_early_blight",
+      "euler": [
+        0,
+        0,
+        180
+      ]
+    },
+    {
+      "name": "tomato_late_blight",
+      "euler": [
+        0,
+        0,
+        180
+      ]
+    },
+    {
+      "name": "tomato_leaf_mold",
+      "euler": [
+        0,
+        0,
+        180
+      ]
+    },
+    {
+      "name": "tomato_mosaic_virus",
+      "euler": [
+        0,
+        0,
+        180
+      ]
+    },
+    {
+      "name": "tomato_septoria_leaf_spot",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "tomato_target_spot",
+      "euler": [
+        0,
+        0,
+        180
+      ]
+    },
+    {
+      "name": "tomato_spider_mites",
+      "euler": [
+        0,
+        0,
+        180
+      ]
+    },
+    {
+      "name": "tomato_yellow_leaf_curl_virus",
+      "euler": [
+        0,
+        0,
+        180
+      ]
+    },
+    {
+      "name": "blueberry_rust",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "chilli_anthracnose",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "chilli_cercospora_leaf_spot",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "chilli_leaf_curl",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "cotton_bacterial_blight",
+      "euler": [
+        0,
+        0,
+        90
+      ]
+    },
+    {
+      "name": "cotton_fusarium_wilt",
+      "euler": [
+        0,
+        0,
+        -90
+      ]
+    },
+    {
+      "name": "cotton_leaf_curl_virus",
+      "euler": [
+        0,
+        0,
+        -90
+      ]
+    },
+    {
+      "name": "mango_anthracnose",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "mango_bacterial_canker",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "mango_die_back",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "mango_gall_midge",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "orange_huanglongbing",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "rice_bacterial_leaf_blight",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "rice_brown_spot",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "rice_leaf_blast",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "rice_sheath_blight",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "rice_tungro",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "soybean_bacterial_blight",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "soybean_cercospora_leaf_blight",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "soybean_downy_mildew",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "soybean_frogeye_leaf_spot",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "soybean_mosaic_virus",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "soybean_septoria_brown_spot",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "soybean_soybean_rust",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "soybean_sudden_death_syndrome",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "soybean_target_spot",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "squash_powdery_mildew",
+      "euler": [
+        0,
+        0,
+        90
+      ]
+    },
+    {
+      "name": "sugarcane_mosaic",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "sugarcane_red_rot",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "sugarcane_rust",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "sugarcane_yellow_leaf",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "wheat_blast",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "wheat_leaf_blight",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "wheat_rust",
+      "euler": [
+        0,
+        0,
+        0
+      ]
+    }
+  ]
+}
