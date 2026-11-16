@@ -156,6 +156,8 @@ namespace BTP.Core
                 environment.EnterLab();
             if (keyboard.fKey.wasPressedThisFrame)
                 environment.ReturnToFarm();
+            if (keyboard.tKey.wasPressedThisFrame)
+                environment.EnterTreatment();
             // R (recenter) is handled by RecenterControl.
         }
 
@@ -247,10 +249,14 @@ namespace BTP.Core
             const string help =
                 "<b>Desktop demo (no headset)</b>\n" +
                 "Left click: select plant / press button\n" +
+                "Lab leaf: hold left mouse and drag to rotate\n" +
                 "Hold right mouse: look around\n" +
                 "W A S D / arrows: walk   Shift: faster\n" +
                 "Q / E: turn\n" +
-                "L: enter Lab   F: back to Farm   R: recenter\n" +
+                "L: visiting Lab   T: Treatment Lab   F: Farm\n" +
+                "Treatment: click a rack tool, then a target\n" +
+                "Fertilizer bottle: click it, hold left mouse to spray, G to put down\n" +
+                "R: recenter\n" +
                 "H: hide this help";
             var text = showHelp ? help : "H: controls";
             helpStyle.richText = true;

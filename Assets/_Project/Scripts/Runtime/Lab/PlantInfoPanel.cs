@@ -52,7 +52,11 @@ namespace BTP.Lab
 
             title.text = plant.DisplayName;
             scientificName.text = plant.ScientificName;
-            details.text = $"Family: {plant.Family}\nType: {plant.PlantType}";
+            // The field and tropical crops are previewed here by one of their supplied leaf specimens, and say so
+            // (their whole plants stand in the Farm).
+            var leafPreview = plant.FarmPrefab == null || DiseaseClasses.IsLabOnlyPlant(plant.PlantId);
+            details.text = $"Family: {plant.Family}\nType: {plant.PlantType}" +
+                           (leafPreview ? "\n<color=#8FD3E8>Preview: leaf specimen</color>" : string.Empty);
             summary.text = plant.Summary;
 
             if (preview != null)
@@ -61,7 +65,7 @@ namespace BTP.Lab
                 return;
 
             // The farm model is lighter and reads well at this size.
-            preview = PlantSpawner.Spawn(plant, PlantVariant.Farm, previewRoot);
+            preview = PlantSpawner.Spawn(plant, leafPreview ? PlantVariant.Lab : PlantVariant.Farm, previewRoot);
             if (preview == null)
                 return;
             foreach (var lodGroup in preview.GetComponentsInChildren<LODGroup>())

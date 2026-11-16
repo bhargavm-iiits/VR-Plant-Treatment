@@ -55,10 +55,14 @@ namespace BTP.Lab
         static int sessionWeek = RecoveryTimeline.FirstWeek;
 
         RecoveryTimeline timelineState;
-        LeafDiseaseVisual visual;
+        LeafRecoveryVisual visual;
         PlantDefinition currentPlant;
         int diseaseIndex;
         bool demoActive;
+        float metricRecovery = float.NaN;
+        TMP_Text comparisonHint;
+        bool quickTransition;
+        bool showingTransitionState;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void ResetStatics() => sessionWeek = RecoveryTimeline.FirstWeek;
@@ -111,13 +115,20 @@ namespace BTP.Lab
 
         void Awake()
         {
+            foreach (var text in demoContent.GetComponentsInChildren<TMP_Text>(true))
+                if (text.name == "Hint") comparisonHint = text;
             timelineState = new RecoveryTimeline(data);
             timelineState.SetWeek(sessionWeek);
             timelineState.WeekChanged += OnWeekChanged;
 
             previousButton.onClick.AddListener(timelineState.Previous);
             nextButton.onClick.AddListener(timelineState.Next);
-            resetButton.onClick.AddListener(timelineState.Reset);
+            resetButton.onClick.AddListener(() =>
+            {
+                quickTransition = true;
+                try { timelineState.Reset(); }
+                finally { quickTransition = false; }
+            });
             for (var i = 0; i < weekButtons.Count; i++)
             {
                 var week = i + 1;
@@ -147,13 +158,20 @@ namespace BTP.Lab
         {
             demoActive = plant != null && plant.HasRecoveryDemo && model != null;
             currentPlant = plant;
-            diseaseIndex = plant != null ? DiseaseClasses.DefaultIndex(plant.PlantId) : 0;
+            diseaseIndex = 0;
+            if (plant != null)
+            {
+                var entries = DiseaseClasses.For(plant.PlantId);
+                for (int i = 0; i < entries.Count; i++)
+                    if (entries[i].DiseaseId == display.CurrentDiseaseId)
+                        diseaseIndex = i;
+            }
             visual = null;
             if (demoActive)
             {
-                visual = model.GetComponent<LeafDiseaseVisual>();
+                visual = model.GetComponent<LeafRecoveryVisual>();
                 if (visual == null)
-                    visual = model.AddComponent<LeafDiseaseVisual>();
+                    visual = model.AddComponent<LeafRecoveryVisual>();
             }
 
             demoContent.SetActive(demoActive);
@@ -166,8 +184,10 @@ namespace BTP.Lab
         {
             if (currentPlant == null || diseases == null)
                 return;
-            diseaseIndex = DiseaseClasses.Step(diseaseIndex, diseases.GetDiseases(currentPlant.PlantId).Count, delta);
-            RefreshDisease();
+            var entries = DiseaseClasses.For(currentPlant.PlantId);
+            diseaseIndex = DiseaseClasses.Step(diseaseIndex, entries.Count, delta);
+            if (entries.Count > 0)
+                display.ShowDisease(entries[diseaseIndex].DiseaseId);
         }
 
         /// <summary>Names the example disease (from the PlantVillage classes) in the subtitle and shows its sample leaf.</summary>
@@ -184,7 +204,9 @@ namespace BTP.Lab
             diseaseIndex = Mathf.Clamp(diseaseIndex, 0, entries.Count - 1);
             var entry = entries[diseaseIndex];
             subtitle.text = $"{currentPlant.DisplayName} · {entry.displayName}";
-            diseaseName.text = entry.displayName;
+            diseaseName.text = string.IsNullOrEmpty(entry.note)
+                ? entry.displayName
+                : entry.displayName + "\n<size=60%><color=#8FD3E8>" + entry.note + "</color></size>";
             diseaseLeaf.texture = entry.leaf;
             diseaseRow.SetActive(true);
             var cycle = entries.Count > 1;
@@ -198,6 +220,57 @@ namespace BTP.Lab
             Refresh();
         }
 
+        void Update()
+        {
+            if (demoActive && visual != null)
+            {
+                UpdateAnimatedMetrics();
+                UpdateTransitionState();
+            }
+        }
+
+        // While the leaf animates, the right-hand label says so ("Healing… → Week N"), and at Week 6
+        // the divider stays until the whole leaf has finished turning healthy.
+        void UpdateTransitionState()
+        {
+            bool moving = visual.IsTransitioning;
+            if (!moving && !showingTransitionState) return;
+            var current = timelineState.Current;
+            bool fullyHealthy = current.week == data.WeekCount;
+            if (moving)
+            {
+                comparisonMarker.SetActive(true);
+                currentLabel.text = visual.IsHealing ? $"Healing… → Week {current.week}" : $"Rewinding… → Week {current.week}";
+                showingTransitionState = true;
+                return;
+            }
+            showingTransitionState = false;
+            comparisonMarker.SetActive(!fullyHealthy);
+            currentLabel.text = fullyHealthy ? "Healthy · Week 6" : $"Current · Week {current.week}";
+        }
+
+        void UpdateAnimatedMetrics()
+        {
+            float amount = visual.DisplayedRecovery;
+            if (Mathf.Approximately(metricRecovery, amount)) return;
+            metricRecovery = amount;
+            var first = data.GetWeek(1);
+            var final = data.GetWeek(data.WeekCount);
+            float health = Mathf.Lerp(first.leafHealth, final.leafHealth, amount);
+            var low = first;
+            var high = final;
+            for (int i = 2; i <= data.WeekCount; i++)
+            {
+                high = data.GetWeek(i);
+                if (health <= high.leafHealth) break;
+                low = high;
+            }
+            float t = Mathf.InverseLerp(low.leafHealth, high.leafHealth, health);
+            leafHealthBar.SetValue(Mathf.RoundToInt(health));
+            chlorophyllBar.SetValue(Mathf.RoundToInt(Mathf.Lerp(low.chlorophyll, high.chlorophyll, t)));
+            severityBar.SetValue(Mathf.RoundToInt(Mathf.Lerp(low.diseaseSeverity, high.diseaseSeverity, t)));
+        }
+
         void Refresh()
         {
             if (!demoActive)
@@ -206,9 +279,13 @@ namespace BTP.Lab
             RefreshDisease();
             var current = timelineState.Current;
             var baseline = data.GetWeek(RecoveryTimeline.FirstWeek);
+            bool fullyHealthy = current.week == data.WeekCount;
+            comparisonMarker.SetActive(!fullyHealthy);
 
             weekTitle.text = $"Week {current.week} of {timelineState.WeekCount}";
-            weekCaption.text = string.IsNullOrEmpty(current.caption) ? string.Empty : current.caption;
+            weekCaption.text = fullyHealthy ? "Complete recovery (illustrative)" : string.IsNullOrEmpty(current.caption) ? string.Empty : current.caption;
+            if (comparisonHint != null)
+                comparisonHint.text = fullyHealthy ? "Week 6: the whole leaf appears healthy." : "Left: supplied diseased leaf.\nRight: selected week (illustrative).";
             leafHealthBar.SetValue(current.leafHealth);
             chlorophyllBar.SetValue(current.chlorophyll);
             severityBar.SetValue(current.diseaseSeverity);
@@ -219,7 +296,7 @@ namespace BTP.Lab
                 weekSelectedVisuals[i].Selected = i + 1 == current.week;
 
             baselineLabel.text = $"Diseased · Week {baseline.week}";
-            currentLabel.text = $"Current · Week {current.week}";
+            currentLabel.text = fullyHealthy ? "Healthy · Week 6" : $"Current · Week {current.week}";
             if (currentLabelBackground != null)
             {
                 var health = Color.Lerp(UIPalette.HealthBad, UIPalette.HealthGood, current.leafHealth / 100f);
@@ -229,7 +306,11 @@ namespace BTP.Lab
             if (visual != null)
             {
                 var root = display.ModelRoot;
-                visual.ShowComparison(current, baseline, root.right, root.position);
+                visual.Show(current, baseline, data.GetWeek(data.WeekCount), root, quickTransition);
+                metricRecovery = float.NaN;
+                UpdateAnimatedMetrics();
+                showingTransitionState = visual.IsTransitioning;
+                UpdateTransitionState();
             }
         }
     }

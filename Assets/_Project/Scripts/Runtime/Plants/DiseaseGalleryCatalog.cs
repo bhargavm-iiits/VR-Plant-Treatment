@@ -17,6 +17,8 @@ namespace BTP.Plants
             public string id;
             public string displayName;
             public Texture2D leaf;
+            [Tooltip("Where the image comes from when it is not a PlantVillage photo, e.g. a render of the supplied specimen.")]
+            public string note;
         }
 
         [Serializable]
@@ -55,7 +57,7 @@ namespace BTP.Plants
 
         internal void Clear() => plants.Clear();
 
-        internal void Add(string plantId, string diseaseId, string displayName, Texture2D leaf)
+        internal void Add(string plantId, string diseaseId, string displayName, Texture2D leaf, string note = null)
         {
             var group = plants.Find(p => p.plantId == plantId);
             if (group == null)
@@ -64,7 +66,7 @@ namespace BTP.Plants
                 plants.Add(group);
             }
 
-            group.diseases.Add(new Entry { id = diseaseId, displayName = displayName, leaf = leaf });
+            group.diseases.Add(new Entry { id = diseaseId, displayName = displayName, leaf = leaf, note = note });
         }
     }
 }

@@ -36,7 +36,7 @@ namespace BTP.Lab
             new RecoveryWeek { week = 3, leafHealth = 65, chlorophyll = 70, diseaseSeverity = 25, caption = TreatmentCaption },
             new RecoveryWeek { week = 4, leafHealth = 75, chlorophyll = 80, diseaseSeverity = 18 },
             new RecoveryWeek { week = 5, leafHealth = 88, chlorophyll = 90, diseaseSeverity = 8 },
-            new RecoveryWeek { week = 6, leafHealth = 96, chlorophyll = 96, diseaseSeverity = 2 },
+            new RecoveryWeek { week = 6, leafHealth = 100, chlorophyll = 100, diseaseSeverity = 0 },
         };
 
         [SerializeField] string plantId = "tomato";

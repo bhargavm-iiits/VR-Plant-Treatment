@@ -14,7 +14,9 @@ namespace BTP.Core
         {
             EnterLab,
             ReturnToFarm,
-            Recenter
+            Recenter,
+            EnterTreatment,
+            ReturnToLab
         }
 
         [SerializeField] ButtonAction action;
@@ -46,6 +48,12 @@ namespace BTP.Core
                     break;
                 case ButtonAction.Recenter:
                     controller.Recenter();
+                    break;
+                case ButtonAction.EnterTreatment:
+                    controller.EnterTreatment();
+                    break;
+                case ButtonAction.ReturnToLab:
+                    controller.ReturnToLab();
                     break;
             }
         }

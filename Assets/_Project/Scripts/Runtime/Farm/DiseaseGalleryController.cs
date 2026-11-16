@@ -2,13 +2,14 @@ using System.Collections.Generic;
 using BTP.Plants;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
 namespace BTP.Farm
 {
     /// <summary>
-    /// Farm disease gallery. When the user is near a specimen and selects it, a ring of cards pops up
+    /// Farm disease gallery. When the user is near a plant (a disease row's plant) and selects it, a ring of cards pops up
     /// around the plant, one per PlantVillage disease class, each with a sample leaf image and the
     /// disease name. Only one ring is open at a time. The cards are a pool built once in Awake (one
     /// quad each for border, panel and image, plus TextMeshPro text), so opening and animating
@@ -28,6 +29,8 @@ namespace BTP.Farm
         [SerializeField] Material borderMaterial;
         [SerializeField] Material panelMaterial;
         [SerializeField] Material imageMaterial;
+        [Tooltip("Six-week timeline console that opens and closes with the ring (optional).")]
+        [SerializeField] FarmTimelineConsole console;
         [Tooltip("Specimens farther than this (metres) do not open a ring.")]
         [SerializeField, Min(1f)] float nearDistance = 4f;
         [Tooltip("An open ring closes when the viewer walks farther than this from its plant.")]
@@ -62,6 +65,7 @@ namespace BTP.Farm
         float spin;
         int count;
         int clickFrame = -1;
+        int emptyClickFrame = -1;
         string openPlantId;
         Transform specimen;
         float radius;
@@ -71,6 +75,9 @@ namespace BTP.Farm
         float pendingExtent;
 
         public bool IsOpen => phase != Phase.Closed;
+        public FarmTimelineConsole Console => console;
+
+        internal void BindConsole(FarmTimelineConsole timelineConsole) => console = timelineConsole;
         public string OpenPlantId => phase == Phase.Closed ? null : openPlantId;
 
         internal void Bind(DiseaseGalleryCatalog diseaseCatalog, Material border, Material panel, Material image)
@@ -104,7 +111,9 @@ namespace BTP.Farm
                 return false;
             }
 
-            if ((phase == Phase.Opening || phase == Phase.Open) && openPlantId == plantId)
+            // Selecting the same plant again closes its ring; another plant of a disease row, or of another row of the
+            // same crop, moves the ring to it.
+            if ((phase == Phase.Opening || phase == Phase.Open) && openPlantId == plantId && specimen == plant)
             {
                 Close();
                 return true;
@@ -128,6 +137,9 @@ namespace BTP.Farm
             if (phase == Phase.Closed || phase == Phase.Closing)
                 return;
             phase = Phase.Closing;
+            emptyClickFrame = -1;
+            if (console != null)
+                console.Hide();
         }
 
         void Open(string plantId, Transform plant, float extent)
@@ -158,13 +170,16 @@ namespace BTP.Farm
             time = 0f;
             totalTime = DiseaseRingLayout.TotalTime(count, stagger, popDuration);
             phase = Phase.Opening;
+            emptyClickFrame = -1;
+            if (console != null)
+                console.Show(plantId, plant, radius);
             RefreshRays();
         }
 
         void RefreshRays()
         {
             rays.Clear();
-            rays.AddRange(FindObjectsByType<XRRayInteractor>(FindObjectsSortMode.None));
+            rays.AddRange(FindObjectsByType<XRRayInteractor>());
         }
 
         void Update()
@@ -218,8 +233,31 @@ namespace BTP.Farm
                                      keyboard.f1Key.wasPressedThisFrame))
                 return true;
 
-            // A click that did not select a specimen this frame (empty space, UI, anything else).
-            return clickFrame != Time.frameCount && ClickedThisFrame();
+            // A click that did not select a specimen or press the console (empty space, other UI) closes the ring.
+            // The decision waits two frames: depending on script order, the specimen select or the console's
+            // pointer-down can arrive a frame after the raw mouse or trigger press.
+            if (emptyClickFrame < 0 && ClickedThisFrame() && clickFrame != Time.frameCount && !PointerOverConsole())
+                emptyClickFrame = Time.frameCount;
+            if (emptyClickFrame < 0 || Time.frameCount < emptyClickFrame + 2)
+                return false;
+            var consumed = clickFrame >= emptyClickFrame || FarmConsolePressGuard.LastPressFrame >= emptyClickFrame - 1;
+            emptyClickFrame = -1;
+            return !consumed;
+        }
+
+        bool PointerOverConsole()
+        {
+            if (console == null || !console.IsVisible)
+                return false;
+            for (var i = 0; i < rays.Count; i++)
+            {
+                var ray = rays[i];
+                if (ray != null && ray.isActiveAndEnabled && ray.TryGetCurrentUIRaycastResult(out RaycastResult result) &&
+                    result.gameObject != null && console.Contains(result.gameObject.transform))
+                    return true;
+            }
+
+            return false;
         }
 
         bool ClickedThisFrame()

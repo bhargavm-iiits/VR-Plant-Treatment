@@ -2,7 +2,10 @@ using UnityEngine;
 
 namespace BTP.Farm
 {
-    /// <summary>Cyan ground ring around a farm specimen: faint when idle, brighter on hover, bright when selected.</summary>
+    /// <summary>
+    /// Cyan ground ring around a farm plant: faint (or hidden, for a disease row) when idle, brighter on hover,
+    /// bright when selected.
+    /// </summary>
     public sealed class SelectionRing : MonoBehaviour
     {
         public enum State
@@ -20,10 +23,16 @@ namespace BTP.Farm
         [SerializeField, Range(0f, 1f)] float idleAlpha = 0.18f;
         [SerializeField, Range(0f, 1f)] float hoverAlpha = 0.5f;
         [SerializeField, Range(0f, 1f)] float selectedAlpha = 0.95f;
+        [Tooltip("Hide the ring while idle (a disease row's one ring, which moves to the pointed-at plant).")]
+        [SerializeField] bool hideWhenIdle;
 
         MaterialPropertyBlock block;
 
-        internal void Bind(Renderer target) => ringRenderer = target;
+        internal void Bind(Renderer target, bool hideIdle = false)
+        {
+            ringRenderer = target;
+            hideWhenIdle = hideIdle;
+        }
 
         void Awake() => SetState(State.Idle);
 
@@ -31,6 +40,7 @@ namespace BTP.Farm
         {
             if (ringRenderer == null)
                 return;
+            ringRenderer.enabled = !(hideWhenIdle && state == State.Idle);
             block ??= new MaterialPropertyBlock();
 
             var alpha = state == State.Selected ? selectedAlpha : state == State.Hover ? hoverAlpha : idleAlpha;

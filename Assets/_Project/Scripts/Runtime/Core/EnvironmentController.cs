@@ -1,21 +1,24 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace BTP.Core
 {
     /// <summary>
-    /// Keeps exactly one environment scene (Farm or Lab) loaded next to the persistent
-    /// XRBootstrap scene. A switch fades out, unloads the old environment, loads the new one,
-    /// moves the XR rig to its SpawnAnchor and fades in. The single XR rig in XRBootstrap is
-    /// kept for the whole session, so cameras and input modules are never duplicated.
+    /// Keeps exactly one environment scene (Farm, visiting Lab or Treatment lab) loaded next to
+    /// the persistent XRBootstrap scene. A switch saves the current environment, fades out,
+    /// unloads it, loads the new one, waits until it is configured, moves the XR rig to its
+    /// SpawnAnchor and fades in. The single XR rig in XRBootstrap is kept for the whole session,
+    /// so cameras, AudioListeners and input modules are never duplicated.
     /// </summary>
     [DefaultExecutionOrder(-90)]
     public sealed class EnvironmentController : MonoBehaviour
     {
         [SerializeField] string farmSceneName = "Envirornment";
         [SerializeField] string labSceneName = "Lab";
+        [SerializeField] string treatmentSceneName = "Treatment";
         [SerializeField] EnvironmentId startEnvironment = EnvironmentId.Farm;
 
         [Tooltip("Root of the XR rig (the XR Origin).")]
@@ -24,6 +27,8 @@ namespace BTP.Core
         [SerializeField] Transform head;
         [SerializeField] FadeOverlay fade;
         [SerializeField, Min(0f)] float fadeDuration = 0.35f;
+        [Tooltip("Longest wait for a loaded environment to finish configuring itself.")]
+        [SerializeField, Min(1f)] float readyTimeout = 15f;
 
         Scene environmentScene;
 
@@ -34,8 +39,26 @@ namespace BTP.Core
 
         public bool IsSwitching { get; private set; }
 
+        /// <summary>Why the last switch failed, or null.</summary>
+        public string LastError { get; private set; }
+
         /// <summary>Raised after an environment has loaded and the rig is at its spawn point.</summary>
         public event Action<EnvironmentId> EnvironmentLoaded;
+
+        /// <summary>Raised after <see cref="FocusRoutine"/> re-placed the rig inside the already loaded environment.</summary>
+        public event Action<EnvironmentId> EnvironmentFocused;
+
+        /// <summary>
+        /// Optional standing point for an environment, used instead of its SpawnAnchor when it returns a transform (a
+        /// connected XR session uses it to place the user at the selected Farm specimen). Null keeps the SpawnAnchor.
+        /// </summary>
+        public Func<EnvironmentId, Scene, Transform> SpawnResolver { get; set; }
+
+        /// <summary>Optional check before entering an environment: returns why entry is refused, or null to allow it.</summary>
+        public Func<EnvironmentId, string> EntryGate { get; set; }
+
+        /// <summary>Raised with the reason when <see cref="EntryGate"/> refused an entry.</summary>
+        public event Action<EnvironmentId, string> EntryRefused;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void ResetStatics() => Instance = null;
@@ -48,6 +71,8 @@ namespace BTP.Core
             head = headCamera;
             fade = fadeOverlay;
         }
+
+        internal void BindTreatment(string treatmentScene) => treatmentSceneName = treatmentScene;
 
         void Awake()
         {
@@ -75,11 +100,12 @@ namespace BTP.Core
             yield return null;
             yield return null;
 
-            // Pressing Play in Farm.unity or Lab.unity loads XRBootstrap next to it (see
+            // Pressing Play in an environment scene loads XRBootstrap next to it (see
             // BootstrapGuard); adopt that environment instead of loading the default one.
             if (TryGetLoadedEnvironment(out var id, out var scene))
             {
                 environmentScene = scene;
+                yield return WaitUntilReady(scene);
                 Activate(id);
                 if (fade != null)
                     yield return fade.FadeTo(0f, fadeDuration);
@@ -91,6 +117,7 @@ namespace BTP.Core
             yield return SwitchRoutine(startEnvironment);
         }
 
+        /// <summary>Starts a switch. Ignored while another switch is running, so repeated presses never overlap.</summary>
         public void SwitchEnvironment(EnvironmentId target)
         {
             if (IsSwitching || Current == target)
@@ -106,21 +133,77 @@ namespace BTP.Core
             SwitchEnvironment(EnvironmentId.Lab);
         }
 
+        /// <summary>Enter the Treatment lab with the case selected in the visiting Lab.</summary>
+        public void EnterTreatment()
+        {
+            if (SelectionState.Instance != null)
+                SelectionState.Instance.EnsureSelection();
+            var refusal = EntryGate?.Invoke(EnvironmentId.Treatment);
+            if (refusal != null)
+            {
+                LastError = refusal;
+                Debug.Log("[BTP] Enter Treatment refused: " + refusal);
+                EntryRefused?.Invoke(EnvironmentId.Treatment, refusal);
+                return;
+            }
+
+            SwitchEnvironment(EnvironmentId.Treatment);
+        }
+
+        /// <summary>
+        /// Brings the user to <paramref name="target"/>'s standing point (see <see cref="SpawnResolver"/>). From another
+        /// environment this is the normal additive switch. In the environment already loaded, where
+        /// <see cref="SwitchEnvironment"/> returns early, it fades out, moves the rig and fades in. Waits for a running
+        /// switch first; the routine ends when the user can see the result.
+        /// </summary>
+        public IEnumerator FocusRoutine(EnvironmentId target)
+        {
+            while (IsSwitching)
+                yield return null;
+            if (Current != target)
+            {
+                yield return SwitchRoutine(target);
+                yield break;
+            }
+
+            IsSwitching = true;
+            LastError = null;
+            if (fade != null)
+                yield return fade.FadeTo(1f, fadeDuration);
+            var anchor = ResolveAnchor(target, environmentScene);
+            if (anchor != null)
+                PlaceRig(anchor);
+            EnvironmentFocused?.Invoke(target);
+            yield return null;
+            if (fade != null)
+                yield return fade.FadeTo(0f, fadeDuration);
+            IsSwitching = false;
+        }
+
         public void ReturnToFarm() => SwitchEnvironment(EnvironmentId.Farm);
+
+        public void ReturnToLab() => SwitchEnvironment(EnvironmentId.Lab);
 
         /// <summary>Moves the user back to the current environment's spawn point, facing forward.</summary>
         public void Recenter()
         {
             if (IsSwitching || !environmentScene.IsValid())
                 return;
-            var anchor = FindSpawnAnchor(environmentScene);
+            var anchor = ResolveAnchor(Current ?? startEnvironment, environmentScene);
             if (anchor != null)
-                PlaceRig(anchor.transform);
+                PlaceRig(anchor);
         }
 
         IEnumerator SwitchRoutine(EnvironmentId target)
         {
             IsSwitching = true;
+            LastError = null;
+            var previous = Current;
+
+            // Save lesson state and release held tools before anything is torn down.
+            if (environmentScene.IsValid() && environmentScene.isLoaded)
+                NotifyExit(environmentScene);
+
             if (fade != null)
                 yield return fade.FadeTo(1f, fadeDuration);
 
@@ -134,20 +217,74 @@ namespace BTP.Core
             var load = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
             if (load == null)
             {
-                Debug.LogError($"[BTP] Scene '{sceneName}' is not in the build profile's scene list.");
+                LastError = $"Scene '{sceneName}' is not in the build profile's scene list.";
+                Debug.LogError("[BTP] " + LastError);
+                // Leave the user somewhere usable: reload the environment they came from.
                 IsSwitching = false;
+                if (previous.HasValue && previous.Value != target)
+                {
+                    Current = null;
+                    yield return SwitchRoutine(previous.Value);
+                }
+                else if (fade != null)
+                {
+                    yield return fade.FadeTo(0f, fadeDuration);
+                }
+
                 yield break;
             }
 
             yield return load;
             environmentScene = SceneManager.GetSceneByName(sceneName);
+            SceneManager.SetActiveScene(environmentScene);
+
+            // Wait until database-backed scenes have configured themselves, then place the rig.
+            yield return WaitUntilReady(environmentScene);
             Activate(target);
 
-            // One frame for the new scene's Start methods before it becomes visible.
+            // One frame for the new scene's late setup before it becomes visible.
             yield return null;
             if (fade != null)
                 yield return fade.FadeTo(0f, fadeDuration);
             IsSwitching = false;
+        }
+
+        IEnumerator WaitUntilReady(Scene scene)
+        {
+            var waiting = new List<IEnvironmentReadiness>();
+            var deadline = Time.realtimeSinceStartup + readyTimeout;
+            // Start methods run on the first frame after loading.
+            yield return null;
+            while (Time.realtimeSinceStartup < deadline)
+            {
+                waiting.Clear();
+                foreach (var root in scene.GetRootGameObjects())
+                    foreach (var component in root.GetComponentsInChildren<IEnvironmentReadiness>(true))
+                        if (!component.IsEnvironmentReady)
+                            waiting.Add(component);
+                if (waiting.Count == 0)
+                    yield break;
+                yield return null;
+            }
+
+            LastError = $"'{scene.name}' did not finish loading in time.";
+            Debug.LogError("[BTP] " + LastError);
+        }
+
+        static void NotifyExit(Scene scene)
+        {
+            foreach (var root in scene.GetRootGameObjects())
+                foreach (var component in root.GetComponentsInChildren<IEnvironmentExit>(true))
+                {
+                    try
+                    {
+                        component.PrepareForExit();
+                    }
+                    catch (Exception exception)
+                    {
+                        Debug.LogException(exception);
+                    }
+                }
         }
 
         void Activate(EnvironmentId target)
@@ -156,9 +293,9 @@ namespace BTP.Core
             SceneManager.SetActiveScene(environmentScene);
             DynamicGI.UpdateEnvironment();
 
-            var anchor = FindSpawnAnchor(environmentScene);
+            var anchor = ResolveAnchor(target, environmentScene);
             if (anchor != null)
-                PlaceRig(anchor.transform);
+                PlaceRig(anchor);
             else
                 Debug.LogError($"[BTP] Scene '{environmentScene.name}' has no SpawnAnchor.");
 
@@ -189,7 +326,17 @@ namespace BTP.Core
             Physics.SyncTransforms();
         }
 
-        string SceneNameFor(EnvironmentId id) => id == EnvironmentId.Farm ? farmSceneName : labSceneName;
+        /// <summary>Explicit scene for every environment.</summary>
+        string SceneNameFor(EnvironmentId id)
+        {
+            switch (id)
+            {
+                case EnvironmentId.Farm: return farmSceneName;
+                case EnvironmentId.Lab: return labSceneName;
+                case EnvironmentId.Treatment: return treatmentSceneName;
+                default: throw new ArgumentOutOfRangeException(nameof(id), id, null);
+            }
+        }
 
         bool TryGetLoadedEnvironment(out EnvironmentId id, out Scene scene)
         {
@@ -206,6 +353,25 @@ namespace BTP.Core
             id = default;
             scene = default;
             return false;
+        }
+
+        /// <summary>The resolver's standing point when it has one, else the scene's SpawnAnchor.</summary>
+        Transform ResolveAnchor(EnvironmentId id, Scene scene)
+        {
+            Transform resolved = null;
+            try
+            {
+                resolved = SpawnResolver?.Invoke(id, scene);
+            }
+            catch (Exception exception)
+            {
+                Debug.LogException(exception);
+            }
+
+            if (resolved != null)
+                return resolved;
+            var anchor = FindSpawnAnchor(scene);
+            return anchor != null ? anchor.transform : null;
         }
 
         static SpawnAnchor FindSpawnAnchor(Scene scene)
