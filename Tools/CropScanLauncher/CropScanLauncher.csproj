@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    CropScanLauncher.exe: the cropscanxr: link handler installed next to PlantDiseaseVR.exe.
+    .NET Framework 4.8 ships with Windows 10/11, so the launcher needs no runtime install.
+    Build: dotnet build -c Release   (output: bin\Release\net48\CropScanLauncher.exe)
+  -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <AssemblyName>CropScanLauncher</AssemblyName>
+    <RootNamespace>CropScanLauncher</RootNamespace>
+    <Product>CropScan XR</Product>
+    <AssemblyTitle>CropScan XR link handler</AssemblyTitle>
+    <Version>1.0.0</Version>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- The player's own link and pipe validation, so both sides accept exactly the same input. -->
+    <Compile Include="..\..\Assets\_Project\Scripts\Runtime\XR\XrScanLink.cs" Link="Shared\XrScanLink.cs" />
+  </ItemGroup>
+</Project>
