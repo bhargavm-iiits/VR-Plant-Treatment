@@ -1,0 +1,210 @@
+{
+  "plantId": "cotton",
+  "stem": "Cotton",
+  "variants": [
+    {
+      "disease": "bacterial_blight",
+      "source": "Cotton_Bacterial_Blight.glb",
+      "source_height": 1.063,
+      "source_triangles": 609436,
+      "leaf_material": "Bacterial Blight | supplied leaf PBR",
+      "atlas": [
+        "Cotton lint | warm off-white",
+        "Cotton wisps | supplied strand alpha",
+        "Dry capsule | brown exterior",
+        "Green bract | olive",
+        "Green capsule | ribbed skin",
+        "Split capsule | ochre interior"
+      ],
+      "solid": {
+        "Capsule seam | dark olive": [
+          0.346,
+          0.417,
+          0.19
+        ],
+        "Cotton shoots | olive green": [
+          0.347,
+          0.437,
+          0.187
+        ],
+        "Cotton stem | reddish woody bark": [
+          0.418,
+          0.292,
+          0.19
+        ]
+      },
+      "named_colours": {},
+      "dropped": [
+        "Exposed root | brown",
+        "Soil | dark broken loam"
+      ],
+      "lod0_ratio": 0.058347,
+      "lod0_smallest_part": 0.0,
+      "lod0_leaf_triangles": 1416,
+      "lod1_ratio": 0.017792,
+      "lod1_smallest_part": 0.045,
+      "lod1_leaf_triangles": 472,
+      "origin": "roots",
+      "leaves": 59,
+      "leaf_sprite_coverage": 0.487,
+      "leaf_sprites": 1,
+      "fruit_like_parts": 35,
+      "leaf_atlas_size": 1024,
+      "wind": {
+        "file": "Cotton_bacterial_blight_Wind.bytes",
+        "parts": 130,
+        "keys": 60,
+        "seconds": 10.0,
+        "fps": 24.0,
+        "max_angle_deg": 13.46,
+        "max_travel_m": 0.0324
+      },
+      "lod0_triangles": 13952,
+      "lod1_triangles": 4453,
+      "height": 1.092,
+      "width": 0.822,
+      "scale": 1.0,
+      "fbx": "Cotton_bacterial_blight.fbx",
+      "leaf_texture": "Cotton_bacterial_blight_Leaf.png",
+      "parts_texture": "Cotton_Parts.png",
+      "wind_file": "Cotton_bacterial_blight_Wind.bytes",
+      "parts_atlas_size": 2048
+    },
+    {
+      "disease": "fusarium_wilt",
+      "source": "Cotton_Fusarium_Wilt.glb",
+      "source_height": 1.058,
+      "source_triangles": 686136,
+      "leaf_material": "Fusarium Wilt | supplied leaf PBR",
+      "atlas": [
+        "Cotton lint | warm off-white",
+        "Cotton wisps | supplied strand alpha",
+        "Dry capsule | brown exterior",
+        "Green bract | olive",
+        "Green capsule | ribbed skin",
+        "Split capsule | ochre interior"
+      ],
+      "solid": {
+        "Capsule seam | dark olive": [
+          0.346,
+          0.417,
+          0.19
+        ],
+        "Cotton shoots | olive green": [
+          0.347,
+          0.437,
+          0.187
+        ],
+        "Cotton stem | reddish woody bark": [
+          0.418,
+          0.292,
+          0.19
+        ]
+      },
+      "named_colours": {},
+      "dropped": [
+        "Exposed root | brown",
+        "Soil | dark broken loam"
+      ],
+      "lod0_ratio": 0.05773,
+      "lod0_smallest_part": 0.0,
+      "lod0_leaf_triangles": 1298,
+      "lod1_ratio": 0.017664,
+      "lod1_smallest_part": 0.045,
+      "lod1_leaf_triangles": 472,
+      "origin": "roots",
+      "leaves": 59,
+      "leaf_sprite_coverage": 0.468,
+      "leaf_sprites": 1,
+      "fruit_like_parts": 36,
+      "leaf_atlas_size": 1024,
+      "wind": {
+        "file": "Cotton_fusarium_wilt_Wind.bytes",
+        "parts": 130,
+        "keys": 60,
+        "seconds": 10.0,
+        "fps": 24.0,
+        "max_angle_deg": 15.03,
+        "max_travel_m": 0.0363
+      },
+      "lod0_triangles": 13836,
+      "lod1_triangles": 4439,
+      "height": 1.061,
+      "width": 0.817,
+      "scale": 1.0,
+      "fbx": "Cotton_fusarium_wilt.fbx",
+      "leaf_texture": "Cotton_fusarium_wilt_Leaf.png",
+      "parts_texture": "Cotton_Parts.png",
+      "wind_file": "Cotton_fusarium_wilt_Wind.bytes",
+      "parts_atlas_size": 2048
+    },
+    {
+      "disease": "leaf_curl_virus",
+      "source": "Cotton_Leaf_Curl_Virus.glb",
+      "source_height": 1.004,
+      "source_triangles": 686136,
+      "leaf_material": "Leaf Curl Virus | supplied leaf PBR",
+      "atlas": [
+        "Cotton lint | warm off-white",
+        "Cotton wisps | supplied strand alpha",
+        "Dry capsule | brown exterior",
+        "Green bract | olive",
+        "Green capsule | ribbed skin",
+        "Split capsule | ochre interior"
+      ],
+      "solid": {
+        "Capsule seam | dark olive": [
+          0.346,
+          0.417,
+          0.19
+        ],
+        "Cotton shoots | olive green": [
+          0.347,
+          0.437,
+          0.187
+        ],
+        "Cotton stem | reddish woody bark": [
+          0.418,
+          0.292,
+          0.19
+        ]
+      },
+      "named_colours": {},
+      "dropped": [
+        "Exposed root | brown",
+        "Soil | dark broken loam"
+      ],
+      "lod0_ratio": 0.056038,
+      "lod0_smallest_part": 0.0,
+      "lod0_leaf_triangles": 1416,
+      "lod1_ratio": 0.017267,
+      "lod1_smallest_part": 0.045,
+      "lod1_leaf_triangles": 472,
+      "origin": "roots",
+      "leaves": 59,
+      "leaf_sprite_coverage": 0.459,
+      "leaf_sprites": 1,
+      "fruit_like_parts": 38,
+      "leaf_atlas_size": 1024,
+      "wind": {
+        "file": "Cotton_leaf_curl_virus_Wind.bytes",
+        "parts": 130,
+        "keys": 60,
+        "seconds": 10.0,
+        "fps": 24.0,
+        "max_angle_deg": 15.52,
+        "max_travel_m": 0.0308
+      },
+      "lod0_triangles": 13958,
+      "lod1_triangles": 4463,
+      "height": 1.024,
+      "width": 0.755,
+      "scale": 1.0,
+      "fbx": "Cotton_leaf_curl_virus.fbx",
+      "leaf_texture": "Cotton_leaf_curl_virus_Leaf.png",
+      "parts_texture": "Cotton_Parts.png",
+      "wind_file": "Cotton_leaf_curl_virus_Wind.bytes",
+      "parts_atlas_size": 2048
+    }
+  ]
+}

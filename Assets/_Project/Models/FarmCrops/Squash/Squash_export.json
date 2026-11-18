@@ -1,0 +1,94 @@
+{
+  "plantId": "squash",
+  "stem": "Squash",
+  "variants": [
+    {
+      "disease": "powdery_mildew",
+      "source": "Squash_Powdery_Mildew.glb",
+      "source_height": 0.911,
+      "source_triangles": 280135,
+      "leaf_material": "Powdery mildew leaf | original PBR",
+      "atlas": [
+        "Honeynut scan | pale tan PBR",
+        "Ribbed squash scan | golden skin",
+        "Ribbed squash scan | original stalk",
+        "Young stems and calyx | green.001"
+      ],
+      "solid": {
+        "Bud | green base and folded yellow tips": [
+          0.62,
+          0.68,
+          0.22
+        ],
+        "Corolla | veined yellow and orange": [
+          0.93,
+          0.74,
+          0.16
+        ],
+        "Squash stem | longitudinal fibers": [
+          0.357,
+          0.457,
+          0.203
+        ],
+        "Stamen and stigma | warm saffron": [
+          0.969,
+          0.774,
+          0.227
+        ],
+        "Summer squash | golden skin and lenticels": [
+          0.89,
+          0.72,
+          0.2
+        ],
+        "Young stems and calyx | green": [
+          0.357,
+          0.457,
+          0.203
+        ]
+      },
+      "named_colours": {
+        "Bud | green base and folded yellow tips": "bud",
+        "Corolla | veined yellow and orange": "corolla",
+        "Summer squash | golden skin and lenticels": "summer squash"
+      },
+      "dropped": [
+        "Pollen | marigold",
+        "Root soil | loose umber loam",
+        "Roots | fine straw",
+        "Roots | mature ochre",
+        "Stem trichomes | pale olive"
+      ],
+      "lod0_ratio": 0.075007,
+      "lod0_smallest_part": 0.0,
+      "lod0_leaf_triangles": 504,
+      "lod1_ratio": 0.020585,
+      "lod1_smallest_part": 0.045,
+      "lod1_leaf_triangles": 168,
+      "origin": "footprint",
+      "leaves": 21,
+      "leaf_sprite_coverage": 0.54,
+      "leaf_sprites": 21,
+      "fruit_like_parts": 30,
+      "leaf_atlas_size": 2048,
+      "wind": {
+        "file": "Squash_powdery_mildew_Wind.bytes",
+        "parts": 61,
+        "keys": 60,
+        "seconds": 10.0,
+        "fps": 24.0,
+        "max_angle_deg": 13.93,
+        "max_travel_m": 0.022
+      },
+      "lod0_triangles": 15945,
+      "lod1_triangles": 4992,
+      "height": 1.004,
+      "width": 1.55,
+      "scale": 1.0,
+      "fbx": "Squash_powdery_mildew.fbx",
+      "leaf_texture": "Squash_powdery_mildew_Leaf.png",
+      "parts_texture": "Squash_Parts.png",
+      "wind_file": "Squash_powdery_mildew_Wind.bytes",
+      "parts_atlas_size": 2048
+    }
+  ]
+}

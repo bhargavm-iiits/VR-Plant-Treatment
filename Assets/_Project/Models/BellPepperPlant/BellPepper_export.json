@@ -1,0 +1,143 @@
+{
+  "source": "Bell_Pepper_Plant_3D_Wind_8s.blend",
+  "source_parts": {
+    "anther": {
+      "objects": 10,
+      "meshes": 10,
+      "mesh_tris": 2640
+    },
+    "body": {
+      "objects": 6,
+      "meshes": 6,
+      "mesh_tris": 3300868
+    },
+    "leaf": {
+      "objects": 31,
+      "meshes": 31,
+      "mesh_tris": 8211714
+    },
+    "petals": {
+      "objects": 23,
+      "meshes": 13,
+      "mesh_tris": 2520
+    },
+    "wood": {
+      "objects": 81,
+      "meshes": 13,
+      "mesh_tris": 5404
+    }
+  },
+  "scale": {
+    "source_height_m": 1.4969,
+    "height_m": 0.9,
+    "factor": 0.60124
+  },
+  "leaf": {
+    "source_tris": 264894,
+    "instances": 31,
+    "flatness": 0.10609,
+    "sprite": [
+      1024,
+      512
+    ],
+    "card_span_local": [
+      1.2776,
+      0.6388
+    ],
+    "sprite_coverage": 0.507
+  },
+  "fruit_atlas_quadrants": {
+    "(0, 0)": "Image_0.001",
+    "(0, 1)": "Bell_pepper_multicolor.jpg + ramp",
+    "(1, 0)": "Bell_pepper_multicolor.jpg + ramp"
+  },
+  "lod0_parts_tris": {
+    "leaves": 3100,
+    "fruit": 1796,
+    "flowers": 662,
+    "wood": 6360
+  },
+  "lod0_wood_ratio": 0.4037,
+  "lod0_wood_source_tris": 15956,
+  "lod1_parts_tris": {
+    "leaves": 496,
+    "fruit": 476,
+    "wood": 2898
+  },
+  "lod1_wood_ratio": 0.3833,
+  "lod1_wood_source_tris": 7900,
+  "fruit_uv_outside_unit_square": 0.0,
+  "BellPepper_LOD0": {
+    "tris": 11918,
+    "verts": 6773,
+    "materials": [
+      "BellPepperLeaf",
+      "BellPepperFruit",
+      "BellPepperStem"
+    ],
+    "uv_layers": [
+      "UVMap",
+      "Wind"
+    ]
+  },
+  "BellPepper_LOD1": {
+    "tris": 3870,
+    "verts": 2328,
+    "materials": [
+      "BellPepperLeaf",
+      "BellPepperFruit",
+      "BellPepperStem"
+    ],
+    "uv_layers": [
+      "UVMap",
+      "Wind"
+    ]
+  },
+  "lod0_bbox_blender": {
+    "min": [
+      -0.3127,
+      -0.2694,
+      -0.0002
+    ],
+    "max": [
+      0.3486,
+      0.3096,
+      0.8905
+    ]
+  },
+  "pivot_check": {
+    "rotation_centre": "leaf origin (its base, the petiole end)",
+    "petiole_end_to_pivot_max_m": 0.0,
+    "source_leaf_vertex_nearest_pivot_max_m": 0.0,
+    "true_base_travel_max_m": 0.01895,
+    "card_anchor_to_pivot_max_m": [
+      0.00133,
+      0.02153
+    ]
+  },
+  "wind": {
+    "leafCount": 31,
+    "keyCount": 24,
+    "seconds": 8.0,
+    "fps": 24.0,
+    "frameRange": [
+      1,
+      193
+    ],
+    "blendErrorDegByKeys": {
+      "8": 6.4193,
+      "12": 3.2816,
+      "16": 1.966,
+      "24": 0.9404
+    },
+    "keyBlendErrorDeg": 0.9404,
+    "maxAngleDeg": 17.857,
+    "loopErrorDeg": 0.0
+  },
+  "files_bytes": {
+    "BellPepper.fbx": 574108,
+    "BellPepperLeaf.png": 728245,
+    "BellPepperFruit.png": 615784,
+    "BellPepper_Wind.bytes": 13044
+  }
+}

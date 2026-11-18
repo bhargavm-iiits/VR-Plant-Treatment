@@ -1,0 +1,12 @@
+{
+  "xrSessionId": "xr-test-001",
+  "scanId": "scan-test-001",
+  "backendDiseaseId": "Tomato___Early_blight",
+  "plantId": "tomato",
+  "diseaseId": "early_blight",
+  "specimenId": "farm-tomato-early-blight-01",
+  "recipeId": "tomato-early-blight",
+  "recipeVersion": 1,
+  "revision": 0,
+  "treatmentResult": null
+}

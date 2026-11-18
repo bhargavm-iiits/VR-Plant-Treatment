@@ -1,0 +1,87 @@
+{
+  "source_objects": {
+    "trunk": 204,
+    "leaves": 1225,
+    "petioles": 1225,
+    "fruit": 218,
+    "stems": 218
+  },
+  "wind": {
+    "leafCount": 1225,
+    "keyCount": 48,
+    "seconds": 8.0,
+    "fps": 24,
+    "frameStep": 4,
+    "maxAngleDeg": 21.464,
+    "meanLeafMaxAngleDeg": 13.194,
+    "loopErrorDeg": 0.0,
+    "pivotDriftM": 0.0,
+    "keyBlendErrorDeg": 0.6921,
+    "wrapHemisphereFlips": 0,
+    "lod0_bbox_blender": {
+      "min": [
+        -1.8443442583084106,
+        -1.6470444202423096,
+        -0.049182597547769547
+      ],
+      "max": [
+        1.7777807712554932,
+        1.6619012355804443,
+        3.9398608207702637
+      ]
+    }
+  },
+  "lod0_pivot_vertex_error_m": 0.0,
+  "lod1_pivot_vertex_error_m": 0.0,
+  "fruit_tris_each": {
+    "Original cherry body \u00b7 pSphere1 -> 80": 80,
+    "Original cherry body \u00b7 pSphere2 -> 80": 80,
+    "Original curved cherry stem \u00b7 polySurface1 -> 30": 30,
+    "Original curved cherry stem \u00b7 polySurface2 -> 30": 30,
+    "Original cherry body \u00b7 pSphere1 -> 25": 24,
+    "Original cherry body \u00b7 pSphere2 -> 25": 24,
+    "Original curved cherry stem \u00b7 polySurface1 -> 10": 10,
+    "Original curved cherry stem \u00b7 polySurface2 -> 10": 10
+  },
+  "leaf_base_vertex_offset_m": 0.0,
+  "CherryTree_LOD0": {
+    "tris": 63847,
+    "verts": 48215,
+    "materials": [
+      "CherryPedicel",
+      "CherryBark",
+      "CherryLeaf",
+      "CherryFruit"
+    ],
+    "uv_layers": [
+      "UVMap",
+      "Wind"
+    ]
+  },
+  "CherryTree_LOD1": {
+    "tris": 23807,
+    "verts": 21050,
+    "materials": [
+      "CherryPedicel",
+      "CherryBark",
+      "CherryLeaf",
+      "CherryFruit"
+    ],
+    "uv_layers": [
+      "UVMap",
+      "Wind"
+    ]
+  },
+  "lod0_bbox_blender": {
+    "min": [
+      -1.8443442583084106,
+      -1.6470444202423096,
+      -0.049182597547769547
+    ],
+    "max": [
+      1.7777807712554932,
+      1.6619012355804443,
+      3.9398608207702637
+    ]
+  }
+}

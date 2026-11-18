@@ -1,0 +1,254 @@
+{
+  "plantId": "mango",
+  "stem": "Mango",
+  "variants": [
+    {
+      "disease": "anthracnose",
+      "source": "Mango_Anthracnose.glb",
+      "source_height": 6.946,
+      "source_triangles": 6945838,
+      "leaf_material": "Anthracnose | original leaf material",
+      "atlas": [
+        "Mango roots | dark wood",
+        "Mango twig | olive brown",
+        "Mango | red-green supplied GLB",
+        "Mango | yellow-green supplied FBX"
+      ],
+      "solid": {
+        "Fruit stalk | generated": [
+          0.4,
+          0.36,
+          0.17
+        ],
+        "Mango bark | fissured gray-brown": [
+          0.351,
+          0.29,
+          0.23
+        ]
+      },
+      "named_colours": {},
+      "dropped": [
+        "Mango soil | broken dark loam"
+      ],
+      "lod0_ratio": 0.0,
+      "lod0_smallest_part": 0.0,
+      "lod0_leaf_triangles": 17040,
+      "lod1_ratio": 0.016011,
+      "lod1_smallest_part": 0.08,
+      "lod1_leaf_triangles": 5680,
+      "fruit_stalks": 52,
+      "origin": "roots",
+      "leaves": 15620,
+      "leaf_sprite_coverage": 0.629,
+      "leaf_sprites": 1,
+      "leaf_sprite_source": "own leaves",
+      "fruit_like_parts": 61,
+      "leaf_atlas_size": 1024,
+      "wind": {
+        "file": "Mango_anthracnose_Wind.bytes",
+        "parts": 1420,
+        "keys": 60,
+        "seconds": 10.0,
+        "fps": 24.0,
+        "max_angle_deg": 11.57,
+        "max_travel_m": 0.0
+      },
+      "lod0_triangles": 42734,
+      "lod1_triangles": 12871,
+      "height": 3.8,
+      "width": 4.718,
+      "scale": 0.5442,
+      "fbx": "Mango_anthracnose.fbx",
+      "leaf_texture": "Mango_anthracnose_Leaf.png",
+      "parts_texture": "Mango_Parts.png",
+      "wind_file": "Mango_anthracnose_Wind.bytes",
+      "parts_atlas_size": 2048
+    },
+    {
+      "disease": "bacterial_canker",
+      "source": "Mango_Bacterial_Canker.glb",
+      "source_height": 7.283,
+      "source_triangles": 6930713,
+      "leaf_material": "Bacterial Canker | original leaf material",
+      "atlas": [
+        "Mango roots | dark wood",
+        "Mango twig | olive brown",
+        "Mango | red-green supplied GLB",
+        "Mango | yellow-green supplied FBX"
+      ],
+      "solid": {
+        "Fruit stalk | generated": [
+          0.4,
+          0.36,
+          0.17
+        ],
+        "Mango bark | fissured gray-brown": [
+          0.351,
+          0.29,
+          0.23
+        ]
+      },
+      "named_colours": {},
+      "dropped": [
+        "Mango soil | broken dark loam"
+      ],
+      "lod0_ratio": 0.0,
+      "lod0_smallest_part": 0.0,
+      "lod0_leaf_triangles": 17040,
+      "lod1_ratio": 0.0,
+      "lod1_smallest_part": 0.08,
+      "lod1_leaf_triangles": 5680,
+      "fruit_stalks": 48,
+      "origin": "roots",
+      "leaves": 15620,
+      "leaf_sprite_coverage": 0.594,
+      "leaf_sprites": 2,
+      "leaf_sprite_source": "own leaves",
+      "fruit_like_parts": 56,
+      "leaf_atlas_size": 1024,
+      "wind": {
+        "file": "Mango_bacterial_canker_Wind.bytes",
+        "parts": 1420,
+        "keys": 60,
+        "seconds": 10.0,
+        "fps": 24.0,
+        "max_angle_deg": 11.49,
+        "max_travel_m": 0.0
+      },
+      "lod0_triangles": 48731,
+      "lod1_triangles": 11750,
+      "height": 3.8,
+      "width": 4.314,
+      "scale": 0.5192,
+      "fbx": "Mango_bacterial_canker.fbx",
+      "leaf_texture": "Mango_bacterial_canker_Leaf.png",
+      "parts_texture": "Mango_Parts.png",
+      "wind_file": "Mango_bacterial_canker_Wind.bytes",
+      "parts_atlas_size": 2048
+    },
+    {
+      "disease": "die_back",
+      "source": "Mango_Die_Back.glb",
+      "source_height": 6.965,
+      "source_triangles": 6945838,
+      "leaf_material": "Die Back | original leaf material",
+      "atlas": [
+        "Mango roots | dark wood",
+        "Mango twig | olive brown",
+        "Mango | red-green supplied GLB",
+        "Mango | yellow-green supplied FBX"
+      ],
+      "solid": {
+        "Fruit stalk | generated": [
+          0.4,
+          0.36,
+          0.17
+        ],
+        "Mango bark | fissured gray-brown": [
+          0.351,
+          0.29,
+          0.23
+        ]
+      },
+      "named_colours": {},
+      "dropped": [
+        "Mango soil | broken dark loam"
+      ],
+      "lod0_ratio": 0.015136,
+      "lod0_smallest_part": 0.0,
+      "lod0_leaf_triangles": 19880,
+      "lod1_ratio": 0.016519,
+      "lod1_smallest_part": 0.08,
+      "lod1_leaf_triangles": 5680,
+      "fruit_stalks": 52,
+      "origin": "roots",
+      "leaves": 15620,
+      "leaf_sprite_coverage": 0.635,
+      "leaf_sprites": 1,
+      "leaf_sprite_source": "own leaves",
+      "fruit_like_parts": 61,
+      "leaf_atlas_size": 1024,
+      "wind": {
+        "file": "Mango_die_back_Wind.bytes",
+        "parts": 1420,
+        "keys": 60,
+        "seconds": 10.0,
+        "fps": 24.0,
+        "max_angle_deg": 12.22,
+        "max_travel_m": 0.0
+      },
+      "lod0_triangles": 44525,
+      "lod1_triangles": 12905,
+      "height": 3.8,
+      "width": 4.924,
+      "scale": 0.5432,
+      "fbx": "Mango_die_back.fbx",
+      "leaf_texture": "Mango_die_back_Leaf.png",
+      "parts_texture": "Mango_Parts.png",
+      "wind_file": "Mango_die_back_Wind.bytes",
+      "parts_atlas_size": 2048
+    },
+    {
+      "disease": "gall_midge",
+      "source": "Mango_Gall_Midge.glb",
+      "source_height": 7.188,
+      "source_triangles": 6942331,
+      "leaf_material": "Gall Midge | original leaf material",
+      "atlas": [
+        "Mango roots | dark wood",
+        "Mango twig | olive brown",
+        "Mango | red-green supplied GLB",
+        "Mango | yellow-green supplied FBX"
+      ],
+      "solid": {
+        "Fruit stalk | generated": [
+          0.4,
+          0.36,
+          0.17
+        ],
+        "Mango bark | fissured gray-brown": [
+          0.351,
+          0.29,
+          0.23
+        ]
+      },
+      "named_colours": {},
+      "dropped": [
+        "Mango soil | broken dark loam"
+      ],
+      "lod0_ratio": 0.0,
+      "lod0_smallest_part": 0.0,
+      "lod0_leaf_triangles": 17040,
+      "lod1_ratio": 0.016871,
+      "lod1_smallest_part": 0.08,
+      "lod1_leaf_triangles": 5680,
+      "fruit_stalks": 52,
+      "origin": "roots",
+      "leaves": 15620,
+      "leaf_sprite_coverage": 0.646,
+      "leaf_sprites": 1,
+      "leaf_sprite_source": "own leaves",
+      "fruit_like_parts": 61,
+      "leaf_atlas_size": 1024,
+      "wind": {
+        "file": "Mango_gall_midge_Wind.bytes",
+        "parts": 1420,
+        "keys": 60,
+        "seconds": 10.0,
+        "fps": 24.0,
+        "max_angle_deg": 11.64,
+        "max_travel_m": 0.0
+      },
+      "lod0_triangles": 49428,
+      "lod1_triangles": 12692,
+      "height": 3.8,
+      "width": 4.475,
+      "scale": 0.5251,
+      "fbx": "Mango_gall_midge.fbx",
+      "leaf_texture": "Mango_gall_midge_Leaf.png",
+      "parts_texture": "Mango_Parts.png",
+      "wind_file": "Mango_gall_midge_Wind.bytes",
+      "parts_atlas_size": 2048
+    }
+  ]
+}

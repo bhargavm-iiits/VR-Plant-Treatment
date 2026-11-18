@@ -1,0 +1,249 @@
+{
+  "plantId": "chilli",
+  "stem": "Chilli",
+  "variants": [
+    {
+      "disease": "anthracnose",
+      "source": "Chilli_Anthracnose.glb",
+      "source_height": 0.757,
+      "source_triangles": 667936,
+      "leaf_material": "Anthracnose | original leaf PBR",
+      "atlas": [
+        "Chilli | ripe red",
+        "Chilli | unripe green"
+      ],
+      "solid": {
+        "Closed petals | cream green": [
+          0.78,
+          0.832,
+          0.626
+        ],
+        "Corolla | pale green throat": [
+          0.838,
+          0.87,
+          0.68
+        ],
+        "Corolla | warm white": [
+          0.941,
+          0.945,
+          0.906
+        ],
+        "Shoots | fresh green": [
+          0.323,
+          0.425,
+          0.157
+        ],
+        "Stem | mature olive": [
+          0.342,
+          0.337,
+          0.166
+        ],
+        "Stigma and sepals | green": [
+          0.396,
+          0.522,
+          0.229
+        ]
+      },
+      "named_colours": {},
+      "dropped": [
+        "Anthers | pale gold",
+        "Filaments | ivory",
+        "Root | umber",
+        "Soil | dark crumbly loam"
+      ],
+      "lod0_ratio": 0.066376,
+      "lod0_smallest_part": 0.0,
+      "lod0_leaf_triangles": 1980,
+      "lod1_ratio": 0.024906,
+      "lod1_smallest_part": 0.045,
+      "lod1_leaf_triangles": 594,
+      "origin": "roots",
+      "leaves": 99,
+      "leaf_sprite_coverage": 0.534,
+      "leaf_sprites": 1,
+      "fruit_like_parts": 48,
+      "leaf_atlas_size": 1024,
+      "wind": {
+        "file": "Chilli_anthracnose_Wind.bytes",
+        "parts": 211,
+        "keys": 60,
+        "seconds": 10.0,
+        "fps": 24.0,
+        "max_angle_deg": 15.57,
+        "max_travel_m": 0.0228
+      },
+      "lod0_triangles": 11143,
+      "lod1_triangles": 3721,
+      "height": 0.772,
+      "width": 0.689,
+      "scale": 1.0,
+      "fbx": "Chilli_anthracnose.fbx",
+      "leaf_texture": "Chilli_anthracnose_Leaf.png",
+      "parts_texture": "Chilli_Parts.png",
+      "wind_file": "Chilli_anthracnose_Wind.bytes",
+      "parts_atlas_size": 1024
+    },
+    {
+      "disease": "cercospora_leaf_spot",
+      "source": "Chilli_Cercospora.glb",
+      "source_height": 0.734,
+      "source_triangles": 786538,
+      "leaf_material": "Cercospora Leaf Spot | original leaf PBR",
+      "atlas": [
+        "Chilli | ripe red",
+        "Chilli | unripe green"
+      ],
+      "solid": {
+        "Closed petals | cream green": [
+          0.78,
+          0.832,
+          0.626
+        ],
+        "Corolla | pale green throat": [
+          0.838,
+          0.87,
+          0.68
+        ],
+        "Corolla | warm white": [
+          0.941,
+          0.945,
+          0.906
+        ],
+        "Shoots | fresh green": [
+          0.323,
+          0.425,
+          0.157
+        ],
+        "Stem | mature olive": [
+          0.342,
+          0.337,
+          0.166
+        ],
+        "Stigma and sepals | green": [
+          0.396,
+          0.522,
+          0.229
+        ]
+      },
+      "named_colours": {},
+      "dropped": [
+        "Anthers | pale gold",
+        "Filaments | ivory",
+        "Root | umber",
+        "Soil | dark crumbly loam"
+      ],
+      "lod0_ratio": 0.066885,
+      "lod0_smallest_part": 0.0,
+      "lod0_leaf_triangles": 1980,
+      "lod1_ratio": 0.02501,
+      "lod1_smallest_part": 0.045,
+      "lod1_leaf_triangles": 594,
+      "origin": "roots",
+      "leaves": 99,
+      "leaf_sprite_coverage": 0.519,
+      "leaf_sprites": 1,
+      "fruit_like_parts": 47,
+      "leaf_atlas_size": 1024,
+      "wind": {
+        "file": "Chilli_cercospora_leaf_spot_Wind.bytes",
+        "parts": 211,
+        "keys": 60,
+        "seconds": 10.0,
+        "fps": 24.0,
+        "max_angle_deg": 13.98,
+        "max_travel_m": 0.0163
+      },
+      "lod0_triangles": 11105,
+      "lod1_triangles": 3701,
+      "height": 0.748,
+      "width": 0.72,
+      "scale": 1.0,
+      "fbx": "Chilli_cercospora_leaf_spot.fbx",
+      "leaf_texture": "Chilli_cercospora_leaf_spot_Leaf.png",
+      "parts_texture": "Chilli_Parts.png",
+      "wind_file": "Chilli_cercospora_leaf_spot_Wind.bytes",
+      "parts_atlas_size": 1024
+    },
+    {
+      "disease": "leaf_curl",
+      "source": "Chilli_Leaf_Curl.glb",
+      "source_height": 0.73,
+      "source_triangles": 836236,
+      "leaf_material": "Leaf Curl | original leaf PBR",
+      "atlas": [
+        "Chilli | ripe red",
+        "Chilli | unripe green"
+      ],
+      "solid": {
+        "Closed petals | cream green": [
+          0.78,
+          0.832,
+          0.626
+        ],
+        "Corolla | pale green throat": [
+          0.838,
+          0.87,
+          0.68
+        ],
+        "Corolla | warm white": [
+          0.941,
+          0.945,
+          0.906
+        ],
+        "Shoots | fresh green": [
+          0.323,
+          0.425,
+          0.157
+        ],
+        "Stem | mature olive": [
+          0.342,
+          0.337,
+          0.166
+        ],
+        "Stigma and sepals | green": [
+          0.396,
+          0.522,
+          0.229
+        ]
+      },
+      "named_colours": {},
+      "dropped": [
+        "Anthers | pale gold",
+        "Filaments | ivory",
+        "Root | umber",
+        "Soil | dark crumbly loam"
+      ],
+      "lod0_ratio": 0.067164,
+      "lod0_smallest_part": 0.0,
+      "lod0_leaf_triangles": 1980,
+      "lod1_ratio": 0.025166,
+      "lod1_smallest_part": 0.045,
+      "lod1_leaf_triangles": 594,
+      "origin": "roots",
+      "leaves": 99,
+      "leaf_sprite_coverage": 0.554,
+      "leaf_sprites": 1,
+      "fruit_like_parts": 47,
+      "leaf_atlas_size": 1024,
+      "wind": {
+        "file": "Chilli_leaf_curl_Wind.bytes",
+        "parts": 211,
+        "keys": 60,
+        "seconds": 10.0,
+        "fps": 24.0,
+        "max_angle_deg": 17.49,
+        "max_travel_m": 0.0206
+      },
+      "lod0_triangles": 11081,
+      "lod1_triangles": 3691,
+      "height": 0.733,
+      "width": 0.625,
+      "scale": 1.0,
+      "fbx": "Chilli_leaf_curl.fbx",
+      "leaf_texture": "Chilli_leaf_curl_Leaf.png",
+      "parts_texture": "Chilli_Parts.png",
+      "wind_file": "Chilli_leaf_curl_Wind.bytes",
+      "parts_atlas_size": 1024
+    }
+  ]
+}

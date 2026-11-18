@@ -1,0 +1,226 @@
+{
+  "plantId": "sugarcane",
+  "stem": "Sugarcane",
+  "variants": [
+    {
+      "disease": "mosaic",
+      "source": "Sugarcane_Mosaic.glb",
+      "source_height": 4.1,
+      "source_triangles": 249920,
+      "leaf_material": "Mosaic leaf | original disease texture",
+      "atlas": [
+        "Sugarcane cuticle | photographed wax and fibers"
+      ],
+      "solid": {
+        "Axillary eye | warm olive": [
+          0.442,
+          0.433,
+          0.285
+        ]
+      },
+      "named_colours": {},
+      "dropped": [
+        "Coarse roots | warm umber",
+        "Feeder roots | straw and sand",
+        "Root initials | pale ochre",
+        "Small soil clump | dark loose loam"
+      ],
+      "lod0_ratio": 0.060182,
+      "lod0_smallest_part": 0.0,
+      "lod0_leaf_triangles": 858,
+      "lod1_ratio": 0.024394,
+      "lod1_smallest_part": 0.045,
+      "lod1_leaf_triangles": 472,
+      "origin": "roots",
+      "leaves": 45,
+      "leaf_sprite_coverage": 0.218,
+      "leaf_sprites": 45,
+      "fruit_like_parts": 30,
+      "leaf_atlas_size": 2048,
+      "wind": {
+        "file": "Sugarcane_mosaic_Wind.bytes",
+        "parts": 32,
+        "keys": 60,
+        "seconds": 10.0,
+        "fps": 24.0,
+        "max_angle_deg": 6.04,
+        "max_travel_m": 0.0
+      },
+      "lod0_triangles": 14201,
+      "lod1_triangles": 4458,
+      "height": 3.2,
+      "width": 1.787,
+      "scale": 0.778,
+      "fbx": "Sugarcane_mosaic.fbx",
+      "leaf_texture": "Sugarcane_mosaic_Leaf.png",
+      "parts_texture": "Sugarcane_Parts.png",
+      "wind_file": "Sugarcane_mosaic_Wind.bytes",
+      "parts_atlas_size": 1024
+    },
+    {
+      "disease": "red_rot",
+      "source": "Sugarcane_Red_Rot.glb",
+      "source_height": 4.18,
+      "source_triangles": 249920,
+      "leaf_material": "Red Rot leaf | original disease texture",
+      "atlas": [
+        "Sugarcane cuticle | photographed wax and fibers"
+      ],
+      "solid": {
+        "Axillary eye | warm olive": [
+          0.442,
+          0.433,
+          0.285
+        ]
+      },
+      "named_colours": {},
+      "dropped": [
+        "Coarse roots | warm umber",
+        "Feeder roots | straw and sand",
+        "Root initials | pale ochre",
+        "Small soil clump | dark loose loam"
+      ],
+      "lod0_ratio": 0.062256,
+      "lod0_smallest_part": 0.0,
+      "lod0_leaf_triangles": 604,
+      "lod1_ratio": 0.025457,
+      "lod1_smallest_part": 0.045,
+      "lod1_leaf_triangles": 296,
+      "origin": "roots",
+      "leaves": 33,
+      "leaf_sprite_coverage": 0.252,
+      "leaf_sprites": 33,
+      "fruit_like_parts": 31,
+      "leaf_atlas_size": 2048,
+      "wind": {
+        "file": "Sugarcane_red_rot_Wind.bytes",
+        "parts": 32,
+        "keys": 60,
+        "seconds": 10.0,
+        "fps": 24.0,
+        "max_angle_deg": 6.19,
+        "max_travel_m": 0.0
+      },
+      "lod0_triangles": 14239,
+      "lod1_triangles": 4348,
+      "height": 3.2,
+      "width": 1.894,
+      "scale": 0.7588,
+      "fbx": "Sugarcane_red_rot.fbx",
+      "leaf_texture": "Sugarcane_red_rot_Leaf.png",
+      "parts_texture": "Sugarcane_Parts.png",
+      "wind_file": "Sugarcane_red_rot_Wind.bytes",
+      "parts_atlas_size": 1024
+    },
+    {
+      "disease": "rust",
+      "source": "Sugarcane_Rust.glb",
+      "source_height": 4.251,
+      "source_triangles": 249856,
+      "leaf_material": "Rust leaf | original disease texture",
+      "atlas": [
+        "Sugarcane cuticle | photographed wax and fibers"
+      ],
+      "solid": {
+        "Axillary eye | warm olive": [
+          0.442,
+          0.433,
+          0.285
+        ]
+      },
+      "named_colours": {},
+      "dropped": [
+        "Coarse roots | warm umber",
+        "Feeder roots | straw and sand",
+        "Root initials | pale ochre",
+        "Small soil clump | dark loose loam"
+      ],
+      "lod0_ratio": 0.059837,
+      "lod0_smallest_part": 0.0,
+      "lod0_leaf_triangles": 736,
+      "lod1_ratio": 0.025227,
+      "lod1_smallest_part": 0.045,
+      "lod1_leaf_triangles": 376,
+      "origin": "roots",
+      "leaves": 41,
+      "leaf_sprite_coverage": 0.182,
+      "leaf_sprites": 41,
+      "fruit_like_parts": 32,
+      "leaf_atlas_size": 2048,
+      "wind": {
+        "file": "Sugarcane_rust_Wind.bytes",
+        "parts": 32,
+        "keys": 60,
+        "seconds": 10.0,
+        "fps": 24.0,
+        "max_angle_deg": 6.3,
+        "max_travel_m": 0.0
+      },
+      "lod0_triangles": 14174,
+      "lod1_triangles": 4356,
+      "height": 3.2,
+      "width": 1.792,
+      "scale": 0.7475,
+      "fbx": "Sugarcane_rust.fbx",
+      "leaf_texture": "Sugarcane_rust_Leaf.png",
+      "parts_texture": "Sugarcane_Parts.png",
+      "wind_file": "Sugarcane_rust_Wind.bytes",
+      "parts_atlas_size": 1024
+    },
+    {
+      "disease": "yellow_leaf",
+      "source": "Sugarcane_Yellow_Leaf.glb",
+      "source_height": 4.211,
+      "source_triangles": 249920,
+      "leaf_material": "Yellow Leaf leaf | original disease texture",
+      "atlas": [
+        "Sugarcane cuticle | photographed wax and fibers"
+      ],
+      "solid": {
+        "Axillary eye | warm olive": [
+          0.442,
+          0.433,
+          0.285
+        ]
+      },
+      "named_colours": {},
+      "dropped": [
+        "Coarse roots | warm umber",
+        "Feeder roots | straw and sand",
+        "Root initials | pale ochre",
+        "Small soil clump | dark loose loam"
+      ],
+      "lod0_ratio": 0.060665,
+      "lod0_smallest_part": 0.0,
+      "lod0_leaf_triangles": 674,
+      "lod1_ratio": 0.025234,
+      "lod1_smallest_part": 0.045,
+      "lod1_leaf_triangles": 356,
+      "origin": "roots",
+      "leaves": 36,
+      "leaf_sprite_coverage": 0.279,
+      "leaf_sprites": 36,
+      "fruit_like_parts": 32,
+      "leaf_atlas_size": 2048,
+      "wind": {
+        "file": "Sugarcane_yellow_leaf_Wind.bytes",
+        "parts": 32,
+        "keys": 60,
+        "seconds": 10.0,
+        "fps": 24.0,
+        "max_angle_deg": 5.89,
+        "max_travel_m": 0.0
+      },
+      "lod0_triangles": 14220,
+      "lod1_triangles": 4392,
+      "height": 3.2,
+      "width": 1.89,
+      "scale": 0.7544,
+      "fbx": "Sugarcane_yellow_leaf.fbx",
+      "leaf_texture": "Sugarcane_yellow_leaf_Leaf.png",
+      "parts_texture": "Sugarcane_Parts.png",
+      "wind_file": "Sugarcane_yellow_leaf_Wind.bytes",
+      "parts_atlas_size": 1024
+    }
+  ]
+}

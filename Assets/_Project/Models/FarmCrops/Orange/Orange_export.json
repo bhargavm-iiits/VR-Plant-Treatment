@@ -1,0 +1,96 @@
+{
+  "plantId": "orange",
+  "stem": "Orange",
+  "variants": [
+    {
+      "disease": "huanglongbing",
+      "source": "Orange_Citrus_Greening.glb",
+      "source_height": 4.629,
+      "source_triangles": 2349938,
+      "leaf_material": "Citrus Greening | original leaf PBR",
+      "atlas": [
+        "Citrus twig | green wood",
+        "Golden-ripe | supplied peel detail",
+        "Immature-green | supplied peel detail",
+        "Ripe orange | supplied peel PBR"
+      ],
+      "solid": {
+        "Blossom petals | ivory white": [
+          0.95,
+          0.95,
+          0.921
+        ],
+        "Blossom throat | warm cream": [
+          0.891,
+          0.891,
+          0.761
+        ],
+        "Calyx and ovary | light olive": [
+          0.481,
+          0.618,
+          0.276
+        ],
+        "Citrus bark | fissured gray russet": [
+          0.425,
+          0.344,
+          0.27
+        ],
+        "Citrus flush | light green stems": [
+          0.532,
+          0.673,
+          0.289
+        ],
+        "Closed petal | cream green": [
+          0.87,
+          0.896,
+          0.742
+        ],
+        "Fruit stalk | generated": [
+          0.3,
+          0.4,
+          0.15
+        ]
+      },
+      "named_colours": {},
+      "dropped": [
+        "Anthers | ochre pollen",
+        "Roots | umber and russet wood",
+        "Soil | irregular crumbly loam",
+        "Stamen filaments | ivory"
+      ],
+      "lod0_ratio": 0.0,
+      "lod0_smallest_part": 0.0,
+      "lod0_leaf_triangles": 28500,
+      "lod1_ratio": 0.006232,
+      "lod1_smallest_part": 0.08,
+      "lod1_leaf_triangles": 7468,
+      "fruit_stalks": 121,
+      "origin": "roots",
+      "leaves": 14250,
+      "leaf_sprite_coverage": 0.613,
+      "leaf_sprites": 1,
+      "leaf_sprite_source": "Assets/Leaf_Assets/Orange/Orange Huanglongbing (Citrus Greening)/Meshy_AI_Citrus_Greening_Leaf_20261111_image-to-3d-texture_fbx/Meshy_AI_Citrus_Greening_Leaf_20261111_image-to-3d-texture.fbx",
+      "fruit_like_parts": 121,
+      "leaf_atlas_size": 1024,
+      "wind": {
+        "file": "Orange_huanglongbing_Wind.bytes",
+        "parts": 1983,
+        "keys": 60,
+        "seconds": 10.0,
+        "fps": 24.0,
+        "max_angle_deg": 14.78,
+        "max_travel_m": 0.0427
+      },
+      "lod0_triangles": 62441,
+      "lod1_triangles": 18319,
+      "height": 3.6,
+      "width": 4.139,
+      "scale": 0.779,
+      "fbx": "Orange_huanglongbing.fbx",
+      "leaf_texture": "Orange_huanglongbing_Leaf.png",
+      "parts_texture": "Orange_Parts.png",
+      "wind_file": "Orange_huanglongbing_Wind.bytes",
+      "parts_atlas_size": 2048
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "plantId": "blueberry",
+  "stem": "Blueberry",
+  "variants": [
+    {
+      "disease": "rust",
+      "source": "Blueberry_Plant.glb",
+      "source_height": 1.214,
+      "source_triangles": 685738,
+      "leaf_material": "Rust | original leaf PBR",
+      "atlas": [
+        "Berry | Green",
+        "Berry | Indigo",
+        "Berry | Pink",
+        "Berry | dusty blue wax bloom"
+      ],
+      "solid": {
+        "Cane | fissured russet bark": [
+          0.387,
+          0.299,
+          0.214
+        ],
+        "Pedicel | red-olive": [
+          0.496,
+          0.366,
+          0.235
+        ],
+        "Shoot | olive green": [
+          0.321,
+          0.403,
+          0.182
+        ]
+      },
+      "named_colours": {},
+      "dropped": [
+        "Soil | moist woodland loam"
+      ],
+      "lod0_ratio": 0.052668,
+      "lod0_smallest_part": 0.0,
+      "lod0_leaf_triangles": 2880,
+      "lod1_ratio": 0.015552,
+      "lod1_smallest_part": 0.045,
+      "lod1_leaf_triangles": 864,
+      "origin": "roots",
+      "leaves": 144,
+      "leaf_sprite_coverage": 0.456,
+      "leaf_sprites": 3,
+      "fruit_like_parts": 53,
+      "leaf_atlas_size": 1024,
+      "wind": {
+        "file": "Blueberry_rust_Wind.bytes",
+        "parts": 278,
+        "keys": 60,
+        "seconds": 10.0,
+        "fps": 24.0,
+        "max_angle_deg": 16.44,
+        "max_travel_m": 0.0227
+      },
+      "lod0_triangles": 13313,
+      "lod1_triangles": 4155,
+      "height": 1.214,
+      "width": 0.865,
+      "scale": 1.0,
+      "fbx": "Blueberry_rust.fbx",
+      "leaf_texture": "Blueberry_rust_Leaf.png",
+      "parts_texture": "Blueberry_Parts.png",
+      "wind_file": "Blueberry_rust_Wind.bytes",
+      "parts_atlas_size": 2048
+    }
+  ]
+}

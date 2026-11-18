@@ -1,0 +1,717 @@
+{
+  "plantId": "soybean",
+  "stem": "Soybean",
+  "variants": [
+    {
+      "disease": "bacterial_blight",
+      "source": "Soybean_Bacterial_Blight.glb",
+      "source_height": 0.823,
+      "source_triangles": 276988,
+      "leaf_material": "Bacterial Blight leaflet | original PBR",
+      "atlas": [
+        "Supplied green soybean bunch | original PBR",
+        "Supplied single green soybean pod | original PBR"
+      ],
+      "solid": {
+        "Living stem | olive-green cuticle": [
+          0.4,
+          0.46,
+          0.2
+        ],
+        "Mature basal stem | olive cuticle": [
+          0.42,
+          0.42,
+          0.22
+        ],
+        "Pedicels | green": [
+          0.4,
+          0.5,
+          0.22
+        ],
+        "Petiole and petiolules": [
+          0.42,
+          0.52,
+          0.22
+        ]
+      },
+      "named_colours": {
+        "Living stem | olive-green cuticle": "olive",
+        "Mature basal stem | olive cuticle": "mature basal stem",
+        "Pedicels | green": "pedicel",
+        "Petiole and petiolules": "petiole"
+      },
+      "dropped": [
+        "Exposed roots | ochre",
+        "Fine roots | straw",
+        "Loam | deep umber",
+        "Loam | ochre grains",
+        "Loam | shaded aggregate",
+        "Loam | warm crumbs",
+        "Pod pubescence | fine pale trichomes"
+      ],
+      "lod0_ratio": 0.082183,
+      "lod0_smallest_part": 0.0,
+      "lod0_leaf_triangles": 1800,
+      "lod1_ratio": 0.02322,
+      "lod1_smallest_part": 0.045,
+      "lod1_leaf_triangles": 600,
+      "origin": "roots",
+      "leaves": 75,
+      "leaf_sprite_coverage": 0.458,
+      "leaf_sprites": 3,
+      "fruit_like_parts": 38,
+      "leaf_atlas_size": 1024,
+      "wind": {
+        "file": "Soybean_bacterial_blight_Wind.bytes",
+        "parts": 161,
+        "keys": 60,
+        "seconds": 10.0,
+        "fps": 24.0,
+        "max_angle_deg": 16.01,
+        "max_travel_m": 0.0251
+      },
+      "lod0_triangles": 9918,
+      "lod1_triangles": 3013,
+      "height": 0.824,
+      "width": 0.656,
+      "scale": 1.0,
+      "fbx": "Soybean_bacterial_blight.fbx",
+      "leaf_texture": "Soybean_bacterial_blight_Leaf.png",
+      "parts_texture": "Soybean_Parts.png",
+      "wind_file": "Soybean_bacterial_blight_Wind.bytes",
+      "parts_atlas_size": 1024
+    },
+    {
+      "disease": "cercospora_leaf_blight",
+      "source": "Soybean_Cercospora_Leaf_Blight.glb",
+      "source_height": 0.833,
+      "source_triangles": 275320,
+      "leaf_material": "Cercospora Leaf Blight leaflet | original PBR",
+      "atlas": [
+        "Supplied green soybean bunch | original PBR",
+        "Supplied single green soybean pod | original PBR"
+      ],
+      "solid": {
+        "Living stem | olive-green cuticle": [
+          0.4,
+          0.46,
+          0.2
+        ],
+        "Mature basal stem | olive cuticle": [
+          0.42,
+          0.42,
+          0.22
+        ],
+        "Pedicels | green": [
+          0.4,
+          0.5,
+          0.22
+        ],
+        "Petiole and petiolules": [
+          0.42,
+          0.52,
+          0.22
+        ]
+      },
+      "named_colours": {
+        "Living stem | olive-green cuticle": "olive",
+        "Mature basal stem | olive cuticle": "mature basal stem",
+        "Pedicels | green": "pedicel",
+        "Petiole and petiolules": "petiole"
+      },
+      "dropped": [
+        "Exposed roots | ochre",
+        "Fine roots | straw",
+        "Loam | deep umber",
+        "Loam | ochre grains",
+        "Loam | shaded aggregate",
+        "Loam | warm crumbs",
+        "Pod pubescence | fine pale trichomes"
+      ],
+      "lod0_ratio": 0.083029,
+      "lod0_smallest_part": 0.0,
+      "lod0_leaf_triangles": 1800,
+      "lod1_ratio": 0.023015,
+      "lod1_smallest_part": 0.045,
+      "lod1_leaf_triangles": 600,
+      "origin": "roots",
+      "leaves": 75,
+      "leaf_sprite_coverage": 0.636,
+      "leaf_sprites": 1,
+      "fruit_like_parts": 37,
+      "leaf_atlas_size": 1024,
+      "wind": {
+        "file": "Soybean_cercospora_leaf_blight_Wind.bytes",
+        "parts": 160,
+        "keys": 60,
+        "seconds": 10.0,
+        "fps": 24.0,
+        "max_angle_deg": 15.08,
+        "max_travel_m": 0.0253
+      },
+      "lod0_triangles": 9926,
+      "lod1_triangles": 3042,
+      "height": 0.833,
+      "width": 0.705,
+      "scale": 1.0,
+      "fbx": "Soybean_cercospora_leaf_blight.fbx",
+      "leaf_texture": "Soybean_cercospora_leaf_blight_Leaf.png",
+      "parts_texture": "Soybean_Parts.png",
+      "wind_file": "Soybean_cercospora_leaf_blight_Wind.bytes",
+      "parts_atlas_size": 1024
+    },
+    {
+      "disease": "downy_mildew",
+      "source": "Soybean_Downy_Mildew.glb",
+      "source_height": 0.844,
+      "source_triangles": 273652,
+      "leaf_material": "Downy Mildew leaflet | original PBR",
+      "atlas": [
+        "Supplied green soybean bunch | original PBR",
+        "Supplied single green soybean pod | original PBR"
+      ],
+      "solid": {
+        "Living stem | olive-green cuticle": [
+          0.4,
+          0.46,
+          0.2
+        ],
+        "Mature basal stem | olive cuticle": [
+          0.42,
+          0.42,
+          0.22
+        ],
+        "Pedicels | green": [
+          0.4,
+          0.5,
+          0.22
+        ],
+        "Petiole and petiolules": [
+          0.42,
+          0.52,
+          0.22
+        ]
+      },
+      "named_colours": {
+        "Living stem | olive-green cuticle": "olive",
+        "Mature basal stem | olive cuticle": "mature basal stem",
+        "Pedicels | green": "pedicel",
+        "Petiole and petiolules": "petiole"
+      },
+      "dropped": [
+        "Exposed roots | ochre",
+        "Fine roots | straw",
+        "Loam | deep umber",
+        "Loam | ochre grains",
+        "Loam | shaded aggregate",
+        "Loam | warm crumbs",
+        "Pod pubescence | fine pale trichomes"
+      ],
+      "lod0_ratio": 0.085791,
+      "lod0_smallest_part": 0.0,
+      "lod0_leaf_triangles": 1800,
+      "lod1_ratio": 0.024522,
+      "lod1_smallest_part": 0.045,
+      "lod1_leaf_triangles": 600,
+      "origin": "roots",
+      "leaves": 75,
+      "leaf_sprite_coverage": 0.637,
+      "leaf_sprites": 1,
+      "fruit_like_parts": 36,
+      "leaf_atlas_size": 1024,
+      "wind": {
+        "file": "Soybean_downy_mildew_Wind.bytes",
+        "parts": 159,
+        "keys": 60,
+        "seconds": 10.0,
+        "fps": 24.0,
+        "max_angle_deg": 15.3,
+        "max_travel_m": 0.0248
+      },
+      "lod0_triangles": 9893,
+      "lod1_triangles": 3022,
+      "height": 0.853,
+      "width": 0.75,
+      "scale": 1.0,
+      "fbx": "Soybean_downy_mildew.fbx",
+      "leaf_texture": "Soybean_downy_mildew_Leaf.png",
+      "parts_texture": "Soybean_Parts.png",
+      "wind_file": "Soybean_downy_mildew_Wind.bytes",
+      "parts_atlas_size": 1024
+    },
+    {
+      "disease": "frogeye_leaf_spot",
+      "source": "Soybean_Frogeye_Leaf_Spot.glb",
+      "source_height": 0.868,
+      "source_triangles": 271984,
+      "leaf_material": "Frogeye Leaf Spot leaflet | original PBR",
+      "atlas": [
+        "Supplied green soybean bunch | original PBR",
+        "Supplied single green soybean pod | original PBR"
+      ],
+      "solid": {
+        "Living stem | olive-green cuticle": [
+          0.4,
+          0.46,
+          0.2
+        ],
+        "Mature basal stem | olive cuticle": [
+          0.42,
+          0.42,
+          0.22
+        ],
+        "Pedicels | green": [
+          0.4,
+          0.5,
+          0.22
+        ],
+        "Petiole and petiolules": [
+          0.42,
+          0.52,
+          0.22
+        ]
+      },
+      "named_colours": {
+        "Living stem | olive-green cuticle": "olive",
+        "Mature basal stem | olive cuticle": "mature basal stem",
+        "Pedicels | green": "pedicel",
+        "Petiole and petiolules": "petiole"
+      },
+      "dropped": [
+        "Exposed roots | ochre",
+        "Fine roots | straw",
+        "Loam | deep umber",
+        "Loam | ochre grains",
+        "Loam | shaded aggregate",
+        "Loam | warm crumbs",
+        "Pod pubescence | fine pale trichomes"
+      ],
+      "lod0_ratio": 0.087724,
+      "lod0_smallest_part": 0.0,
+      "lod0_leaf_triangles": 1500,
+      "lod1_ratio": 0.024929,
+      "lod1_smallest_part": 0.045,
+      "lod1_leaf_triangles": 450,
+      "origin": "roots",
+      "leaves": 75,
+      "leaf_sprite_coverage": 0.441,
+      "leaf_sprites": 3,
+      "fruit_like_parts": 35,
+      "leaf_atlas_size": 1024,
+      "wind": {
+        "file": "Soybean_frogeye_leaf_spot_Wind.bytes",
+        "parts": 158,
+        "keys": 60,
+        "seconds": 10.0,
+        "fps": 24.0,
+        "max_angle_deg": 15.75,
+        "max_travel_m": 0.0219
+      },
+      "lod0_triangles": 9658,
+      "lod1_triangles": 2863,
+      "height": 0.871,
+      "width": 0.656,
+      "scale": 1.0,
+      "fbx": "Soybean_frogeye_leaf_spot.fbx",
+      "leaf_texture": "Soybean_frogeye_leaf_spot_Leaf.png",
+      "parts_texture": "Soybean_Parts.png",
+      "wind_file": "Soybean_frogeye_leaf_spot_Wind.bytes",
+      "parts_atlas_size": 1024
+    },
+    {
+      "disease": "mosaic_virus",
+      "source": "Soybean_Mosaic_Virus.glb",
+      "source_height": 0.879,
+      "source_triangles": 266980,
+      "leaf_material": "Mosaic Virus leaflet | original PBR",
+      "atlas": [
+        "Supplied green soybean bunch | original PBR",
+        "Supplied single green soybean pod | original PBR"
+      ],
+      "solid": {
+        "Living stem | olive-green cuticle": [
+          0.4,
+          0.46,
+          0.2
+        ],
+        "Mature basal stem | olive cuticle": [
+          0.42,
+          0.42,
+          0.22
+        ],
+        "Pedicels | green": [
+          0.4,
+          0.5,
+          0.22
+        ],
+        "Petiole and petiolules": [
+          0.42,
+          0.52,
+          0.22
+        ]
+      },
+      "named_colours": {
+        "Living stem | olive-green cuticle": "olive",
+        "Mature basal stem | olive cuticle": "mature basal stem",
+        "Pedicels | green": "pedicel",
+        "Petiole and petiolules": "petiole"
+      },
+      "dropped": [
+        "Exposed roots | ochre",
+        "Fine roots | straw",
+        "Loam | deep umber",
+        "Loam | ochre grains",
+        "Loam | shaded aggregate",
+        "Loam | warm crumbs",
+        "Pod pubescence | fine pale trichomes"
+      ],
+      "lod0_ratio": 0.093192,
+      "lod0_smallest_part": 0.0,
+      "lod0_leaf_triangles": 1800,
+      "lod1_ratio": 0.026386,
+      "lod1_smallest_part": 0.045,
+      "lod1_leaf_triangles": 600,
+      "origin": "roots",
+      "leaves": 75,
+      "leaf_sprite_coverage": 0.647,
+      "leaf_sprites": 1,
+      "fruit_like_parts": 32,
+      "leaf_atlas_size": 1024,
+      "wind": {
+        "file": "Soybean_mosaic_virus_Wind.bytes",
+        "parts": 155,
+        "keys": 60,
+        "seconds": 10.0,
+        "fps": 24.0,
+        "max_angle_deg": 19.29,
+        "max_travel_m": 0.0308
+      },
+      "lod0_triangles": 9920,
+      "lod1_triangles": 3047,
+      "height": 0.881,
+      "width": 0.749,
+      "scale": 1.0,
+      "fbx": "Soybean_mosaic_virus.fbx",
+      "leaf_texture": "Soybean_mosaic_virus_Leaf.png",
+      "parts_texture": "Soybean_Parts.png",
+      "wind_file": "Soybean_mosaic_virus_Wind.bytes",
+      "parts_atlas_size": 1024
+    },
+    {
+      "disease": "septoria_brown_spot",
+      "source": "Soybean_Septoria_Brown_Spot.glb",
+      "source_height": 0.826,
+      "source_triangles": 270316,
+      "leaf_material": "Septoria Brown Spot leaflet | original PBR",
+      "atlas": [
+        "Supplied green soybean bunch | original PBR",
+        "Supplied single green soybean pod | original PBR"
+      ],
+      "solid": {
+        "Living stem | olive-green cuticle": [
+          0.4,
+          0.46,
+          0.2
+        ],
+        "Mature basal stem | olive cuticle": [
+          0.42,
+          0.42,
+          0.22
+        ],
+        "Pedicels | green": [
+          0.4,
+          0.5,
+          0.22
+        ],
+        "Petiole and petiolules": [
+          0.42,
+          0.52,
+          0.22
+        ]
+      },
+      "named_colours": {
+        "Living stem | olive-green cuticle": "olive",
+        "Mature basal stem | olive cuticle": "mature basal stem",
+        "Pedicels | green": "pedicel",
+        "Petiole and petiolules": "petiole"
+      },
+      "dropped": [
+        "Exposed roots | ochre",
+        "Fine roots | straw",
+        "Loam | deep umber",
+        "Loam | ochre grains",
+        "Loam | shaded aggregate",
+        "Loam | warm crumbs",
+        "Pod pubescence | fine pale trichomes"
+      ],
+      "lod0_ratio": 0.089081,
+      "lod0_smallest_part": 0.0,
+      "lod0_leaf_triangles": 1800,
+      "lod1_ratio": 0.024997,
+      "lod1_smallest_part": 0.045,
+      "lod1_leaf_triangles": 600,
+      "origin": "roots",
+      "leaves": 75,
+      "leaf_sprite_coverage": 0.713,
+      "leaf_sprites": 1,
+      "fruit_like_parts": 34,
+      "leaf_atlas_size": 1024,
+      "wind": {
+        "file": "Soybean_septoria_brown_spot_Wind.bytes",
+        "parts": 157,
+        "keys": 60,
+        "seconds": 10.0,
+        "fps": 24.0,
+        "max_angle_deg": 14.29,
+        "max_travel_m": 0.022
+      },
+      "lod0_triangles": 9928,
+      "lod1_triangles": 3007,
+      "height": 0.832,
+      "width": 0.647,
+      "scale": 1.0,
+      "fbx": "Soybean_septoria_brown_spot.fbx",
+      "leaf_texture": "Soybean_septoria_brown_spot_Leaf.png",
+      "parts_texture": "Soybean_Parts.png",
+      "wind_file": "Soybean_septoria_brown_spot_Wind.bytes",
+      "parts_atlas_size": 1024
+    },
+    {
+      "disease": "soybean_rust",
+      "source": "Soybean_Rust.glb",
+      "source_height": 0.818,
+      "source_triangles": 270316,
+      "leaf_material": "Soybean Rust leaflet | original PBR",
+      "atlas": [
+        "Supplied green soybean bunch | original PBR",
+        "Supplied single green soybean pod | original PBR"
+      ],
+      "solid": {
+        "Living stem | olive-green cuticle": [
+          0.4,
+          0.46,
+          0.2
+        ],
+        "Mature basal stem | olive cuticle": [
+          0.42,
+          0.42,
+          0.22
+        ],
+        "Pedicels | green": [
+          0.4,
+          0.5,
+          0.22
+        ],
+        "Petiole and petiolules": [
+          0.42,
+          0.52,
+          0.22
+        ]
+      },
+      "named_colours": {
+        "Living stem | olive-green cuticle": "olive",
+        "Mature basal stem | olive cuticle": "mature basal stem",
+        "Pedicels | green": "pedicel",
+        "Petiole and petiolules": "petiole"
+      },
+      "dropped": [
+        "Exposed roots | ochre",
+        "Fine roots | straw",
+        "Loam | deep umber",
+        "Loam | ochre grains",
+        "Loam | shaded aggregate",
+        "Loam | warm crumbs",
+        "Pod pubescence | fine pale trichomes"
+      ],
+      "lod0_ratio": 0.088799,
+      "lod0_smallest_part": 0.0,
+      "lod0_leaf_triangles": 1800,
+      "lod1_ratio": 0.024863,
+      "lod1_smallest_part": 0.045,
+      "lod1_leaf_triangles": 600,
+      "origin": "roots",
+      "leaves": 75,
+      "leaf_sprite_coverage": 0.628,
+      "leaf_sprites": 2,
+      "fruit_like_parts": 34,
+      "leaf_atlas_size": 1024,
+      "wind": {
+        "file": "Soybean_soybean_rust_Wind.bytes",
+        "parts": 157,
+        "keys": 60,
+        "seconds": 10.0,
+        "fps": 24.0,
+        "max_angle_deg": 16.64,
+        "max_travel_m": 0.0314
+      },
+      "lod0_triangles": 9954,
+      "lod1_triangles": 3007,
+      "height": 0.821,
+      "width": 0.685,
+      "scale": 1.0,
+      "fbx": "Soybean_soybean_rust.fbx",
+      "leaf_texture": "Soybean_soybean_rust_Leaf.png",
+      "parts_texture": "Soybean_Parts.png",
+      "wind_file": "Soybean_soybean_rust_Wind.bytes",
+      "parts_atlas_size": 1024
+    },
+    {
+      "disease": "sudden_death_syndrome",
+      "source": "Soybean_Sudden_Death_Syndrome.glb",
+      "source_height": 0.866,
+      "source_triangles": 280324,
+      "leaf_material": "Sudden Death Syndrome leaflet | original PBR",
+      "atlas": [
+        "Supplied green soybean bunch | original PBR",
+        "Supplied single green soybean pod | original PBR"
+      ],
+      "solid": {
+        "Living stem | olive-green cuticle": [
+          0.4,
+          0.46,
+          0.2
+        ],
+        "Mature basal stem | olive cuticle": [
+          0.42,
+          0.42,
+          0.22
+        ],
+        "Pedicels | green": [
+          0.4,
+          0.5,
+          0.22
+        ],
+        "Petiole and petiolules": [
+          0.42,
+          0.52,
+          0.22
+        ]
+      },
+      "named_colours": {
+        "Living stem | olive-green cuticle": "olive",
+        "Mature basal stem | olive cuticle": "mature basal stem",
+        "Pedicels | green": "pedicel",
+        "Petiole and petiolules": "petiole"
+      },
+      "dropped": [
+        "Exposed roots | ochre",
+        "Fine roots | straw",
+        "Loam | deep umber",
+        "Loam | ochre grains",
+        "Loam | shaded aggregate",
+        "Loam | warm crumbs",
+        "Pod pubescence | fine pale trichomes"
+      ],
+      "lod0_ratio": 0.079505,
+      "lod0_smallest_part": 0.0,
+      "lod0_leaf_triangles": 1800,
+      "lod1_ratio": 0.022651,
+      "lod1_smallest_part": 0.045,
+      "lod1_leaf_triangles": 600,
+      "origin": "roots",
+      "leaves": 75,
+      "leaf_sprite_coverage": 0.6,
+      "leaf_sprites": 1,
+      "fruit_like_parts": 40,
+      "leaf_atlas_size": 1024,
+      "wind": {
+        "file": "Soybean_sudden_death_syndrome_Wind.bytes",
+        "parts": 163,
+        "keys": 60,
+        "seconds": 10.0,
+        "fps": 24.0,
+        "max_angle_deg": 14.57,
+        "max_travel_m": 0.0227
+      },
+      "lod0_triangles": 9915,
+      "lod1_triangles": 3051,
+      "height": 0.869,
+      "width": 0.659,
+      "scale": 1.0,
+      "fbx": "Soybean_sudden_death_syndrome.fbx",
+      "leaf_texture": "Soybean_sudden_death_syndrome_Leaf.png",
+      "parts_texture": "Soybean_Parts.png",
+      "wind_file": "Soybean_sudden_death_syndrome_Wind.bytes",
+      "parts_atlas_size": 1024
+    },
+    {
+      "disease": "target_spot",
+      "source": "Soybean_Target_Spot.glb",
+      "source_height": 0.844,
+      "source_triangles": 270316,
+      "leaf_material": "Target Spot leaflet | original PBR",
+      "atlas": [
+        "Supplied green soybean bunch | original PBR",
+        "Supplied single green soybean pod | original PBR"
+      ],
+      "solid": {
+        "Living stem | olive-green cuticle": [
+          0.4,
+          0.46,
+          0.2
+        ],
+        "Mature basal stem | olive cuticle": [
+          0.42,
+          0.42,
+          0.22
+        ],
+        "Pedicels | green": [
+          0.4,
+          0.5,
+          0.22
+        ],
+        "Petiole and petiolules": [
+          0.42,
+          0.52,
+          0.22
+        ]
+      },
+      "named_colours": {
+        "Living stem | olive-green cuticle": "olive",
+        "Mature basal stem | olive cuticle": "mature basal stem",
+        "Pedicels | green": "pedicel",
+        "Petiole and petiolules": "petiole"
+      },
+      "dropped": [
+        "Exposed roots | ochre",
+        "Fine roots | straw",
+        "Loam | deep umber",
+        "Loam | ochre grains",
+        "Loam | shaded aggregate",
+        "Loam | warm crumbs",
+        "Pod pubescence | fine pale trichomes"
+      ],
+      "lod0_ratio": 0.088713,
+      "lod0_smallest_part": 0.0,
+      "lod0_leaf_triangles": 1800,
+      "lod1_ratio": 0.024991,
+      "lod1_smallest_part": 0.045,
+      "lod1_leaf_triangles": 600,
+      "origin": "roots",
+      "leaves": 75,
+      "leaf_sprite_coverage": 0.648,
+      "leaf_sprites": 2,
+      "fruit_like_parts": 34,
+      "leaf_atlas_size": 1024,
+      "wind": {
+        "file": "Soybean_target_spot_Wind.bytes",
+        "parts": 157,
+        "keys": 60,
+        "seconds": 10.0,
+        "fps": 24.0,
+        "max_angle_deg": 15.48,
+        "max_travel_m": 0.0325
+      },
+      "lod0_triangles": 9906,
+      "lod1_triangles": 3012,
+      "height": 0.847,
+      "width": 0.708,
+      "scale": 1.0,
+      "fbx": "Soybean_target_spot.fbx",
+      "leaf_texture": "Soybean_target_spot_Leaf.png",
+      "parts_texture": "Soybean_Parts.png",
+      "wind_file": "Soybean_target_spot_Wind.bytes",
+      "parts_atlas_size": 1024
+    }
+  ]
+}

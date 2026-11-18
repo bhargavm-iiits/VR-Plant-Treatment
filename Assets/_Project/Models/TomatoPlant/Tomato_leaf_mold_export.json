@@ -1,0 +1,155 @@
+{
+  "source": "04_Leaf_Mold.glb",
+  "diseaseId": "leaf_mold",
+  "source_parts": {
+    "anther": {
+      "objects": 5,
+      "tris": 110
+    },
+    "body": {
+      "objects": 20,
+      "tris": 245760
+    },
+    "calyx": {
+      "objects": 20,
+      "tris": 221440
+    },
+    "drop": {
+      "objects": 2,
+      "tris": 17200
+    },
+    "fruitstem": {
+      "objects": 20,
+      "tris": 14080
+    },
+    "leaf": {
+      "objects": 31,
+      "tris": 17369486
+    },
+    "petals": {
+      "objects": 5,
+      "tris": 2600
+    },
+    "soil": {
+      "objects": 1,
+      "tris": 3744
+    },
+    "stem": {
+      "objects": 62,
+      "tris": 41572
+    }
+  },
+  "source_tris": 17915992,
+  "leaf": {
+    "source_tris": 560306,
+    "instances": 31,
+    "flatness": 0.10488,
+    "thickness_local": 0.43633,
+    "sprite": [
+      1024,
+      512
+    ],
+    "card_span_local": [
+      2.4402,
+      1.2201
+    ],
+    "sprite_coverage": 0.529
+  },
+  "fruit_atlas_quadrants": {
+    "(0, 0)": "PBR | orange tomato | baked source map",
+    "(0, 1)": "Tomato_Tomato_body_BaseColor",
+    "(1, 0)": "Tomato_Tomatol_leaves_BaseColor",
+    "(1, 1)": "PBR | green tomato | baked source map"
+  },
+  "lod0_parts_tris": {
+    "leaves": 3224,
+    "fruit": 2000,
+    "flowers": 260,
+    "soil": 420,
+    "stems": 6026
+  },
+  "lod0_stem_ratio": 0.1466,
+  "lod1_parts_tris": {
+    "leaves": 496,
+    "fruit": 480,
+    "soil": 119,
+    "stems": 2836
+  },
+  "lod1_stem_ratio": 0.0699,
+  "fruit_uv_outside_unit_square": 0.0,
+  "Tomato_leaf_mold_LOD0": {
+    "tris": 11930,
+    "verts": 6818,
+    "materials": [
+      "TomatoLeaf_leaf_mold",
+      "TomatoFruit",
+      "TomatoFlower",
+      "TomatoSoil",
+      "TomatoStem"
+    ],
+    "uv_layers": [
+      "UVMap",
+      "Wind"
+    ]
+  },
+  "Tomato_leaf_mold_LOD1": {
+    "tris": 3931,
+    "verts": 2359,
+    "materials": [
+      "TomatoLeaf_leaf_mold",
+      "TomatoFruit",
+      "TomatoSoil",
+      "TomatoStem"
+    ],
+    "uv_layers": [
+      "UVMap",
+      "Wind"
+    ]
+  },
+  "lod0_bbox_blender": {
+    "min": [
+      -0.5804,
+      -0.6477,
+      0.0016
+    ],
+    "max": [
+      0.5753,
+      0.6085,
+      1.7438
+    ]
+  },
+  "pivot_check": {
+    "rotation_centre": "parent '3D wind pivot' empty",
+    "leaf_node_origin_to_pivot_max_m": 0.15432,
+    "source_leaf_vertex_nearest_pivot_max_m": 0.000976,
+    "pivot_drift_m": 4.774188799739121e-07,
+    "card_anchor_to_pivot_max_m": [
+      0.00912,
+      0.00912
+    ]
+  },
+  "wind": {
+    "leafCount": 31,
+    "keyCount": 16,
+    "seconds": 8.0,
+    "fps": 24.0,
+    "frameRange": [
+      0,
+      192
+    ],
+    "blendErrorDegByKeys": {
+      "8": 0.5692,
+      "12": 0.288,
+      "16": 0.1978
+    },
+    "keyBlendErrorDeg": 0.1978,
+    "maxAngleDeg": 7.324,
+    "loopErrorDeg": 0.0
+  },
+  "files_bytes": {
+    "Tomato_leaf_mold.fbx": 564972,
+    "TomatoLeaf_leaf_mold.png": 777628,
+    "TomatoFruit.png": 1163014,
+    "Tomato_leaf_mold_Wind.bytes": 9076
+  }
+}

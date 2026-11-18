@@ -1,0 +1,197 @@
+{
+  "notes": "Farm specimens a connected session can focus: the first plant of each disease row (Row_<plantId>_<diseaseId>). The learner stands standDistance metres straight in front of it towards the row head, centred on it and facing it, with the row's name sign below the plant (the reference framing is tomato at 1.6 m); the side walkways are fallbacks when that ground is not clear.",
+  "specimens": [
+    {
+      "specimenId": "farm-apple-apple-scab-01",
+      "plantId": "apple",
+      "diseaseId": "apple_scab",
+      "plantIndex": 0,
+      "standDistance": 3.2,
+      "standSide": 0.0
+    },
+    {
+      "specimenId": "farm-apple-black-rot-01",
+      "plantId": "apple",
+      "diseaseId": "black_rot",
+      "plantIndex": 0,
+      "standDistance": 3.2,
+      "standSide": 0.0
+    },
+    {
+      "specimenId": "farm-apple-cedar-apple-rust-01",
+      "plantId": "apple",
+      "diseaseId": "cedar_apple_rust",
+      "plantIndex": 0,
+      "standDistance": 3.2,
+      "standSide": 0.0
+    },
+    {
+      "specimenId": "farm-bell-pepper-bacterial-spot-01",
+      "plantId": "bell_pepper",
+      "diseaseId": "bacterial_spot",
+      "plantIndex": 0,
+      "standDistance": 1.4,
+      "standSide": 0.0
+    },
+    {
+      "specimenId": "farm-cherry-powdery-mildew-01",
+      "plantId": "cherry",
+      "diseaseId": "powdery_mildew",
+      "plantIndex": 0,
+      "standDistance": 3.2,
+      "standSide": 0.0
+    },
+    {
+      "specimenId": "farm-corn-gray-leaf-spot-01",
+      "plantId": "corn",
+      "diseaseId": "gray_leaf_spot",
+      "plantIndex": 0,
+      "standDistance": 1.6,
+      "standSide": 0.0
+    },
+    {
+      "specimenId": "farm-corn-common-rust-01",
+      "plantId": "corn",
+      "diseaseId": "common_rust",
+      "plantIndex": 0,
+      "standDistance": 1.6,
+      "standSide": 0.0
+    },
+    {
+      "specimenId": "farm-corn-northern-leaf-blight-01",
+      "plantId": "corn",
+      "diseaseId": "northern_leaf_blight",
+      "plantIndex": 0,
+      "standDistance": 1.6,
+      "standSide": 0.0
+    },
+    {
+      "specimenId": "farm-grape-black-rot-01",
+      "plantId": "grape",
+      "diseaseId": "black_rot",
+      "plantIndex": 0,
+      "standDistance": 2.4,
+      "standSide": 0.0
+    },
+    {
+      "specimenId": "farm-grape-esca-01",
+      "plantId": "grape",
+      "diseaseId": "esca",
+      "plantIndex": 0,
+      "standDistance": 2.4,
+      "standSide": 0.0
+    },
+    {
+      "specimenId": "farm-grape-leaf-blight-01",
+      "plantId": "grape",
+      "diseaseId": "leaf_blight",
+      "plantIndex": 0,
+      "standDistance": 2.4,
+      "standSide": 0.0
+    },
+    {
+      "specimenId": "farm-peach-bacterial-spot-01",
+      "plantId": "peach",
+      "diseaseId": "bacterial_spot",
+      "plantIndex": 0,
+      "standDistance": 3.2,
+      "standSide": 0.0
+    },
+    {
+      "specimenId": "farm-potato-early-blight-01",
+      "plantId": "potato",
+      "diseaseId": "early_blight",
+      "plantIndex": 0,
+      "standDistance": 1.4,
+      "standSide": 0.0
+    },
+    {
+      "specimenId": "farm-potato-late-blight-01",
+      "plantId": "potato",
+      "diseaseId": "late_blight",
+      "plantIndex": 0,
+      "standDistance": 1.4,
+      "standSide": 0.0
+    },
+    {
+      "specimenId": "farm-strawberry-leaf-scorch-01",
+      "plantId": "strawberry",
+      "diseaseId": "leaf_scorch",
+      "plantIndex": 0,
+      "standDistance": 1.3,
+      "standSide": 0.0
+    },
+    {
+      "specimenId": "farm-tomato-bacterial-spot-01",
+      "plantId": "tomato",
+      "diseaseId": "bacterial_spot",
+      "plantIndex": 0,
+      "standDistance": 1.6,
+      "standSide": 0.0
+    },
+    {
+      "specimenId": "farm-tomato-early-blight-01",
+      "plantId": "tomato",
+      "diseaseId": "early_blight",
+      "plantIndex": 0,
+      "standDistance": 1.6,
+      "standSide": 0.0
+    },
+    {
+      "specimenId": "farm-tomato-late-blight-01",
+      "plantId": "tomato",
+      "diseaseId": "late_blight",
+      "plantIndex": 0,
+      "standDistance": 1.6,
+      "standSide": 0.0
+    },
+    {
+      "specimenId": "farm-tomato-leaf-mold-01",
+      "plantId": "tomato",
+      "diseaseId": "leaf_mold",
+      "plantIndex": 0,
+      "standDistance": 1.6,
+      "standSide": 0.0
+    },
+    {
+      "specimenId": "farm-tomato-septoria-leaf-spot-01",
+      "plantId": "tomato",
+      "diseaseId": "septoria_leaf_spot",
+      "plantIndex": 0,
+      "standDistance": 1.6,
+      "standSide": 0.0
+    },
+    {
+      "specimenId": "farm-tomato-spider-mites-01",
+      "plantId": "tomato",
+      "diseaseId": "spider_mites",
+      "plantIndex": 0,
+      "standDistance": 1.6,
+      "standSide": 0.0
+    },
+    {
+      "specimenId": "farm-tomato-target-spot-01",
+      "plantId": "tomato",
+      "diseaseId": "target_spot",
+      "plantIndex": 0,
+      "standDistance": 1.6,
+      "standSide": 0.0
+    },
+    {
+      "specimenId": "farm-tomato-yellow-leaf-curl-virus-01",
+      "plantId": "tomato",
+      "diseaseId": "yellow_leaf_curl_virus",
+      "plantIndex": 0,
+      "standDistance": 1.6,
+      "standSide": 0.0
+    },
+    {
+      "specimenId": "farm-tomato-mosaic-virus-01",
+      "plantId": "tomato",
+      "diseaseId": "mosaic_virus",
+      "plantIndex": 0,
+      "standDistance": 1.6,
+      "standSide": 0.0
+    }
+  ]
+}

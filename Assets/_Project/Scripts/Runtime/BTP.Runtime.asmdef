@@ -6,8 +6,10 @@
         "Unity.TextMeshPro",
         "UnityEngine.UI",
         "Unity.XR.Interaction.Toolkit",
+        "Unity.XR.Management",
         "Unity.RenderPipelines.Core.Runtime",
-        "Unity.RenderPipelines.Universal.Runtime"
+        "Unity.RenderPipelines.Universal.Runtime",
+        "Gilzoide.SqliteNet"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

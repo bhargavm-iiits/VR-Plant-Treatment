@@ -1,0 +1,155 @@
+{
+  "source": "02_Early_Blight.glb",
+  "diseaseId": "early_blight",
+  "source_parts": {
+    "anther": {
+      "objects": 5,
+      "tris": 110
+    },
+    "body": {
+      "objects": 20,
+      "tris": 245760
+    },
+    "calyx": {
+      "objects": 20,
+      "tris": 221440
+    },
+    "drop": {
+      "objects": 2,
+      "tris": 17200
+    },
+    "fruitstem": {
+      "objects": 20,
+      "tris": 14080
+    },
+    "leaf": {
+      "objects": 31,
+      "tris": 5410120
+    },
+    "petals": {
+      "objects": 5,
+      "tris": 2600
+    },
+    "soil": {
+      "objects": 1,
+      "tris": 3744
+    },
+    "stem": {
+      "objects": 62,
+      "tris": 41572
+    }
+  },
+  "source_tris": 5956626,
+  "leaf": {
+    "source_tris": 174520,
+    "instances": 31,
+    "flatness": 0.00174,
+    "thickness_local": 0.00527,
+    "sprite": [
+      1024,
+      512
+    ],
+    "card_span_local": [
+      2.3954,
+      1.1977
+    ],
+    "sprite_coverage": 0.537
+  },
+  "fruit_atlas_quadrants": {
+    "(0, 0)": "PBR | orange tomato | baked source map",
+    "(0, 1)": "Tomato_Tomato_body_BaseColor",
+    "(1, 0)": "Tomato_Tomatol_leaves_BaseColor",
+    "(1, 1)": "PBR | green tomato | baked source map"
+  },
+  "lod0_parts_tris": {
+    "leaves": 3348,
+    "fruit": 2000,
+    "flowers": 260,
+    "soil": 420,
+    "stems": 5880
+  },
+  "lod0_stem_ratio": 0.1437,
+  "lod1_parts_tris": {
+    "leaves": 496,
+    "fruit": 480,
+    "soil": 119,
+    "stems": 2836
+  },
+  "lod1_stem_ratio": 0.0699,
+  "fruit_uv_outside_unit_square": 0.0,
+  "Tomato_early_blight_LOD0": {
+    "tris": 11908,
+    "verts": 6807,
+    "materials": [
+      "TomatoLeaf_early_blight",
+      "TomatoFruit",
+      "TomatoFlower",
+      "TomatoSoil",
+      "TomatoStem"
+    ],
+    "uv_layers": [
+      "UVMap",
+      "Wind"
+    ]
+  },
+  "Tomato_early_blight_LOD1": {
+    "tris": 3931,
+    "verts": 2359,
+    "materials": [
+      "TomatoLeaf_early_blight",
+      "TomatoFruit",
+      "TomatoSoil",
+      "TomatoStem"
+    ],
+    "uv_layers": [
+      "UVMap",
+      "Wind"
+    ]
+  },
+  "lod0_bbox_blender": {
+    "min": [
+      -0.6007,
+      -0.6713,
+      0.0016
+    ],
+    "max": [
+      0.5952,
+      0.6092,
+      1.741
+    ]
+  },
+  "pivot_check": {
+    "rotation_centre": "parent '3D wind pivot' empty",
+    "leaf_node_origin_to_pivot_max_m": 0.15475,
+    "source_leaf_vertex_nearest_pivot_max_m": 7.4e-05,
+    "pivot_drift_m": 4.789325774012949e-07,
+    "card_anchor_to_pivot_max_m": [
+      0.00312,
+      0.03911
+    ]
+  },
+  "wind": {
+    "leafCount": 31,
+    "keyCount": 16,
+    "seconds": 8.0,
+    "fps": 24.0,
+    "frameRange": [
+      0,
+      192
+    ],
+    "blendErrorDegByKeys": {
+      "8": 0.5692,
+      "12": 0.2853,
+      "16": 0.1978
+    },
+    "keyBlendErrorDeg": 0.1978,
+    "maxAngleDeg": 7.324,
+    "loopErrorDeg": 0.0
+  },
+  "files_bytes": {
+    "Tomato_early_blight.fbx": 560236,
+    "TomatoLeaf_early_blight.png": 801558,
+    "TomatoFruit.png": 1163014,
+    "Tomato_early_blight_Wind.bytes": 9076
+  }
+}

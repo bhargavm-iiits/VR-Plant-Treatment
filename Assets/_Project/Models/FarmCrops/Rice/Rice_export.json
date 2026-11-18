@@ -1,0 +1,381 @@
+{
+  "plantId": "rice",
+  "stem": "Rice",
+  "variants": [
+    {
+      "disease": "bacterial_leaf_blight",
+      "source": "Rice_Bacterial_Leaf_Blight.glb",
+      "source_height": 1.068,
+      "source_triangles": 473414,
+      "leaf_material": "Bacterial Leaf Blight | original leaf PBR",
+      "atlas": [
+        "Spikelet hull | amber straw",
+        "Spikelet hull | pale straw",
+        "Spikelet hull | ripe gold"
+      ],
+      "solid": {
+        "Basal sheath | olive straw": [
+          0.499,
+          0.477,
+          0.241
+        ],
+        "Culm node | olive green": [
+          0.487,
+          0.533,
+          0.272
+        ],
+        "Hull seam | darker straw": [
+          0.689,
+          0.521,
+          0.248
+        ],
+        "Panicle stems | ochre olive": [
+          0.499,
+          0.477,
+          0.241
+        ],
+        "Rice culm | green striated": [
+          0.365,
+          0.475,
+          0.195
+        ]
+      },
+      "named_colours": {},
+      "dropped": [
+        "Rice root | tan fibrous",
+        "Root plug | dark loam"
+      ],
+      "lod0_ratio": 0.021984,
+      "lod0_smallest_part": 0.0,
+      "lod0_leaf_triangles": 1356,
+      "lod1_ratio": 0.0,
+      "lod1_smallest_part": 0.045,
+      "lod1_leaf_triangles": 1008,
+      "origin": "roots",
+      "leaves": 60,
+      "leaf_sprite_coverage": 0.357,
+      "leaf_sprites": 60,
+      "fruit_like_parts": 0,
+      "leaf_atlas_size": 2048,
+      "wind": {
+        "file": "Rice_bacterial_leaf_blight_Wind.bytes",
+        "parts": 64,
+        "keys": 60,
+        "seconds": 10.0,
+        "fps": 24.0,
+        "max_angle_deg": 18.9,
+        "max_travel_m": 0.0098
+      },
+      "lod0_triangles": 10419,
+      "lod1_triangles": 3094,
+      "height": 1.068,
+      "width": 0.88,
+      "scale": 1.0,
+      "fbx": "Rice_bacterial_leaf_blight.fbx",
+      "leaf_texture": "Rice_bacterial_leaf_blight_Leaf.png",
+      "parts_texture": "Rice_Parts.png",
+      "wind_file": "Rice_bacterial_leaf_blight_Wind.bytes",
+      "parts_atlas_size": 1024
+    },
+    {
+      "disease": "brown_spot",
+      "source": "Rice_Brown_Spot.glb",
+      "source_height": 1.055,
+      "source_triangles": 465796,
+      "leaf_material": "Brown Spot | original leaf PBR",
+      "atlas": [
+        "Spikelet hull | amber straw",
+        "Spikelet hull | pale straw",
+        "Spikelet hull | ripe gold"
+      ],
+      "solid": {
+        "Basal sheath | olive straw": [
+          0.499,
+          0.477,
+          0.241
+        ],
+        "Culm node | olive green": [
+          0.487,
+          0.533,
+          0.272
+        ],
+        "Hull seam | darker straw": [
+          0.689,
+          0.521,
+          0.248
+        ],
+        "Panicle stems | ochre olive": [
+          0.499,
+          0.477,
+          0.241
+        ],
+        "Rice culm | green striated": [
+          0.365,
+          0.475,
+          0.195
+        ]
+      },
+      "named_colours": {},
+      "dropped": [
+        "Rice root | tan fibrous",
+        "Root plug | dark loam"
+      ],
+      "lod0_ratio": 0.022485,
+      "lod0_smallest_part": 0.0,
+      "lod0_leaf_triangles": 1390,
+      "lod1_ratio": 0.0,
+      "lod1_smallest_part": 0.045,
+      "lod1_leaf_triangles": 1078,
+      "origin": "roots",
+      "leaves": 60,
+      "leaf_sprite_coverage": 0.409,
+      "leaf_sprites": 59,
+      "fruit_like_parts": 0,
+      "leaf_atlas_size": 2048,
+      "wind": {
+        "file": "Rice_brown_spot_Wind.bytes",
+        "parts": 64,
+        "keys": 60,
+        "seconds": 10.0,
+        "fps": 24.0,
+        "max_angle_deg": 16.47,
+        "max_travel_m": 0.0108
+      },
+      "lod0_triangles": 10424,
+      "lod1_triangles": 3100,
+      "height": 1.056,
+      "width": 0.877,
+      "scale": 1.0,
+      "fbx": "Rice_brown_spot.fbx",
+      "leaf_texture": "Rice_brown_spot_Leaf.png",
+      "parts_texture": "Rice_Parts.png",
+      "wind_file": "Rice_brown_spot_Wind.bytes",
+      "parts_atlas_size": 1024
+    },
+    {
+      "disease": "leaf_blast",
+      "source": "Rice_Leaf_Blast.glb",
+      "source_height": 1.114,
+      "source_triangles": 477860,
+      "leaf_material": "Leaf Blast | original leaf PBR",
+      "atlas": [
+        "Spikelet hull | amber straw",
+        "Spikelet hull | pale straw",
+        "Spikelet hull | ripe gold"
+      ],
+      "solid": {
+        "Basal sheath | olive straw": [
+          0.499,
+          0.477,
+          0.241
+        ],
+        "Culm node | olive green": [
+          0.487,
+          0.533,
+          0.272
+        ],
+        "Hull seam | darker straw": [
+          0.689,
+          0.521,
+          0.248
+        ],
+        "Panicle stems | ochre olive": [
+          0.499,
+          0.477,
+          0.241
+        ],
+        "Rice culm | green striated": [
+          0.365,
+          0.475,
+          0.195
+        ]
+      },
+      "named_colours": {},
+      "dropped": [
+        "Rice root | tan fibrous",
+        "Root plug | dark loam"
+      ],
+      "lod0_ratio": 0.021477,
+      "lod0_smallest_part": 0.0,
+      "lod0_leaf_triangles": 1430,
+      "lod1_ratio": 0.0,
+      "lod1_smallest_part": 0.045,
+      "lod1_leaf_triangles": 1068,
+      "origin": "roots",
+      "leaves": 60,
+      "leaf_sprite_coverage": 0.47,
+      "leaf_sprites": 58,
+      "fruit_like_parts": 0,
+      "leaf_atlas_size": 2048,
+      "wind": {
+        "file": "Rice_leaf_blast_Wind.bytes",
+        "parts": 64,
+        "keys": 60,
+        "seconds": 10.0,
+        "fps": 24.0,
+        "max_angle_deg": 15.71,
+        "max_travel_m": 0.0146
+      },
+      "lod0_triangles": 10440,
+      "lod1_triangles": 3079,
+      "height": 1.114,
+      "width": 0.862,
+      "scale": 1.0,
+      "fbx": "Rice_leaf_blast.fbx",
+      "leaf_texture": "Rice_leaf_blast_Leaf.png",
+      "parts_texture": "Rice_Parts.png",
+      "wind_file": "Rice_leaf_blast_Wind.bytes",
+      "parts_atlas_size": 1024
+    },
+    {
+      "disease": "sheath_blight",
+      "source": "Rice_Sheath_Blight.glb",
+      "source_height": 1.045,
+      "source_triangles": 484910,
+      "leaf_material": "Sheath Blight | original leaf PBR",
+      "atlas": [
+        "Spikelet hull | amber straw",
+        "Spikelet hull | pale straw",
+        "Spikelet hull | ripe gold"
+      ],
+      "solid": {
+        "Basal sheath | olive straw": [
+          0.499,
+          0.477,
+          0.241
+        ],
+        "Culm node | olive green": [
+          0.487,
+          0.533,
+          0.272
+        ],
+        "Hull seam | darker straw": [
+          0.689,
+          0.521,
+          0.248
+        ],
+        "Panicle stems | ochre olive": [
+          0.499,
+          0.477,
+          0.241
+        ],
+        "Rice culm | green striated": [
+          0.365,
+          0.475,
+          0.195
+        ]
+      },
+      "named_colours": {},
+      "dropped": [
+        "Rice root | tan fibrous",
+        "Root plug | dark loam"
+      ],
+      "lod0_ratio": 0.020778,
+      "lod0_smallest_part": 0.0,
+      "lod0_leaf_triangles": 1498,
+      "lod1_ratio": 0.002031,
+      "lod1_smallest_part": 0.0585,
+      "lod1_leaf_triangles": 1126,
+      "origin": "roots",
+      "leaves": 64,
+      "leaf_sprite_coverage": 0.409,
+      "leaf_sprites": 63,
+      "fruit_like_parts": 0,
+      "leaf_atlas_size": 2048,
+      "wind": {
+        "file": "Rice_sheath_blight_Wind.bytes",
+        "parts": 64,
+        "keys": 60,
+        "seconds": 10.0,
+        "fps": 24.0,
+        "max_angle_deg": 18.8,
+        "max_travel_m": 0.0137
+      },
+      "lod0_triangles": 10431,
+      "lod1_triangles": 2899,
+      "height": 1.044,
+      "width": 0.873,
+      "scale": 1.0,
+      "fbx": "Rice_sheath_blight.fbx",
+      "leaf_texture": "Rice_sheath_blight_Leaf.png",
+      "parts_texture": "Rice_Parts.png",
+      "wind_file": "Rice_sheath_blight_Wind.bytes",
+      "parts_atlas_size": 1024
+    },
+    {
+      "disease": "tungro",
+      "source": "Rice_Tungro.glb",
+      "source_height": 0.988,
+      "source_triangles": 467184,
+      "leaf_material": "Tungro | original leaf PBR",
+      "atlas": [
+        "Spikelet hull | amber straw",
+        "Spikelet hull | pale straw",
+        "Spikelet hull | ripe gold"
+      ],
+      "solid": {
+        "Basal sheath | olive straw": [
+          0.499,
+          0.477,
+          0.241
+        ],
+        "Culm node | olive green": [
+          0.487,
+          0.533,
+          0.272
+        ],
+        "Hull seam | darker straw": [
+          0.689,
+          0.521,
+          0.248
+        ],
+        "Panicle stems | ochre olive": [
+          0.499,
+          0.477,
+          0.241
+        ],
+        "Rice culm | green striated": [
+          0.365,
+          0.475,
+          0.195
+        ]
+      },
+      "named_colours": {},
+      "dropped": [
+        "Rice root | tan fibrous",
+        "Root plug | dark loam"
+      ],
+      "lod0_ratio": 0.021809,
+      "lod0_smallest_part": 0.0,
+      "lod0_leaf_triangles": 1448,
+      "lod1_ratio": 0.002034,
+      "lod1_smallest_part": 0.0585,
+      "lod1_leaf_triangles": 1176,
+      "origin": "roots",
+      "leaves": 61,
+      "leaf_sprite_coverage": 0.449,
+      "leaf_sprites": 60,
+      "fruit_like_parts": 0,
+      "leaf_atlas_size": 2048,
+      "wind": {
+        "file": "Rice_tungro_Wind.bytes",
+        "parts": 64,
+        "keys": 60,
+        "seconds": 10.0,
+        "fps": 24.0,
+        "max_angle_deg": 15.52,
+        "max_travel_m": 0.0091
+      },
+      "lod0_triangles": 10499,
+      "lod1_triangles": 2915,
+      "height": 0.989,
+      "width": 0.819,
+      "scale": 1.0,
+      "fbx": "Rice_tungro.fbx",
+      "leaf_texture": "Rice_tungro_Leaf.png",
+      "parts_texture": "Rice_Parts.png",
+      "wind_file": "Rice_tungro_Wind.bytes",
+      "parts_atlas_size": 1024
+    }
+  ]
+}

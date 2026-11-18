@@ -1,0 +1,174 @@
+{
+  "mapVersion": 2,
+  "notes": "Shared backend-to-Unity case mapping. Keyed by the exact backend disease_id (GET /api/diseases). The backend keeps an identical copy (Backend/data/xr_case_map.json) and returns VR eligibility only for rows listed here. v2: every Farm disease row (24 cases).",
+  "rows": [
+    {
+      "backendDiseaseId": "Apple___Apple_scab",
+      "plantId": "apple",
+      "diseaseId": "apple_scab",
+      "specimenId": "farm-apple-apple-scab-01",
+      "recipeId": "apple-apple-scab"
+    },
+    {
+      "backendDiseaseId": "Apple___Black_rot",
+      "plantId": "apple",
+      "diseaseId": "black_rot",
+      "specimenId": "farm-apple-black-rot-01",
+      "recipeId": "apple-black-rot"
+    },
+    {
+      "backendDiseaseId": "Apple___Cedar_apple_rust",
+      "plantId": "apple",
+      "diseaseId": "cedar_apple_rust",
+      "specimenId": "farm-apple-cedar-apple-rust-01",
+      "recipeId": "apple-cedar-apple-rust"
+    },
+    {
+      "backendDiseaseId": "Pepper,_bell___Bacterial_spot",
+      "plantId": "bell_pepper",
+      "diseaseId": "bacterial_spot",
+      "specimenId": "farm-bell-pepper-bacterial-spot-01",
+      "recipeId": "bell-pepper-bacterial-spot"
+    },
+    {
+      "backendDiseaseId": "Cherry_(including_sour)___Powdery_mildew",
+      "plantId": "cherry",
+      "diseaseId": "powdery_mildew",
+      "specimenId": "farm-cherry-powdery-mildew-01",
+      "recipeId": "cherry-powdery-mildew"
+    },
+    {
+      "backendDiseaseId": "Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot",
+      "plantId": "corn",
+      "diseaseId": "gray_leaf_spot",
+      "specimenId": "farm-corn-gray-leaf-spot-01",
+      "recipeId": "corn-gray-leaf-spot"
+    },
+    {
+      "backendDiseaseId": "Corn_(maize)___Common_rust_",
+      "plantId": "corn",
+      "diseaseId": "common_rust",
+      "specimenId": "farm-corn-common-rust-01",
+      "recipeId": "corn-common-rust"
+    },
+    {
+      "backendDiseaseId": "Corn_(maize)___Northern_Leaf_Blight",
+      "plantId": "corn",
+      "diseaseId": "northern_leaf_blight",
+      "specimenId": "farm-corn-northern-leaf-blight-01",
+      "recipeId": "corn-northern-leaf-blight"
+    },
+    {
+      "backendDiseaseId": "Grape___Black_rot",
+      "plantId": "grape",
+      "diseaseId": "black_rot",
+      "specimenId": "farm-grape-black-rot-01",
+      "recipeId": "grape-black-rot"
+    },
+    {
+      "backendDiseaseId": "Grape___Esca_(Black_Measles)",
+      "plantId": "grape",
+      "diseaseId": "esca",
+      "specimenId": "farm-grape-esca-01",
+      "recipeId": "grape-esca"
+    },
+    {
+      "backendDiseaseId": "Grape___Leaf_blight_(Isariopsis_Leaf_Spot)",
+      "plantId": "grape",
+      "diseaseId": "leaf_blight",
+      "specimenId": "farm-grape-leaf-blight-01",
+      "recipeId": "grape-leaf-blight"
+    },
+    {
+      "backendDiseaseId": "Peach___Bacterial_spot",
+      "plantId": "peach",
+      "diseaseId": "bacterial_spot",
+      "specimenId": "farm-peach-bacterial-spot-01",
+      "recipeId": "peach-bacterial-spot"
+    },
+    {
+      "backendDiseaseId": "Potato___Early_blight",
+      "plantId": "potato",
+      "diseaseId": "early_blight",
+      "specimenId": "farm-potato-early-blight-01",
+      "recipeId": "potato-early-blight"
+    },
+    {
+      "backendDiseaseId": "Potato___Late_blight",
+      "plantId": "potato",
+      "diseaseId": "late_blight",
+      "specimenId": "farm-potato-late-blight-01",
+      "recipeId": "potato-late-blight"
+    },
+    {
+      "backendDiseaseId": "Strawberry___Leaf_scorch",
+      "plantId": "strawberry",
+      "diseaseId": "leaf_scorch",
+      "specimenId": "farm-strawberry-leaf-scorch-01",
+      "recipeId": "strawberry-leaf-scorch"
+    },
+    {
+      "backendDiseaseId": "Tomato___Bacterial_spot",
+      "plantId": "tomato",
+      "diseaseId": "bacterial_spot",
+      "specimenId": "farm-tomato-bacterial-spot-01",
+      "recipeId": "tomato-bacterial-spot"
+    },
+    {
+      "backendDiseaseId": "Tomato___Early_blight",
+      "plantId": "tomato",
+      "diseaseId": "early_blight",
+      "specimenId": "farm-tomato-early-blight-01",
+      "recipeId": "tomato-early-blight"
+    },
+    {
+      "backendDiseaseId": "Tomato___Late_blight",
+      "plantId": "tomato",
+      "diseaseId": "late_blight",
+      "specimenId": "farm-tomato-late-blight-01",
+      "recipeId": "tomato-late-blight"
+    },
+    {
+      "backendDiseaseId": "Tomato___Leaf_Mold",
+      "plantId": "tomato",
+      "diseaseId": "leaf_mold",
+      "specimenId": "farm-tomato-leaf-mold-01",
+      "recipeId": "tomato-leaf-mold"
+    },
+    {
+      "backendDiseaseId": "Tomato___Septoria_leaf_spot",
+      "plantId": "tomato",
+      "diseaseId": "septoria_leaf_spot",
+      "specimenId": "farm-tomato-septoria-leaf-spot-01",
+      "recipeId": "tomato-septoria-leaf-spot"
+    },
+    {
+      "backendDiseaseId": "Tomato___Spider_mites Two-spotted_spider_mite",
+      "plantId": "tomato",
+      "diseaseId": "spider_mites",
+      "specimenId": "farm-tomato-spider-mites-01",
+      "recipeId": "tomato-spider-mites"
+    },
+    {
+      "backendDiseaseId": "Tomato___Target_Spot",
+      "plantId": "tomato",
+      "diseaseId": "target_spot",
+      "specimenId": "farm-tomato-target-spot-01",
+      "recipeId": "tomato-target-spot"
+    },
+    {
+      "backendDiseaseId": "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
+      "plantId": "tomato",
+      "diseaseId": "yellow_leaf_curl_virus",
+      "specimenId": "farm-tomato-yellow-leaf-curl-virus-01",
+      "recipeId": "tomato-yellow-leaf-curl-virus"
+    },
+    {
+      "backendDiseaseId": "Tomato___Tomato_mosaic_virus",
+      "plantId": "tomato",
+      "diseaseId": "mosaic_virus",
+      "specimenId": "farm-tomato-mosaic-virus-01",
+      "recipeId": "tomato-mosaic-virus"
+    }
+  ]
+}
