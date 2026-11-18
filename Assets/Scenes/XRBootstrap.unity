@@ -600,6 +600,7 @@ GameObject:
   - component: {fileID: 2016869975}
   - component: {fileID: 2016869974}
   - component: {fileID: 2016869973}
+  - component: {fileID: 2016869977}
   m_Layer: 0
   m_Name: BTP Systems
   m_TagString: Untagged
@@ -634,11 +635,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: BTP.Runtime::BTP.Core.EnvironmentController
   farmSceneName: Envirornment
   labSceneName: Lab
+  treatmentSceneName: Treatment
   startEnvironment: 0
   rigRoot: {fileID: 1311612711}
   head: {fileID: 1311612708}
   fade: {fileID: 611779615}
   fadeDuration: 0.35
+  readyTimeout: 15
 --- !u!114 &2016869975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -667,6 +670,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2016869977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2016869972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c97012aea1e9afa49babc53255bfe329, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: BTP.Runtime::BTP.Treatment.TreatmentServices
+  catalog: {fileID: 11400000, guid: b4db11b8ef6c72941aa8e9f7c7881f90, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
