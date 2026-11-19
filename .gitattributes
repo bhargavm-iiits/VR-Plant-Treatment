@@ -1,3 +1,5 @@
 *.fbx filter=lfs diff=lfs merge=lfs -text
 *.glb filter=lfs diff=lfs merge=lfs -text
 /Assets/Plant_Asstes/Apple_Tree/Apple_Tree.blend filter=lfs diff=lfs merge=lfs -text
+/Assets/Plant_Asstes/Grape_Tree/Grape_Tree.blend filter=lfs diff=lfs merge=lfs -text
+"/Assets/Plant_Asstes/Pepper/Bell Pepper/Bell_Pepper_Plant/Bell_Pepper_Plant_3D_Wind_8s.blend" filter=lfs diff=lfs merge=lfs -text
