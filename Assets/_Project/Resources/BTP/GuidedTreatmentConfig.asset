@@ -1,0 +1,150 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72ce2a56cd695f54fa7ef0dc6e67f078, type: 3}
+  m_Name: GuidedTreatmentConfig
+  m_EditorClassIdentifier: BTP.Runtime::BTP.Treatment.GuidedTreatmentConfig
+  guidedEnabled: 1
+  products:
+  - id: N
+    label: Urea 46-0-0
+    nutrients:
+    - nitrogen
+    - n
+    bandColor: {r: 0.22, g: 0.45, b: 0.85, a: 1}
+    fullName: Prilled urea (46% N)
+    granuleColors:
+    - {r: 0.95, g: 0.95, b: 0.93, a: 1}
+    - {r: 0.98, g: 0.98, b: 0.97, a: 1}
+    - {r: 0.9, g: 0.9, b: 0.88, a: 1}
+    granuleWeights:
+    - 3
+    - 2
+    - 1
+    granuleShape: 0
+    granuleSizeMm: {x: 1.8, y: 2.8}
+    granuleGloss: 0.62
+    granuleSpeckle: 0.1
+    packetMaterial: {fileID: 2100000, guid: af67e0ca660edc64d8731fea6558e146, type: 2}
+    bedMaterial: {fileID: 2100000, guid: 0ac7e1de2af50ab4382fad10573a90fa, type: 2}
+  - id: P
+    label: DAP 18-46-0
+    nutrients:
+    - phosphorus
+    - phosphate
+    - p
+    bandColor: {r: 0.85, g: 0.42, b: 0.18, a: 1}
+    fullName: Di-ammonium phosphate
+    granuleColors:
+    - {r: 0.47, g: 0.42, b: 0.37, a: 1}
+    - {r: 0.56, g: 0.51, b: 0.45, a: 1}
+    - {r: 0.38, g: 0.34, b: 0.3, a: 1}
+    - {r: 0.27, g: 0.24, b: 0.22, a: 1}
+    granuleWeights:
+    - 3
+    - 3
+    - 2
+    - 2
+    granuleShape: 1
+    granuleSizeMm: {x: 2.4, y: 4}
+    granuleGloss: 0.32
+    granuleSpeckle: 0.55
+    packetMaterial: {fileID: 2100000, guid: bcf1876f6524b914eb84344d931e2e32, type: 2}
+    bedMaterial: {fileID: 2100000, guid: 02bdc43cd3624804ebd9a69fb2423398, type: 2}
+  - id: K
+    label: MOP 0-0-60
+    nutrients:
+    - potassium
+    - potash
+    - k
+    bandColor: {r: 0.78, g: 0.22, b: 0.24, a: 1}
+    fullName: Muriate of potash (KCl)
+    granuleColors:
+    - {r: 0.78, g: 0.38, b: 0.32, a: 1}
+    - {r: 0.86, g: 0.52, b: 0.45, a: 1}
+    - {r: 0.63, g: 0.25, b: 0.21, a: 1}
+    - {r: 0.93, g: 0.72, b: 0.66, a: 1}
+    granuleWeights:
+    - 3
+    - 3
+    - 2
+    - 1
+    granuleShape: 2
+    granuleSizeMm: {x: 1.6, y: 3.4}
+    granuleGloss: 0.5
+    granuleSpeckle: 0.35
+    packetMaterial: {fileID: 2100000, guid: 6da3d8fdb8c16a841afea58c62d7aadd, type: 2}
+    bedMaterial: {fileID: 2100000, guid: da8dcf97b8900c145bbfcbfb5bb477ff, type: 2}
+  - id: NPK
+    label: NPK 19-19-19
+    nutrients:
+    - npk
+    - balanced
+    bandColor: {r: 0.2, g: 0.62, b: 0.3, a: 1}
+    fullName: Complex fertiliser, granular
+    granuleColors:
+    - {r: 0.89, g: 0.88, b: 0.83, a: 1}
+    - {r: 0.56, g: 0.75, b: 0.86, a: 1}
+    - {r: 0.89, g: 0.6, b: 0.62, a: 1}
+    - {r: 0.74, g: 0.74, b: 0.71, a: 1}
+    - {r: 0.45, g: 0.66, b: 0.8, a: 1}
+    granuleWeights:
+    - 4
+    - 2.5
+    - 3
+    - 1
+    - 1
+    granuleShape: 1
+    granuleSizeMm: {x: 2, y: 4}
+    granuleGloss: 0.56
+    granuleSpeckle: 0.45
+    packetMaterial: {fileID: 2100000, guid: c2aaf98683eadf742a907fb76e8ea2be, type: 2}
+    bedMaterial: {fileID: 2100000, guid: 73def6f10bf1e4e46a83e37302357d66, type: 2}
+  maintenanceProduct: NPK
+  maintenanceScoops: 2
+  doseUnitsPerScoop: 2
+  scoopLandingShare: 0.6
+  rootZoneMargin: 0.09
+  granulesPerScoop: 28
+  granuleMaterial: {fileID: 2100000, guid: b992462bf08f5a84185e2d8a108c3e43, type: 2}
+  visualGranulesPerGranule: 7
+  packetHeapGranules: 380
+  scoopHeapGranules: 300
+  granuleLodDistance: 1.5
+  scoopHollowRadius: 0.022
+  maintenanceSprays: 3
+  sprayUnitsPerPress: 1
+  sprayBurstSeconds: 0.45
+  waterRounding: 1
+  sunlightSeconds: 4.5
+  sunlightColourStep: 0.15
+  homeSnapDistance: 0.25
+  homeSettleSeconds: 0.25
+  idleReturnSeconds: 8
+  benchProps:
+  - Lab Dressing/SprayMixingBench/Jug
+  - Lab Dressing/SprayMixingBench/Bottle
+  - Lab Dressing/SprayMixingBench/StirPaddle
+  - Lab Dressing/SprayMixingBench/SprayBottle
+  - Lab Dressing/SprayMixingBench/PowderBag
+  - Lab Dressing/SprayMixingBench/Scale
+  - Lab Dressing/SamplePrepIsland/Beaker
+  - Lab Dressing/SamplePrepIsland/ConicalFlask
+  - Lab Dressing/SamplePrepIsland/Reagent
+  - Lab Dressing/SamplePrepIsland/PhMeter
+  packetModel: {fileID: 919132149155446097, guid: cdccba36d521733448cf153185181a4e, type: 3}
+  packetMaterial: {fileID: 2100000, guid: af67e0ca660edc64d8731fea6558e146, type: 2}
+  packetModelYaw: -90
+  packetFootprint: 0.2
+  packetContentsUv: {x: 0.278, y: 0.795, z: 0.172, w: 0}
+  scoopModel: {fileID: 919132149155446097, guid: 1aa69803479c56b4c8e51eb95c3cea07, type: 3}
+  scoopMaterial: {fileID: 2100000, guid: b98ebe0390659174596b2a59a54c36a9, type: 2}
+  overrides: []
