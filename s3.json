@@ -1,0 +1,23 @@
+{
+  "success": true,
+  "command": "command eval_file",
+  "data": {
+    "command": "eval_file",
+    "parameters": {
+      "file": "C:/Users/Bhargav/AppData/Local/Temp/claude/9fc4c66f8c5008bf/bd6f960b-9294-48d5-9cca-f197a349999d/scratchpad/ev/s3.cs"
+    },
+    "result": {
+      "output": null,
+      "diagnostics": [],
+      "success": true,
+      "result": "Hall L=-9.4 R=4.5 F=-7 B=9.4 H=5.8\r\nlightmaps=2 probes=0\r\nHallFloor kids=0 bmin=(-7.40, -0.04, -6.00) bmax=(6.50, 0.00, 10.40) lm=0 static=True\r\nWallLeft kids=0 bmin=(-7.50, 0.00, -6.10) bmax=(-7.40, 5.80, 10.50) lm=0 static=True\r\nWallFront kids=0 bmin=(-7.50, 0.00, -6.10) bmax=(6.60, 5.80, -6.00) lm=0 static=True\r\nWallLowBack kids=0 bmin=(-7.50, 0.00, 10.40) bmax=(6.60, 0.95, 10.50) lm=1 static=True\r\nWallHeaderBack kids=0 bmin=(-7.50, 2.35, 10.40) bmax=(6.60, 5.80, 10.50) lm=0 static=True\r\nWindowBack kids=0 bmin=(-7.50, 0.95, 10.44) bmax=(6.60, 2.35, 10.46) lm=-1 static=False\r\nFrameBottomBack kids=0 bmin=(-7.50, 0.93, 10.39) bmax=(6.60, 0.98, 10.51) lm=1 static=True\r\nFrameTopBack kids=0 bmin=(-7.50, 2.33, 10.39) bmax=(6.60, 2.38, 10.51) lm=1 static=True\r\nWallLowRight kids=0 bmin=(6.50, 0.00, -6.10) bmax=(6.60, 0.95, 10.50) lm=1 static=True\r\nWallHeaderRight kids=0 bmin=(6.50, 2.35, -6.10) bmax=(6.60, 5.80, 10.50) lm=0 static=True\r\nWindowRight kids=0 bmin=(6.54, 0.95, -6.10) bmax=(6.56, 2.35, 10.50) lm=-1 static=False\r\nFrameBottomRight kids=0 bmin=(6.49, 0.93, -6.10) bmax=(6.61, 0.98, 10.50) lm=0 static=True\r\nFrameTopRight kids=0 bmin=(6.49, 2.33, -6.10) bmax=(6.61, 2.38, 10.50) lm=0 static=True\r\nCeilingFront kids=0 bmin=(-7.50, 3.17, -6.10) bmax=(6.60, 3.23, 0.90) lm=0 static=True\r\nCeilingBack kids=0 bmin=(-7.50, 3.17, 9.00) bmax=(6.60, 3.23, 10.50) lm=1 static=True\r\nCeilingLeft kids=0 bmin=(-7.50, 3.17, 0.90) bmax=(-6.00, 3.23, 9.00) lm=0 static=True\r\nCeilingRight kids=0 bmin=(2.10, 3.17, 0.90) bmax=(6.60, 3.23, 9.00) lm=0 static=True\r\nCeilingBay kids=0 bmin=(-6.10, 5.77, 0.80) bmax=(2.20, 5.83, 9.10) lm=1 static=True\r\nBaySoffitFront kids=0 bmin=(-6.00, 3.20, 0.87) bmax=(2.10, 5.80, 0.93) lm=1 static=True\r\nBaySoffitBack kids=0 bmin=(-6.00, 3.20, 8.97) bmax=(2.10, 5.80, 9.03) lm=1 static=True\r\nBaySoffitLeft kids=0 bmin=(-6.03, 3.20, 0.90) bmax=(-5.97, 5.80, 9.00) lm=0 static=True\r\nBaySoffitRight kids=0 bmin=(2.07, 3.20, 0.90) bmax=(2.13, 5.80, 9.00) lm=1 static=True\r\nSteelBeam kids=0 bmin=(-7.40, 2.81, -5.18) bmax=(6.50, 3.07, -5.02) lm=0 static=True\r\nSteelBeam kids=0 bmin=(-7.40, 2.81, 0.62) bmax=(6.50, 3.07, 0.78) lm=0 static=True\r\nSteelBeam kids=0 bmin=(-7.40, 2.81, 9.32) bmax=(6.50, 3.07, 9.48) lm=0 static=True\r\nCounterLeftTop kids=0 bmin=(-7.40, 0.90, -5.20) bmax=(-6.70, 0.94, 9.60) lm=1 static=True\r\nCounterLeftBody kids=0 bmin=(-7.38, 0.00, -5.15) bmax=(-6.76, 0.90, 9.55) lm=1 static=True\r\nCounterFrontTop kids=0 bmin=(-6.40, 0.90, -6.00) bmax=(3.50, 0.94, -5.30) lm=0 static=True\r\nCounterFrontBody kids=0 bmin=(-6.35, 0.00, -5.98) bmax=(3.45, 0.90, -5.36) lm=1 static=True\r\nCounterBackTop kids=0 bmin=(-6.60, 0.90, 9.70) bmax=(5.70, 0.94, 10.40) lm=0 static=True\r\nCounterBackBody kids=0 bmin=(-6.55, 0.00, 9.76) bmax=(5.65, 0.90, 10.38) lm=1 static=True\r\nFarmView kids=49 GROUP n=137 bmin=(-20.00, -0.35, -9.00) bmax=(24.00, 4.07, 27.90)\r\nx4 MullionBack\r\nx5 MullionRight\r\nx29 Joist\r\nx42 PendantCord\r\nx42 PendantShade\r\nx42 PendantBulb\r\nx8 HallLight\r\nx4 Shelf\r\nx6 Bin\r\nx2 ShelfUpright\r\nCH CeilingLight (1.16, 2.41, 1.85) yaw 0 UniversalAdditionalLightData\r\n"
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7801,
+      "projectPath": "D:\\Unity Projects\\Plant Disease\\BTP_Project"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

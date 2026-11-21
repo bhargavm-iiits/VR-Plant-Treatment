@@ -1,0 +1,23 @@
+{
+  "success": true,
+  "command": "command eval_file",
+  "data": {
+    "command": "eval_file",
+    "parameters": {
+      "file": "C:/Users/Bhargav/AppData/Local/Temp/claude/9fc4c66f8c5008bf/bd6f960b-9294-48d5-9cca-f197a349999d/scratchpad/ev/s7.cs"
+    },
+    "result": {
+      "output": null,
+      "diagnostics": [],
+      "success": true,
+      "result": "Sun Directional Realtime int=1.2 range=10 shadows=Hard scene=Treatment\r\nCeilingLight Spot Realtime int=1.495833 range=4.42 shadows=None scene=Treatment\r\nHallLight Point Baked int=1.35 range=9 shadows=None scene=Treatment\r\nHallLight Point Baked int=1.35 range=9 shadows=None scene=Treatment\r\nHallLight Point Baked int=1.35 range=9 shadows=None scene=Treatment\r\nHallLight Point Baked int=1.35 range=9 shadows=None scene=Treatment\r\nHallLight Point Baked int=1.35 range=9 shadows=None scene=Treatment\r\nHallLight Point Baked int=1.35 range=9 shadows=None scene=Treatment\r\nHallLight Point Baked int=1.35 range=9 shadows=None scene=Treatment\r\nHallLight Point Baked int=1.35 range=9 shadows=None scene=Treatment\r\nLPG 1\r\nRP HallReflectionProbe Custom\r\nlightingData: Resources/unity_builtin_extra\r\nafter active: lightingData: Assets/Scenes/Treatment/LightingData.asset lm=2 probes=396\r\nlighting settings Assets/_Project/Data/Lighting/TreatmentLighting.lighting baked=True mixed=IndirectOnly\r\n"
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7801,
+      "projectPath": "D:\\Unity Projects\\Plant Disease\\BTP_Project"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}
