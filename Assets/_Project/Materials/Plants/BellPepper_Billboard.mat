@@ -112,6 +112,7 @@ Material:
     - _WindLoopSeconds: 8
     - _WindSpeed: 1
     - _WindStrength: 1
+    - _WindTravel: 0
     - _XRMotionVectorsPass: 1
     - _ZWrite: 1
     m_Colors:
