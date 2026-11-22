@@ -44,6 +44,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: b2d19290481ad0745987e8435975d9c5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _WindTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
     - _AlphaClip: 1
@@ -51,7 +55,12 @@ Material:
     - _Cull: 0
     - _Cutoff: 0.45
     - _DiseaseAmount: 1
+    - _LeafWind: 0
     - _MaskScale: 1
+    - _WindLoopSeconds: 8
+    - _WindSpeed: 1
+    - _WindStrength: 1
+    - _WindTravel: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
