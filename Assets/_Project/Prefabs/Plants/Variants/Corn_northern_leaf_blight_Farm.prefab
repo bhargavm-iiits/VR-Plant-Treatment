@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4497817674245328724
+--- !u!1 &3093023200014242402
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,23 +8,23 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7614276661285702584}
-  - component: {fileID: 7268598119698791386}
-  - component: {fileID: 1760238937333313986}
+  - component: {fileID: 406480537742560389}
+  - component: {fileID: 8314689635763281191}
+  - component: {fileID: 618260165351162027}
   m_Layer: 0
-  m_Name: Model
+  m_Name: Billboard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4
   m_IsActive: 1
---- !u!4 &7614276661285702584
+--- !u!4 &406480537742560389
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4497817674245328724}
+  m_GameObject: {fileID: 3093023200014242402}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -33,23 +33,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2326124524212531749}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &7268598119698791386
+--- !u!33 &8314689635763281191
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4497817674245328724}
-  m_Mesh: {fileID: 4300000, guid: bca8f67ef832130418cb112c37bf4835, type: 2}
---- !u!23 &1760238937333313986
+  m_GameObject: {fileID: 3093023200014242402}
+  m_Mesh: {fileID: 4300000, guid: 30400b8052b521d4bacc064b8deac405, type: 2}
+--- !u!23 &618260165351162027
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4497817674245328724}
+  m_GameObject: {fileID: 3093023200014242402}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -66,9 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dcebdd26d1239b47a1e6e289bc602f7, type: 2}
-  - {fileID: 2100000, guid: b99d030ea7d64134aa18bd1a9afbe6e8, type: 2}
-  - {fileID: 2100000, guid: 39289342223231a44b91493e3d1d6715, type: 2}
+  - {fileID: 2100000, guid: 2e330291fcc819547a5017d1fed3feff, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -92,7 +90,7 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &6785202963399093009
+--- !u!1 &6875955441109014088
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -100,23 +98,23 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4517761167433562093}
-  - component: {fileID: 7910443688187439125}
-  - component: {fileID: 3334065627904782396}
+  - component: {fileID: 1586494641288588885}
+  - component: {fileID: 4695056255331855218}
+  - component: {fileID: 6905300150504285135}
   m_Layer: 0
-  m_Name: Billboard
+  m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4
+  m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4517761167433562093
+--- !u!4 &1586494641288588885
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6785202963399093009}
+  m_GameObject: {fileID: 6875955441109014088}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -125,23 +123,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2326124524212531749}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &7910443688187439125
+--- !u!33 &4695056255331855218
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6785202963399093009}
-  m_Mesh: {fileID: 4300000, guid: 30400b8052b521d4bacc064b8deac405, type: 2}
---- !u!23 &3334065627904782396
+  m_GameObject: {fileID: 6875955441109014088}
+  m_Mesh: {fileID: 4300000, guid: bca8f67ef832130418cb112c37bf4835, type: 2}
+--- !u!23 &6905300150504285135
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6785202963399093009}
+  m_GameObject: {fileID: 6875955441109014088}
   m_Enabled: 1
-  m_CastShadows: 0
+  m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -158,7 +156,9 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2e330291fcc819547a5017d1fed3feff, type: 2}
+  - {fileID: 2100000, guid: 9dcebdd26d1239b47a1e6e289bc602f7, type: 2}
+  - {fileID: 2100000, guid: b99d030ea7d64134aa18bd1a9afbe6e8, type: 2}
+  - {fileID: 2100000, guid: 39289342223231a44b91493e3d1d6715, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -212,8 +212,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7614276661285702584}
-  - {fileID: 4517761167433562093}
+  - {fileID: 1586494641288588885}
+  - {fileID: 406480537742560389}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!205 &3046451271123489341
@@ -233,10 +233,10 @@ LODGroup:
   - screenRelativeHeight: 0.18
     fadeTransitionWidth: 0
     renderers:
-    - renderer: {fileID: 1760238937333313986}
+    - renderer: {fileID: 6905300150504285135}
   - screenRelativeHeight: 0.006
     fadeTransitionWidth: 0
     renderers:
-    - renderer: {fileID: 3334065627904782396}
+    - renderer: {fileID: 618260165351162027}
   m_Enabled: 1
   m_GlobalIlluminationLOD: 0
