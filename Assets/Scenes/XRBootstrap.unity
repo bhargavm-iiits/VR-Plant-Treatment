@@ -372,6 +372,10 @@ PrefabInstance:
       propertyPath: far clip plane
       value: 450
       objectReference: {fileID: 0}
+    - target: {fileID: 927309121262695183, guid: d6878e1999eb4b44a9f5a263af86c185, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1386082259481429544, guid: d6878e1999eb4b44a9f5a263af86c185, type: 3}
       propertyPath: m_SelectInput.m_InputActionReferenceValue
       value: 
@@ -601,6 +605,7 @@ GameObject:
   - component: {fileID: 2016869974}
   - component: {fileID: 2016869973}
   - component: {fileID: 2016869977}
+  - component: {fileID: 2016869978}
   m_Layer: 0
   m_Name: BTP Systems
   m_TagString: Untagged
@@ -683,6 +688,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: BTP.Runtime::BTP.Treatment.TreatmentServices
   catalog: {fileID: 11400000, guid: b4db11b8ef6c72941aa8e9f7c7881f90, type: 2}
+--- !u!114 &2016869978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2016869972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2294fe056f0382e419f9b73329685e50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: BTP.Runtime::BTP.Treatment.FarmSpecimenSnapshot
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
