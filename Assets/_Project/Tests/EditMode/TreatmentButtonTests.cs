@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using BTP.Core;
 using BTP.Plants;
 using BTP.Treatment;
 using NUnit.Framework;
@@ -222,8 +223,19 @@ namespace BTP.Tests
                 Assert.IsNotNull(manual);
                 Assert.IsEmpty(roots.SelectMany(r => r.GetComponentsInChildren<XRGrabInteractable>(true)), "nothing in the lab needs grabbing");
 
-                foreach (var name in new[] { "CaseSelectorPanel", "DiseaseInfoPanel", "TreatmentAdjustmentPanel", "TreatmentProgressPanel", "LeafHealthPanel",
-                             "FinalResultsPanel", "NavigationPanel" })
+                // Addendum 4: one touchscreen. The case selector is a page of the chamber's ControlPanel (no canvas of its own),
+                // the floating navigation panel is gone (Return to Lab and Recenter are in the touchscreen menu), and the hidden
+                // manual panels take no input.
+                Assert.IsFalse(transforms.Any(t => t.name == "NavigationPanel"), "the floating navigation panel is replaced by the touchscreen menu");
+                var screen = transforms.Single(t => t.name == "ControlPanel");
+                Assert.IsNotNull(screen.GetComponent<Canvas>());
+                Assert.IsNotNull(screen.GetComponent<TrackedDeviceGraphicRaycaster>(), "the touchscreen takes ray, poke and mouse input");
+                var selector = transforms.Single(t => t.name == "CaseSelectorPanel");
+                Assert.IsTrue(selector.IsChildOf(screen), "Choose a Case is a page of the touchscreen");
+                Assert.IsNull(selector.GetComponent<Canvas>(), "the case page has no canvas of its own");
+                foreach (var name in new[] { "ReturnToLab", "Recenter" })
+                    Assert.IsTrue(transforms.Any(t => t.name == name && t.IsChildOf(screen) && t.GetComponent<EnvironmentButton>() != null), name);
+                foreach (var name in new[] { "DiseaseInfoPanel", "TreatmentAdjustmentPanel", "TreatmentProgressPanel", "LeafHealthPanel", "FinalResultsPanel" })
                 {
                     var panel = transforms.SingleOrDefault(t => t.name == name);
                     Assert.IsNotNull(panel, name);
@@ -231,6 +243,8 @@ namespace BTP.Tests
                     Assert.IsNotNull(canvas, name);
                     Assert.AreEqual(RenderMode.WorldSpace, canvas.renderMode, name);
                     Assert.IsNotNull(panel.GetComponent<TrackedDeviceGraphicRaycaster>(), $"{name}: ray, poke and mouse reach the buttons");
+                    Assert.IsFalse(panel.GetComponent<TrackedDeviceGraphicRaycaster>().enabled, $"{name}: hidden behind the touchscreen, takes no input");
+                    Assert.IsFalse(panel.gameObject.activeSelf, $"{name}: not rendered");
                     foreach (var button in panel.GetComponentsInChildren<Button>(true).Where(b => b.targetGraphic.raycastTarget && !b.name.StartsWith("Stage")))
                         Assert.GreaterOrEqual(((RectTransform)button.transform).rect.height, 52f, $"{name}/{button.name}");
                 }

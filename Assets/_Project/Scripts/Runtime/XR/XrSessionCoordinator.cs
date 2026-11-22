@@ -63,6 +63,9 @@ namespace BTP.XR
         public static XrSessionCoordinator Instance { get; private set; }
 
         public Mode CurrentMode { get; private set; }
+
+        /// <summary>True while a scan launch waits for the headset; it re-places the rig itself once XR runs.</summary>
+        public bool WaitingForHeadset => headsetLaunch != null;
         /// <summary>The bound session, or null.</summary>
         public XrSessionData Session { get; private set; }
         public bool IsPaired => credential != null;
@@ -78,6 +81,52 @@ namespace BTP.XR
         public string ReceiverError => pipe?.Error;
 
         public event Action Changed;
+
+        /// <summary>
+        /// Raised when a different scan arrives while the current assessment is unsaved, and again when that question is
+        /// answered. The Treatment lab's touchscreen shows it as a modal (<see cref="SwitchPromptPending"/>); the floating
+        /// status panel shows the same choice everywhere else.
+        /// </summary>
+        public event Action SwitchPromptChanged;
+
+        /// <summary>A different scan is waiting for "Open New Scan" / "Keep Current Scan".</summary>
+        public bool SwitchPromptPending => confirmLaunch != null;
+
+        /// <summary>The modal's text for the pending switch, or null.</summary>
+        public string SwitchPromptText => confirmLaunch == null || confirmSession == null
+            ? null
+            : $"Scan {confirmSession.scanId} ({CaseTitle(confirmSession)}) was sent to this headset. The assessment of scan {Session?.scanId} " +
+              "is not saved yet. It stays on this PC and can be retried when you reopen that scan.";
+
+        /// <summary>The touchscreen's "Open New Scan": the coordinator's existing switch path.</summary>
+        public void OpenNewScan() => ConfirmSwitch();
+
+        /// <summary>The touchscreen's "Keep Current Scan": the coordinator's existing keep path.</summary>
+        public void KeepCurrentScan() => KeepCurrent();
+
+        /// <summary>
+        /// While true (the Treatment lab's touchscreen is up) the floating status panel is hidden and receives no input:
+        /// the touchscreen carries the connection state and the scan-switch modal.
+        /// </summary>
+        public bool StatusPanelSuppressed
+        {
+            get => statusPanelSuppressed;
+            set
+            {
+                statusPanelSuppressed = value;
+                RefreshPanel();
+            }
+        }
+
+        bool statusPanelSuppressed;
+
+        /// <summary>Test hook: asks the switch question for <paramref name="next"/> as an incoming launch would.</summary>
+        internal void PromptSwitchForTests(XrLaunch launch, XrSessionData next)
+        {
+            confirmLaunch = launch;
+            confirmSession = next;
+            RefreshPanel();
+        }
 
         XrLaunchArgs args;
         XrPlayerConfig config;
@@ -239,7 +288,7 @@ namespace BTP.XR
 
             panel = XrStatusPanel.Create(transform);
             if (Camera.main != null)
-                panel.PlaceBeside(Camera.main.transform);
+                panel.PlaceAbove(Camera.main.transform);
             if (services != null)
                 services.ResultSink = this;
             var environment = EnvironmentController.Instance;
@@ -693,6 +742,9 @@ namespace BTP.XR
                 if (headsetRetryTimer > 0f)
                     return;
                 headsetRetryTimer = HeadsetRetrySeconds;
+                // XrAutoStart retries on its own schedule; skip when it (or anyone) just tried.
+                if (XrHeadset.AttemptedWithin(XrAutoStart.MinRetrySeconds))
+                    return;
                 if (!XrHeadset.TryStart(out var message) && message != null)
                 {
                     notice = "Activate Quest Link: " + message;
@@ -978,7 +1030,7 @@ namespace BTP.XR
         void OnEnvironmentShown(EnvironmentId id)
         {
             if (Camera.main != null)
-                panel.PlaceBeside(Camera.main.transform);
+                panel.PlaceAbove(Camera.main.transform);
             if (id == EnvironmentId.Farm)
                 ShowSpecimen();
             RefreshPanel();
@@ -1335,7 +1387,14 @@ namespace BTP.XR
 
         void RefreshPanel()
         {
+            SwitchPromptChanged?.Invoke();
             if (panel == null)
+                return;
+            var suppressed = statusPanelSuppressed;
+            panel.gameObject.SetActive(!suppressed);
+            foreach (var raycaster in panel.GetComponentsInChildren<UnityEngine.EventSystems.BaseRaycaster>(true))
+                raycaster.enabled = !suppressed;
+            if (suppressed)
                 return;
             var environment = EnvironmentController.Instance;
             var current = environment != null ? environment.Current : null;

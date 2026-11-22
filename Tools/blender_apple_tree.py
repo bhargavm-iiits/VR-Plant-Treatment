@@ -7,6 +7,9 @@ at a VR budget. Trunk, branches and the 236 apples are joined and decimated. Two
 
 Run:  blender -b Assets/Plant_Asstes/Apple_Tree/Apple_Tree.blend -P Tools/blender_apple_tree.py -- <out_dir>
 The source .blend is not saved or modified.
+
+After exporting, run Tools/attach_plant_parts.py (then BTP/Setup/28 in Unity): the supplied plant places many
+leaves, fruit and stems near the wood rather than on it, and that pass joins every part to the plant.
 """
 import json
 import os

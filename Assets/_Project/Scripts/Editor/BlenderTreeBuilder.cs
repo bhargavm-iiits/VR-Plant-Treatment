@@ -129,6 +129,9 @@ namespace BTP.Editor
             AfterImport = BakeCherryWind,
         };
 
+        /// <summary>Alpha cutoff of every sprite/atlas leaf material; the leaf textures' mips preserve coverage at this value.</summary>
+        public const float LeafCutoff = 0.45f;
+
         public const string CherrySource = ProjectPaths.SourcePlants + "/Cherry_Tree";
         public const string CherryAtlasNormal = CherrySource + "/Cherry/fbx/Cherry1_Normal.tga";
 
@@ -138,7 +141,7 @@ namespace BTP.Editor
                                            ?? throw new System.IO.FileNotFoundException($"[BTP] {path} is missing (run BTP/Setup/2 - Build Plant Assets for the cherry atlas bakes).");
 
             var healthyPath = ProjectPaths.PlantTextures + "/Cherry_BaseAlpha.png";
-            TextureSettings.ConfigureCutout(healthyPath);
+            TextureSettings.ConfigureCutout(healthyPath, alphaReference: LeafCutoff);
             TextureSettings.ConfigureNormal(CherryAtlasNormal);
             var healthy = Load(healthyPath);
             var diseased = Load(ProjectPaths.PlantTextures + "/Cherry_FarmDiseased.png");
@@ -147,7 +150,7 @@ namespace BTP.Editor
 
             // Leaves: cut-out, both faces, the timeline's healthy/diseased blend, plus the per-leaf wind.
             var leaf = MaterialFactory.FarmRecovery($"{spec.Folder}/CherryLeaf.mat", healthy, diseased, mask, normal, true);
-            leaf.SetFloat("_Cutoff", 0.45f);
+            leaf.SetFloat("_Cutoff", LeafCutoff);
             leaf.SetFloat("_LeafWind", 1f);
             leaf.EnableKeyword("_LEAF_WIND");
             leaf.doubleSidedGI = true;
@@ -318,11 +321,17 @@ namespace BTP.Editor
         {
             var diseasedPath = $"{spec.Folder}/{sprite}.png";
             var healthyPath = WriteHealthySprite(diseasedPath, $"{spec.Folder}/{sprite}_Healthy.png");
-            var diseased = ImportSprite(diseasedPath);
-            var healthy = ImportSprite(healthyPath);
+            ImportSprite(diseasedPath);
+            ImportSprite(healthyPath);
+            // Cut-out import (coverage-preserving mips, ASTC on Quest); ImportSprite's clamp wrap is kept.
+            // The sprites are 512 px; Quest keeps 512 too.
+            TextureSettings.ConfigureCutout(diseasedPath, 512, 512, LeafCutoff);
+            TextureSettings.ConfigureCutout(healthyPath, 512, 512, LeafCutoff);
+            var diseased = AssetDatabase.LoadAssetAtPath<Texture2D>(diseasedPath);
+            var healthy = AssetDatabase.LoadAssetAtPath<Texture2D>(healthyPath);
             var mask = AssetDatabase.LoadAssetAtPath<Texture2D>(FarmRecoveryMasks.Create(healthy, $"{spec.Folder}/{sprite}_RecoveryMask.png", spec.PlantId));
             var material = MaterialFactory.FarmRecovery($"{spec.Folder}/{sprite}.mat", healthy, diseased, mask, null, true);
-            material.SetFloat("_Cutoff", 0.45f);
+            material.SetFloat("_Cutoff", LeafCutoff);
             material.doubleSidedGI = true;
             EditorUtility.SetDirty(material);
             return material;
@@ -339,8 +348,10 @@ namespace BTP.Editor
             importer.importAnimation = false;
             importer.importCameras = false;
             importer.importLights = false;
-            // Medium compression quantises positions and UVs; the cherry's wind indices and pivots need exact values.
-            importer.meshCompression = exact ? ModelImporterMeshCompression.Off : ModelImporterMeshCompression.Medium;
+            // Mesh compression quantises positions and UVs, which can open the millimetre joints where leaves, fruit
+            // and stems were attached to the wood (Tools/attach_plant_parts.py embeds parts only 1 mm), and the wind
+            // indices/pivots need exact values; compression only shrinks the build, not runtime memory.
+            importer.meshCompression = ModelImporterMeshCompression.Off;
             if (exact)
             {
                 importer.importTangents = ModelImporterTangents.CalculateMikk;

@@ -32,6 +32,15 @@ namespace BTP.Core
         public event Action<string, string> CaseChanged;
 
         /// <summary>
+        /// The exact Farm plant the player selected for the current case, or null when the case was chosen without one
+        /// (a Lab or Treatment selector, or a fresh start). Cleared whenever the case changes to a different one.
+        /// </summary>
+        public SpecimenRef SelectedSpecimen { get; private set; }
+
+        /// <summary>Raised after <see cref="SelectedSpecimen"/> changes (null when it was cleared).</summary>
+        public event Action<SpecimenRef> SpecimenChanged;
+
+        /// <summary>
         /// While a connected XR session is being treated its case is locked: choosing another plant or disease is refused
         /// (with <see cref="SelectionRefused"/>) until the session is released. Offline use never locks.
         /// </summary>
@@ -83,6 +92,7 @@ namespace BTP.Core
         void OnPlantChanged(PlantDefinition plant)
         {
             CurrentDiseaseId = plant != null ? DiseaseClasses.DefaultDiseaseId(plant.PlantId) : null;
+            ClearSpecimenUnless(plant?.PlantId, CurrentDiseaseId);
             PlantChanged?.Invoke(plant);
             CaseChanged?.Invoke(plant?.PlantId, CurrentDiseaseId);
         }
@@ -143,8 +153,46 @@ namespace BTP.Core
             if (diseaseId == CurrentDiseaseId)
                 return true;
             CurrentDiseaseId = diseaseId;
+            ClearSpecimenUnless(plant.PlantId, diseaseId);
             CaseChanged?.Invoke(plant.PlantId, diseaseId);
             return true;
+        }
+
+        /// <summary>
+        /// Selects one Farm plant: its case becomes the selection (respecting the lock) and the specimen is remembered so
+        /// the Treatment lab shows that exact plant. False when the case cannot be selected.
+        /// </summary>
+        public bool SelectSpecimen(SpecimenRef specimen)
+        {
+            if (specimen == null)
+                return false;
+            var selected = string.IsNullOrEmpty(specimen.DiseaseId) || !IsDiseaseOf(specimen.PlantId, specimen.DiseaseId)
+                ? SelectPlantChecked(specimen.PlantId)
+                : SelectCase(specimen.PlantId, specimen.DiseaseId);
+            if (!selected)
+                return false;
+            // A plant specimen (no row disease) carries the disease that is now selected for its plant.
+            if (string.IsNullOrEmpty(specimen.DiseaseId) || specimen.DiseaseId != CurrentDiseaseId)
+                specimen = new SpecimenRef(specimen.SpecimenId, specimen.PlantId, CurrentDiseaseId, specimen.PlantIndex);
+            if (specimen.Equals(SelectedSpecimen))
+                return true;
+            SelectedSpecimen = specimen;
+            SpecimenChanged?.Invoke(specimen);
+            return true;
+        }
+
+        bool SelectPlantChecked(string plantId)
+        {
+            SelectPlant(plantId);
+            return Current != null && Current.PlantId == plantId;
+        }
+
+        void ClearSpecimenUnless(string plantId, string diseaseId)
+        {
+            if (SelectedSpecimen == null || SelectedSpecimen.IsCase(plantId, diseaseId))
+                return;
+            SelectedSpecimen = null;
+            SpecimenChanged?.Invoke(null);
         }
 
         /// <summary>Selects a plant and one of its diseases together.</summary>

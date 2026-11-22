@@ -39,6 +39,8 @@ namespace BTP.Treatment
 
         [Header("Panels shown only in one mode")]
         [SerializeField] internal List<GameObject> manualPanels = new List<GameObject>();
+        [Tooltip("The specimen chamber's control panel replaces the manual panels: they are never shown (the controller keeps running).")]
+        [SerializeField] internal bool panelsSuppressed;
         [SerializeField] internal List<GameObject> stepPanels = new List<GameObject>();
 
         [Header("2 Disease information")]
@@ -138,7 +140,7 @@ namespace BTP.Treatment
                 manualModeState.Selected = manual;
             foreach (var panel in manualPanels)
                 if (panel != null)
-                    panel.SetActive(manual);
+                    panel.SetActive(manual && !panelsSuppressed);
             foreach (var panel in stepPanels)
                 if (panel != null)
                     panel.SetActive(!manual);
@@ -172,9 +174,12 @@ namespace BTP.Treatment
 
         // ------------------------------------------------------------------ 3 adjustment and 6 results
 
+        /// <summary>True when the chamber panel replaces the manual panels.</summary>
+        public bool PanelsSuppressed => panelsSuppressed;
+
         public void ShowResults(bool visible, string body)
         {
-            if (!manualVisible)
+            if (!manualVisible || panelsSuppressed)
             {
                 // Step-lesson mode: neither manual panel shows, whatever the session state.
                 if (resultsPanel != null)

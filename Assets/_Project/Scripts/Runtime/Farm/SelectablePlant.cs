@@ -1,5 +1,6 @@
 using BTP.Core;
 using BTP.Plants;
+using BTP.Treatment;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
@@ -66,7 +67,42 @@ namespace BTP.Farm
             if (ring != null)
                 ringOffset = ring.transform.position - focus.position;
             if (nameCard != null)
+            {
                 cardOffset = nameCard.transform.position - focus.position;
+                // Treat Plant (off by default): carries this exact plant (specimen, case and look) straight into the
+                // Treatment lab. The Farm card shows text only; treatment is entered through Enter Lab instead.
+                if (showTreatPlantButton)
+                    nameCard.SetAction(TreatPlantLabel, TreatFocusedPlant);
+            }
+        }
+
+        public const string TreatPlantLabel = "Treat Plant";
+
+        [Tooltip("Adds a \"Treat Plant\" button under the selected card that jumps straight to the Treatment lab. Off: the card shows text only.")]
+        [SerializeField] bool showTreatPlantButton;
+
+        /// <summary>
+        /// Treat Plant on the selected card: selects the plant the card is on (if it is not already the selected specimen)
+        /// and switches to the Treatment lab, where the chamber shows this specimen.
+        /// </summary>
+        public void TreatFocusedPlant()
+        {
+            var state = SelectionState.Instance;
+            if (state != null)
+            {
+                var specimen = SpecimenAt(IndexOf(focus));
+                if (!specimen.Equals(state.SelectedSpecimen))
+                    state.SelectSpecimen(specimen);
+            }
+
+            var controller = EnvironmentController.Instance;
+            if (controller == null)
+            {
+                Debug.LogError("[BTP] No EnvironmentController is loaded; start from XRBootstrap.", this);
+                return;
+            }
+
+            controller.EnterTreatment();
         }
 
         void OnEnable()
@@ -75,10 +111,16 @@ namespace BTP.Farm
             interactable.firstHoverEntered.AddListener(OnFirstHoverEntered);
             interactable.lastHoverExited.AddListener(OnLastHoverExited);
 
+            // Treatment results saved for this planting's specimens show on those plants only.
+            SpecimenTreatmentResults.ApplyToFarm(this);
+
             if (SelectionState.Instance == null)
                 return;
             SelectionState.Instance.CaseChanged += OnCaseChanged;
+            SelectionState.Instance.SpecimenChanged += OnSpecimenChanged;
             OnCaseChanged(SelectionState.Instance.Current?.PlantId, SelectionState.Instance.CurrentDiseaseId);
+            // Back from the Treatment lab: the plant that was treated is still the selected one.
+            OnSpecimenChanged(SelectionState.Instance.SelectedSpecimen);
         }
 
         void OnDisable()
@@ -87,7 +129,10 @@ namespace BTP.Farm
             interactable.firstHoverEntered.RemoveListener(OnFirstHoverEntered);
             interactable.lastHoverExited.RemoveListener(OnLastHoverExited);
             if (SelectionState.Instance != null)
+            {
                 SelectionState.Instance.CaseChanged -= OnCaseChanged;
+                SelectionState.Instance.SpecimenChanged -= OnSpecimenChanged;
+            }
         }
 
         void OnSelectEntered(SelectEnterEventArgs args)
@@ -96,7 +141,8 @@ namespace BTP.Farm
             var state = SelectionState.Instance;
             if (state != null)
             {
-                if (string.IsNullOrEmpty(diseaseId) || !state.SelectCase(plantId, diseaseId))
+                // The exact plant is remembered, so the Treatment lab shows this specimen, not just this crop.
+                if (!state.SelectSpecimen(SpecimenAt(IndexOf(focus))) && (string.IsNullOrEmpty(diseaseId) || !state.SelectCase(plantId, diseaseId)))
                     state.SelectPlant(plantId);
             }
 
@@ -121,6 +167,35 @@ namespace BTP.Farm
 
         /// <summary>The plant the ring and card are on.</summary>
         public Transform Focus => focus;
+
+        /// <summary>The index of <paramref name="plant"/> in this planting (0 for a specimen; -1 when it is not one of its plants).</summary>
+        public int IndexOf(Transform plant)
+        {
+            if (!IsRow)
+                return plant == transform ? 0 : -1;
+            for (var i = 0; i < plants.Length; i++)
+                if (plants[i] == plant)
+                    return i;
+            return -1;
+        }
+
+        /// <summary>The specimen identity of this planting's plant at <paramref name="index"/>.</summary>
+        public SpecimenRef SpecimenAt(int index) => FarmSpecimenIds.Ref(plantId, diseaseId, Mathf.Max(0, index));
+
+        /// <summary>Whether <paramref name="specimen"/> is one of this planting's plants.</summary>
+        public bool Owns(SpecimenRef specimen) =>
+            specimen != null && specimen.PlantId == plantId && (string.IsNullOrEmpty(diseaseId) || specimen.DiseaseId == diseaseId) &&
+            PlantAt(specimen.PlantIndex) != null;
+
+        void OnSpecimenChanged(SpecimenRef specimen)
+        {
+            if (!Owns(specimen))
+                return;
+            if (IsRow)
+                FocusPlant(specimen.PlantIndex);
+            var result = SpecimenTreatmentResults.Describe(specimen);
+            SetSelectedDetail(result != null ? result + "\n" + defaultDetail : null);
+        }
 
         /// <summary>A row's plant by index (the specimen itself for index 0), or null.</summary>
         public Transform PlantAt(int index) => !IsRow ? (index == 0 ? transform : null) : index >= 0 && index < plants.Length ? plants[index] : null;

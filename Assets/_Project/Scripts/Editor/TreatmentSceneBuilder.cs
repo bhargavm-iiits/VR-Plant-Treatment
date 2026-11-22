@@ -84,10 +84,13 @@ namespace BTP.Editor
             animator.Bind(AssetDatabase.LoadAssetAtPath<Material>(MistMaterial));
             var controller = treatment.AddComponent<TreatmentController>();
             controller.Bind(environmentRoot, spawn.GetComponent<SpawnAnchor>(), ui, rack, null, null, tooltip, tooltipText, animator, ViewYawOffset);
-            // Manual treatment: button-only panels and the learner picker, sharing this room and specimen.
+            // Manual treatment: button-only panels and the learner picker, sharing this room and specimen (the learner
+            // bookkeeping keeps running; its panels are replaced by the chamber's control panel).
             ManualTreatmentSceneBuilder.Build(treatment.transform, ui, selector, controller);
-            // Vineyard view, the case sign and the hand-held Training spray (they stay while case rooms are swapped).
-            TreatmentLabStationBuilder.Build(treatment.transform, scenery, controller);
+            // Vineyard view beyond the windows (the old counter sign and hand sprayer are replaced by the chamber station).
+            TreatmentLabStationBuilder.Build(treatment.transform, scenery, controller, false);
+            // The specimen chamber hall: the carried Farm plant in a glass chamber fitted to it, with the four-control panel.
+            TreatmentChamberBuilder.Build(treatment.transform, controller, ui, spawn.GetComponent<SpawnAnchor>(), treatment.GetComponent<ManualTreatmentView>());
 
             new GameObject("BootstrapGuard", typeof(BootstrapGuard));
 
@@ -130,6 +133,25 @@ namespace BTP.Editor
             Debug.Log($"[BTP] Treatment connected: bootstrap services, Lab button and status, {count} Farm status labels.");
         }
 
+        /// <summary>Batch entry: re-wires only XRBootstrap (TreatmentServices, FarmSpecimenSnapshot, scene mapping) and saves it.</summary>
+        public static void WireBootstrapScene()
+        {
+            if (EditorApplication.isPlaying)
+                throw new System.InvalidOperationException("Exit Play mode before updating scenes.");
+            var bootstrap = EditorSceneManager.OpenScene(ProjectPaths.BootstrapScene, OpenSceneMode.Single);
+            var systems = GameObject.Find("BTP Systems");
+            if (systems == null)
+                throw new System.InvalidOperationException("XRBootstrap has no 'BTP Systems' object.");
+            WireBootstrap(systems);
+            var hidden = 0;
+            foreach (var root in bootstrap.GetRootGameObjects())
+                if (root.name.Contains("XR Origin"))
+                    hidden += XRSceneWiring.HideHandVisuals(root);
+            EditorSceneManager.MarkSceneDirty(bootstrap);
+            EditorSceneManager.SaveScene(bootstrap);
+            Debug.Log($"[BTP] XRBootstrap wired: TreatmentServices and FarmSpecimenSnapshot on 'BTP Systems'; {hidden} hand visualizer(s) hidden.");
+        }
+
         static Transform FindInScene(Scene scene, string name)
         {
             foreach (var root in scene.GetRootGameObjects())
@@ -148,6 +170,9 @@ namespace BTP.Editor
             var services = systems.GetComponent<TreatmentServices>() ?? systems.AddComponent<TreatmentServices>();
             services.Bind(catalog);
             EditorUtility.SetDirty(services);
+            // Carries the selected Farm plant into the Treatment chamber (snapshot on Farm exit).
+            if (systems.GetComponent<FarmSpecimenSnapshot>() == null)
+                systems.AddComponent<FarmSpecimenSnapshot>();
             var environment = systems.GetComponent<EnvironmentController>();
             if (environment != null)
             {

@@ -56,6 +56,7 @@ namespace BTP.Editor
             ConfigureLocomotion(rig);
             SelectWithTrigger(rig);
             rig.AddComponent<RecenterControl>();
+            rig.AddComponent<VrControllerRig>();
             rig.AddComponent<DesktopDemoControls>().Bind(rig.transform, camera);
 
             var fade = CreateFadeOverlay(camera.transform);

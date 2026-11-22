@@ -85,6 +85,28 @@ namespace BTP.Editor
             selectable.Bind(plantId, ring, card, gallery);
         }
 
+        /// <summary>
+        /// Addendum 5: the tracked hands drive input only. Hides the rig's hand-visualizer meshes (the XR Origin Hands sample
+        /// shows them); poke, pinch-ray and grasp interactors stay active. Returns how many visualizers were hidden.
+        /// </summary>
+        public static int HideHandVisuals(GameObject rig)
+        {
+            var hidden = 0;
+            foreach (var t in rig.GetComponentsInChildren<Transform>(true))
+            {
+                // The sample's Hand Visualizer (it activates the rigged hand meshes) and those meshes' own roots
+                // (Left/Right Hand Quest Visual, Left/Right Hand Android XR Visual), so no hand mesh can show.
+                var handMesh = t.name.Contains("Hand") && (t.name.EndsWith("Quest Visual") || t.name.EndsWith("Android XR Visual") ||
+                                                           t.name.EndsWith("QuestVisual") || t.name.EndsWith("AndroidXRVisual"));
+                if ((t.name != "Hand Visualizer" && !handMesh) || !t.gameObject.activeSelf)
+                    continue;
+                t.gameObject.SetActive(false);
+                hidden++;
+            }
+
+            return hidden;
+        }
+
         /// <summary>World-space canvases need the tracked-device raycaster for XR rays and pokes.</summary>
         public static void MakeCanvasInteractive(Canvas canvas)
         {

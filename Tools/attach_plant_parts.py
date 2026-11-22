@@ -606,6 +606,9 @@ def summarise(mesh, joins, motion=None):
         res[label] = dict(total=len(js), joined=int((g <= TOL).sum()) if len(g) else 0, gaps=int(len(bad)),
                           median_gap_mm=round(float(np.median(bad)) * 1000, 1) if len(bad) else 0.0,
                           max_gap_mm=round(float(np.max(bad)) * 1000, 1) if len(bad) else 0.0, joined_at=hows)
+    vis = leaf_visible(mesh)
+    fg = np.array([vis["gap"][u] for u in vis["floating"]])
+    res["leaves_visible"] = dict(total=len(vis["gap"]), floating=int(len(fg)), max_gap_mm=round(float(fg.max()) * 1000, 1) if len(fg) else 0.0)
     if motion is not None:
         worst, opened, checked = 0.0, 0, 0
         for j in joins:
@@ -616,6 +619,105 @@ def summarise(mesh, joins, motion=None):
             worst = max(worst, g); opened += g > TOL
         res["wind"] = dict(moving_joins_checked=checked, open_in_cycle_over_3mm=int(opened), worst_gap_in_cycle_mm=round(worst * 1000, 1))
     return res
+
+# ============================================================================ visible-surface leaf pass
+
+PETIOLE_MAX = 0.10      # a leaf whose hinge sits on the wood but whose visible blade starts further than this is moved instead
+TUBE_MAX = 0.025        # a floating leaf closer than this to the wood gets a connector tube, a farther one is moved
+STALK_R = (0.0015, 0.0012)
+
+
+def leaf_visible(mesh):
+    """What a viewer sees: the distance from each leaf unit's visible (alpha-passing) surface samples to the live
+    wood. A unit counts as attached when it touches live wood, or touches (through leaf-leaf contacts) one that
+    does. Returns dict(gap {unit: m}, near {unit: (visible point, wood sample point, piece)}, floating [units],
+    components [[floating units touching one another]]); also leaves the wood query of mesh ready."""
+    con = mesh.contacts()
+    live = mesh.live_wood(con)
+    mesh.wood_query(live)
+    S, SP, _ = mesh.samples()
+    units = mesh.leaf_units()
+    out = dict(gap={}, near={}, floating=[], components=[])
+    wmask = live[SP]
+    if not units or not wmask.any():
+        return out
+    uop = np.full(mesh.K, -1)
+    for u, pcs in units.items():
+        uop[pcs] = u
+    su = uop[SP]
+    idx = np.where(su >= 0)[0]
+    W = S[wmask]
+    d, j = cKDTree(W).query(S[idx])
+    order = np.lexsort((d, su[idx]))
+    first = order[np.unique(su[idx][order], return_index=True)[1]]
+    for f in first:
+        u = int(su[idx[f]])
+        out["gap"][u] = float(d[f]); out["near"][u] = (S[idx[f]], W[j[f]], int(SP[idx[f]]))
+    a, b = uop[con[:, 0]], uop[con[:, 1]]
+    keep = (a >= 0) & (b >= 0) & (a != b)
+    edges = [np.stack([a[keep], b[keep]], 1)]
+    wood_node = mesh.K
+    touching = np.array([u for u, g in out["gap"].items() if g <= TOL], dtype=int)
+    edges.append(np.stack([touching, np.full(len(touching), wood_node)], 1))
+    e = np.concatenate(edges)
+    _, comp = connected_components(coo_matrix((np.ones(len(e)), (e[:, 0], e[:, 1])), shape=(mesh.K + 1, mesh.K + 1)), directed=False)
+    attached = comp == comp[wood_node]
+    floating = [u for u in out["gap"] if not attached[u]]
+    out["floating"] = floating
+    groups = {}
+    for u in floating:
+        groups.setdefault(comp[u], []).append(u)
+    out["components"] = list(groups.values())
+    return out
+
+
+def fix_visible(mesh, move, hinges, small, rounds=3):
+    """Joins every floating leaf unit to the wood by what is visible. A unit whose visible surface is within TUBE_MAX
+    of the wood gets a thin connector tube (start half follows the leaf's wind part, end half the wood's); a leaf
+    whose hinge (tagged base vertex, wind formats 1 and 2) sits on the wood but whose blade starts further out gets a
+    petiole tube from the blade base to the hinge, moving with the leaf; a farther one is moved rigidly (callback
+    move(pieces, offset) - it carries the wind part's pivot and anchors along) until its nearest visible point
+    is EMBED into the wood. One fix per floating cluster of touching leaves. hinges() -> {part: hinge point}."""
+    stats = dict(tubes=0, petioles=0, moved=0, left=0)
+    for rnd in range(rounds + 1):
+        mesh.fold()
+        vis = leaf_visible(mesh)
+        if not vis["floating"] or rnd == rounds:
+            break
+        hinge = hinges()
+        units = mesh.leaf_units()
+        for comp in vis["components"]:
+            u = min(comp, key=lambda x: vis["gap"][x])
+            v, _, piece = vis["near"][u]
+            part = int(mesh.piece_part[piece])
+            d, q, t = mesh.nearest_wood(v[None])
+            if not np.isfinite(d[0]):
+                continue
+            q, t = q[0], int(t[0])
+            h = hinge.get(part)
+            hd = mesh.nearest_wood(h[None])[0][0] if h is not None else np.inf
+            if h is not None and hd <= 2 * TOL and np.linalg.norm(v - h) > TOL:
+                if np.linalg.norm(v - h) <= PETIOLE_MAX:
+                    # transparent petiole region of the card: a stalk from the blade base to the hinge, one rigid piece with the leaf
+                    dirn = (h - v) / np.linalg.norm(h - v)
+                    _, qh, th = mesh.nearest_wood(h[None])
+                    th = int(th[0])
+                    mesh.add_tube(v - dirn * 0.001, h + dirn * 0.001, STALK_R[0], STALK_R[1], 4 if not small else 3, 2 if not small else 1,
+                                  int(mesh.M[th]), mesh.uv_at(th, qh[0]), part, part)
+                    stats["petioles"] += 1
+                    continue
+            if d[0] <= TUBE_MAX:
+                dirn = (q - v) / max(float(d[0]), 1e-9)
+                mesh.add_tube(v - dirn * 0.001, q + dirn * EMBED, STALK_R[0], STALK_R[1], 4 if not small else 3, 2 if not small else 1,
+                              int(mesh.M[t]), mesh.uv_at(t, q), part, int(mesh.wind_at(t, q)))
+                stats["tubes"] += 1
+            else:
+                off = q - v
+                move(np.unique(np.concatenate([units[x] for x in comp])), off + off / np.linalg.norm(off) * EMBED)
+                stats["moved"] += 1
+    stats["left"] = len(vis["floating"])
+    return stats
+
 
 # ============================================================================ repair of one model
 
@@ -718,6 +820,17 @@ def repair(model, data, log):
             stats["moved_leaves"] += 1
         if not todo:
             break
+
+    # what a viewer sees: each leaf's visible surface joined to the wood (the pass above works on the hinge/pivot, which
+    # can lie well away from the visible blade)
+    def hinges_of(mesh):
+        if not tags_v12:
+            return {}
+        tw, has = tag_positions(mesh, wind.n)
+        return {i: tw[i] for i in range(wind.n) if has[i]}
+
+    vs = fix_visible(near, move, lambda: hinges_of(near), small=False)
+    stats["visible_near"] = vs
 
     if wind is not None:
         for p, off in part_move.items():
@@ -837,6 +950,7 @@ def repair(model, data, log):
             n = np.linalg.norm(off)
             mid.translate(j["pieces"], off + (off / n * EMBED if n > 1e-9 else 0))
             stats["mid_moved_leaves"] += 1
+        stats.setdefault("visible_mid", {})[mid.name] = fix_visible(mid, lambda pcs, off: mid.translate(pcs, off), lambda: hinges_of(mid), small=True)
         if wind is not None and wind.sets >= 2:
             tw1, has1 = tag_positions(mid, wind.n)
             wind.anchors[1][has1] = (tw1[has1] - wind.t) @ wind.Ainv.T
@@ -904,6 +1018,8 @@ def line(name, r):
     s = (f"  {name}: leaves {r['leaves']['gaps']}/{r['leaves']['total']} unjoined (max {r['leaves']['max_gap_mm']} mm) "
          f"fruit {r['fruit']['gaps']}/{r['fruit']['total']} (max {r['fruit']['max_gap_mm']} mm) "
          f"loose wood {r['loose_wood']['gaps']}/{r['loose_wood']['total']} (max {r['loose_wood']['max_gap_mm']} mm)")
+    lv = r["leaves_visible"]
+    s += f"  leaves_visible {lv['floating']}/{lv['total']} floating (max {lv['max_gap_mm']} mm)"
     if "wind" in r:
         s += f"  wind: {r['wind']['open_in_cycle_over_3mm']}/{r['wind']['moving_joins_checked']} open (worst {r['wind']['worst_gap_in_cycle_mm']} mm)"
     return s

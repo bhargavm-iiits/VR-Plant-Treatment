@@ -30,9 +30,12 @@ namespace BTP.Editor
         const float SignYaw = 24f, SignDistance = 3.3f, SignHeight = 2.32f;
         static readonly Vector2 SignSize = new Vector2(1150f, 360f);
 
-        internal static void Build(Transform treatment, Transform scenery, TreatmentController controller)
+        /// <param name="withCounterStation">False when the specimen chamber station replaces the counter sign and sprayer.</param>
+        internal static void Build(Transform treatment, Transform scenery, TreatmentController controller, bool withCounterStation = true)
         {
             BuildVineyard(scenery);
+            if (!withCounterStation)
+                return;
             var station = new GameObject("LabStation").transform;
             station.SetParent(treatment, false);
             BuildSign(station, controller);

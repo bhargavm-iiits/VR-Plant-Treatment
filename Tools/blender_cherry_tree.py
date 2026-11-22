@@ -13,6 +13,9 @@ Wood is decimated, the fruit drops its subdivision and is decimated hard (it was
 
 Run:  blender -b Assets/Plant_Asstes/Cherry_Tree/Cherry_Tree.blend -P Tools/blender_cherry_tree.py -- <out_dir>
 The source .blend is never saved.
+
+After exporting, run Tools/attach_plant_parts.py (then BTP/Setup/28 in Unity): the supplied plant places many
+leaves, fruit and stems near the wood rather than on it, and that pass joins every part to the plant.
 """
 import json
 import math

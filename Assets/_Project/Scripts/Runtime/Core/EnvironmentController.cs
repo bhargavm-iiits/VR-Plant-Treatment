@@ -45,6 +45,12 @@ namespace BTP.Core
         /// <summary>Raised after an environment has loaded and the rig is at its spawn point.</summary>
         public event Action<EnvironmentId> EnvironmentLoaded;
 
+        /// <summary>
+        /// Raised while the current environment is still loaded, just before it is torn down for a switch: (leaving, its
+        /// scene). The Treatment lab uses it to snapshot the selected Farm specimen before the Farm unloads.
+        /// </summary>
+        public event Action<EnvironmentId, Scene> Exiting;
+
         /// <summary>Raised after <see cref="FocusRoutine"/> re-placed the rig inside the already loaded environment.</summary>
         public event Action<EnvironmentId> EnvironmentFocused;
 
@@ -194,6 +200,14 @@ namespace BTP.Core
                 PlaceRig(anchor);
         }
 
+        /// <summary>Moves the user to a standing point in the current environment (e.g. a Treatment station's anchor), facing its forward.</summary>
+        public void MoveTo(Transform anchor)
+        {
+            if (IsSwitching || anchor == null)
+                return;
+            PlaceRig(anchor);
+        }
+
         IEnumerator SwitchRoutine(EnvironmentId target)
         {
             IsSwitching = true;
@@ -202,7 +216,21 @@ namespace BTP.Core
 
             // Save lesson state and release held tools before anything is torn down.
             if (environmentScene.IsValid() && environmentScene.isLoaded)
+            {
+                if (previous.HasValue)
+                {
+                    try
+                    {
+                        Exiting?.Invoke(previous.Value, environmentScene);
+                    }
+                    catch (Exception exception)
+                    {
+                        Debug.LogException(exception);
+                    }
+                }
+
                 NotifyExit(environmentScene);
+            }
 
             if (fade != null)
                 yield return fade.FadeTo(1f, fadeDuration);

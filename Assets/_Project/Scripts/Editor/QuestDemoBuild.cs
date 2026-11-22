@@ -22,6 +22,9 @@ namespace BTP.Editor
             if (PlayerSettings.GetApplicationIdentifier(NamedBuildTarget.Android) != ApplicationId)
                 throw new BuildFailedException($"The Quest web launcher expects the Android application ID {ApplicationId}.");
 
+            // Native hand tracking (Addendum 5): the Android OpenXR hand features must be on in the build.
+            XRProjectSetup.EnsureQuestHandTracking();
+            AssetDatabase.SaveAssets();
             Directory.CreateDirectory(Path.GetDirectoryName(OutputPath));
             var previousBundleSetting = EditorUserBuildSettings.buildAppBundle;
             try

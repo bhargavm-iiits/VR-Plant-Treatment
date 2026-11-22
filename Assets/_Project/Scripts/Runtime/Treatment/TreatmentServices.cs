@@ -96,6 +96,10 @@ namespace BTP.Treatment
             RestoreSelection();
             if (SelectionState.Instance != null)
                 SelectionState.Instance.CaseChanged += RememberSelection;
+
+            // Carries the selected Farm plant into the treatment chamber (snapshot on Farm exit).
+            if (GetComponent<FarmSpecimenSnapshot>() == null)
+                gameObject.AddComponent<FarmSpecimenSnapshot>();
         }
 
         void OnDestroy()

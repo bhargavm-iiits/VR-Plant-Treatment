@@ -29,6 +29,9 @@ The key count is the smallest that keeps linear (nlerp) blending within MAX_BLEN
 Run:  blender -b "<the .blend>" --factory-startup -P Tools/blender_bell_pepper_plant.py -- [<out_dir>] [--height H]
       (default out_dir Assets/_Project/Models/BellPepperPlant, default height 0.9 m)
 The source .blend is only read; nothing is saved back.
+
+After exporting, run Tools/attach_plant_parts.py (then BTP/Setup/28 in Unity): the supplied plant places many
+leaves, fruit and stems near the wood rather than on it, and that pass joins every part to the plant.
 """
 import json
 import math

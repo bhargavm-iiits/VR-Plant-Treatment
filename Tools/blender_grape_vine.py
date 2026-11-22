@@ -13,6 +13,9 @@ with the original grape bunches hanging below it.
 
 Run:  blender -b Assets/Plant_Asstes/Grape_Tree/Grape_Tree.blend -P Tools/blender_grape_vine.py -- <out_dir>
 The source .blend is not saved or modified.
+
+After exporting, run Tools/attach_plant_parts.py (then BTP/Setup/28 in Unity): the supplied plant places many
+leaves, fruit and stems near the wood rather than on it, and that pass joins every part to the plant.
 """
 import json
 import math

@@ -38,6 +38,18 @@ namespace BTP.Core
         /// <summary>True while the keyboard and mouse drive the rig (no XR headset active).</summary>
         public bool IsActive => active;
 
+        static XRRayInteractor currentMouseRay;
+
+        /// <summary>The desktop mouse ray (null without a DesktopDemoControls).</summary>
+        public XRRayInteractor MouseRay => mouseRay;
+
+        /// <summary>True for the desktop mouse ray interactor (hand-held tools use their own desktop hold instead).</summary>
+        public static bool IsMouseRay(UnityEngine.XR.Interaction.Toolkit.Interactors.IXRInteractor interactor) =>
+            interactor != null && currentMouseRay != null && ReferenceEquals(interactor, currentMouseRay);
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        static void ResetStatics() => currentMouseRay = null;
+
         internal void Bind(Transform rig, Camera headCamera)
         {
             rigRoot = rig;
@@ -59,6 +71,7 @@ namespace BTP.Core
 
             headTracking = head.GetComponent<TrackedPoseDriver>();
             mouseRay = CreateMouseRay();
+            currentMouseRay = mouseRay;
         }
 
         void OnDisable() => SetActive(false);
@@ -254,9 +267,11 @@ namespace BTP.Core
                 "W A S D / arrows: walk   Shift: faster\n" +
                 "Q / E: turn\n" +
                 "L: visiting Lab   T: Treatment Lab   F: Farm\n" +
-                "Treatment: click a rack tool, then a target\n" +
-                "Fertilizer bottle: click it, hold left mouse to spray, G to put down\n" +
+                "Treatment tools: click one to pick it up, aim with the mouse\n" +
+                "  Space: use (spray / pour)   Z / X: tilt   wheel: reach\n" +
+                "  G: put it back in its holder\n" +
                 "R: recenter\n" +
+                "O: chamber door (near the glass)\n" +
                 "H: hide this help";
             var text = showHelp ? help : "H: controls";
             helpStyle.richText = true;

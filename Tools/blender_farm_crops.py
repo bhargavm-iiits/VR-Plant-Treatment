@@ -37,6 +37,9 @@ Output: Assets/_Project/Models/FarmCrops/<Stem>/ with <Stem>_<disease>.fbx, <Ste
 <Stem>_Parts.png (per disease when a variant's parts differ) and <Stem>_export.json, which
 Assets/_Project/Scripts/Editor/FarmCropBuilder.cs reads. Previews go to Tools/out/previews/farm_crops.
 The sources are only read.
+
+After exporting, run Tools/attach_plant_parts.py (then BTP/Setup/28 in Unity): the supplied plant places many
+leaves, fruit and stems near the wood rather than on it, and that pass joins every part to the plant.
 """
 import json
 import math

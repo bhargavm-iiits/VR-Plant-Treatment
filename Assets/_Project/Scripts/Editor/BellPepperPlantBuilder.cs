@@ -99,12 +99,12 @@ namespace BTP.Editor
             var healthy = BlenderTreeBuilder.ImportSprite(healthyPath, LeafTextureSize);
             // Cut-out import (coverage-preserving mips, ASTC on Quest); ImportSprite's clamp wrap is kept.
             foreach (var path in new[] { diseasedPath, healthyPath })
-                TextureSettings.ConfigureCutout(path, LeafTextureSize, LeafTextureAndroid);
+                TextureSettings.ConfigureCutout(path, LeafTextureSize, LeafTextureAndroid, BlenderTreeBuilder.LeafCutoff);
             var diseased = AssetDatabase.LoadAssetAtPath<Texture2D>(diseasedPath);
             healthy = AssetDatabase.LoadAssetAtPath<Texture2D>(healthyPath);
             var mask = AssetDatabase.LoadAssetAtPath<Texture2D>(FarmRecoveryMasks.Create(healthy, $"{Folder}/BellPepperLeaf_RecoveryMask.png", "bell_pepper"));
             var material = MaterialFactory.FarmRecovery(LeafMaterialPath, healthy, diseased, mask, null, true);
-            material.SetFloat("_Cutoff", 0.45f);
+            material.SetFloat("_Cutoff", BlenderTreeBuilder.LeafCutoff);
             material.doubleSidedGI = true;
             EditorUtility.SetDirty(material);
             return material;

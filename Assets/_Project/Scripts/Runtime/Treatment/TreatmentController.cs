@@ -43,6 +43,9 @@ namespace BTP.Treatment
         [SerializeField] TreatmentActionAnimator animator;
         [Tooltip("Turns the default view (spawn and Recenter) right of the specimen, so the specimen and the task panel are both in front.")]
         [SerializeField, Range(-45f, 45f)] float spawnYawOffset = 16f;
+        [Tooltip("The specimen chamber station owns the lab: the case rooms are hidden, the leaf specimen stays hidden and the " +
+                 "Interface, tool rack and spawn are placed by the ChamberStation.")]
+        [SerializeField] bool chamberLayout;
 
         TreatmentServices services;
         TreatmentSession session;
@@ -94,6 +97,11 @@ namespace BTP.Treatment
 
         /// <summary>True while the Manual treatment mode owns the specimen and the step-lesson objects are hidden.</summary>
         public bool ManualMode => manualMode;
+
+        /// <summary>True when the specimen chamber station owns the lab (rooms and the leaf specimen are hidden).</summary>
+        public bool ChamberLayout => chamberLayout;
+
+        internal void BindChamberLayout(bool enabled) => chamberLayout = enabled;
 
         internal void Bind(Transform environment, SpawnAnchor anchor, Transform ui, Transform tools, TreatmentPanel taskPanel,
             Button reset, GameObject tooltip, TMP_Text tooltipLabel, TreatmentActionAnimator actionAnimator, float viewYawOffset)
@@ -296,6 +304,13 @@ namespace BTP.Treatment
             foreach (var slot in environmentInstance.GetComponentsInChildren<TreatmentSlot>(true))
                 slots[slot.SlotName] = slot.transform;
 
+            if (chamberLayout)
+            {
+                // The chamber hall replaces the case room: keep its slots (targets still resolve), hide everything else.
+                HideRoom(environmentInstance);
+                return;
+            }
+
             CopyPose("interface", interfaceRoot);
             CopyPose("tool_rack", toolRack);
             if (spawnAnchor != null)
@@ -303,6 +318,28 @@ namespace BTP.Treatment
                 CopyPose("spawn", spawnAnchor.transform);
                 spawnAnchor.transform.rotation = Quaternion.Euler(0f, spawnYawOffset, 0f) * spawnAnchor.transform.rotation;
             }
+        }
+
+        /// <summary>Turns off a case room's visuals, colliders, lights and LOD groups (chamber layout).</summary>
+        static void HideRoom(GameObject room)
+        {
+            foreach (var renderer in room.GetComponentsInChildren<Renderer>(true))
+                renderer.enabled = false;
+            foreach (var collider in room.GetComponentsInChildren<Collider>(true))
+                collider.enabled = false;
+            foreach (var light in room.GetComponentsInChildren<Light>(true))
+                light.enabled = false;
+            foreach (var lod in room.GetComponentsInChildren<LODGroup>(true))
+                lod.enabled = false;
+            foreach (var canvas in room.GetComponentsInChildren<Canvas>(true))
+                canvas.enabled = false;
+        }
+
+        /// <summary>Shows or hides the leaf specimen; in the chamber layout it is always hidden.</summary>
+        void SetSpecimenVisible(bool visible)
+        {
+            if (specimen != null)
+                specimen.SetActive(visible && !chamberLayout);
         }
 
         void CopyPose(string slotName, Transform target)
@@ -323,6 +360,7 @@ namespace BTP.Treatment
             specimenHome = specimen.transform.position;
             specimenScale = specimen.transform.localScale;
             specimenBounds = MeasureBounds(specimen);
+            SetSpecimenVisible(true);
         }
 
         static Bounds MeasureBounds(GameObject root)
@@ -903,7 +941,7 @@ namespace BTP.Treatment
             hovered = null;
             if (specimen != null)
             {
-                specimen.SetActive(true);
+                SetSpecimenVisible(true);
                 specimen.transform.position = specimenHome;
                 specimen.transform.localScale = specimenScale;
             }
@@ -958,7 +996,7 @@ namespace BTP.Treatment
             {
                 if (contained && slots.TryGetValue("containment", out var containment))
                 {
-                    specimen.SetActive(true);
+                    SetSpecimenVisible(true);
                     var fit = Mathf.Min(1f, 0.8f / Mathf.Max(specimenBounds.size.y, 0.01f));
                     specimen.transform.position = containment.position;
                     specimen.transform.localScale = specimenScale * fit;
@@ -970,7 +1008,7 @@ namespace BTP.Treatment
             }
             else
             {
-                specimen.SetActive(true);
+                SetSpecimenVisible(true);
                 specimen.transform.position = specimenHome;
                 specimen.transform.localScale = specimenScale;
             }

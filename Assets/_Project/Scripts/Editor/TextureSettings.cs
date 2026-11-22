@@ -11,8 +11,14 @@ namespace BTP.Editor
         public static void ConfigureAlbedo(string path, int maxSize = 4096, int androidMax = 2048) =>
             Configure(path, maxSize, androidMax, TextureImporterType.Default, true, false, TextureImporterFormat.ASTC_6x6, 4);
 
-        public static void ConfigureCutout(string path, int maxSize = 4096, int androidMax = 2048) =>
-            Configure(path, maxSize, androidMax, TextureImporterType.Default, true, true, TextureImporterFormat.ASTC_6x6, 4);
+        /// <summary>
+        /// Alpha-cutout import with coverage-preserving mips. <paramref name="alphaReference"/> must equal the
+        /// material's _Cutoff; otherwise thin features (petioles, stalks) fade below the cutoff in the smaller
+        /// mips and vanish at headset distance.
+        /// </summary>
+        public static void ConfigureCutout(string path, int maxSize = 4096, int androidMax = 2048, float alphaReference = 0.5f) =>
+            Configure(path, maxSize, androidMax, TextureImporterType.Default, true, true, TextureImporterFormat.ASTC_6x6, 4,
+                alphaReference: alphaReference);
 
         public static void ConfigureNormal(string path, int maxSize = 2048, int androidMax = 1024) =>
             Configure(path, maxSize, androidMax, TextureImporterType.NormalMap, false, false, TextureImporterFormat.ASTC_6x6, 2);
@@ -34,7 +40,7 @@ namespace BTP.Editor
         }
 
         static void Configure(string path, int maxSize, int androidMax, TextureImporterType type, bool sRGB, bool cutout,
-            TextureImporterFormat androidFormat, int anisoLevel, bool keepAlpha = false)
+            TextureImporterFormat androidFormat, int anisoLevel, bool keepAlpha = false, float alphaReference = 0.5f)
         {
             var importer = AssetImporter.GetAtPath(path) as TextureImporter;
             if (importer == null)
@@ -48,7 +54,7 @@ namespace BTP.Editor
             importer.alphaSource = cutout || keepAlpha ? TextureImporterAlphaSource.FromInput : TextureImporterAlphaSource.None;
             importer.alphaIsTransparency = cutout;
             importer.mipMapsPreserveCoverage = cutout;
-            importer.alphaTestReferenceValue = 0.5f;
+            importer.alphaTestReferenceValue = alphaReference;
             importer.isReadable = false;
             importer.anisoLevel = anisoLevel;
             importer.mipmapFilter = TextureImporterMipFilter.KaiserFilter;

@@ -29,8 +29,11 @@ namespace BTP.Farm
         [SerializeField] Material borderMaterial;
         [SerializeField] Material panelMaterial;
         [SerializeField] Material imageMaterial;
-        [Tooltip("Six-week timeline console that opens and closes with the ring (optional).")]
+        [Tooltip("Six-week timeline console that opens and closes with the ring when Show Timeline Console is on (optional).")]
         [SerializeField] FarmTimelineConsole console;
+        [Tooltip("Show the six-week timeline console with the ring. Off: the console never opens and its GameObject is " +
+                 "deactivated on Awake; the ring and plant selection work as before.")]
+        [SerializeField] bool showTimelineConsole;
         [Tooltip("Specimens farther than this (metres) do not open a ring.")]
         [SerializeField, Min(1f)] float nearDistance = 4f;
         [Tooltip("An open ring closes when the viewer walks farther than this from its plant.")]
@@ -76,6 +79,10 @@ namespace BTP.Farm
 
         public bool IsOpen => phase != Phase.Closed;
         public FarmTimelineConsole Console => console;
+        public bool ShowsTimelineConsole => showTimelineConsole;
+
+        /// <summary>The console used with the ring, or null when the timeline console is switched off.</summary>
+        FarmTimelineConsole ActiveConsole => showTimelineConsole ? console : null;
 
         internal void BindConsole(FarmTimelineConsole timelineConsole) => console = timelineConsole;
         public string OpenPlantId => phase == Phase.Closed ? null : openPlantId;
@@ -94,6 +101,13 @@ namespace BTP.Farm
             cards = new Card[MaxCards];
             for (var i = 0; i < MaxCards; i++)
                 cards[i] = BuildCard(i);
+
+            // Timeline console switched off: make sure a console left visible in the scene never shows.
+            if (!showTimelineConsole && console != null)
+            {
+                console.Hide();
+                console.gameObject.SetActive(false);
+            }
         }
 
         /// <summary>
@@ -138,8 +152,8 @@ namespace BTP.Farm
                 return;
             phase = Phase.Closing;
             emptyClickFrame = -1;
-            if (console != null)
-                console.Hide();
+            if (ActiveConsole != null)
+                ActiveConsole.Hide();
         }
 
         void Open(string plantId, Transform plant, float extent)
@@ -171,8 +185,8 @@ namespace BTP.Farm
             totalTime = DiseaseRingLayout.TotalTime(count, stagger, popDuration);
             phase = Phase.Opening;
             emptyClickFrame = -1;
-            if (console != null)
-                console.Show(plantId, plant, radius);
+            if (ActiveConsole != null)
+                ActiveConsole.Show(plantId, plant, radius);
             RefreshRays();
         }
 
@@ -247,13 +261,14 @@ namespace BTP.Farm
 
         bool PointerOverConsole()
         {
-            if (console == null || !console.IsVisible)
+            var timeline = ActiveConsole;
+            if (timeline == null || !timeline.IsVisible)
                 return false;
             for (var i = 0; i < rays.Count; i++)
             {
                 var ray = rays[i];
                 if (ray != null && ray.isActiveAndEnabled && ray.TryGetCurrentUIRaycastResult(out RaycastResult result) &&
-                    result.gameObject != null && console.Contains(result.gameObject.transform))
+                    result.gameObject != null && timeline.Contains(result.gameObject.transform))
                     return true;
             }
 

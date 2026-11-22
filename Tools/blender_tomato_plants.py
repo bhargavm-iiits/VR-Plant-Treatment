@@ -26,6 +26,9 @@ Run one:  blender -b -P Tools/blender_tomato_plants.py -- <glb> <diseaseId> <out
 Run all:  blender -b -P Tools/blender_tomato_plants.py -- --all [<models_dir>] [<out_dir>] [--jobs N]
           (one Blender process per plant; defaults: SourceAssets/Tomato_Plant/.../models, Assets/_Project/Models/TomatoPlant)
 Sources are only read; nothing is saved back.
+
+After exporting, run Tools/attach_plant_parts.py (then BTP/Setup/28 in Unity): the supplied plant places many
+leaves, fruit and stems near the wood rather than on it, and that pass joins every part to the plant.
 """
 import json
 import math

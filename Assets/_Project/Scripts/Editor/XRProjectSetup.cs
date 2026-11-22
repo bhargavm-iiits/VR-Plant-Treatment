@@ -37,6 +37,13 @@ namespace BTP.Editor
             Debug.Log("[BTP] XR project configured: OpenXR for Quest (Android) and Windows PC VR.");
         }
 
+        /// <summary>
+        /// Addendum 5: makes sure the Android (Quest) OpenXR build has native hand tracking - the Hand Tracking subsystem, the
+        /// Hand Interaction profile, Meta Hand Tracking Aim and the Meta Quest feature - without touching the controller
+        /// profiles (controllers keep working; the treatment flow needs none). Called by QuestDemoBuild before building.
+        /// </summary>
+        public static void EnsureQuestHandTracking() => ConfigureOpenXR(BuildTargetGroup.Android, true);
+
         /// <summary>XRI samples reserve interaction layer 31 for teleportation.</summary>
         static void NameTeleportInteractionLayer()
         {
