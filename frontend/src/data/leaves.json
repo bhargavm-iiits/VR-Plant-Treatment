@@ -1,0 +1,408 @@
+[
+ {
+  "id": "apple_black_rot",
+  "plant": "Apple",
+  "disease": "Apple Black Rot",
+  "backendId": "Apple___Black_rot",
+  "bytes": 413552
+ },
+ {
+  "id": "apple_apple_scab",
+  "plant": "Apple",
+  "disease": "Apple Scab",
+  "backendId": "Apple___Apple_scab",
+  "bytes": 540212
+ },
+ {
+  "id": "apple_cedar_apple_rust",
+  "plant": "Apple",
+  "disease": "Cedar Apple Rust",
+  "backendId": "Apple___Cedar_apple_rust",
+  "bytes": 407880
+ },
+ {
+  "id": "bell_pepper_bacterial_spot",
+  "plant": "Bell Pepper",
+  "disease": "Bacterial Spot",
+  "backendId": "Pepper,_bell___Bacterial_spot",
+  "bytes": 403804
+ },
+ {
+  "id": "blueberry_rust",
+  "plant": "Blueberry",
+  "disease": "Rust",
+  "backendId": null,
+  "bytes": 557420
+ },
+ {
+  "id": "cherry_powdery_mildew",
+  "plant": "Cherry",
+  "disease": "Powdery Mildew",
+  "backendId": "Cherry_(including_sour)___Powdery_mildew",
+  "bytes": 553484
+ },
+ {
+  "id": "chilli_anthracnose",
+  "plant": "Chilli",
+  "disease": "Anthracnose",
+  "backendId": "Chilli___Anthracnose",
+  "bytes": 368560
+ },
+ {
+  "id": "chilli_cercospora_leaf_spot",
+  "plant": "Chilli",
+  "disease": "Cercospora Leaf Spot",
+  "backendId": "Chilli___Cercospora_leaf_spot",
+  "bytes": 347480
+ },
+ {
+  "id": "chilli_leaf_curl",
+  "plant": "Chilli",
+  "disease": "Leaf Curl",
+  "backendId": "Chilli___Leaf_curl",
+  "bytes": 334340
+ },
+ {
+  "id": "corn_common_rust",
+  "plant": "Corn (Maize)",
+  "disease": "Common Rust",
+  "backendId": "Corn_(maize)___Common_rust_",
+  "bytes": 414980
+ },
+ {
+  "id": "corn_gray_leaf_spot",
+  "plant": "Corn (Maize)",
+  "disease": "Gray Leaf Spot (Cercospora)",
+  "backendId": "Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot",
+  "bytes": 430328
+ },
+ {
+  "id": "corn_northern_leaf_blight",
+  "plant": "Corn (Maize)",
+  "disease": "Northern Leaf Blight",
+  "backendId": "Corn_(maize)___Northern_Leaf_Blight",
+  "bytes": 371544
+ },
+ {
+  "id": "cotton_bacterial_blight",
+  "plant": "Cotton",
+  "disease": "Bacterial Blight",
+  "backendId": "Cotton___Bacterial_blight",
+  "bytes": 475568
+ },
+ {
+  "id": "cotton_fusarium_wilt",
+  "plant": "Cotton",
+  "disease": "Fusarium Wilt",
+  "backendId": "Cotton___Fusarium_wilt",
+  "bytes": 338548
+ },
+ {
+  "id": "cotton_leaf_curl_virus",
+  "plant": "Cotton",
+  "disease": "Leaf Curl Virus",
+  "backendId": "Cotton___Leaf_curl_virus",
+  "bytes": 329356
+ },
+ {
+  "id": "grape_black_rot",
+  "plant": "Grape",
+  "disease": "Black Rot",
+  "backendId": "Grape___Black_rot",
+  "bytes": 435188
+ },
+ {
+  "id": "grape_esca",
+  "plant": "Grape",
+  "disease": "Esca (Black Measles)",
+  "backendId": "Grape___Esca_(Black_Measles)",
+  "bytes": 501488
+ },
+ {
+  "id": "grape_leaf_blight",
+  "plant": "Grape",
+  "disease": "Leaf Blight (Isariopsis Leaf Spot)",
+  "backendId": "Grape___Leaf_blight_(Isariopsis_Leaf_Spot)",
+  "bytes": 992612
+ },
+ {
+  "id": "mango_anthracnose",
+  "plant": "Mango",
+  "disease": "Anthracnose",
+  "backendId": "Mango___Anthracnose",
+  "bytes": 356724
+ },
+ {
+  "id": "mango_bacterial_canker",
+  "plant": "Mango",
+  "disease": "Bacterial Canker",
+  "backendId": "Mango___Bacterial_canker",
+  "bytes": 391180
+ },
+ {
+  "id": "mango_die_back",
+  "plant": "Mango",
+  "disease": "Die Back",
+  "backendId": "Mango___Die_back",
+  "bytes": 403104
+ },
+ {
+  "id": "mango_gall_midge",
+  "plant": "Mango",
+  "disease": "Gall Midge",
+  "backendId": "Mango___Gall_midge",
+  "bytes": 395592
+ },
+ {
+  "id": "orange_huanglongbing",
+  "plant": "Orange",
+  "disease": "Orange Huanglongbing (Citrus Greening)",
+  "backendId": "Orange___Haunglongbing_(Citrus_greening)",
+  "bytes": 297068
+ },
+ {
+  "id": "peach_bacterial_spot",
+  "plant": "Peach",
+  "disease": "Bacterial Spot",
+  "backendId": "Peach___Bacterial_spot",
+  "bytes": 367556
+ },
+ {
+  "id": "potato_early_blight",
+  "plant": "Potato",
+  "disease": "Early Blight",
+  "backendId": "Potato___Early_blight",
+  "bytes": 481548
+ },
+ {
+  "id": "potato_late_blight",
+  "plant": "Potato",
+  "disease": "Late Blight",
+  "backendId": "Potato___Late_blight",
+  "bytes": 404424
+ },
+ {
+  "id": "rice_bacterial_leaf_blight",
+  "plant": "Rice",
+  "disease": "Bacterial Leaf Blight",
+  "backendId": "Rice___Bacterial_leaf_blight",
+  "bytes": 340040
+ },
+ {
+  "id": "rice_brown_spot",
+  "plant": "Rice",
+  "disease": "Brown Spot",
+  "backendId": "Rice___Brown_spot",
+  "bytes": 309788
+ },
+ {
+  "id": "rice_leaf_blast",
+  "plant": "Rice",
+  "disease": "Leaf Blast",
+  "backendId": "Rice___Leaf_blast",
+  "bytes": 261344
+ },
+ {
+  "id": "rice_sheath_blight",
+  "plant": "Rice",
+  "disease": "Sheath Blight",
+  "backendId": "Rice___Sheath_blight",
+  "bytes": 329160
+ },
+ {
+  "id": "rice_tungro",
+  "plant": "Rice",
+  "disease": "Tungro",
+  "backendId": "Rice___Tungro",
+  "bytes": 275476
+ },
+ {
+  "id": "soybean_bacterial_blight",
+  "plant": "Soybean",
+  "disease": "Bacterial Blight",
+  "backendId": null,
+  "bytes": 383140
+ },
+ {
+  "id": "soybean_cercospora_leaf_blight",
+  "plant": "Soybean",
+  "disease": "Cercospora Leaf Blight",
+  "backendId": null,
+  "bytes": 451848
+ },
+ {
+  "id": "soybean_downy_mildew",
+  "plant": "Soybean",
+  "disease": "Downy Mildew",
+  "backendId": null,
+  "bytes": 401096
+ },
+ {
+  "id": "soybean_frogeye_leaf_spot",
+  "plant": "Soybean",
+  "disease": "Frogeye Leaf Spot",
+  "backendId": null,
+  "bytes": 441104
+ },
+ {
+  "id": "soybean_mosaic_virus",
+  "plant": "Soybean",
+  "disease": "Mosaic Virus",
+  "backendId": null,
+  "bytes": 403268
+ },
+ {
+  "id": "soybean_septoria_brown_spot",
+  "plant": "Soybean",
+  "disease": "Septoria Brown Spot",
+  "backendId": null,
+  "bytes": 532556
+ },
+ {
+  "id": "soybean_soybean_rust",
+  "plant": "Soybean",
+  "disease": "Soybean Rust",
+  "backendId": null,
+  "bytes": 554956
+ },
+ {
+  "id": "soybean_sudden_death_syndrome",
+  "plant": "Soybean",
+  "disease": "Sudden Death Syndrome",
+  "backendId": null,
+  "bytes": 433852
+ },
+ {
+  "id": "soybean_target_spot",
+  "plant": "Soybean",
+  "disease": "Target Spot",
+  "backendId": null,
+  "bytes": 383212
+ },
+ {
+  "id": "squash_powdery_mildew",
+  "plant": "Squash",
+  "disease": "Powdery Mildew",
+  "backendId": "Squash___Powdery_mildew",
+  "bytes": 490852
+ },
+ {
+  "id": "strawberry_leaf_scorch",
+  "plant": "Strawberry",
+  "disease": "Leaf Scorch",
+  "backendId": "Strawberry___Leaf_scorch",
+  "bytes": 340748
+ },
+ {
+  "id": "sugarcane_mosaic",
+  "plant": "Sugarcane",
+  "disease": "Mosaic",
+  "backendId": "Sugarcane___Mosaic",
+  "bytes": 485612
+ },
+ {
+  "id": "sugarcane_red_rot",
+  "plant": "Sugarcane",
+  "disease": "Red Rot",
+  "backendId": "Sugarcane___Red_rot",
+  "bytes": 284096
+ },
+ {
+  "id": "sugarcane_rust",
+  "plant": "Sugarcane",
+  "disease": "Rust",
+  "backendId": "Sugarcane___Rust",
+  "bytes": 380464
+ },
+ {
+  "id": "sugarcane_yellow_leaf",
+  "plant": "Sugarcane",
+  "disease": "Yellow Leaf",
+  "backendId": "Sugarcane___Yellow_leaf",
+  "bytes": 274240
+ },
+ {
+  "id": "tomato_bacterial_spot",
+  "plant": "Tomato",
+  "disease": "Bacterial Spot",
+  "backendId": "Tomato___Bacterial_spot",
+  "bytes": 345440
+ },
+ {
+  "id": "tomato_early_blight",
+  "plant": "Tomato",
+  "disease": "Early Blight",
+  "backendId": "Tomato___Early_blight",
+  "bytes": 399108
+ },
+ {
+  "id": "tomato_late_blight",
+  "plant": "Tomato",
+  "disease": "Late Blight",
+  "backendId": "Tomato___Late_blight",
+  "bytes": 372852
+ },
+ {
+  "id": "tomato_leaf_mold",
+  "plant": "Tomato",
+  "disease": "Leaf Mold",
+  "backendId": "Tomato___Leaf_Mold",
+  "bytes": 417944
+ },
+ {
+  "id": "tomato_mosaic_virus",
+  "plant": "Tomato",
+  "disease": "Mosaic Virus",
+  "backendId": "Tomato___Tomato_mosaic_virus",
+  "bytes": 440188
+ },
+ {
+  "id": "tomato_septoria_leaf_spot",
+  "plant": "Tomato",
+  "disease": "Septoria Leaf Spot",
+  "backendId": "Tomato___Septoria_leaf_spot",
+  "bytes": 458228
+ },
+ {
+  "id": "tomato_target_spot",
+  "plant": "Tomato",
+  "disease": "Target Spot",
+  "backendId": "Tomato___Target_Spot",
+  "bytes": 397652
+ },
+ {
+  "id": "tomato_spider_mites",
+  "plant": "Tomato",
+  "disease": "Two-Spotted Spider Mite",
+  "backendId": "Tomato___Spider_mites Two-spotted_spider_mite",
+  "bytes": 532432
+ },
+ {
+  "id": "tomato_yellow_leaf_curl_virus",
+  "plant": "Tomato",
+  "disease": "Yellow leaf Curl Virus",
+  "backendId": "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
+  "bytes": 364284
+ },
+ {
+  "id": "wheat_blast",
+  "plant": "Wheat",
+  "disease": "Blast",
+  "backendId": "Wheat___Blast",
+  "bytes": 330320
+ },
+ {
+  "id": "wheat_leaf_blight",
+  "plant": "Wheat",
+  "disease": "Leaf Blight",
+  "backendId": "Wheat___Leaf_blight",
+  "bytes": 330476
+ },
+ {
+  "id": "wheat_rust",
+  "plant": "Wheat",
+  "disease": "Rust",
+  "backendId": "Wheat___Rust",
+  "bytes": 420396
+ }
+]

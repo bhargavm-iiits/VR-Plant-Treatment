@@ -1,0 +1,1586 @@
+{
+  "mapVersion": 2,
+  "recipes": [
+    {
+      "recipeId": "apple-apple-scab",
+      "recipeVersion": 1,
+      "plantId": "apple",
+      "diseaseId": "apple_scab",
+      "contentVersion": 2,
+      "source": "backend",
+      "initialSeverity": 0.3,
+      "initialHealth": 0.74,
+      "maxSeverityDrop": 0.45,
+      "maxHealthGain": 0.16,
+      "maxWorsen": 0.12,
+      "controls": [
+        {
+          "controlId": "sanitation",
+          "order": 10,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 2.0,
+          "recommendedMin": 6.0,
+          "recommendedMax": 8.0,
+          "weight": 1.0,
+          "required": true
+        },
+        {
+          "controlId": "airflow",
+          "order": 20,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 5.0,
+          "recommendedMax": 7.0,
+          "weight": 0.8,
+          "required": true
+        },
+        {
+          "controlId": "protect",
+          "order": 30,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 6.0,
+          "recommendedMax": 8.0,
+          "weight": 1.0,
+          "required": true
+        },
+        {
+          "controlId": "prevention",
+          "order": 40,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 0.0,
+          "recommendedMin": 6.0,
+          "recommendedMax": 10.0,
+          "weight": 0.4,
+          "required": false
+        }
+      ],
+      "rules": [],
+      "assetKeys": [
+        "leafmat.healthy.apple",
+        "leafspecimen.apple.apple_scab",
+        "target.leaf.apple.apple_scab",
+        "target.petiole",
+        "target.spot"
+      ]
+    },
+    {
+      "recipeId": "apple-black-rot",
+      "recipeVersion": 1,
+      "plantId": "apple",
+      "diseaseId": "black_rot",
+      "contentVersion": 2,
+      "source": "backend",
+      "initialSeverity": 0.3,
+      "initialHealth": 0.74,
+      "maxSeverityDrop": 0.45,
+      "maxHealthGain": 0.16,
+      "maxWorsen": 0.12,
+      "controls": [
+        {
+          "controlId": "sanitation",
+          "order": 10,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 2.0,
+          "recommendedMin": 8.0,
+          "recommendedMax": 10.0,
+          "weight": 1.4,
+          "required": true
+        },
+        {
+          "controlId": "protect",
+          "order": 20,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 5.0,
+          "recommendedMax": 7.0,
+          "weight": 1.0,
+          "required": true
+        }
+      ],
+      "rules": [
+        {
+          "ruleId": "mummies_left",
+          "controlA": "sanitation",
+          "aMin": 0.0,
+          "aMax": 4.0,
+          "controlB": "protect",
+          "bMin": 5.0,
+          "bMax": 10.0,
+          "penalty": 0.25,
+          "blocks": false
+        }
+      ],
+      "assetKeys": [
+        "leafmat.healthy.apple",
+        "leafspecimen.apple.black_rot",
+        "target.leaf.apple.black_rot",
+        "target.mummy",
+        "target.petiole",
+        "target.spot"
+      ]
+    },
+    {
+      "recipeId": "apple-cedar-apple-rust",
+      "recipeVersion": 1,
+      "plantId": "apple",
+      "diseaseId": "cedar_apple_rust",
+      "contentVersion": 2,
+      "source": "backend",
+      "initialSeverity": 0.25,
+      "initialHealth": 0.79,
+      "maxSeverityDrop": 0.45,
+      "maxHealthGain": 0.13,
+      "maxWorsen": 0.12,
+      "controls": [
+        {
+          "controlId": "sanitation",
+          "order": 10,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 7.0,
+          "recommendedMax": 9.0,
+          "weight": 1.0,
+          "required": true
+        },
+        {
+          "controlId": "protect",
+          "order": 20,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 5.0,
+          "recommendedMax": 7.0,
+          "weight": 1.0,
+          "required": true
+        },
+        {
+          "controlId": "prevention",
+          "order": 30,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 0.0,
+          "recommendedMin": 6.0,
+          "recommendedMax": 10.0,
+          "weight": 0.5,
+          "required": false
+        }
+      ],
+      "rules": [],
+      "assetKeys": [
+        "leafmat.healthy.apple",
+        "leafspecimen.apple.cedar_apple_rust",
+        "target.gall",
+        "target.juniper",
+        "target.leaf.apple.cedar_apple_rust",
+        "target.petiole",
+        "target.spot"
+      ]
+    },
+    {
+      "recipeId": "bell-pepper-bacterial-spot",
+      "recipeVersion": 1,
+      "plantId": "bell_pepper",
+      "diseaseId": "bacterial_spot",
+      "contentVersion": 2,
+      "source": "backend",
+      "initialSeverity": 0.3,
+      "initialHealth": 0.74,
+      "maxSeverityDrop": 0.45,
+      "maxHealthGain": 0.16,
+      "maxWorsen": 0.12,
+      "controls": [
+        {
+          "controlId": "replacement",
+          "order": 10,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 2.0,
+          "recommendedMin": 8.0,
+          "recommendedMax": 10.0,
+          "weight": 1.0,
+          "required": true
+        },
+        {
+          "controlId": "sanitation",
+          "order": 20,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 2.0,
+          "recommendedMin": 6.0,
+          "recommendedMax": 8.0,
+          "weight": 1.0,
+          "required": true
+        },
+        {
+          "controlId": "protect",
+          "order": 30,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 0.0,
+          "recommendedMin": 3.0,
+          "recommendedMax": 5.0,
+          "weight": 0.5,
+          "required": true
+        }
+      ],
+      "rules": [],
+      "assetKeys": [
+        "leafmat.healthy.bell_pepper",
+        "leafspecimen.bell_pepper.bacterial_spot",
+        "target.leaf.bell_pepper.bacterial_spot",
+        "target.petiole",
+        "target.seedling_spotted",
+        "target.spot"
+      ]
+    },
+    {
+      "recipeId": "cherry-powdery-mildew",
+      "recipeVersion": 1,
+      "plantId": "cherry",
+      "diseaseId": "powdery_mildew",
+      "contentVersion": 2,
+      "source": "backend",
+      "initialSeverity": 0.35,
+      "initialHealth": 0.7,
+      "maxSeverityDrop": 0.45,
+      "maxHealthGain": 0.18,
+      "maxWorsen": 0.12,
+      "controls": [
+        {
+          "controlId": "airflow",
+          "order": 10,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 6.0,
+          "recommendedMax": 8.0,
+          "weight": 1.0,
+          "required": true
+        },
+        {
+          "controlId": "protect",
+          "order": 20,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 6.0,
+          "recommendedMax": 8.0,
+          "weight": 1.0,
+          "required": true
+        }
+      ],
+      "rules": [
+        {
+          "ruleId": "shaded",
+          "controlA": "airflow",
+          "aMin": 0.0,
+          "aMax": 2.0,
+          "controlB": "protect",
+          "bMin": 6.0,
+          "bMax": 10.0,
+          "penalty": 0.2,
+          "blocks": false
+        }
+      ],
+      "assetKeys": [
+        "leafmat.healthy.cherry",
+        "leafspecimen.cherry.powdery_mildew",
+        "target.leaf.cherry.powdery_mildew",
+        "target.petiole",
+        "target.spot"
+      ]
+    },
+    {
+      "recipeId": "corn-gray-leaf-spot",
+      "recipeVersion": 1,
+      "plantId": "corn",
+      "diseaseId": "gray_leaf_spot",
+      "contentVersion": 2,
+      "source": "backend",
+      "initialSeverity": 0.35,
+      "initialHealth": 0.7,
+      "maxSeverityDrop": 0.45,
+      "maxHealthGain": 0.18,
+      "maxWorsen": 0.12,
+      "controls": [
+        {
+          "controlId": "protect",
+          "order": 10,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 6.0,
+          "recommendedMax": 8.0,
+          "weight": 1.2,
+          "required": true
+        },
+        {
+          "controlId": "prevention",
+          "order": 20,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 6.0,
+          "recommendedMax": 10.0,
+          "weight": 0.8,
+          "required": true
+        },
+        {
+          "controlId": "resistance",
+          "order": 30,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 6.0,
+          "recommendedMax": 10.0,
+          "weight": 0.6,
+          "required": true
+        }
+      ],
+      "rules": [],
+      "assetKeys": [
+        "leafmat.healthy.corn",
+        "leafspecimen.corn.gray_leaf_spot",
+        "target.leaf.corn.gray_leaf_spot",
+        "target.petiole",
+        "target.spot"
+      ]
+    },
+    {
+      "recipeId": "corn-common-rust",
+      "recipeVersion": 1,
+      "plantId": "corn",
+      "diseaseId": "common_rust",
+      "contentVersion": 2,
+      "source": "backend",
+      "initialSeverity": 0.2,
+      "initialHealth": 0.83,
+      "maxSeverityDrop": 0.45,
+      "maxHealthGain": 0.1,
+      "maxWorsen": 0.12,
+      "controls": [
+        {
+          "controlId": "monitoring",
+          "order": 10,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 6.0,
+          "recommendedMax": 8.0,
+          "weight": 1.2,
+          "required": true
+        },
+        {
+          "controlId": "resistance",
+          "order": 20,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 6.0,
+          "recommendedMax": 10.0,
+          "weight": 0.8,
+          "required": true
+        }
+      ],
+      "rules": [],
+      "assetKeys": [
+        "leafmat.healthy.corn",
+        "leafspecimen.corn.common_rust",
+        "target.leaf.corn.common_rust",
+        "target.petiole",
+        "target.spot"
+      ]
+    },
+    {
+      "recipeId": "corn-northern-leaf-blight",
+      "recipeVersion": 1,
+      "plantId": "corn",
+      "diseaseId": "northern_leaf_blight",
+      "contentVersion": 2,
+      "source": "backend",
+      "initialSeverity": 0.3,
+      "initialHealth": 0.74,
+      "maxSeverityDrop": 0.45,
+      "maxHealthGain": 0.16,
+      "maxWorsen": 0.12,
+      "controls": [
+        {
+          "controlId": "protect",
+          "order": 10,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 6.0,
+          "recommendedMax": 8.0,
+          "weight": 1.0,
+          "required": true
+        },
+        {
+          "controlId": "prevention",
+          "order": 20,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 6.0,
+          "recommendedMax": 10.0,
+          "weight": 0.8,
+          "required": true
+        },
+        {
+          "controlId": "resistance",
+          "order": 30,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 6.0,
+          "recommendedMax": 10.0,
+          "weight": 0.6,
+          "required": false
+        }
+      ],
+      "rules": [],
+      "assetKeys": [
+        "leafmat.healthy.corn",
+        "leafspecimen.corn.northern_leaf_blight",
+        "target.leaf.corn.northern_leaf_blight",
+        "target.petiole",
+        "target.spot"
+      ]
+    },
+    {
+      "recipeId": "grape-black-rot",
+      "recipeVersion": 1,
+      "plantId": "grape",
+      "diseaseId": "black_rot",
+      "contentVersion": 2,
+      "source": "backend",
+      "initialSeverity": 0.3,
+      "initialHealth": 0.74,
+      "maxSeverityDrop": 0.45,
+      "maxHealthGain": 0.16,
+      "maxWorsen": 0.12,
+      "controls": [
+        {
+          "controlId": "sanitation",
+          "order": 10,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 2.0,
+          "recommendedMin": 8.0,
+          "recommendedMax": 10.0,
+          "weight": 1.3,
+          "required": true
+        },
+        {
+          "controlId": "airflow",
+          "order": 20,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 6.0,
+          "recommendedMax": 8.0,
+          "weight": 1.0,
+          "required": true
+        },
+        {
+          "controlId": "protect",
+          "order": 30,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 5.0,
+          "recommendedMax": 7.0,
+          "weight": 1.0,
+          "required": true
+        }
+      ],
+      "rules": [
+        {
+          "ruleId": "mummies_left",
+          "controlA": "sanitation",
+          "aMin": 0.0,
+          "aMax": 4.0,
+          "controlB": "protect",
+          "bMin": 5.0,
+          "bMax": 10.0,
+          "penalty": 0.25,
+          "blocks": false
+        }
+      ],
+      "assetKeys": [
+        "leafmat.healthy.grape",
+        "leafspecimen.grape.black_rot",
+        "target.leaf.grape.black_rot",
+        "target.mummy",
+        "target.petiole",
+        "target.spot"
+      ]
+    },
+    {
+      "recipeId": "grape-esca",
+      "recipeVersion": 1,
+      "plantId": "grape",
+      "diseaseId": "esca",
+      "contentVersion": 2,
+      "source": "backend",
+      "initialSeverity": 0.55,
+      "initialHealth": 0.53,
+      "maxSeverityDrop": 0.0,
+      "maxHealthGain": 0.0,
+      "maxWorsen": 0.15,
+      "controls": [
+        {
+          "controlId": "containment",
+          "order": 10,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 2.0,
+          "recommendedMin": 9.0,
+          "recommendedMax": 10.0,
+          "weight": 1.5,
+          "required": true
+        },
+        {
+          "controlId": "replacement",
+          "order": 20,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 7.0,
+          "recommendedMax": 10.0,
+          "weight": 1.0,
+          "required": true
+        },
+        {
+          "controlId": "prevention",
+          "order": 30,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 7.0,
+          "recommendedMax": 10.0,
+          "weight": 0.8,
+          "required": true
+        }
+      ],
+      "rules": [
+        {
+          "ruleId": "not_contained",
+          "controlA": "containment",
+          "aMin": 0.0,
+          "aMax": 6.0,
+          "controlB": "",
+          "bMin": 0.0,
+          "bMax": 0.0,
+          "penalty": 0.5,
+          "blocks": true
+        }
+      ],
+      "assetKeys": [
+        "leafspecimen.grape.esca",
+        "target.leaf_proxy",
+        "target.petiole",
+        "target.seedling",
+        "target.spot",
+        "target.trunk_cutaway"
+      ]
+    },
+    {
+      "recipeId": "grape-leaf-blight",
+      "recipeVersion": 1,
+      "plantId": "grape",
+      "diseaseId": "leaf_blight",
+      "contentVersion": 2,
+      "source": "backend",
+      "initialSeverity": 0.4,
+      "initialHealth": 0.66,
+      "maxSeverityDrop": 0.45,
+      "maxHealthGain": 0.2,
+      "maxWorsen": 0.12,
+      "controls": [
+        {
+          "controlId": "protect",
+          "order": 10,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 6.0,
+          "recommendedMax": 8.0,
+          "weight": 1.3,
+          "required": true
+        },
+        {
+          "controlId": "monitoring",
+          "order": 20,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 6.0,
+          "recommendedMax": 8.0,
+          "weight": 1.0,
+          "required": true
+        }
+      ],
+      "rules": [],
+      "assetKeys": [
+        "leafmat.healthy.grape",
+        "leafspecimen.grape.leaf_blight",
+        "target.leaf.grape.leaf_blight",
+        "target.petiole",
+        "target.spot"
+      ]
+    },
+    {
+      "recipeId": "peach-bacterial-spot",
+      "recipeVersion": 1,
+      "plantId": "peach",
+      "diseaseId": "bacterial_spot",
+      "contentVersion": 2,
+      "source": "backend",
+      "initialSeverity": 0.3,
+      "initialHealth": 0.74,
+      "maxSeverityDrop": 0.45,
+      "maxHealthGain": 0.16,
+      "maxWorsen": 0.12,
+      "controls": [
+        {
+          "controlId": "stress",
+          "order": 10,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 2.0,
+          "recommendedMin": 7.0,
+          "recommendedMax": 9.0,
+          "weight": 1.2,
+          "required": true
+        },
+        {
+          "controlId": "monitoring",
+          "order": 20,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 6.0,
+          "recommendedMax": 8.0,
+          "weight": 1.0,
+          "required": true
+        },
+        {
+          "controlId": "prevention",
+          "order": 30,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 0.0,
+          "recommendedMin": 6.0,
+          "recommendedMax": 10.0,
+          "weight": 0.6,
+          "required": true
+        }
+      ],
+      "rules": [],
+      "assetKeys": [
+        "leafmat.healthy.peach",
+        "leafspecimen.peach.bacterial_spot",
+        "target.fruit",
+        "target.leaf.peach.bacterial_spot",
+        "target.petiole",
+        "target.spot"
+      ]
+    },
+    {
+      "recipeId": "potato-early-blight",
+      "recipeVersion": 1,
+      "plantId": "potato",
+      "diseaseId": "early_blight",
+      "contentVersion": 2,
+      "source": "backend",
+      "initialSeverity": 0.35,
+      "initialHealth": 0.7,
+      "maxSeverityDrop": 0.45,
+      "maxHealthGain": 0.18,
+      "maxWorsen": 0.12,
+      "controls": [
+        {
+          "controlId": "stress",
+          "order": 10,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 2.0,
+          "recommendedMin": 6.0,
+          "recommendedMax": 8.0,
+          "weight": 1.0,
+          "required": true
+        },
+        {
+          "controlId": "protect",
+          "order": 20,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 5.0,
+          "recommendedMax": 7.0,
+          "weight": 1.0,
+          "required": true
+        },
+        {
+          "controlId": "prevention",
+          "order": 30,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 6.0,
+          "recommendedMax": 10.0,
+          "weight": 0.6,
+          "required": false
+        }
+      ],
+      "rules": [],
+      "assetKeys": [
+        "leafmat.healthy.potato",
+        "leafspecimen.potato.early_blight",
+        "target.leaf.potato.early_blight",
+        "target.petiole",
+        "target.spot"
+      ]
+    },
+    {
+      "recipeId": "potato-late-blight",
+      "recipeVersion": 1,
+      "plantId": "potato",
+      "diseaseId": "late_blight",
+      "contentVersion": 2,
+      "source": "backend",
+      "initialSeverity": 0.6,
+      "initialHealth": 0.49,
+      "maxSeverityDrop": 0.0,
+      "maxHealthGain": 0.0,
+      "maxWorsen": 0.15,
+      "controls": [
+        {
+          "controlId": "containment",
+          "order": 10,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 2.0,
+          "recommendedMin": 9.0,
+          "recommendedMax": 10.0,
+          "weight": 1.5,
+          "required": true
+        },
+        {
+          "controlId": "protect",
+          "order": 20,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 6.0,
+          "recommendedMax": 8.0,
+          "weight": 1.0,
+          "required": true
+        },
+        {
+          "controlId": "replacement",
+          "order": 30,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 7.0,
+          "recommendedMax": 10.0,
+          "weight": 1.0,
+          "required": true
+        }
+      ],
+      "rules": [
+        {
+          "ruleId": "not_contained",
+          "controlA": "containment",
+          "aMin": 0.0,
+          "aMax": 6.0,
+          "controlB": "",
+          "bMin": 0.0,
+          "bMax": 0.0,
+          "penalty": 0.5,
+          "blocks": true
+        }
+      ],
+      "assetKeys": [
+        "leafspecimen.potato.late_blight",
+        "target.leaf_proxy",
+        "target.petiole",
+        "target.seedling",
+        "target.spot",
+        "target.tuber"
+      ]
+    },
+    {
+      "recipeId": "strawberry-leaf-scorch",
+      "recipeVersion": 1,
+      "plantId": "strawberry",
+      "diseaseId": "leaf_scorch",
+      "contentVersion": 2,
+      "source": "backend",
+      "initialSeverity": 0.4,
+      "initialHealth": 0.66,
+      "maxSeverityDrop": 0.45,
+      "maxHealthGain": 0.2,
+      "maxWorsen": 0.12,
+      "controls": [
+        {
+          "controlId": "drip",
+          "order": 10,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 7.0,
+          "recommendedMax": 10.0,
+          "weight": 1.0,
+          "required": true
+        },
+        {
+          "controlId": "sanitation",
+          "order": 20,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 6.0,
+          "recommendedMax": 8.0,
+          "weight": 1.0,
+          "required": true
+        }
+      ],
+      "rules": [],
+      "assetKeys": [
+        "leafmat.healthy.strawberry",
+        "leafspecimen.strawberry.leaf_scorch",
+        "target.leaf.strawberry.leaf_scorch",
+        "target.petiole",
+        "target.spot"
+      ]
+    },
+    {
+      "recipeId": "tomato-bacterial-spot",
+      "recipeVersion": 1,
+      "plantId": "tomato",
+      "diseaseId": "bacterial_spot",
+      "contentVersion": 2,
+      "source": "backend",
+      "initialSeverity": 0.3,
+      "initialHealth": 0.74,
+      "maxSeverityDrop": 0.45,
+      "maxHealthGain": 0.16,
+      "maxWorsen": 0.12,
+      "controls": [
+        {
+          "controlId": "sanitation",
+          "order": 10,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 2.0,
+          "recommendedMin": 6.0,
+          "recommendedMax": 8.0,
+          "weight": 1.0,
+          "required": true
+        },
+        {
+          "controlId": "drip",
+          "order": 20,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 8.0,
+          "recommendedMax": 10.0,
+          "weight": 1.2,
+          "required": true
+        },
+        {
+          "controlId": "protect",
+          "order": 30,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 0.0,
+          "recommendedMin": 3.0,
+          "recommendedMax": 5.0,
+          "weight": 0.5,
+          "required": true
+        }
+      ],
+      "rules": [
+        {
+          "ruleId": "overhead",
+          "controlA": "drip",
+          "aMin": 0.0,
+          "aMax": 2.0,
+          "controlB": "",
+          "bMin": 0.0,
+          "bMax": 0.0,
+          "penalty": 0.25,
+          "blocks": false
+        }
+      ],
+      "assetKeys": [
+        "leafmat.healthy.tomato",
+        "leafspecimen.tomato.bacterial_spot",
+        "target.leaf.tomato.bacterial_spot",
+        "target.petiole",
+        "target.spot"
+      ]
+    },
+    {
+      "recipeId": "tomato-early-blight",
+      "recipeVersion": 1,
+      "plantId": "tomato",
+      "diseaseId": "early_blight",
+      "contentVersion": 2,
+      "source": "backend",
+      "initialSeverity": 0.35,
+      "initialHealth": 0.7,
+      "maxSeverityDrop": 0.45,
+      "maxHealthGain": 0.18,
+      "maxWorsen": 0.12,
+      "controls": [
+        {
+          "controlId": "sanitation",
+          "order": 10,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 2.0,
+          "recommendedMin": 6.0,
+          "recommendedMax": 8.0,
+          "weight": 1.0,
+          "required": true
+        },
+        {
+          "controlId": "drip",
+          "order": 20,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 7.0,
+          "recommendedMax": 10.0,
+          "weight": 1.0,
+          "required": true
+        },
+        {
+          "controlId": "protect",
+          "order": 30,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 5.0,
+          "recommendedMax": 7.0,
+          "weight": 0.8,
+          "required": true
+        },
+        {
+          "controlId": "prevention",
+          "order": 40,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 0.0,
+          "recommendedMin": 5.0,
+          "recommendedMax": 10.0,
+          "weight": 0.4,
+          "required": false
+        }
+      ],
+      "rules": [
+        {
+          "ruleId": "wet_spray",
+          "controlA": "drip",
+          "aMin": 0.0,
+          "aMax": 3.0,
+          "controlB": "protect",
+          "bMin": 5.0,
+          "bMax": 10.0,
+          "penalty": 0.25,
+          "blocks": false
+        }
+      ],
+      "assetKeys": [
+        "leafmat.healthy.tomato",
+        "leafspecimen.tomato.early_blight",
+        "target.leaf.tomato.early_blight",
+        "target.petiole",
+        "target.spot"
+      ]
+    },
+    {
+      "recipeId": "tomato-late-blight",
+      "recipeVersion": 1,
+      "plantId": "tomato",
+      "diseaseId": "late_blight",
+      "contentVersion": 2,
+      "source": "backend",
+      "initialSeverity": 0.6,
+      "initialHealth": 0.49,
+      "maxSeverityDrop": 0.0,
+      "maxHealthGain": 0.0,
+      "maxWorsen": 0.15,
+      "controls": [
+        {
+          "controlId": "containment",
+          "order": 10,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 2.0,
+          "recommendedMin": 9.0,
+          "recommendedMax": 10.0,
+          "weight": 1.5,
+          "required": true
+        },
+        {
+          "controlId": "protect",
+          "order": 20,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 6.0,
+          "recommendedMax": 8.0,
+          "weight": 1.0,
+          "required": true
+        },
+        {
+          "controlId": "replacement",
+          "order": 30,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 7.0,
+          "recommendedMax": 10.0,
+          "weight": 1.0,
+          "required": true
+        }
+      ],
+      "rules": [
+        {
+          "ruleId": "not_contained",
+          "controlA": "containment",
+          "aMin": 0.0,
+          "aMax": 6.0,
+          "controlB": "",
+          "bMin": 0.0,
+          "bMax": 0.0,
+          "penalty": 0.5,
+          "blocks": true
+        }
+      ],
+      "assetKeys": [
+        "leafspecimen.tomato.late_blight",
+        "target.leaf_proxy",
+        "target.petiole",
+        "target.seedling",
+        "target.spot"
+      ]
+    },
+    {
+      "recipeId": "tomato-leaf-mold",
+      "recipeVersion": 1,
+      "plantId": "tomato",
+      "diseaseId": "leaf_mold",
+      "contentVersion": 2,
+      "source": "backend",
+      "initialSeverity": 0.35,
+      "initialHealth": 0.7,
+      "maxSeverityDrop": 0.45,
+      "maxHealthGain": 0.18,
+      "maxWorsen": 0.12,
+      "controls": [
+        {
+          "controlId": "airflow",
+          "order": 10,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 7.0,
+          "recommendedMax": 9.0,
+          "weight": 1.3,
+          "required": true
+        },
+        {
+          "controlId": "sanitation",
+          "order": 20,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 5.0,
+          "recommendedMax": 7.0,
+          "weight": 1.0,
+          "required": true
+        },
+        {
+          "controlId": "protect",
+          "order": 30,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 0.0,
+          "recommendedMin": 3.0,
+          "recommendedMax": 5.0,
+          "weight": 0.5,
+          "required": true
+        }
+      ],
+      "rules": [
+        {
+          "ruleId": "closed_vents",
+          "controlA": "airflow",
+          "aMin": 0.0,
+          "aMax": 3.0,
+          "controlB": "protect",
+          "bMin": 4.0,
+          "bMax": 10.0,
+          "penalty": 0.3,
+          "blocks": false
+        }
+      ],
+      "assetKeys": [
+        "leafmat.healthy.tomato",
+        "leafspecimen.tomato.leaf_mold",
+        "target.leaf.tomato.leaf_mold",
+        "target.petiole",
+        "target.spot"
+      ]
+    },
+    {
+      "recipeId": "tomato-septoria-leaf-spot",
+      "recipeVersion": 1,
+      "plantId": "tomato",
+      "diseaseId": "septoria_leaf_spot",
+      "contentVersion": 2,
+      "source": "backend",
+      "initialSeverity": 0.4,
+      "initialHealth": 0.66,
+      "maxSeverityDrop": 0.45,
+      "maxHealthGain": 0.2,
+      "maxWorsen": 0.12,
+      "controls": [
+        {
+          "controlId": "sanitation",
+          "order": 10,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 2.0,
+          "recommendedMin": 6.0,
+          "recommendedMax": 8.0,
+          "weight": 1.0,
+          "required": true
+        },
+        {
+          "controlId": "drip",
+          "order": 20,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 7.0,
+          "recommendedMax": 10.0,
+          "weight": 1.0,
+          "required": true
+        },
+        {
+          "controlId": "protect",
+          "order": 30,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 4.0,
+          "recommendedMax": 6.0,
+          "weight": 0.7,
+          "required": true
+        }
+      ],
+      "rules": [
+        {
+          "ruleId": "wet_spray",
+          "controlA": "drip",
+          "aMin": 0.0,
+          "aMax": 3.0,
+          "controlB": "protect",
+          "bMin": 5.0,
+          "bMax": 10.0,
+          "penalty": 0.25,
+          "blocks": false
+        }
+      ],
+      "assetKeys": [
+        "leafmat.healthy.tomato",
+        "leafspecimen.tomato.septoria_leaf_spot",
+        "target.leaf.tomato.septoria_leaf_spot",
+        "target.petiole",
+        "target.spot"
+      ]
+    },
+    {
+      "recipeId": "tomato-spider-mites",
+      "recipeVersion": 1,
+      "plantId": "tomato",
+      "diseaseId": "spider_mites",
+      "contentVersion": 2,
+      "source": "backend",
+      "initialSeverity": 0.3,
+      "initialHealth": 0.74,
+      "maxSeverityDrop": 0.3,
+      "maxHealthGain": 0.15,
+      "maxWorsen": 0.12,
+      "controls": [
+        {
+          "controlId": "stress",
+          "order": 10,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 2.0,
+          "recommendedMin": 6.0,
+          "recommendedMax": 8.0,
+          "weight": 1.0,
+          "required": true
+        },
+        {
+          "controlId": "biocontrol",
+          "order": 20,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 6.0,
+          "recommendedMax": 8.0,
+          "weight": 1.0,
+          "required": true
+        },
+        {
+          "controlId": "contact",
+          "order": 30,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 0.0,
+          "recommendedMin": 3.0,
+          "recommendedMax": 5.0,
+          "weight": 0.7,
+          "required": true
+        }
+      ],
+      "rules": [
+        {
+          "ruleId": "kills_predators",
+          "controlA": "biocontrol",
+          "aMin": 6.0,
+          "aMax": 10.0,
+          "controlB": "contact",
+          "bMin": 7.0,
+          "bMax": 10.0,
+          "penalty": 0.3,
+          "blocks": false
+        }
+      ],
+      "assetKeys": [
+        "leafmat.healthy.tomato",
+        "leafspecimen.tomato.spider_mites",
+        "target.leaf.tomato.spider_mites",
+        "target.mites",
+        "target.petiole",
+        "target.spot"
+      ]
+    },
+    {
+      "recipeId": "tomato-target-spot",
+      "recipeVersion": 1,
+      "plantId": "tomato",
+      "diseaseId": "target_spot",
+      "contentVersion": 2,
+      "source": "backend",
+      "initialSeverity": 0.4,
+      "initialHealth": 0.66,
+      "maxSeverityDrop": 0.45,
+      "maxHealthGain": 0.2,
+      "maxWorsen": 0.12,
+      "controls": [
+        {
+          "controlId": "sanitation",
+          "order": 10,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 2.0,
+          "recommendedMin": 6.0,
+          "recommendedMax": 8.0,
+          "weight": 1.0,
+          "required": true
+        },
+        {
+          "controlId": "airflow",
+          "order": 20,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 7.0,
+          "recommendedMax": 9.0,
+          "weight": 1.0,
+          "required": true
+        },
+        {
+          "controlId": "protect",
+          "order": 30,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 6.0,
+          "recommendedMax": 8.0,
+          "weight": 1.0,
+          "required": true
+        }
+      ],
+      "rules": [
+        {
+          "ruleId": "wet_canopy",
+          "controlA": "airflow",
+          "aMin": 0.0,
+          "aMax": 3.0,
+          "controlB": "protect",
+          "bMin": 6.0,
+          "bMax": 10.0,
+          "penalty": 0.2,
+          "blocks": false
+        }
+      ],
+      "assetKeys": [
+        "leafmat.healthy.tomato",
+        "leafspecimen.tomato.target_spot",
+        "target.leaf.tomato.target_spot",
+        "target.petiole",
+        "target.spot"
+      ]
+    },
+    {
+      "recipeId": "tomato-yellow-leaf-curl-virus",
+      "recipeVersion": 1,
+      "plantId": "tomato",
+      "diseaseId": "yellow_leaf_curl_virus",
+      "contentVersion": 2,
+      "source": "backend",
+      "initialSeverity": 0.55,
+      "initialHealth": 0.53,
+      "maxSeverityDrop": 0.0,
+      "maxHealthGain": 0.0,
+      "maxWorsen": 0.15,
+      "controls": [
+        {
+          "controlId": "containment",
+          "order": 10,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 2.0,
+          "recommendedMin": 9.0,
+          "recommendedMax": 10.0,
+          "weight": 1.5,
+          "required": true
+        },
+        {
+          "controlId": "vector",
+          "order": 20,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 7.0,
+          "recommendedMax": 10.0,
+          "weight": 1.2,
+          "required": true
+        },
+        {
+          "controlId": "replacement",
+          "order": 30,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 7.0,
+          "recommendedMax": 10.0,
+          "weight": 1.0,
+          "required": true
+        }
+      ],
+      "rules": [
+        {
+          "ruleId": "not_contained",
+          "controlA": "containment",
+          "aMin": 0.0,
+          "aMax": 6.0,
+          "controlB": "",
+          "bMin": 0.0,
+          "bMax": 0.0,
+          "penalty": 0.5,
+          "blocks": true
+        },
+        {
+          "ruleId": "open_vectors",
+          "controlA": "vector",
+          "aMin": 0.0,
+          "aMax": 3.0,
+          "controlB": "",
+          "bMin": 0.0,
+          "bMax": 0.0,
+          "penalty": 0.3,
+          "blocks": false
+        }
+      ],
+      "assetKeys": [
+        "leafspecimen.tomato.yellow_leaf_curl_virus",
+        "target.leaf_proxy",
+        "target.petiole",
+        "target.seedling",
+        "target.spot",
+        "target.whiteflies"
+      ]
+    },
+    {
+      "recipeId": "tomato-mosaic-virus",
+      "recipeVersion": 1,
+      "plantId": "tomato",
+      "diseaseId": "mosaic_virus",
+      "contentVersion": 2,
+      "source": "backend",
+      "initialSeverity": 0.5,
+      "initialHealth": 0.57,
+      "maxSeverityDrop": 0.0,
+      "maxHealthGain": 0.0,
+      "maxWorsen": 0.15,
+      "controls": [
+        {
+          "controlId": "containment",
+          "order": 10,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 2.0,
+          "recommendedMin": 9.0,
+          "recommendedMax": 10.0,
+          "weight": 1.5,
+          "required": true
+        },
+        {
+          "controlId": "sanitation",
+          "order": 20,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 2.0,
+          "recommendedMin": 8.0,
+          "recommendedMax": 10.0,
+          "weight": 1.2,
+          "required": true
+        },
+        {
+          "controlId": "replacement",
+          "order": 30,
+          "min": 0.0,
+          "max": 10.0,
+          "step": 1.0,
+          "start": 1.0,
+          "recommendedMin": 7.0,
+          "recommendedMax": 10.0,
+          "weight": 1.0,
+          "required": true
+        }
+      ],
+      "rules": [
+        {
+          "ruleId": "not_contained",
+          "controlA": "containment",
+          "aMin": 0.0,
+          "aMax": 6.0,
+          "controlB": "",
+          "bMin": 0.0,
+          "bMax": 0.0,
+          "penalty": 0.5,
+          "blocks": true
+        },
+        {
+          "ruleId": "dirty_replant",
+          "controlA": "sanitation",
+          "aMin": 0.0,
+          "aMax": 4.0,
+          "controlB": "replacement",
+          "bMin": 7.0,
+          "bMax": 10.0,
+          "penalty": 0.35,
+          "blocks": false
+        }
+      ],
+      "assetKeys": [
+        "leafspecimen.tomato.mosaic_virus",
+        "target.leaf_proxy",
+        "target.petiole",
+        "target.seedling",
+        "target.spot",
+        "target.ties"
+      ]
+    }
+  ]
+}

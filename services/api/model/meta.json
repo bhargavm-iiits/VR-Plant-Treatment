@@ -1,0 +1,44 @@
+{
+  "model_name": "bioclip_vit_b16",
+  "input_size": 224,
+  "resize_ratio": 1.0,
+  "normalization": {
+    "mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "std": [
+      0.229,
+      0.224,
+      0.225
+    ]
+  },
+  "layout": "NCHW",
+  "colour_space": "RGB",
+  "trained_at": "2026-10-12T04:42:53+00:00",
+  "git_sha": "v6",
+  "num_classes": 69,
+  "metrics": {
+    "lab_acc": 0.9935379644588045,
+    "field_acc": 0.7711864406779662,
+    "macro_f1_field": 0.7695421584620071,
+    "ece": 0.0017422935978083811,
+    "domain_gap": 0.22235152378083833,
+    "background_probe_ratio": null
+  },
+  "confidence_threshold": 0.7,
+  "entropy_threshold": 0.283,
+  "gradcam_layer": "baked_into_graph:patch_token_logits",
+  "cam_shape": [
+    69,
+    14,
+    14
+  ],
+  "outputs": [
+    "logits",
+    "cam"
+  ],
+  "precision": "int8_dynamic_matmul",
+  "display_name": "CropScan field model v6 (fine-tuned from BioCLIP ViT-B/16)"
+}
