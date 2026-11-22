@@ -1,0 +1,4 @@
+* text=auto
+
+# Web models in the deployment are regular Git blobs.
+*.glb -filter -diff -merge -text

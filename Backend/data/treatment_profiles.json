@@ -1,0 +1,1494 @@
+{
+  "version": 1,
+  "crops": {
+    "apple": {
+      "day": [
+        18,
+        23
+      ],
+      "night": [
+        12,
+        16
+      ],
+      "rootZone": [
+        48,
+        62
+      ],
+      "irrigationLabel": "Adjust at root zone (drip or drainage)"
+    },
+    "bell_pepper": {
+      "day": [
+        23,
+        28
+      ],
+      "night": [
+        17,
+        21
+      ],
+      "rootZone": [
+        53,
+        67
+      ],
+      "irrigationLabel": "Adjust at root zone (drip or drainage)"
+    },
+    "blueberry": {
+      "day": [
+        19,
+        24
+      ],
+      "night": [
+        13,
+        17
+      ],
+      "rootZone": [
+        55,
+        69
+      ],
+      "irrigationLabel": "Adjust at root zone (drip or drainage)"
+    },
+    "cherry": {
+      "day": [
+        18,
+        24
+      ],
+      "night": [
+        12,
+        16
+      ],
+      "rootZone": [
+        48,
+        62
+      ],
+      "irrigationLabel": "Adjust at root zone (drip or drainage)"
+    },
+    "chilli": {
+      "day": [
+        23,
+        29
+      ],
+      "night": [
+        17,
+        22
+      ],
+      "rootZone": [
+        50,
+        64
+      ],
+      "irrigationLabel": "Adjust at root zone (drip or drainage)"
+    },
+    "corn": {
+      "day": [
+        22,
+        28
+      ],
+      "night": [
+        15,
+        20
+      ],
+      "rootZone": [
+        52,
+        66
+      ],
+      "irrigationLabel": "Adjust at root zone (drip or drainage)"
+    },
+    "cotton": {
+      "day": [
+        24,
+        29
+      ],
+      "night": [
+        17,
+        22
+      ],
+      "rootZone": [
+        47,
+        61
+      ],
+      "irrigationLabel": "Adjust at root zone (drip or drainage)"
+    },
+    "grape": {
+      "day": [
+        20,
+        26
+      ],
+      "night": [
+        13,
+        18
+      ],
+      "rootZone": [
+        46,
+        61
+      ],
+      "irrigationLabel": "Adjust at root zone (drip or drainage)"
+    },
+    "mango": {
+      "day": [
+        24,
+        30
+      ],
+      "night": [
+        18,
+        23
+      ],
+      "rootZone": [
+        49,
+        64
+      ],
+      "irrigationLabel": "Adjust at root zone (drip or drainage)"
+    },
+    "orange": {
+      "day": [
+        22,
+        28
+      ],
+      "night": [
+        16,
+        21
+      ],
+      "rootZone": [
+        51,
+        65
+      ],
+      "irrigationLabel": "Adjust at root zone (drip or drainage)"
+    },
+    "peach": {
+      "day": [
+        20,
+        26
+      ],
+      "night": [
+        13,
+        18
+      ],
+      "rootZone": [
+        49,
+        63
+      ],
+      "irrigationLabel": "Adjust at root zone (drip or drainage)"
+    },
+    "potato": {
+      "day": [
+        17,
+        23
+      ],
+      "night": [
+        11,
+        16
+      ],
+      "rootZone": [
+        54,
+        68
+      ],
+      "irrigationLabel": "Adjust at root zone (drip or drainage)"
+    },
+    "rice": {
+      "day": [
+        24,
+        29
+      ],
+      "night": [
+        19,
+        23
+      ],
+      "rootZone": [
+        64,
+        80
+      ],
+      "irrigationLabel": "Adjust paddy water at root zone"
+    },
+    "soybean": {
+      "day": [
+        21,
+        27
+      ],
+      "night": [
+        15,
+        20
+      ],
+      "rootZone": [
+        51,
+        66
+      ],
+      "irrigationLabel": "Adjust at root zone (drip or drainage)"
+    },
+    "squash": {
+      "day": [
+        21,
+        27
+      ],
+      "night": [
+        15,
+        20
+      ],
+      "rootZone": [
+        52,
+        67
+      ],
+      "irrigationLabel": "Adjust at root zone (drip or drainage)"
+    },
+    "strawberry": {
+      "day": [
+        17,
+        23
+      ],
+      "night": [
+        11,
+        16
+      ],
+      "rootZone": [
+        53,
+        66
+      ],
+      "irrigationLabel": "Adjust at root zone (drip or drainage)"
+    },
+    "sugarcane": {
+      "day": [
+        24,
+        30
+      ],
+      "night": [
+        18,
+        23
+      ],
+      "rootZone": [
+        56,
+        70
+      ],
+      "irrigationLabel": "Adjust at root zone (drip or drainage)"
+    },
+    "tomato": {
+      "day": [
+        22,
+        27
+      ],
+      "night": [
+        16,
+        20
+      ],
+      "rootZone": [
+        53,
+        67
+      ],
+      "irrigationLabel": "Adjust at root zone (drip or drainage)"
+    },
+    "wheat": {
+      "day": [
+        17,
+        23
+      ],
+      "night": [
+        11,
+        16
+      ],
+      "rootZone": [
+        46,
+        61
+      ],
+      "irrigationLabel": "Adjust at root zone (drip or drainage)"
+    }
+  },
+  "cases": [
+    {
+      "plantId": "apple",
+      "diseaseId": "apple_scab",
+      "scanDiseaseId": "Apple___Apple_scab",
+      "plant": "Apple",
+      "disease": "Apple scab",
+      "description": "A scabbed leaf from a susceptible apple tree in a wet spring.",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 15,
+        "night": 10
+      },
+      "startingRootZone": 76,
+      "startingLeafWetness": 75,
+      "spray": {
+        "target": "Marked foliage in the training canopy",
+        "dose": [
+          3,
+          5
+        ],
+        "coverageMin": 75
+      }
+    },
+    {
+      "plantId": "apple",
+      "diseaseId": "black_rot",
+      "scanDiseaseId": "Apple___Black_rot",
+      "plant": "Apple",
+      "disease": "Black rot",
+      "description": "An apple leaf with frogeye spots, and mummified fruit collected from the same tree.",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 20,
+        "night": 14
+      },
+      "startingRootZone": 55,
+      "startingLeafWetness": 35,
+      "spray": null
+    },
+    {
+      "plantId": "apple",
+      "diseaseId": "cedar_apple_rust",
+      "scanDiseaseId": "Apple___Cedar_apple_rust",
+      "plant": "Apple",
+      "disease": "Cedar apple rust",
+      "description": "An apple leaf with rust spots; a juniper with galls stands near the orchard (shown in the room).",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 15,
+        "night": 10
+      },
+      "startingRootZone": 76,
+      "startingLeafWetness": 60,
+      "spray": {
+        "target": "Marked foliage in the training canopy",
+        "dose": [
+          3,
+          5
+        ],
+        "coverageMin": 75
+      }
+    },
+    {
+      "plantId": "bell_pepper",
+      "diseaseId": "bacterial_spot",
+      "scanDiseaseId": "Pepper,_bell___Bacterial_spot",
+      "plant": "Bell Pepper",
+      "disease": "Bacterial spot",
+      "description": "A pepper leaf with bacterial spot, and a spotted transplant in the new tray.",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 25,
+        "night": 19
+      },
+      "startingRootZone": 81,
+      "startingLeafWetness": 68,
+      "spray": null
+    },
+    {
+      "plantId": "blueberry",
+      "diseaseId": "rust",
+      "scanDiseaseId": null,
+      "plant": "Blueberry",
+      "disease": "Leaf rust",
+      "description": "A highbush blueberry leaf with leaf rust in late summer after a run of long, wet nights.",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 16,
+        "night": 11
+      },
+      "startingRootZone": 83,
+      "startingLeafWetness": 75,
+      "spray": {
+        "target": "Marked foliage in the training canopy",
+        "dose": [
+          3,
+          5
+        ],
+        "coverageMin": 75
+      }
+    },
+    {
+      "plantId": "cherry",
+      "diseaseId": "powdery_mildew",
+      "scanDiseaseId": "Cherry_(including_sour)___Powdery_mildew",
+      "plant": "Cherry",
+      "disease": "Powdery mildew",
+      "description": "A cherry leaf with active powdery mildew from a shaded inner shoot.",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 21,
+        "night": 14
+      },
+      "startingRootZone": 55,
+      "startingLeafWetness": 45,
+      "spray": {
+        "target": "Marked foliage in the training canopy",
+        "dose": [
+          3,
+          5
+        ],
+        "coverageMin": 75
+      }
+    },
+    {
+      "plantId": "chilli",
+      "diseaseId": "anthracnose",
+      "scanDiseaseId": "Chilli___Anthracnose",
+      "plant": "Chilli",
+      "disease": "Anthracnose",
+      "description": "A chilli leaf with anthracnose spots from a humid planting where fruit rot has also been seen.",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 32,
+        "night": 23
+      },
+      "startingRootZone": 78,
+      "startingLeafWetness": 72,
+      "spray": {
+        "target": "Marked foliage in the training canopy",
+        "dose": [
+          3,
+          5
+        ],
+        "coverageMin": 75
+      }
+    },
+    {
+      "plantId": "chilli",
+      "diseaseId": "cercospora_leaf_spot",
+      "scanDiseaseId": "Chilli___Cercospora_leaf_spot",
+      "plant": "Chilli",
+      "disease": "Cercospora leaf spot",
+      "description": "A chilli leaf with frogeye spots from a crowded, wet planting.",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 32,
+        "night": 23
+      },
+      "startingRootZone": 78,
+      "startingLeafWetness": 78,
+      "spray": {
+        "target": "Marked foliage in the training canopy",
+        "dose": [
+          3,
+          5
+        ],
+        "coverageMin": 75
+      }
+    },
+    {
+      "plantId": "chilli",
+      "diseaseId": "leaf_curl",
+      "scanDiseaseId": "Chilli___Leaf_curl",
+      "plant": "Chilli",
+      "disease": "Leaf curl virus",
+      "description": "A puckered, curled chilli leaf from a plant with whiteflies, in a hot, dry season.",
+      "outcome": "Contained",
+      "outcomeFeedback": "The healthy replacement has suitable conditions. The infected specimen remains contained.",
+      "startingTemperature": {
+        "day": 32,
+        "night": 23
+      },
+      "startingRootZone": 38,
+      "startingLeafWetness": 10,
+      "spray": null
+    },
+    {
+      "plantId": "corn",
+      "diseaseId": "common_rust",
+      "scanDiseaseId": "Corn_(maize)___Common_rust_",
+      "plant": "Corn",
+      "disease": "Common rust",
+      "description": "A leaf with mild common rust from a resistant hybrid past the vulnerable stage. Monitor the lesions and hold suitable conditions; the lesson calls for no spray.",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 25,
+        "night": 17
+      },
+      "startingRootZone": 59,
+      "startingLeafWetness": 24,
+      "spray": null
+    },
+    {
+      "plantId": "corn",
+      "diseaseId": "gray_leaf_spot",
+      "scanDiseaseId": "Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot",
+      "plant": "Corn",
+      "disease": "Gray leaf spot",
+      "description": "A leaf from a susceptible hybrid near tasseling; lesions are approaching the ear leaf and humid weather is forecast.",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 31,
+        "night": 21
+      },
+      "startingRootZone": 80,
+      "startingLeafWetness": 72,
+      "spray": {
+        "target": "Marked upper-canopy foliage",
+        "dose": [
+          4,
+          6
+        ],
+        "coverageMin": 80
+      }
+    },
+    {
+      "plantId": "corn",
+      "diseaseId": "northern_leaf_blight",
+      "scanDiseaseId": "Corn_(maize)___Northern_Leaf_Blight",
+      "plant": "Corn",
+      "disease": "Northern leaf blight",
+      "description": "A leaf with early northern leaf blight from a susceptible hybrid.",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 20,
+        "night": 13
+      },
+      "startingRootZone": 80,
+      "startingLeafWetness": 64,
+      "spray": {
+        "target": "Marked upper-canopy foliage",
+        "dose": [
+          4,
+          6
+        ],
+        "coverageMin": 80
+      }
+    },
+    {
+      "plantId": "cotton",
+      "diseaseId": "bacterial_blight",
+      "scanDiseaseId": "Cotton___Bacterial_blight",
+      "plant": "Cotton",
+      "disease": "Bacterial blight",
+      "description": "A cotton leaf with angular lesions after storms; the field was planted with saved seed.",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 26,
+        "night": 19
+      },
+      "startingRootZone": 75,
+      "startingLeafWetness": 79,
+      "spray": null
+    },
+    {
+      "plantId": "cotton",
+      "diseaseId": "fusarium_wilt",
+      "scanDiseaseId": "Cotton___Fusarium_wilt",
+      "plant": "Cotton",
+      "disease": "Fusarium wilt",
+      "description": "A leaf from a wilting cotton plant; a cut stem shows brown streaks in the water-conducting tissue.",
+      "outcome": "Contained",
+      "outcomeFeedback": "The healthy replacement has suitable conditions. The infected specimen remains contained.",
+      "startingTemperature": {
+        "day": 32,
+        "night": 23
+      },
+      "startingRootZone": 75,
+      "startingLeafWetness": 40,
+      "spray": null
+    },
+    {
+      "plantId": "cotton",
+      "diseaseId": "leaf_curl_virus",
+      "scanDiseaseId": "Cotton___Leaf_curl_virus",
+      "plant": "Cotton",
+      "disease": "Leaf curl virus",
+      "description": "A cupped, thick-veined cotton leaf from a plant with whiteflies.",
+      "outcome": "Contained",
+      "outcomeFeedback": "The healthy replacement has suitable conditions. The infected specimen remains contained.",
+      "startingTemperature": {
+        "day": 32,
+        "night": 23
+      },
+      "startingRootZone": 35,
+      "startingLeafWetness": 12,
+      "spray": null
+    },
+    {
+      "plantId": "grape",
+      "diseaseId": "black_rot",
+      "scanDiseaseId": "Grape___Black_rot",
+      "plant": "Grape",
+      "disease": "Black rot",
+      "description": "A grape leaf with black-rot spots, and berry mummies collected from the vine.",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 23,
+        "night": 15
+      },
+      "startingRootZone": 75,
+      "startingLeafWetness": 65,
+      "spray": {
+        "target": "Marked foliage in the training canopy",
+        "dose": [
+          3,
+          5
+        ],
+        "coverageMin": 75
+      }
+    },
+    {
+      "plantId": "grape",
+      "diseaseId": "esca",
+      "scanDiseaseId": "Grape___Esca_(Black_Measles)",
+      "plant": "Grape",
+      "disease": "Esca (black measles)",
+      "description": "A tiger-striped leaf from a severely affected vine; its trunk cutaway shows extensive decay.",
+      "outcome": "Contained",
+      "outcomeFeedback": "The healthy replacement has suitable conditions. The infected specimen remains contained.",
+      "startingTemperature": {
+        "day": 29,
+        "night": 19
+      },
+      "startingRootZone": 34,
+      "startingLeafWetness": 20,
+      "spray": null
+    },
+    {
+      "plantId": "grape",
+      "diseaseId": "leaf_blight",
+      "scanDiseaseId": "Grape___Leaf_blight_(Isariopsis_Leaf_Spot)",
+      "plant": "Grape",
+      "disease": "Leaf blight (Isariopsis leaf spot)",
+      "description": "A leaf from a susceptible grape cultivar in a warm, humid region, about to drop early.",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 29,
+        "night": 19
+      },
+      "startingRootZone": 75,
+      "startingLeafWetness": 76,
+      "spray": {
+        "target": "Marked foliage in the training canopy",
+        "dose": [
+          3,
+          5
+        ],
+        "coverageMin": 75
+      }
+    },
+    {
+      "plantId": "mango",
+      "diseaseId": "anthracnose",
+      "scanDiseaseId": "Mango___Anthracnose",
+      "plant": "Mango",
+      "disease": "Anthracnose",
+      "description": "A mango leaf from a new flush with anthracnose spots during wet weather before flowering.",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 33,
+        "night": 24
+      },
+      "startingRootZone": 78,
+      "startingLeafWetness": 74,
+      "spray": {
+        "target": "Marked upper-canopy foliage",
+        "dose": [
+          4,
+          6
+        ],
+        "coverageMin": 80
+      }
+    },
+    {
+      "plantId": "mango",
+      "diseaseId": "bacterial_canker",
+      "scanDiseaseId": "Mango___Bacterial_canker",
+      "plant": "Mango",
+      "disease": "Bacterial canker (black spot)",
+      "description": "A mango leaf with raised black spots from a windy, exposed block.",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 27,
+        "night": 20
+      },
+      "startingRootZone": 78,
+      "startingLeafWetness": 62,
+      "spray": null
+    },
+    {
+      "plantId": "mango",
+      "diseaseId": "die_back",
+      "scanDiseaseId": "Mango___Die_back",
+      "plant": "Mango",
+      "disease": "Die back",
+      "description": "A browning mango leaf from a twig that is dying back from the tip on a water-stressed tree.",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 33,
+        "night": 24
+      },
+      "startingRootZone": 37,
+      "startingLeafWetness": 21,
+      "spray": null
+    },
+    {
+      "plantId": "mango",
+      "diseaseId": "gall_midge",
+      "scanDiseaseId": "Mango___Gall_midge",
+      "plant": "Mango",
+      "disease": "Leaf gall midge",
+      "description": "A mango leaf covered in small raised galls from a new flush.",
+      "outcome": "PestSuppressed",
+      "outcomeFeedback": "Training spray reached the marked pest target and the plant care settings are in range. Existing damage stays visible.",
+      "startingTemperature": {
+        "day": 27,
+        "night": 20
+      },
+      "startingRootZone": 56,
+      "startingLeafWetness": 31,
+      "spray": {
+        "target": "Marked new leaf flush",
+        "dose": [
+          2,
+          4
+        ],
+        "coverageMin": 85
+      }
+    },
+    {
+      "plantId": "orange",
+      "diseaseId": "huanglongbing",
+      "scanDiseaseId": "Orange___Haunglongbing_(Citrus_greening)",
+      "plant": "Orange",
+      "disease": "Huanglongbing (citrus greening)",
+      "description": "A sweet orange leaf with blotchy mottle from a tree where Asian citrus psyllids were found on new flush.",
+      "outcome": "Contained",
+      "outcomeFeedback": "The healthy replacement has suitable conditions. The infected specimen remains contained.",
+      "startingTemperature": {
+        "day": 31,
+        "night": 22
+      },
+      "startingRootZone": 58,
+      "startingLeafWetness": 33,
+      "spray": null
+    },
+    {
+      "plantId": "peach",
+      "diseaseId": "bacterial_spot",
+      "scanDiseaseId": "Peach___Bacterial_spot",
+      "plant": "Peach",
+      "disease": "Bacterial spot",
+      "description": "A shot-hole peach leaf from a drought-stressed tree in midsummer, with a pitted fruit.",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 29,
+        "night": 19
+      },
+      "startingRootZone": 37,
+      "startingLeafWetness": 29,
+      "spray": null
+    },
+    {
+      "plantId": "potato",
+      "diseaseId": "early_blight",
+      "scanDiseaseId": "Potato___Early_blight",
+      "plant": "Potato",
+      "disease": "Early blight",
+      "description": "An older potato leaf with early blight from a water-stressed crop.",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 26,
+        "night": 17
+      },
+      "startingRootZone": 42,
+      "startingLeafWetness": 20,
+      "spray": {
+        "target": "Marked foliage in the training canopy",
+        "dose": [
+          3,
+          5
+        ],
+        "coverageMin": 75
+      }
+    },
+    {
+      "plantId": "potato",
+      "diseaseId": "late_blight",
+      "scanDiseaseId": "Potato___Late_blight",
+      "plant": "Potato",
+      "disease": "Late blight",
+      "description": "A potato leaf and tuber from a late-blight outbreak; healthy potatoes are nearby.",
+      "outcome": "Contained",
+      "outcomeFeedback": "The healthy replacement has suitable conditions. The infected specimen remains contained.",
+      "startingTemperature": {
+        "day": 15,
+        "night": 9
+      },
+      "startingRootZone": 82,
+      "startingLeafWetness": 85,
+      "spray": null
+    },
+    {
+      "plantId": "rice",
+      "diseaseId": "bacterial_leaf_blight",
+      "scanDiseaseId": "Rice___Bacterial_leaf_blight",
+      "plant": "Rice",
+      "disease": "Bacterial leaf blight",
+      "description": "A rice leaf with yellow streaks from a heavily fertilised paddy flooded after a storm.",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 26,
+        "night": 21
+      },
+      "startingRootZone": 94,
+      "startingLeafWetness": 82,
+      "spray": null,
+      "rootZoneTarget": [
+        63,
+        74
+      ]
+    },
+    {
+      "plantId": "rice",
+      "diseaseId": "brown_spot",
+      "scanDiseaseId": "Rice___Brown_spot",
+      "plant": "Rice",
+      "disease": "Brown spot",
+      "description": "A rice leaf with many oval brown spots from a nutrient-poor field. A simulated soil test confirms low potassium. Lesions are sparse and the case calls for monitoring.",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 26,
+        "night": 21
+      },
+      "startingRootZone": 52,
+      "startingLeafWetness": 42,
+      "spray": null,
+      "deficiency": {
+        "nutrient": "Potassium",
+        "evidence": "The scenario soil test shows low potassium. The test result identifies the deficiency.",
+        "dose": [
+          3,
+          4
+        ],
+        "applications": 2
+      },
+      "scenarios": {
+        "severe": {
+          "description": "Widespread brown spot in the same rice plot. The simulated soil test still shows low potassium. The severe lesson authorizes a training spray on marked foliage.",
+          "spray": {
+            "target": "Marked affected rice canopy",
+            "dose": [
+              4,
+              6
+            ],
+            "coverageMin": 85
+          }
+        }
+      }
+    },
+    {
+      "plantId": "rice",
+      "diseaseId": "leaf_blast",
+      "scanDiseaseId": "Rice___Leaf_blast",
+      "plant": "Rice",
+      "disease": "Leaf blast",
+      "description": "A rice leaf with blast lesions from a susceptible variety given heavy nitrogen in humid weather.",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 32,
+        "night": 25
+      },
+      "startingRootZone": 72,
+      "startingLeafWetness": 80,
+      "spray": {
+        "target": "Marked upper-canopy foliage",
+        "dose": [
+          4,
+          6
+        ],
+        "coverageMin": 80
+      }
+    },
+    {
+      "plantId": "rice",
+      "diseaseId": "sheath_blight",
+      "scanDiseaseId": "Rice___Sheath_blight",
+      "plant": "Rice",
+      "disease": "Sheath blight",
+      "description": "A rice leaf with banded lesions from a dense, heavily fertilised canopy at maximum tillering.",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 32,
+        "night": 25
+      },
+      "startingRootZone": 94,
+      "startingLeafWetness": 77,
+      "spray": {
+        "target": "Marked lower-canopy foliage",
+        "dose": [
+          3,
+          5
+        ],
+        "coverageMin": 80
+      }
+    },
+    {
+      "plantId": "rice",
+      "diseaseId": "tungro",
+      "scanDiseaseId": "Rice___Tungro",
+      "plant": "Rice",
+      "disease": "Tungro",
+      "description": "A yellow-orange rice leaf from a stunted hill in a field with green leafhoppers.",
+      "outcome": "Contained",
+      "outcomeFeedback": "The healthy replacement has suitable conditions. The infected specimen remains contained.",
+      "startingTemperature": {
+        "day": 26,
+        "night": 21
+      },
+      "startingRootZone": 72,
+      "startingLeafWetness": 42,
+      "spray": null
+    },
+    {
+      "plantId": "soybean",
+      "diseaseId": "bacterial_blight",
+      "scanDiseaseId": null,
+      "plant": "Soybean",
+      "disease": "Bacterial blight",
+      "description": "A soybean leaf with angular spots after cool, rainy, windy weather.",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 19,
+        "night": 13
+      },
+      "startingRootZone": 80,
+      "startingLeafWetness": 75,
+      "spray": null
+    },
+    {
+      "plantId": "soybean",
+      "diseaseId": "cercospora_leaf_blight",
+      "scanDiseaseId": null,
+      "plant": "Soybean",
+      "disease": "Cercospora leaf blight",
+      "description": "A bronzed, leathery soybean leaf from the upper canopy of a susceptible variety in a warm, humid season.",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 30,
+        "night": 21
+      },
+      "startingRootZone": 80,
+      "startingLeafWetness": 70,
+      "spray": {
+        "target": "Marked upper-canopy foliage",
+        "dose": [
+          4,
+          6
+        ],
+        "coverageMin": 80
+      }
+    },
+    {
+      "plantId": "soybean",
+      "diseaseId": "downy_mildew",
+      "scanDiseaseId": null,
+      "plant": "Soybean",
+      "disease": "Downy mildew",
+      "description": "A soybean leaf with pale yellow spots from a humid, cool spell; greyish tufts show underneath.",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 19,
+        "night": 13
+      },
+      "startingRootZone": 80,
+      "startingLeafWetness": 68,
+      "spray": null
+    },
+    {
+      "plantId": "soybean",
+      "diseaseId": "frogeye_leaf_spot",
+      "scanDiseaseId": null,
+      "plant": "Soybean",
+      "disease": "Frogeye leaf spot",
+      "description": "A soybean leaf with frogeye spots in the upper canopy of a susceptible variety during warm, wet weather.",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 30,
+        "night": 21
+      },
+      "startingRootZone": 80,
+      "startingLeafWetness": 75,
+      "spray": {
+        "target": "Marked upper-canopy foliage",
+        "dose": [
+          4,
+          6
+        ],
+        "coverageMin": 80
+      }
+    },
+    {
+      "plantId": "soybean",
+      "diseaseId": "mosaic_virus",
+      "scanDiseaseId": null,
+      "plant": "Soybean",
+      "disease": "Mosaic virus",
+      "description": "A soybean leaf from a stunted plant in a seed-production field; soybean mosaic virus was confirmed in the crop.",
+      "outcome": "Contained",
+      "outcomeFeedback": "The healthy replacement has suitable conditions. The infected specimen remains contained.",
+      "startingTemperature": {
+        "day": 24,
+        "night": 17
+      },
+      "startingRootZone": 58,
+      "startingLeafWetness": 34,
+      "spray": null
+    },
+    {
+      "plantId": "soybean",
+      "diseaseId": "septoria_brown_spot",
+      "scanDiseaseId": null,
+      "plant": "Soybean",
+      "disease": "Septoria brown spot",
+      "description": "A lower soybean leaf with brown flecks and yellowing early in the season.",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 24,
+        "night": 17
+      },
+      "startingRootZone": 58,
+      "startingLeafWetness": 48,
+      "spray": null
+    },
+    {
+      "plantId": "soybean",
+      "diseaseId": "soybean_rust",
+      "scanDiseaseId": null,
+      "plant": "Soybean",
+      "disease": "Soybean rust",
+      "description": "A soybean leaf with tan rust lesions found during scouting before flowering, after rust was reported nearby.",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 24,
+        "night": 17
+      },
+      "startingRootZone": 80,
+      "startingLeafWetness": 72,
+      "spray": {
+        "target": "Marked lower-canopy foliage",
+        "dose": [
+          3,
+          5
+        ],
+        "coverageMin": 80
+      }
+    },
+    {
+      "plantId": "soybean",
+      "diseaseId": "sudden_death_syndrome",
+      "scanDiseaseId": null,
+      "plant": "Soybean",
+      "disease": "Sudden death syndrome",
+      "description": "A soybean leaf with interveinal yellowing and browning from a field that was cool and wet at planting.",
+      "outcome": "Contained",
+      "outcomeFeedback": "The healthy replacement has suitable conditions. The infected specimen remains contained.",
+      "startingTemperature": {
+        "day": 19,
+        "night": 13
+      },
+      "startingRootZone": 80,
+      "startingLeafWetness": 56,
+      "spray": null
+    },
+    {
+      "plantId": "soybean",
+      "diseaseId": "target_spot",
+      "scanDiseaseId": null,
+      "plant": "Soybean",
+      "disease": "Target spot",
+      "description": "A lower-canopy soybean leaf with ringed spots from a susceptible variety in a hot, humid season.",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 30,
+        "night": 21
+      },
+      "startingRootZone": 80,
+      "startingLeafWetness": 71,
+      "spray": {
+        "target": "Marked lower-canopy foliage",
+        "dose": [
+          3,
+          5
+        ],
+        "coverageMin": 80
+      }
+    },
+    {
+      "plantId": "squash",
+      "diseaseId": "powdery_mildew",
+      "scanDiseaseId": "Squash___Powdery_mildew",
+      "plant": "Squash",
+      "disease": "Powdery mildew",
+      "description": "An older squash leaf with powdery mildew in mid-summer from a crowded, well-fertilised planting.",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 30,
+        "night": 21
+      },
+      "startingRootZone": 59,
+      "startingLeafWetness": 46,
+      "spray": {
+        "target": "Marked foliage in the training canopy",
+        "dose": [
+          3,
+          5
+        ],
+        "coverageMin": 75
+      }
+    },
+    {
+      "plantId": "strawberry",
+      "diseaseId": "leaf_scorch",
+      "scanDiseaseId": "Strawberry___Leaf_scorch",
+      "plant": "Strawberry",
+      "disease": "Leaf scorch",
+      "description": "A scorched strawberry leaf from a perennial bed before post-harvest renovation.",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 20,
+        "night": 13
+      },
+      "startingRootZone": 80,
+      "startingLeafWetness": 64,
+      "spray": null
+    },
+    {
+      "plantId": "sugarcane",
+      "diseaseId": "mosaic",
+      "scanDiseaseId": "Sugarcane___Mosaic",
+      "plant": "Sugarcane",
+      "disease": "Mosaic",
+      "description": "A mottled sugarcane leaf from a stool in a nursery block planted from untested seed cane.",
+      "outcome": "Contained",
+      "outcomeFeedback": "The healthy replacement has suitable conditions. The infected specimen remains contained.",
+      "startingTemperature": {
+        "day": 27,
+        "night": 20
+      },
+      "startingRootZone": 63,
+      "startingLeafWetness": 32,
+      "spray": null
+    },
+    {
+      "plantId": "sugarcane",
+      "diseaseId": "red_rot",
+      "scanDiseaseId": "Sugarcane___Red_rot",
+      "plant": "Sugarcane",
+      "disease": "Red rot",
+      "description": "A sugarcane leaf with red midrib lesions from a clump whose split stalk shows red tissue with white patches.",
+      "outcome": "Contained",
+      "outcomeFeedback": "The healthy replacement has suitable conditions. The infected specimen remains contained.",
+      "startingTemperature": {
+        "day": 33,
+        "night": 24
+      },
+      "startingRootZone": 84,
+      "startingLeafWetness": 74,
+      "spray": null
+    },
+    {
+      "plantId": "sugarcane",
+      "diseaseId": "rust",
+      "scanDiseaseId": "Sugarcane___Rust",
+      "plant": "Sugarcane",
+      "disease": "Rust",
+      "description": "A sugarcane leaf with orange-brown rust streaks from a moderately resistant variety.",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 27,
+        "night": 20
+      },
+      "startingRootZone": 63,
+      "startingLeafWetness": 42,
+      "spray": null
+    },
+    {
+      "plantId": "sugarcane",
+      "diseaseId": "yellow_leaf",
+      "scanDiseaseId": "Sugarcane___Yellow_leaf",
+      "plant": "Sugarcane",
+      "disease": "Yellow leaf",
+      "description": "A sugarcane leaf with a yellow midrib from a stressed ratoon crop.",
+      "outcome": "Contained",
+      "outcomeFeedback": "The healthy replacement has suitable conditions. The infected specimen remains contained.",
+      "startingTemperature": {
+        "day": 33,
+        "night": 24
+      },
+      "startingRootZone": 44,
+      "startingLeafWetness": 31,
+      "spray": null
+    },
+    {
+      "plantId": "tomato",
+      "diseaseId": "bacterial_spot",
+      "scanDiseaseId": "Tomato___Bacterial_spot",
+      "plant": "Tomato",
+      "disease": "Bacterial spot",
+      "description": "A tomato leaf with bacterial spot after overhead watering and wet handling.",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 24,
+        "night": 18
+      },
+      "startingRootZone": 81,
+      "startingLeafWetness": 80,
+      "spray": null
+    },
+    {
+      "plantId": "tomato",
+      "diseaseId": "early_blight",
+      "scanDiseaseId": "Tomato___Early_blight",
+      "plant": "Tomato",
+      "disease": "Early blight",
+      "description": "A lower tomato leaf with early blight; a warm, wet week is forecast (high-risk teaching scenario).",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 30,
+        "night": 22
+      },
+      "startingRootZone": 81,
+      "startingLeafWetness": 70,
+      "spray": {
+        "target": "Marked lower-canopy foliage",
+        "dose": [
+          3,
+          5
+        ],
+        "coverageMin": 80
+      }
+    },
+    {
+      "plantId": "tomato",
+      "diseaseId": "late_blight",
+      "scanDiseaseId": "Tomato___Late_blight",
+      "plant": "Tomato",
+      "disease": "Late blight",
+      "description": "A tomato leaf with rapidly expanding late-blight lesions; healthy tomatoes are nearby.",
+      "outcome": "Contained",
+      "outcomeFeedback": "The healthy replacement has suitable conditions. The infected specimen remains contained.",
+      "startingTemperature": {
+        "day": 19,
+        "night": 14
+      },
+      "startingRootZone": 81,
+      "startingLeafWetness": 90,
+      "spray": null
+    },
+    {
+      "plantId": "tomato",
+      "diseaseId": "leaf_mold",
+      "scanDiseaseId": "Tomato___Leaf_Mold",
+      "plant": "Tomato",
+      "disease": "Leaf mold",
+      "description": "A greenhouse tomato leaf with leaf mold under prolonged high humidity.",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 24,
+        "night": 18
+      },
+      "startingRootZone": 60,
+      "startingLeafWetness": 76,
+      "spray": null
+    },
+    {
+      "plantId": "tomato",
+      "diseaseId": "mosaic_virus",
+      "scanDiseaseId": "Tomato___Tomato_mosaic_virus",
+      "plant": "Tomato",
+      "disease": "Mosaic virus",
+      "description": "A confirmed tomato mosaic (tobamovirus) leaf: mottled and distorted.",
+      "outcome": "Contained",
+      "outcomeFeedback": "The healthy replacement has suitable conditions. The infected specimen remains contained.",
+      "startingTemperature": {
+        "day": 24,
+        "night": 18
+      },
+      "startingRootZone": 60,
+      "startingLeafWetness": 28,
+      "spray": null
+    },
+    {
+      "plantId": "tomato",
+      "diseaseId": "septoria_leaf_spot",
+      "scanDiseaseId": "Tomato___Septoria_leaf_spot",
+      "plant": "Tomato",
+      "disease": "Septoria leaf spot",
+      "description": "A lower tomato leaf with many small spots after splashing irrigation.",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 24,
+        "night": 18
+      },
+      "startingRootZone": 81,
+      "startingLeafWetness": 79,
+      "spray": null
+    },
+    {
+      "plantId": "tomato",
+      "diseaseId": "spider_mites",
+      "scanDiseaseId": "Tomato___Spider_mites Two-spotted_spider_mite",
+      "plant": "Tomato",
+      "disease": "Two-spotted spider mite",
+      "description": "A tomato leaf from a water-stressed plant with a spider-mite colony underneath.",
+      "outcome": "PestSuppressed",
+      "outcomeFeedback": "Training spray reached the marked pest target and the plant care settings are in range. Existing damage stays visible.",
+      "startingTemperature": {
+        "day": 30,
+        "night": 22
+      },
+      "startingRootZone": 41,
+      "startingLeafWetness": 12,
+      "spray": {
+        "target": "Marked leaf undersides",
+        "dose": [
+          2,
+          4
+        ],
+        "coverageMin": 85
+      },
+      "dayTarget": [
+        22,
+        25
+      ],
+      "rootZoneTarget": [
+        56,
+        66
+      ]
+    },
+    {
+      "plantId": "tomato",
+      "diseaseId": "target_spot",
+      "scanDiseaseId": "Tomato___Target_Spot",
+      "plant": "Tomato",
+      "disease": "Target spot",
+      "description": "An inner-canopy tomato leaf with target spot under prolonged leaf wetness.",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 30,
+        "night": 22
+      },
+      "startingRootZone": 81,
+      "startingLeafWetness": 82,
+      "spray": {
+        "target": "Marked lower-canopy foliage",
+        "dose": [
+          3,
+          5
+        ],
+        "coverageMin": 80
+      }
+    },
+    {
+      "plantId": "tomato",
+      "diseaseId": "yellow_leaf_curl_virus",
+      "scanDiseaseId": "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
+      "plant": "Tomato",
+      "disease": "Yellow leaf curl virus",
+      "description": "A curled yellow tomato leaf with whiteflies underneath.",
+      "outcome": "Contained",
+      "outcomeFeedback": "The healthy replacement has suitable conditions. The infected specimen remains contained.",
+      "startingTemperature": {
+        "day": 30,
+        "night": 22
+      },
+      "startingRootZone": 41,
+      "startingLeafWetness": 16,
+      "spray": null
+    },
+    {
+      "plantId": "wheat",
+      "diseaseId": "blast",
+      "scanDiseaseId": "Wheat___Blast",
+      "plant": "Wheat",
+      "disease": "Wheat blast",
+      "description": "A wheat leaf with blast lesions from a crop heading in warm, humid weather in a blast-affected region.",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 26,
+        "night": 17
+      },
+      "startingRootZone": 75,
+      "startingLeafWetness": 81,
+      "spray": {
+        "target": "Marked upper-canopy foliage",
+        "dose": [
+          4,
+          6
+        ],
+        "coverageMin": 80
+      }
+    },
+    {
+      "plantId": "wheat",
+      "diseaseId": "leaf_blight",
+      "scanDiseaseId": "Wheat___Leaf_blight",
+      "plant": "Wheat",
+      "disease": "Leaf blight (spot blotch)",
+      "description": "A wheat leaf with dark brown blotches from a late-sown crop in a warm rice-wheat area.",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 26,
+        "night": 17
+      },
+      "startingRootZone": 53,
+      "startingLeafWetness": 58,
+      "spray": {
+        "target": "Marked foliage in the training canopy",
+        "dose": [
+          3,
+          5
+        ],
+        "coverageMin": 75
+      }
+    },
+    {
+      "plantId": "wheat",
+      "diseaseId": "rust",
+      "scanDiseaseId": "Wheat___Rust",
+      "plant": "Wheat",
+      "disease": "Leaf rust",
+      "description": "A wheat leaf with orange-brown pustules from a susceptible variety before heading; volunteer wheat grew nearby.",
+      "outcome": "Managed",
+      "outcomeFeedback": "The settings meet the management target. Existing leaf damage stays visible.",
+      "startingTemperature": {
+        "day": 20,
+        "night": 13
+      },
+      "startingRootZone": 75,
+      "startingLeafWetness": 70,
+      "spray": {
+        "target": "Marked upper-canopy foliage",
+        "dose": [
+          4,
+          6
+        ],
+        "coverageMin": 80
+      }
+    }
+  ]
+}

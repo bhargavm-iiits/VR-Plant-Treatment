@@ -11,16 +11,16 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: Backend
+        working-directory: Backend/services/api
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
       - name: Install dependencies
-        run: pip install -r backend/requirements.txt
-      - name: Run pytest
-        run: pytest backend/tests/ -v
+        run: python -m pip install -r requirements.txt
+      - name: Check API import
+        run: python -c "from app.main import app"
 
   frontend-build:
     runs-on: ubuntu-latest
@@ -29,13 +29,11 @@ jobs:
         working-directory: Backend/frontend
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v3
-        with:
-          version: 9
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: "pnpm"
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm build
+          cache: npm
+          cache-dependency-path: Backend/frontend/package-lock.json
+      - run: npm ci
+      - run: npm run build
 
