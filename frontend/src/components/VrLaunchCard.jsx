@@ -71,6 +71,7 @@ export default function VrLaunchCard({ result, t, compact = false }) {
   }, [handedOff])
 
   const startWatching = () => {
+    clearTimeout(timer.current)
     watchUntil.current = Date.now() + WATCH_MS
     timer.current = setTimeout(poll, POLL_MS)
   }
@@ -96,6 +97,7 @@ export default function VrLaunchCard({ result, t, compact = false }) {
     setPairError(null)
     try {
       setPairing(await api.xr.pair())
+      startWatching()
     } catch (error) {
       setPairError(error.message)
     }
@@ -178,9 +180,8 @@ export default function VrLaunchCard({ result, t, compact = false }) {
       {launchNote && <p role="status" className={`note note--${launchNote.tone}`}>{launchNote.text}</p>}
       {pairing && (
         <div role="status" className="note note--ok">
-          {!inQuest && <p>{t('result.pairCode', { code: pairing.code })}</p>}
+          <p>{t('result.pairCode', { code: pairing.code })}</p>
           <a href={questPairingLink(pairing.code, inQuest)}>{t('result.pairSendQuest')}</a>
-          <p>{t('result.pairApproveQuest')}</p>
         </div>
       )}
       {pairError && <p role="alert" className="note note--fail">{pairError}</p>}
