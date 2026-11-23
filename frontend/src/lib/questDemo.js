@@ -5,6 +5,15 @@ export function isQuestBrowser(userAgent) {
   return /\b(?:OculusBrowser|MetaQuestBrowser)\//i.test(userAgent)
 }
 
+export function questScanLink(scanId) {
+  return `plantdiseasevr://open-field/?scan=${encodeURIComponent(scanId)}`
+}
+
+export function questPairingLink(code, inQuest) {
+  const scheme = inQuest ? 'plantdiseasevr' : 'cropscanxr'
+  return `${scheme}://pair-quest/?code=${encodeURIComponent(code)}`
+}
+
 export function questDemoIntent(origin) {
   const fallback = encodeURIComponent(new URL(QUEST_DEMO_PATH, origin).href)
   return `intent://demo/#Intent;scheme=plantdiseasevr;package=com.btp.plantdiseasevr;S.browser_fallback_url=${fallback};end`

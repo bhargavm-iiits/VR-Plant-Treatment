@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { api, vrAppLink } from '../lib/api'
 import { keepFocusInside } from '../lib/dialog'
+import { isQuestBrowser, questPairingLink, questScanLink } from '../lib/questDemo'
 import ScrollReveal from './ScrollReveal'
 
 const POLL_MS = 2500
@@ -27,6 +28,7 @@ const HOW = {
  * that has no VR case; Pair VR belongs to this browser, not to one scan, so it works either way.
  */
 export default function VrLaunchCard({ result, t, compact = false }) {
+  const inQuest = isQuestBrowser(navigator.userAgent)
   const [pairing, setPairing] = useState(null)
   const [pairError, setPairError] = useState(null)
   const [session, setSession] = useState(null)
@@ -140,7 +142,11 @@ export default function VrLaunchCard({ result, t, compact = false }) {
     || (result.status === 'uncertain' ? t('result.blockedUncertain') : t('result.vrUnavailable'))
   const size = compact ? ' btn-lg' : ''
 
-  const openButton = result.canEnterVr && local?.available ? (
+  const openButton = result.canEnterVr && inQuest ? (
+    <a href={questScanLink(result.id)} onClick={startWatching} className={`btn-primary${size}`}>
+      {t('result.vrOpen')}
+    </a>
+  ) : result.canEnterVr && local?.available ? (
     // The API runs on this laptop: it hands the scan to CropScan XR, or starts the installed app.
     <button type="button" onClick={enterLocally} aria-disabled={sending} className={`btn-primary${size}`}>
       {t('result.vrOpen')}
@@ -168,9 +174,15 @@ export default function VrLaunchCard({ result, t, compact = false }) {
 
   const notes = (
     <>
-      {result.canEnterVr && <p className="hint">{t('result.vrInstall')}</p>}
+      {result.canEnterVr && <p className="hint">{t(inQuest ? 'result.vrInstallQuest' : 'result.vrInstall')}</p>}
       {launchNote && <p role="status" className={`note note--${launchNote.tone}`}>{launchNote.text}</p>}
-      {pairing && <p role="status" className="note note--ok">{t('result.pairCode', { code: pairing.code })}</p>}
+      {pairing && (
+        <div role="status" className="note note--ok">
+          {!inQuest && <p>{t('result.pairCode', { code: pairing.code })}</p>}
+          <a href={questPairingLink(pairing.code, inQuest)}>{t('result.pairSendQuest')}</a>
+          <p>{t('result.pairApproveQuest')}</p>
+        </div>
+      )}
       {pairError && <p role="alert" className="note note--fail">{pairError}</p>}
       {status && <p role="status" className={`note note--${status.tone}`}>{status.text}</p>}
       {saved?.outcome && <p className="hint">{t('result.vrSaved', { outcome: saved.outcome })}</p>}
