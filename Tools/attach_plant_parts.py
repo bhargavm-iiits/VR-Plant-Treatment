@@ -28,8 +28,9 @@ pivots, on still wood: a leaf whose pivot is its base stays joined by constructi
 Usage (numpy, scipy, pillow, Blender 5.2; one model at a time):
     python Tools/attach_plant_parts.py audit  [--only apple,tomato] [--source DIR] [--tag before]
     python Tools/attach_plant_parts.py repair [--only ...]
+    python Tools/attach_plant_parts.py polish [--only ...]
 audit reads the saved FBX (or the same layout under --source, e.g. an extract of the Git originals) and writes
-Tools/out/attachment/<tag>/<model>.json. repair rewrites the FBX and wind files in place.
+Tools/out/attachment/<tag>/<model>.json. repair rewrites the FBX and wind files in place; polish only adds connector tubes to an already repaired FBX.
 Then rebuild in Unity: BTP/Setup/28 (BTP.Editor.PlantAttachmentRebuild.Run).
 """
 import argparse
@@ -59,6 +60,8 @@ IO = os.path.join(ROOT, "Tools", "blender_attach_io.py")
 TOL = 0.003         # a join is closed when the surfaces are within 3 mm
 EMBED = 0.001       # a moved part is set this far into the wood it lands on
 SPACING = 0.003     # surface sample spacing
+THIN = 0.02         # a non-leaf triangle narrower than this (twig sliver, connector tube) is also sampled along its edges
+EDGE_SPACING = 0.002
 PASSES = 8
 WOOD_WORDS = ("bark", "wood", "stem", "cane", "branch", "twig", "trunk", "pedicel", "petiole", "stalk", "vine", "stake")
 SOIL_WORDS = ("soil", "ground", "loam", "mulch")
@@ -291,6 +294,7 @@ class Mesh:
         self.mats = [str(x) for x in data[prefix + "mats"]]
         self.alpha = {self.mats.index(k): v for k, v in alpha.items() if k in self.mats}
         self.added = []
+        self.gen = np.zeros(T, np.int64)       # per triangle: 0 = as loaded, k > 0 = connector tube k of the visible pass
         self._refresh()
 
     def _refresh(self):
@@ -332,18 +336,38 @@ class Mesh:
         for k in range(self.K):
             if self.piece_part[k] >= 0:
                 self.unit[k] = first.setdefault(self.piece_part[k], k)
+        self.resample(7)
+
+    def resample(self, seed):
+        """Draws the surface samples (alpha-passing points) afresh: every draw of a fixed mesh is a different set of points."""
+        T, c = len(self.P), self.P
         # sample pattern: by area and along the longest edge (thin twigs are long slivers)
         edges = np.linalg.norm(c - np.roll(c, 1, axis=1), axis=2).max(1)
         count = np.clip(np.maximum(np.ceil(self.area / (0.5 * SPACING * SPACING)), np.ceil(2 * edges / SPACING)).astype(int), 1, 8000)
-        rng = np.random.default_rng(7)
+        rng = np.random.default_rng(seed)
         tri = np.repeat(np.arange(T), count)
         r1, r2 = rng.random(len(tri)), rng.random(len(tri))
         flip = r1 + r2 > 1; r1[flip], r2[flip] = 1 - r1[flip], 1 - r2[flip]
         w = np.concatenate([np.stack([1 - r1 - r2, r1, r2], 1), np.tile(np.eye(3), (T, 1))])
         tri = np.concatenate([tri, np.repeat(np.arange(T), 3)])
+        # thin triangles (a twig drawn as slivers, a connector tube) get samples along their edges too, at fixed positions:
+        # the random area samples leave a sliver's tip bare, and a join that touches there would not register
+        leaf_mats = np.isin(self.M, list(self.alpha.keys()))
+        thin = np.where((2 * self.area / np.maximum(edges, 1e-9) < THIN) & ~leaf_mats)[0]
+        if len(thin):
+            ev = np.stack([c[thin], np.roll(c[thin], -1, axis=1)], 0)               # (2, n, 3 corners, 3)
+            elen = np.linalg.norm(ev[1] - ev[0], axis=2)                              # (n, 3)
+            cnt = np.maximum(np.ceil(elen / EDGE_SPACING).astype(int), 1)
+            ti, ei = np.nonzero(cnt)
+            reps = cnt[ti, ei]
+            ti, ei = np.repeat(ti, reps), np.repeat(ei, reps)
+            k = np.arange(int(reps.sum())) - np.repeat(np.cumsum(reps) - reps, reps)
+            t = (k + 0.5) / np.repeat(reps, reps)
+            we = np.zeros((len(ti), 3)); we[np.arange(len(ti)), ei] = 1 - t; we[np.arange(len(ti)), (ei + 1) % 3] = t
+            w = np.concatenate([w, we]); tri = np.concatenate([tri, thin[ti]])
         vis = np.ones(len(tri), bool)
         for mat, (png, _) in self.alpha.items():
-            img = leaf_base.alpha_of(png)
+            img = _ALPHA_CACHE.setdefault(png, leaf_base.alpha_of(png))
             sel = np.where(self.M[tri] == mat)[0]
             uv = np.einsum("nb,nbd->nd", w[sel], self.UV0[tri[sel]])
             h, wd = img.shape
@@ -363,10 +387,23 @@ class Mesh:
 
     def contacts(self):
         S, SP, _ = self.samples()
-        pairs = cKDTree(S).query_pairs(TOL, output_type="ndarray")
-        a, b = SP[pairs[:, 0]], SP[pairs[:, 1]]
-        keep = a != b
-        e = np.unique(np.sort(np.stack([a[keep], b[keep]], 1), 1), axis=0)
+        # slab by slab along x (a sample pair is found in the slab of its left sample; the slabs overlap by TOL): the full
+        # list of close sample pairs of a dense mesh does not fit in memory at once
+        order = np.argsort(S[:, 0], kind="stable")
+        xs = S[order, 0]
+        edges = np.linspace(0, len(order), 17).astype(int)
+        found = []
+        for lo, hi in zip(edges[:-1], edges[1:]):
+            if hi <= lo:
+                continue
+            end = np.searchsorted(xs, xs[hi - 1] + TOL, side="right")
+            idx = order[lo:end]
+            pairs = cKDTree(S[idx]).query_pairs(TOL, output_type="ndarray")
+            pairs = pairs[(pairs[:, 0] < hi - lo) | (pairs[:, 1] < hi - lo)]
+            a, b = SP[idx[pairs[:, 0]]], SP[idx[pairs[:, 1]]]
+            keep = a != b
+            found.append(np.unique(np.sort(np.stack([a[keep], b[keep]], 1), 1), axis=0))
+        e = np.unique(np.concatenate(found), axis=0) if found else np.zeros((0, 2), int)
         rigid = np.stack([np.arange(self.K), self.unit], 1)
         return np.concatenate([e, rigid[rigid[:, 0] != rigid[:, 1]]])
 
@@ -413,7 +450,7 @@ class Mesh:
         if tree is None:
             return best_d, best_q, best_t
         kk = min(24 if above else 12, tree.n)
-        _, idx = tree.query(points, k=kk)
+        _, idx = tree.query(points, k=kk, workers=-1)
         idx = idx.reshape(n, kk)
         for j in range(kk):
             t = tris[idx[:, j]]
@@ -515,12 +552,12 @@ class Mesh:
     def translate(self, pieces, offset, rigid=True):
         self.P[np.isin(self.piece, self.rigid(pieces) if rigid else pieces)] += offset
 
-    def add_tube(self, start, end, r0, r1, sides, segments, material, uv, part_start, part_end):
+    def add_tube(self, start, end, r0, r1, sides, segments, material, uv, part_start, part_end, gid=0):
         P, N, F = tube(np.asarray(start, float), np.asarray(end, float), r0, r1, sides, segments)
         T = len(P)
         UV1 = np.zeros((T, 3, 2))
         UV1[:, :, 0] = np.where(F < 0.5, part_start + 1, part_end + 1)     # each half follows its end in the wind
-        self.added.append(dict(P=P, N=N, UV0=np.broadcast_to(np.asarray(uv, float), (T, 3, 2)).copy(), UV1=UV1, M=np.full(T, material)))
+        self.added.append(dict(P=P, N=N, UV0=np.broadcast_to(np.asarray(uv, float), (T, 3, 2)).copy(), UV1=UV1, M=np.full(T, material), G=np.full(T, gid, np.int64)))
 
     def fold(self):
         """Generated triangles become part of the mesh (later passes see them as wood)."""
@@ -528,10 +565,21 @@ class Mesh:
             return
         for a in self.added:
             self.P = np.concatenate([self.P, a["P"]]); self.N = np.concatenate([self.N, a["N"]])
-            self.UV0 = np.concatenate([self.UV0, a["UV0"]]); self.M = np.concatenate([self.M, a["M"]])
+            self.UV0 = np.concatenate([self.UV0, a["UV0"]]); self.M = np.concatenate([self.M, a["M"]]); self.gen = np.concatenate([self.gen, a["G"]])
             if self.UV1 is not None:
                 self.UV1 = np.concatenate([self.UV1, a["UV1"]])
         self.added = []
+        self._refresh()
+
+    def drop_tubes(self, ids):
+        """Removes the generated connector tubes with these ids (a tube whose leaf was moved away from it afterwards)."""
+        self.fold()
+        keep = ~np.isin(self.gen, list(ids))
+        if keep.all():
+            return
+        self.P, self.N, self.UV0, self.M, self.gen = self.P[keep], self.N[keep], self.UV0[keep], self.M[keep], self.gen[keep]
+        if self.UV1 is not None:
+            self.UV1 = self.UV1[keep]
         self._refresh()
 
 
@@ -609,6 +657,9 @@ def summarise(mesh, joins, motion=None):
     vis = leaf_visible(mesh)
     fg = np.array([vis["gap"][u] for u in vis["floating"]])
     res["leaves_visible"] = dict(total=len(vis["gap"]), floating=int(len(fg)), max_gap_mm=round(float(fg.max()) * 1000, 1) if len(fg) else 0.0)
+    vf = leaf_visible(mesh, TOL, fine=True)     # same test on dense samples: not fooled by the coarse sampling's +-1.5 mm
+    ff = np.array([vf["gap"][u] for u in vf["floating"]])
+    res["leaves_visible"]["floating_dense"] = int(len(ff)); res["leaves_visible"]["max_gap_dense_mm"] = round(float(ff.max()) * 1000, 1) if len(ff) else 0.0
     if motion is not None:
         worst, opened, checked = 0.0, 0, 0
         for j in joins:
@@ -622,12 +673,44 @@ def summarise(mesh, joins, motion=None):
 
 # ============================================================================ visible-surface leaf pass
 
-PETIOLE_MAX = 0.10      # a leaf whose hinge sits on the wood but whose visible blade starts further than this is moved instead
+PETIOLE_MAX = 0.30      # a leaf whose hinge sits on the wood keeps it: a blade that starts further out than this is moved instead
 TUBE_MAX = 0.025        # a floating leaf closer than this to the wood gets a connector tube, a farther one is moved
 STALK_R = (0.0015, 0.0012)
+REPAIR_TOL = 0.0012     # repairs aim tighter than the audit's TOL: the surface sampling is redrawn whenever the mesh changes (+-1.5 mm),
+                        # so a leaf that truly sits 2 mm off the wood is a coin flip for the audit
+INTO_LEAF = 0.012       # a connector tube starts on the blade up to this far from its edge point
+DRAWS = 12              # fresh surface samplings a leaf must be attached under (see fix_visible)
+POLISH_ROUNDS = 2
+WOOD_DRAWS = 3
+MOVE_ROUNDS = 4
+FINE = 0.0012           # spacing of the dense samples that measure the true gap of the candidate leaves
 
 
-def leaf_visible(mesh):
+_ALPHA_CACHE = {}
+
+
+def fine_points(mesh, tris, spacing=FINE):
+    """Dense visible (alpha-passing) surface points of the given triangles: (points, triangle per point)."""
+    rng = np.random.default_rng(11)
+    count = np.clip(np.ceil(mesh.area[tris] / (spacing * spacing)).astype(int), 1, 6000)
+    tri = np.repeat(tris, count)
+    r1, r2 = rng.random(len(tri)), rng.random(len(tri))
+    flip = r1 + r2 > 1; r1[flip], r2[flip] = 1 - r1[flip], 1 - r2[flip]
+    w = np.stack([1 - r1 - r2, r1, r2], 1)
+    pts = np.einsum("nb,nbd->nd", w, mesh.P[tri])
+    vis = np.ones(len(tri), bool)
+    for mat, (png, _) in mesh.alpha.items():
+        img = _ALPHA_CACHE.setdefault(png, leaf_base.alpha_of(png))
+        sel = np.where(mesh.M[tri] == mat)[0]
+        uv = np.einsum("nb,nbd->nd", w[sel], mesh.UV0[tri[sel]])
+        h, wd = img.shape
+        x = np.clip((np.mod(uv[:, 0], 1) * wd).astype(int), 0, wd - 1)
+        y = np.clip((np.mod(uv[:, 1], 1) * h).astype(int), 0, h - 1)
+        vis[sel] = img[y, x] > leaf_base.ALPHA_CUT
+    return pts[vis], tri[vis]
+
+
+def leaf_visible(mesh, tol=TOL, fine=False):
     """What a viewer sees: the distance from each leaf unit's visible (alpha-passing) surface samples to the live
     wood. A unit counts as attached when it touches live wood, or touches (through leaf-leaf contacts) one that
     does. Returns dict(gap {unit: m}, near {unit: (visible point, wood sample point, piece)}, floating [units],
@@ -637,7 +720,7 @@ def leaf_visible(mesh):
     mesh.wood_query(live)
     S, SP, _ = mesh.samples()
     units = mesh.leaf_units()
-    out = dict(gap={}, near={}, floating=[], components=[])
+    out = dict(gap={}, near={}, centre={}, pts=None, floating=[], components=[])
     wmask = live[SP]
     if not units or not wmask.any():
         return out
@@ -647,17 +730,40 @@ def leaf_visible(mesh):
     su = uop[SP]
     idx = np.where(su >= 0)[0]
     W = S[wmask]
-    d, j = cKDTree(W).query(S[idx])
+    d, j = cKDTree(W).query(S[idx], workers=-1)
     order = np.lexsort((d, su[idx]))
     first = order[np.unique(su[idx][order], return_index=True)[1]]
+    o = np.argsort(su[idx], kind="stable")
+    out["pts"] = (S[idx][o], np.searchsorted(su[idx][o], np.arange(mesh.K + 1)))
+    sums = np.zeros((mesh.K, 3)); np.add.at(sums, su[idx], S[idx])
+    cnt = np.bincount(su[idx], minlength=mesh.K)
     for f in first:
         u = int(su[idx[f]])
+        out["centre"][u] = sums[u] / max(cnt[u], 1)
         out["gap"][u] = float(d[f]); out["near"][u] = (S[idx[f]], W[j[f]], int(SP[idx[f]]))
-    a, b = uop[con[:, 0]], uop[con[:, 1]]
-    keep = (a >= 0) & (b >= 0) & (a != b)
+    if fine:
+        # the coarse samples only bound the gap from above: measure the candidates on dense samples against the exact wood triangles
+        for u in [u for u, g in out["gap"].items() if tol < g < 0.06]:
+            pcs = units[u]
+            tris = np.where(np.isin(mesh.piece, pcs))[0]
+            pts, pt_tri = fine_points(mesh, tris)
+            if not len(pts):
+                continue
+            v0 = out["near"][u][0]
+            keep = np.linalg.norm(pts - v0, axis=1) < out["gap"][u] + 0.012     # the part of the blade near the wood
+            if not keep.any():
+                continue
+            pts, pt_tri = pts[keep], pt_tri[keep]
+            dd, qq, _ = mesh.nearest_wood(pts)
+            i = int(np.argmin(dd))
+            if dd[i] < out["gap"][u]:
+                out["gap"][u] = float(dd[i]); out["near"][u] = (pts[i], qq[i], int(mesh.piece[pt_tri[i]]))
+    pairs = cKDTree(S[idx]).query_pairs(tol, output_type="ndarray")
+    a, b = su[idx][pairs[:, 0]], su[idx][pairs[:, 1]]
+    keep = a != b
     edges = [np.stack([a[keep], b[keep]], 1)]
     wood_node = mesh.K
-    touching = np.array([u for u, g in out["gap"].items() if g <= TOL], dtype=int)
+    touching = np.array([u for u, g in out["gap"].items() if g <= tol], dtype=int)
     edges.append(np.stack([touching, np.full(len(touching), wood_node)], 1))
     e = np.concatenate(edges)
     _, comp = connected_components(coo_matrix((np.ones(len(e)), (e[:, 0], e[:, 1])), shape=(mesh.K + 1, mesh.K + 1)), directed=False)
@@ -671,51 +777,203 @@ def leaf_visible(mesh):
     return out
 
 
-def fix_visible(mesh, move, hinges, small, rounds=3):
+def into_leaf(vis, u, v, toward):
+    """A visible point of leaf unit u up to INTO_LEAF from its edge point v, on the side away from `toward` (the wood or hinge
+    it is joined to): a tube that starts on the blade there overlaps the leaf's surface samples, so the join survives a
+    redraw of the sampling (+-1.5 mm). Always a point of the leaf's own visible surface."""
+    pts, starts = vis["pts"]
+    p = pts[starts[u]:starts[u + 1]]
+    p = p[np.linalg.norm(p - v, axis=1) <= INTO_LEAF]
+    if not len(p):
+        return v
+    return p[int(np.argmax(np.linalg.norm(p - toward, axis=1)))]
+
+
+def stub(start, end, least=0.003):
+    """A tube between start and end needs a direction: where they (nearly) coincide, lengthen it from end through start."""
+    axis = np.asarray(start, float) - np.asarray(end, float)
+    n = float(np.linalg.norm(axis))
+    if n >= least:
+        return start
+    axis = axis / n if n > 1e-9 else np.array([0.0, 0.0, 1.0])
+    return end + axis * least
+
+
+def fix_visible(mesh, move, hinges, small, rounds=8, polish_rounds=POLISH_ROUNDS, seed=1000, fine_phase=True):
     """Joins every floating leaf unit to the wood by what is visible. A unit whose visible surface is within TUBE_MAX
     of the wood gets a thin connector tube (start half follows the leaf's wind part, end half the wood's); a leaf
     whose hinge (tagged base vertex, wind formats 1 and 2) sits on the wood but whose blade starts further out gets a
     petiole tube from the blade base to the hinge, moving with the leaf; a farther one is moved rigidly (callback
     move(pieces, offset) - it carries the wind part's pivot and anchors along) until its nearest visible point
     is EMBED into the wood. One fix per floating cluster of touching leaves. hinges() -> {part: hinge point}."""
-    stats = dict(tubes=0, petioles=0, moved=0, left=0)
-    for rnd in range(rounds + 1):
-        mesh.fold()
-        vis = leaf_visible(mesh)
-        if not vis["floating"] or rnd == rounds:
-            break
+    stats = dict(tubes=0, petioles=0, moved=0, wood=0, left=0)
+    polished = set()        # leaves that already got their robust-contact tube (one each)
+
+    def key(u):
+        return int(np.flatnonzero(np.isin(mesh.piece, mesh.leaf_units()[u]))[0])     # first triangle: generated ones only append
+
+    next_gid = [0]
+    dropped = set()     # connector tubes carried away from the wood by a move of the leaf they belong to
+
+    def handle(vis, polish, moves_only=False, skip_done=True):
         hinge = hinges()
         units = mesh.leaf_units()
-        for comp in vis["components"]:
-            u = min(comp, key=lambda x: vis["gap"][x])
+        sides, segs = (3, 1) if polish else (4, 3) if not small else (3, 2)
+
+        def join(u, dry=False):
+            """Tube a unit to the wood (or its hinge). True when joined, False when it is too far and has to be moved.
+            dry: only tells whether a tube could join it."""
             v, _, piece = vis["near"][u]
             part = int(mesh.piece_part[piece])
             d, q, t = mesh.nearest_wood(v[None])
             if not np.isfinite(d[0]):
-                continue
-            q, t = q[0], int(t[0])
+                return True
+            t, q = int(t[0]), q[0]
             h = hinge.get(part)
             hd = mesh.nearest_wood(h[None])[0][0] if h is not None else np.inf
-            if h is not None and hd <= 2 * TOL and np.linalg.norm(v - h) > TOL:
-                if np.linalg.norm(v - h) <= PETIOLE_MAX:
-                    # transparent petiole region of the card: a stalk from the blade base to the hinge, one rigid piece with the leaf
-                    dirn = (h - v) / np.linalg.norm(h - v)
-                    _, qh, th = mesh.nearest_wood(h[None])
-                    th = int(th[0])
-                    mesh.add_tube(v - dirn * 0.001, h + dirn * 0.001, STALK_R[0], STALK_R[1], 4 if not small else 3, 2 if not small else 1,
-                                  int(mesh.M[th]), mesh.uv_at(th, qh[0]), part, part)
-                    stats["petioles"] += 1
-                    continue
-            if d[0] <= TUBE_MAX:
-                dirn = (q - v) / max(float(d[0]), 1e-9)
-                mesh.add_tube(v - dirn * 0.001, q + dirn * EMBED, STALK_R[0], STALK_R[1], 4 if not small else 3, 2 if not small else 1,
-                              int(mesh.M[t]), mesh.uv_at(t, q), part, int(mesh.wind_at(t, q)))
-                stats["tubes"] += 1
-            else:
-                off = q - v
-                move(np.unique(np.concatenate([units[x] for x in comp])), off + off / np.linalg.norm(off) * EMBED)
-                stats["moved"] += 1
-    stats["left"] = len(vis["floating"])
+            petiole = h is not None and hd <= 2 * TOL and np.linalg.norm(v - h) > TOL and np.linalg.norm(v - h) <= PETIOLE_MAX
+            reach = d[0] <= (PETIOLE_MAX if h is not None else TUBE_MAX)      # a hinged leaf (formats 1 and 2) keeps its hinge: joined, not moved
+            if dry or not (petiole or reach):
+                return bool(petiole or reach)
+            next_gid[0] += 1
+            if petiole:
+                # transparent petiole region of the card: a stalk from the blade base to the hinge, one rigid piece with the leaf
+                dirn = (h - v) / np.linalg.norm(h - v)
+                _, qh, th = mesh.nearest_wood(h[None])
+                th = int(th[0])
+                mesh.add_tube(into_leaf(vis, u, v, h), h + dirn * 0.001, STALK_R[0], STALK_R[1], sides, segs, int(mesh.M[th]), mesh.uv_at(th, qh[0]), part, part, next_gid[0])
+                stats["petioles"] += 1
+                return True
+            dirn = (q - v) / float(d[0]) if d[0] > 1e-6 else np.zeros(3)
+            end = q + dirn * EMBED
+            mesh.add_tube(stub(into_leaf(vis, u, v, q), end), end, STALK_R[0], STALK_R[1], sides, segs, int(mesh.M[t]), mesh.uv_at(t, q), part, int(mesh.wind_at(t, q)), next_gid[0])
+            stats["petioles" if h is not None else "tubes"] += 1
+            return True
+
+        def shift(comp):
+            """Moves a cluster of leaves onto the wood, rigidly; the connector tubes that go with it are dropped (their wood end
+            is left behind) and the next round joins the cluster afresh."""
+            u = comp[0]
+            v = vis["near"][u][0]
+            d, q, t = mesh.nearest_wood(v[None])
+            off = q[0] - v
+            pcs = np.unique(np.concatenate([units[x] for x in comp]))
+            ids = np.unique(mesh.gen[np.isin(mesh.piece, mesh.rigid(pcs))])
+            dropped.update(int(i) for i in ids if i > 0)
+            move(pcs, off + off / np.linalg.norm(off) * 0.0008)
+            stats["moved"] += 1
+
+        for comp in vis["components"]:
+            # every leaf that is near enough gets its own tube (a join must not rest on leaf-leaf contacts, which the
+            # surface sampling makes flicker); a cluster with no such leaf is moved as one rigid body
+            if polish and skip_done:
+                comp = [u for u in comp if key(u) not in polished]
+            if moves_only:      # first the moves, then (a later pass) the tubes: a tube made before a move would be left dangling
+                if comp and not any(join(u, dry=True) for u in comp):
+                    shift(sorted(comp, key=lambda x: vis["gap"][x]))
+                continue
+            pending, joined = [], 0
+            for u in sorted(comp, key=lambda x: vis["gap"][x]):
+                if join(u):
+                    joined += 1
+                    if polish:
+                        polished.add(key(u))
+                else:
+                    pending.append(u)
+            if pending and not joined and not polish:     # (a polish draw never moves anything: a leaf far from the live wood there is a flicker of the wood graph)
+                shift(pending)
+
+    wood_done = set()
+
+    def connect_wood():
+        """A twig or connector that hangs on the plant (a join within reach) but is not live in the contact graph (its end
+        is within reach of the wood yet no surface samples of the two are within TOL) takes every leaf on it out of the
+        live set: one short connector tube from its nearest point to the live wood, once per piece group."""
+        con = mesh.contacts()
+        live = mesh.live_wood(con)
+        mesh.wood_query(live)
+        loose = (mesh.cls == "wood") & ~live & mesh.visible_piece
+        if not loose.any():
+            return
+        comp = mesh._components(con, loose)
+        S, SP, ST = mesh.samples()
+        sel = np.where(loose[SP])[0]
+        if not len(sel):
+            return
+        d, q, t = mesh.nearest_wood(S[sel])
+        for c in np.unique(comp[SP[sel]]):
+            mine = comp[SP[sel]] == c
+            i = int(np.argmin(np.where(mine, d, np.inf)))
+            if not np.isfinite(d[i]) or d[i] > TUBE_MAX:
+                continue
+            k = int(np.flatnonzero(np.isin(mesh.piece, np.where(loose & (comp == c))[0]))[0])
+            if k in wood_done:
+                continue
+            wood_done.add(k)
+            p, qi, ti = S[sel[i]], q[i], int(t[i])
+            dirn = (qi - p) / d[i] if d[i] > 1e-6 else np.zeros(3)
+            end = qi + dirn * EMBED
+            mesh.add_tube(stub(p, end), end, STALK_R[0], STALK_R[1], 3, 1, int(mesh.M[ti]), mesh.uv_at(ti, qi),
+                          int(mesh.wind_at(int(ST[sel[i]]), p)), int(mesh.wind_at(ti, qi)))
+            stats["wood"] += 1
+
+    def draws(rnd):
+        """DRAWS fresh surface samplings of the mesh, each with the audit's own coarse test: yields each one's result."""
+        for k in range(DRAWS):
+            mesh.resample(seed + DRAWS * rnd + k)
+            yield leaf_visible(mesh, TOL)
+        mesh.resample(7)
+
+    for k in range(WOOD_DRAWS):     # loose wood first: leaves on it are not attached to anything live
+        mesh.fold()
+        mesh.resample(seed + 3000 + k)
+        connect_wood()
+    mesh.fold()
+    for _ in range(MOVE_ROUNDS):    # moves first: a cluster too far from the wood for a tube is carried onto it
+        mesh.fold()
+        vis = leaf_visible(mesh, REPAIR_TOL, fine=True) if fine_phase else dict(floating=[])
+        before = stats["moved"]
+        if vis["floating"]:
+            handle(vis, False, moves_only=True)
+        if dropped:
+            mesh.drop_tubes(dropped); dropped.clear()
+        if stats["moved"] == before:
+            break
+    polish_done = 0
+    for rnd in range(rounds + 1):
+        mesh.fold()
+        vis = leaf_visible(mesh, REPAIR_TOL, fine=True) if fine_phase else dict(floating=[])
+        if vis["floating"]:
+            if rnd == rounds:
+                break
+            handle(vis, False)
+            if dropped:
+                mesh.drop_tubes(dropped); dropped.clear()
+            continue
+        # nothing is off on the dense samples. The audit's coarse sampling is redrawn whenever the mesh is, and a leaf that
+        # touches the wood by a sliver (a petiole tip, a leaf corner) is hit by one draw and missed by the next: every leaf
+        # that is floating under any of several draws gets one connector tube, so the join survives a fresh sampling
+        before = stats["tubes"] + stats["petioles"]
+        for vk in draws(rnd):
+            handle(vk, True)
+        polish_done += 1
+        if stats["tubes"] + stats["petioles"] == before or rnd == rounds or polish_done == polish_rounds:
+            break
+    # the mesh as it will be written: its default sampling (what an audit of the saved file draws first) must pass, so
+    # whatever floats there gets a tube, up to three times (each tube redraws the sampling a little)
+    for _ in range(3):
+        mesh.fold()
+        vf = leaf_visible(mesh, TOL)
+        if not vf["floating"]:
+            break
+        handle(vf, True, skip_done=False)
+    mesh.fold()
+    final = set()
+    for k in range(3):      # fresh draws of the finished mesh
+        mesh.resample(seed + 4000 + k)
+        final |= {key(u) for u in leaf_visible(mesh, TOL)["floating"]}
+    mesh.resample(7)
+    stats["left"] = len(final)
     return stats
 
 
@@ -970,6 +1228,44 @@ def write_back(data, mesh):
     data[p + "M"] = mesh.M.astype(np.int32)
 
 
+def polish(model, data, rounds=4, fine=False):
+    """Robust-contact pass only, on a model that was already repaired: loose wood gets its connector, and every leaf
+    that is floating under any of several fresh samplings of its mesh gets one connector tube. The near mesh and a
+    hinged-leaf format never move a leaf here; a mid mesh of a format with per-LOD anchors may (a leaf on wood the mid
+    mesh lost), and then the wind file's mid anchors follow. Returns (stats, wind to write or None)."""
+    names = [str(n) for n in data["objects"]]
+    wind = Wind(model["wind"]) if model["wind"] else None
+    if wind is not None:
+        near = Mesh(data, next(i for i, n in enumerate(names) if "LOD0" in n), model["alpha"], model.get("parts"))
+        tw, has = tag_positions(near, wind.n)
+        wind.fit(tw, has)
+    moved = False
+    stats = {}
+    for i, name in enumerate(names):
+        mesh = Mesh(data, i, model["alpha"], model.get("parts"))
+        movable = "LOD0" not in name and wind is not None and wind.sets >= 2
+
+        def hinges(mesh=mesh):
+            if wind is None or wind.version not in (1, 2):
+                return {}
+            tw, has = tag_positions(mesh, wind.n)
+            return {k: tw[k] for k in range(wind.n) if has[k]}
+
+        def move(pieces, offset, mesh=mesh, movable=movable):
+            nonlocal moved
+            if not movable:
+                raise RuntimeError("a polish pass may move a leaf only on a mid mesh with its own wind anchors")
+            mesh.translate(pieces, offset)
+            moved = True
+
+        stats[name] = fix_visible(mesh, move, hinges, small="LOD0" not in name, polish_rounds=rounds, seed=20000 + 100 * i + 7 * rounds, fine_phase=movable or fine)
+        if movable and moved:
+            tw1, has1 = tag_positions(mesh, wind.n)
+            wind.anchors[1][has1] = (tw1[has1] - wind.t) @ wind.Ainv.T
+        write_back(data, mesh)
+    return stats, (wind if moved else None)
+
+
 # ============================================================================ audit of one model
 
 def audit_model(model, data):
@@ -1019,7 +1315,7 @@ def line(name, r):
          f"fruit {r['fruit']['gaps']}/{r['fruit']['total']} (max {r['fruit']['max_gap_mm']} mm) "
          f"loose wood {r['loose_wood']['gaps']}/{r['loose_wood']['total']} (max {r['loose_wood']['max_gap_mm']} mm)")
     lv = r["leaves_visible"]
-    s += f"  leaves_visible {lv['floating']}/{lv['total']} floating (max {lv['max_gap_mm']} mm)"
+    s += f"  leaves_visible {lv['floating']}/{lv['total']} floating (max {lv['max_gap_mm']} mm; dense {lv['floating_dense']}, max {lv['max_gap_dense_mm']} mm)"
     if "wind" in r:
         s += f"  wind: {r['wind']['open_in_cycle_over_3mm']}/{r['wind']['moving_joins_checked']} open (worst {r['wind']['worst_gap_in_cycle_mm']} mm)"
     return s
@@ -1027,10 +1323,12 @@ def line(name, r):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("mode", choices=["audit", "repair"])
+    ap.add_argument("mode", choices=["audit", "repair", "polish"])
     ap.add_argument("--only", default="")
     ap.add_argument("--source", default=None)
     ap.add_argument("--tag", default=None)
+    ap.add_argument("--rounds", type=int, default=4, help="polish: sampling rounds of the robust-contact pass")
+    ap.add_argument("--fine", action="store_true", help="polish: also run the dense-sample pass (joins leaves the coarse test misses)")
     args = ap.parse_args()
     only = {s.strip() for s in args.only.split(",") if s.strip()}
     folder = os.path.join(REPORTS, args.tag or args.mode)
@@ -1048,6 +1346,15 @@ def main():
                     print(line(name, r), flush=True)
                 if "detail_switch" in report:
                     print(f"  detail switch: {report['detail_switch']}", flush=True)
+            elif args.mode == "polish":
+                stats, wind = polish(model, data, args.rounds, args.fine)
+                fixed = os.path.join(work, "fixed.npz")
+                np.savez_compressed(fixed, **data)
+                blender("build", fixed, model["fbx"])
+                if wind is not None:
+                    wind.write(model["wind"])
+                report = dict(model=model["name"], stats=stats)
+                print(f"  {stats}", flush=True)
             else:
                 wind, stats = repair(model, data, print)
                 fixed = os.path.join(work, "fixed.npz")
