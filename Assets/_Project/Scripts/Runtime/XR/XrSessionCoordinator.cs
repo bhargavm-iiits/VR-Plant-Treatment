@@ -150,6 +150,10 @@ namespace BTP.XR
         bool handlingOpen;
         string openingScanId;
         string scanAfterPairing;
+        string questPairingCode;
+        string questPairingFeedback;
+        bool questPairingKeypad;
+        static bool IsQuest => Application.platform == RuntimePlatform.Android;
         XrLaunch confirmLaunch;
         XrSessionData confirmSession;
         /// <summary>A launch focused in the desktop view, waiting for Quest Link before it may report "opened".</summary>
@@ -238,15 +242,14 @@ namespace BTP.XR
             config = XrPlayerConfig.Load(out var configError);
             if (configError != null)
                 Debug.LogError("[BTP][XR] " + configError);
-            apiBaseUrl = !string.IsNullOrEmpty(args.ApiBaseUrl) ? args.ApiBaseUrl : config.apiBaseUrl;
+            apiBaseUrl = config.ResolveApiBaseUrl(args);
             CurrentMode = args.IsFixture ? Mode.Fixture
                 : string.IsNullOrEmpty(apiBaseUrl) ? Mode.Offline
                 : config.IsPreview && string.IsNullOrEmpty(args.ApiBaseUrl) ? Mode.Preview
                 : Mode.Connected;
             services = TreatmentServices.Instance;
 
-            // The receiver runs in every mode, so a click reaches a player that was started without a scan. The app link is
-            // a Windows feature; the Quest (Android) build never listens.
+            // Windows forwards a link over the local pipe. Quest receives it from the Android activity.
             if (Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor)
             {
                 pipe = new XrScanPipeServer(XrScanLink.CurrentUserPipeName());
@@ -255,6 +258,12 @@ namespace BTP.XR
 
             if (CurrentMode != Mode.Offline)
                 Activate();
+
+            if (IsQuest)
+            {
+                Application.deepLinkActivated += ReceiveQuestLink;
+                ReceiveQuestLink(Application.absoluteURL);
+            }
 
             if (XrScanLink.TryFindScanArgument(Environment.GetCommandLineArgs(), out var scanId, out var scanError))
                 RequestScan(scanId, "start-up");
@@ -270,6 +279,48 @@ namespace BTP.XR
                 RequestScan(pending, "Unity Editor");
             }
 #endif
+        }
+
+        void ReceiveQuestLink(string link)
+        {
+            var opensScan = XrScanLink.TryParseQuestScanUri(link, out var scanId, out _);
+            var pairs = XrScanLink.TryParseQuestPairUri(link, XrScanLink.QuestScheme, out var code);
+            if (!opensScan && !pairs)
+                return;
+
+            if (CurrentMode == Mode.Offline)
+            {
+                apiBaseUrl = config.ResolveApiBaseUrl(args, XrPlayerConfig.PlatformApiBaseUrl);
+                CurrentMode = Mode.Connected;
+                Activate();
+            }
+
+            if (opensScan)
+                RequestScan(scanId, "Quest app link");
+            else if (CurrentMode == Mode.Connected && !IsPairing)
+            {
+                questPairingKeypad = false;
+                questPairingCode = code;
+                RefreshPanel();
+            }
+        }
+
+        void SetQuestPairingKeypad(bool open)
+        {
+            questPairingCode = null;
+            questPairingFeedback = null;
+            questPairingKeypad = open;
+            RefreshPanel();
+        }
+
+        void RespondToQuestPairing(bool approve)
+        {
+            var code = questPairingCode;
+            questPairingCode = null;
+            if (approve)
+                Pair(code);
+            else
+                RefreshPanel();
         }
 
         /// <summary>Hooks the coordinator into the shared systems and starts its backend. Idempotent.</summary>
@@ -329,6 +380,8 @@ namespace BTP.XR
             if (Instance != this)
                 return;
             Instance = null;
+            if (IsQuest)
+                Application.deepLinkActivated -= ReceiveQuestLink;
             socket?.Dispose();
             pipe?.Dispose();
             if (!active)
@@ -406,7 +459,8 @@ namespace BTP.XR
             credential = XrDeviceCredentialStore.Load();
             http = new HttpXrBackend(apiBaseUrl, () => credential?.deviceToken);
             backend = http;
-            gameObject.AddComponent<XrPairingWindow>().Bind(this);
+            if (!IsQuest)
+                gameObject.AddComponent<XrPairingWindow>().Bind(this);
             if (credential != null)
                 StartSocket();
             else
@@ -528,6 +582,8 @@ namespace BTP.XR
 
             if (scanId == openingScanId || scanId == scanAfterPairing)
             {
+                if (IsQuest && scanId == scanAfterPairing && !IsPairing && !questPairingKeypad)
+                    SetQuestPairingKeypad(true);
                 Debug.Log($"[BTP][XR] Scan {scanId} is already opening; the repeated click is ignored.");
                 return;
             }
@@ -548,8 +604,13 @@ namespace BTP.XR
                     return;
                 }
 
-                notice = "Pair this PC to open the scan: press Pair VR on the CropScan website and type the code in the window on the PC screen.";
-                RefreshPanel();
+                if (IsQuest)
+                    SetQuestPairingKeypad(true);
+                else
+                {
+                    notice = "Pair this PC to open the scan: press Pair VR on the CropScan website and type the code in the window on the PC screen.";
+                    RefreshPanel();
+                }
                 return;
             }
 
@@ -609,6 +670,14 @@ namespace BTP.XR
 
             if (!result.Ok)
             {
+                if (IsQuest && (result.Status == 401 || result.Status == 403))
+                {
+                    scanAfterPairing = scanId;
+                    SetQuestPairingKeypad(true);
+                    questPairingFeedback = "Choose Pair VR in the browser that made this scan.";
+                    RefreshPanel();
+                    yield break;
+                }
                 // Before a session exists there is no launch record for the web page; the reason shows here.
                 ShowProblem("The scan could not be opened: " + result.Error);
                 yield break;
@@ -1255,6 +1324,7 @@ namespace BTP.XR
                 return;
             IsPairing = true;
             PairingMessage = "Pairing...";
+            questPairingFeedback = "Checking the code...";
             RefreshPanel();
             XrResult<XrDeviceCredential> result;
             try
@@ -1270,6 +1340,12 @@ namespace BTP.XR
             if (!result.Ok)
             {
                 PairingMessage = "Pairing failed: " + result.Error;
+                if (IsQuest)
+                {
+                    questPairingFeedback = result.Error;
+                    if (!questPairingKeypad)
+                        notice = PairingMessage;
+                }
                 RefreshPanel();
                 return;
             }
@@ -1277,6 +1353,12 @@ namespace BTP.XR
             credential = result.Value;
             XrDeviceCredentialStore.Save(credential);
             PairingMessage = $"Paired as device {credential.deviceId}.";
+            if (IsQuest)
+            {
+                questPairingKeypad = false;
+                questPairingFeedback = null;
+                notice = "Quest paired. Open a scan from the CropScan website.";
+            }
             StartSocket();
             // A scan clicked before pairing is opened now.
             var waiting = scanAfterPairing;
@@ -1396,6 +1478,12 @@ namespace BTP.XR
                 raycaster.enabled = !suppressed;
             if (suppressed)
                 return;
+            if (questPairingKeypad)
+            {
+                panel.ShowPairingKeypad(Pair, () => SetQuestPairingKeypad(false), questPairingFeedback, IsPairing);
+                return;
+            }
+            panel.HidePairingKeypad();
             var environment = EnvironmentController.Instance;
             var current = environment != null ? environment.Current : null;
             var actions = new List<XrStatusPanel.Action>();
@@ -1424,7 +1512,14 @@ namespace BTP.XR
             }
 
             string title;
-            if (confirmLaunch != null)
+            if (questPairingCode != null)
+            {
+                title = "Pair this Quest?";
+                text.AppendLine("Approve only if you just chose Pair VR in the CropScan browser you want to connect.");
+                actions.Add(new XrStatusPanel.Action("Approve pairing", () => RespondToQuestPairing(true)));
+                actions.Add(new XrStatusPanel.Action("Cancel", () => RespondToQuestPairing(false)));
+            }
+            else if (confirmLaunch != null)
             {
                 title = "Open a different scan?";
                 text.AppendLine($"Scan {confirmSession.scanId} ({CaseTitle(confirmSession)}) was sent to this headset.");
@@ -1436,7 +1531,15 @@ namespace BTP.XR
             {
                 title = handlingOpen || opens.Count > 0 ? "Opening your scan..." : "No scan open";
                 if (CurrentMode == Mode.Connected && !IsPaired)
-                    text.AppendLine("Pair this PC: press Pair VR on the CropScan website and type the code in the window on the PC screen.");
+                {
+                    if (IsQuest)
+                    {
+                        text.AppendLine("Choose Pair VR on the website and enter the code here.");
+                        actions.Add(new XrStatusPanel.Action("Enter pairing code", () => SetQuestPairingKeypad(true), !IsPairing));
+                    }
+                    else
+                        text.AppendLine("Pair this PC: press Pair VR on the CropScan website and type the code in the window on the PC screen.");
+                }
                 else if (!handlingOpen && opens.Count == 0)
                     text.AppendLine("Press Enter the field on a CropScan result to open it here.");
                 if (CurrentMode == Mode.Fixture)

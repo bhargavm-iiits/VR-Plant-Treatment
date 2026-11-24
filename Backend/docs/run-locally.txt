@@ -1,0 +1,91 @@
+CropScan XR - running the website and API on this laptop
+==========================================================
+
+You need two terminals open at the same time: one for the API, one for the
+website. Leave both running while you use the site. Press Ctrl+C in a terminal
+to stop that server.
+
+
+1. Start the API (backend)
+--------------------------
+
+Open PowerShell and run:
+
+    cd "D:\Unity Projects\Plant Disease\BTP_Project\Backend\services\api"
+    .venv\Scripts\python dev_local.py
+
+Wait for this line:
+
+    CropScan API: http://127.0.0.1:8000   docs: http://127.0.0.1:8000/docs ...
+
+It uses the SQLite database and media folder in Backend\.local\ and the
+settings in services\api\.env (including the Unity paths that See VR Demo and
+Open in CropScan XR use to start Unity).
+
+First time only, if the .venv folder is missing:
+
+    py -3.12 -m venv .venv
+    .venv\Scripts\python -m pip install -r requirements.txt
+
+
+2. Start the website (frontend)
+-------------------------------
+
+Open a second PowerShell window and run:
+
+    cd "D:\Unity Projects\Plant Disease\BTP_Project\Backend\frontend"
+    $env:API_URL = "http://127.0.0.1:8000"
+    npm run dev
+
+Wait for the "Local: http://localhost:5199/" line.
+
+First time only, if the node_modules folder is missing:
+
+    npm install
+
+
+3. Links
+--------
+
+    Website ............ http://localhost:5199
+    Detect page ........ http://localhost:5199/detect
+    Leaf library (3D) .. http://localhost:5199/field
+    API ................ http://127.0.0.1:8000
+    API docs ........... http://127.0.0.1:8000/docs
+    API health ......... http://127.0.0.1:8000/healthz
+    Activity log (CSV) . http://127.0.0.1:8000/api/activity.csv
+
+The activity log can only be opened from this computer.
+
+
+4. Checking it works
+--------------------
+
+Open http://127.0.0.1:8000/healthz. It should show "status":"ok" and
+"model_loaded":true. Then open http://localhost:5199/field: a 3D leaf should
+appear and turn when you drag it.
+
+
+5. If something goes wrong
+--------------------------
+
+"Port 5199 is already in use"
+    The website is already running in another window, so use that one, or
+    find and stop the old one:
+        netstat -ano | findstr :5199
+        taskkill /PID <the number in the last column> /F
+
+The API will not start because port 8000 is in use
+    Same as above, with :8000 instead of :5199.
+
+The site loads but scans, disease lists or notes do not
+    The API is not running, or it was stopped. Check the API terminal and
+    start it again (step 1).
+
+See VR Demo / Open in CropScan XR says CropScan XR could not be opened
+    Check XR_UNITY_EDITOR_PATH and XR_UNITY_PROJECT_PATH in
+    services\api\.env. The first start of Unity can take a few minutes.
+
+Servers started from Claude Code stop when the computer runs low on memory.
+Servers started by hand with the steps above keep running until you close
+their window or press Ctrl+C.

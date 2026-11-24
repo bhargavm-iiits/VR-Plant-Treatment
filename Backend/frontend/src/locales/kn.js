@@ -144,7 +144,7 @@ export default {
   'result.vrBody': 'ಈ ಕಂಪ್ಯೂಟರ್‌ನಲ್ಲಿ CropScan XR ಹೊಲದ ಇದೇ ಸಸ್ಯದ ಬಳಿ ತೆರೆಯುತ್ತದೆ. ಮೊದಲು Quest Link ಆರಂಭಿಸಿ.',
   'result.vrInstall': 'ಈ ಕಂಪ್ಯೂಟರ್‌ನಲ್ಲಿ ಮೊದಲ ಬಾರಿಯೇ? Windows ಗಾಗಿ CropScan XR ಅನ್ನು ಸ್ಥಾಪಿಸಿ, ನಂತರ "VR ಜೋಡಿಸಿ" ಒತ್ತಿ.',
   'result.pairVr': 'VR ಜೋಡಿಸಿ',
-  'result.pairCode': 'ಈ ಕಂಪ್ಯೂಟರ್‌ನ CropScan XR ವಿಂಡೋದಲ್ಲಿ {code} ಟೈಪ್ ಮಾಡಿ. ಈ ಕೋಡ್ ಒಮ್ಮೆ ಮಾತ್ರ ಕೆಲಸ ಮಾಡುತ್ತದೆ ಮತ್ತು 10 ನಿಮಿಷಗಳಲ್ಲಿ ಅವಧಿ ಮುಗಿಯುತ್ತದೆ.',
+  'result.pairCode': 'Quest ಕೀಪ್ಯಾಡ್‌ನಲ್ಲಿ ಅಥವಾ Windows‌ನ CropScan XR ನಲ್ಲಿ {code} ನಮೂದಿಸಿ. ಈ ಕೋಡ್ ಒಮ್ಮೆ ಮಾತ್ರ ಕೆಲಸ ಮಾಡುತ್ತದೆ ಮತ್ತು 10 ನಿಮಿಷಗಳಲ್ಲಿ ಅವಧಿ ಮುಗಿಯುತ್ತದೆ.',
   'result.vrOpening': 'ಹೆಡ್‌ಸೆಟ್‌ನಲ್ಲಿ ತೆರೆಯುತ್ತಿದೆ…',
   'result.vrOpened': 'ಹೆಡ್‌ಸೆಟ್‌ನಲ್ಲಿ ತೆರೆಯಲಾಗಿದೆ',
   'result.vrFailed': 'VR ನಲ್ಲಿ ತೆರೆಯಲಾಗಲಿಲ್ಲ: {reason}',

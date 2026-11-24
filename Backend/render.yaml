@@ -26,7 +26,5 @@ services:
         value: "1"
       - key: SCAN_CONCURRENCY
         value: "1"
-      - key: AWS_EC2_METADATA_DISABLED
-        value: "true"
       - key: CORS_ORIGINS
-        value: "https://vr-plant-helath.vercel.app"
+        value: "*"

@@ -13,6 +13,7 @@ namespace BTP.XR
     public sealed class XrPlayerConfig
     {
         public const string FileName = "CropScanXR.config.json";
+        public const string QuestApiBaseUrl = "https://cropscan-api-hzln.onrender.com";
         /// <summary>The paired player creates or reopens sessions over HTTPS (POST /api/xr/sessions). The default.</summary>
         public const string ModePaired = "paired";
         /// <summary>Staging proof of concept: GET /api/scans/{id} plus the case map; results stay on this PC.</summary>
@@ -23,6 +24,16 @@ namespace BTP.XR
         public string socketUrl;
 
         public bool IsPreview => string.Equals(sessionMode, ModePreview, StringComparison.OrdinalIgnoreCase);
+
+        public static string PlatformApiBaseUrl =>
+            Application.platform == RuntimePlatform.Android ? QuestApiBaseUrl : null;
+
+        public string ResolveApiBaseUrl(XrLaunchArgs args, string fallback = null)
+        {
+            if (!string.IsNullOrEmpty(args.ApiBaseUrl))
+                return args.ApiBaseUrl;
+            return !string.IsNullOrEmpty(apiBaseUrl) ? apiBaseUrl : fallback;
+        }
 
         /// <summary>The folder holding PlantDiseaseVR.exe (the project folder in the Editor).</summary>
         public static string InstallFolder => Path.GetDirectoryName(Application.dataPath);

@@ -1,0 +1,10 @@
+{
+  "name": "cropscan-xr",
+  "private": true,
+  "packageManager": "pnpm@9.12.0",
+  "scripts": {
+    "dev": "pnpm --filter crop-disease-detector dev",
+    "build": "pnpm --filter crop-disease-detector build",
+    "test": "pnpm --filter crop-disease-detector test"
+  }
+}

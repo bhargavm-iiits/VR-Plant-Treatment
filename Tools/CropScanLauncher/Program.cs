@@ -51,12 +51,19 @@ namespace CropScanLauncher
                 return 2;
             }
 
+            var questAdb = QuestBridge.ConfiguredAdb;
+            if (questAdb != null && XrScanLink.TryParseQuestPairUri(args[0], XrScanLink.Scheme, out var pairingCode))
+                return SendToQuest(questAdb, $"{XrScanLink.QuestScheme}://{XrScanLink.QuestPairHost}/?code={pairingCode}");
+
             if (!XrScanLink.TryParseOpenFieldUri(args[0], out var scanId, out var error))
             {
                 Log("Refused link: " + error);
                 Show("CropScan XR did not open this link.\n\n" + error);
                 return 2;
             }
+
+            if (questAdb != null)
+                return SendToQuest(questAdb, $"{XrScanLink.QuestScheme}://{XrScanLink.Host}/?scan={scanId}");
 
             var pipe = XrScanLink.CurrentUserPipeName();
             var player = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, PlayerExe);
@@ -88,6 +95,20 @@ namespace CropScanLauncher
                     gate.ReleaseMutex();
                 }
             }
+        }
+
+        static int SendToQuest(string adb, string link)
+        {
+            var problem = QuestBridge.Open(adb, link);
+            if (problem == null)
+            {
+                Log("Activation sent to the Quest.");
+                return 0;
+            }
+
+            Log("Quest activation failed: " + problem);
+            Show(problem);
+            return 8;
         }
 
         static int Activate(string scanId, string pipe, string player)

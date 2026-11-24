@@ -24,6 +24,8 @@ namespace BTP.Editor
 
             // Native hand tracking (Addendum 5): the Android OpenXR hand features must be on in the build.
             XRProjectSetup.EnsureQuestHandTracking();
+            // Where the chamber specimen's leaves are (the crop meshes are not CPU-readable on the Quest): the sprayer's wet beads.
+            SpecimenSurfaceBaker.Bake();
             AssetDatabase.SaveAssets();
             Directory.CreateDirectory(Path.GetDirectoryName(OutputPath));
             var previousBundleSetting = EditorUserBuildSettings.buildAppBundle;

@@ -67,6 +67,7 @@ namespace BTP.XR
         TMP_Text body;
         readonly List<Button> buttons = new List<Button>();
         readonly List<System.Action> handlers = new List<System.Action>();
+        PairingKeypad pairingKeypad;
 
         public static XrStatusPanel Create(Transform parent)
         {
@@ -120,27 +121,135 @@ namespace BTP.XR
 
             for (var i = 0; i < MaxActions; i++)
             {
-                var image = Node($"Action{i + 1}", rect).gameObject.AddComponent<Image>();
-                Place(image.rectTransform, Pad, buttonTop, ButtonWidth(MaxActions), ButtonHeight);
-                var button = image.gameObject.AddComponent<Button>();
-                button.targetGraphic = image;
-                button.navigation = new Navigation { mode = Navigation.Mode.None };
-                var colors = button.colors;
-                colors.normalColor = UIPalette.ButtonNormal;
-                colors.highlightedColor = UIPalette.ButtonHover;
-                colors.pressedColor = UIPalette.ButtonPressed;
-                colors.selectedColor = UIPalette.ButtonNormal;
-                colors.disabledColor = UIPalette.ButtonDisabled;
-                button.colors = colors;
-                var label = Text("Label", image.rectTransform, 21f, FontStyles.Bold, TextAlignmentOptions.Center);
-                Stretch(label.rectTransform, 4f);
-                label.enableAutoSizing = true;
-                label.fontSizeMin = 17f;
-                label.fontSizeMax = 21f;
                 var index = i;
                 handlers.Add(null);
-                button.onClick.AddListener(() => handlers[index]?.Invoke());
+                var button = CreateButton(rect, $"Action{i + 1}", "", () => handlers[index]?.Invoke());
+                Place((RectTransform)button.transform, Pad, buttonTop, ButtonWidth(MaxActions), ButtonHeight);
                 buttons.Add(button);
+            }
+        }
+
+        public void ShowPairingKeypad(System.Action<string> submit, System.Action cancel, string message, bool busy)
+        {
+            pairingKeypad ??= new PairingKeypad((RectTransform)transform, submit, cancel);
+            pairingKeypad.Show(message, busy);
+        }
+
+        public void HidePairingKeypad() => pairingKeypad?.Hide();
+
+        static Button CreateButton(RectTransform parent, string name, string caption, System.Action press)
+        {
+            var image = Node(name, parent).gameObject.AddComponent<Image>();
+            var button = image.gameObject.AddComponent<Button>();
+            button.targetGraphic = image;
+            button.navigation = new Navigation { mode = Navigation.Mode.None };
+            var colors = button.colors;
+            colors.normalColor = UIPalette.ButtonNormal;
+            colors.highlightedColor = UIPalette.ButtonHover;
+            colors.pressedColor = UIPalette.ButtonPressed;
+            colors.selectedColor = UIPalette.ButtonNormal;
+            colors.disabledColor = UIPalette.ButtonDisabled;
+            button.colors = colors;
+            var label = Text("Label", image.rectTransform, 21f, FontStyles.Bold, TextAlignmentOptions.Center);
+            Stretch(label.rectTransform, 4f);
+            label.enableAutoSizing = true;
+            label.fontSizeMin = 17f;
+            label.fontSizeMax = 21f;
+            label.text = caption;
+            button.onClick.AddListener(() => press());
+            return button;
+        }
+
+        sealed class PairingKeypad
+        {
+            const float PanelWidth = 620f;
+            const int Columns = 8;
+            const float KeyHeight = 47f;
+            const float Gap = 6f;
+            readonly RectTransform root;
+            readonly TMP_Text codeDisplay;
+            readonly TMP_Text feedback;
+            readonly Button connect;
+            readonly Button backspace;
+            readonly Button cancel;
+            readonly List<Button> keys = new List<Button>();
+            string code = "";
+            bool busy;
+
+            public PairingKeypad(RectTransform parent, System.Action<string> submit, System.Action close)
+            {
+                root = Node("Quest pairing keypad", parent);
+                root.anchorMin = root.anchorMax = root.pivot = new Vector2(0.5f, 0.5f);
+                root.anchoredPosition = new Vector2(0f, -88f);
+                root.sizeDelta = new Vector2(PanelWidth, 500f);
+                var background = root.gameObject.AddComponent<Image>();
+                var panelColor = UIPalette.Panel;
+                panelColor.a = 1f;
+                background.color = panelColor;
+
+                var heading = Text("Heading", root, 33f, FontStyles.Bold, TextAlignmentOptions.Center);
+                Place(heading.rectTransform, Pad, 14f, PanelWidth - 2f * Pad, 44f);
+                heading.text = "Pair this Quest";
+                var instructions = Text("Instructions", root, 21f, FontStyles.Normal, TextAlignmentOptions.Center);
+                Place(instructions.rectTransform, Pad, 61f, PanelWidth - 2f * Pad, 42f);
+                instructions.text = "On your laptop, choose Pair VR. Enter the code shown there.";
+                codeDisplay = Text("Pairing code", root, 34f, FontStyles.Bold, TextAlignmentOptions.Center);
+                Place(codeDisplay.rectTransform, Pad, 103f, PanelWidth - 2f * Pad, 53f);
+                codeDisplay.characterSpacing = 10f;
+
+                var keyWidth = (PanelWidth - 2f * Pad - (Columns - 1f) * Gap) / Columns;
+                for (var i = 0; i < XrScanLink.PairingAlphabet.Length; i++)
+                {
+                    var key = XrScanLink.PairingAlphabet[i];
+                    var label = key.ToString();
+                    var button = CreateButton(root, "Key " + label, label, () => ChangeCode(code + key));
+                    Place((RectTransform)button.transform, Pad + i % Columns * (keyWidth + Gap),
+                        168f + i / Columns * (KeyHeight + Gap), keyWidth, KeyHeight);
+                    keys.Add(button);
+                }
+
+                feedback = Text("Feedback", root, 19f, FontStyles.Normal, TextAlignmentOptions.Center);
+                feedback.richText = false;
+                feedback.color = UIPalette.TextSecondary;
+                Place(feedback.rectTransform, Pad, 382f, PanelWidth - 2f * Pad, 49f);
+                var actionWidth = (PanelWidth - 2f * Pad - 2f * Gap) / 3f;
+                cancel = CreateButton(root, "Cancel", "Cancel", close);
+                backspace = CreateButton(root, "Backspace", "Backspace", () => ChangeCode(code.Substring(0, code.Length - 1)));
+                connect = CreateButton(root, "Connect", "Connect", () => submit(code.Insert(4, "-")));
+                Place((RectTransform)cancel.transform, Pad, 437f, actionWidth, KeyHeight);
+                Place((RectTransform)backspace.transform, Pad + actionWidth + Gap, 437f, actionWidth, KeyHeight);
+                Place((RectTransform)connect.transform, Pad + 2f * (actionWidth + Gap), 437f, actionWidth, KeyHeight);
+            }
+
+            public void Show(string message, bool submitting)
+            {
+                busy = submitting;
+                feedback.text = message ?? "";
+                root.gameObject.SetActive(true);
+                Refresh();
+            }
+
+            public void Hide()
+            {
+                code = "";
+                root.gameObject.SetActive(false);
+            }
+
+            void ChangeCode(string value)
+            {
+                code = value;
+                Refresh();
+            }
+
+            void Refresh()
+            {
+                codeDisplay.text = code.PadRight(XrScanLink.PairingCodeLength, '_').Insert(4, "-");
+                var complete = code.Length == XrScanLink.PairingCodeLength;
+                foreach (var key in keys)
+                    key.interactable = !busy && !complete;
+                backspace.interactable = !busy && code.Length > 0;
+                cancel.interactable = !busy;
+                connect.interactable = !busy && complete;
             }
         }
 

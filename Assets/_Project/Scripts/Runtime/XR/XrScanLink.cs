@@ -14,7 +14,11 @@ namespace BTP.XR
     public static class XrScanLink
     {
         public const string Scheme = "cropscanxr";
+        public const string QuestScheme = "plantdiseasevr";
         public const string Host = "open-field";
+        public const string QuestPairHost = "pair-quest";
+        public const string PairingAlphabet = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+        public const int PairingCodeLength = 8;
         public const string ScanQueryKey = "scan";
         public const string ScanArgument = "--crop-scan-id";
         public const int MaxUriLength = 256;
@@ -42,7 +46,13 @@ namespace BTP.XR
         /// Accepts exactly cropscanxr://open-field?scan=&lt;uuid&gt; (an optional trailing slash after the host is allowed,
         /// because browsers add one). No user info, port, other path, other or repeated query keys, or fragment.
         /// </summary>
-        public static bool TryParseOpenFieldUri(string text, out string scanId, out string error)
+        public static bool TryParseOpenFieldUri(string text, out string scanId, out string error) =>
+            TryParseScanUri(text, Scheme, out scanId, out error);
+
+        public static bool TryParseQuestScanUri(string text, out string scanId, out string error) =>
+            TryParseScanUri(text, QuestScheme, out scanId, out error);
+
+        static bool TryParseScanUri(string text, string scheme, out string scanId, out string error)
         {
             scanId = null;
             error = null;
@@ -50,10 +60,10 @@ namespace BTP.XR
                 return Fail("The link is empty or too long.", out error);
             if (!Uri.TryCreate(text.Trim(), UriKind.Absolute, out var uri))
                 return Fail("The link is not a valid URI.", out error);
-            if (!string.Equals(uri.Scheme, Scheme, StringComparison.OrdinalIgnoreCase))
-                return Fail($"Only {Scheme}: links are accepted.", out error);
+            if (!string.Equals(uri.Scheme, scheme, StringComparison.OrdinalIgnoreCase))
+                return Fail($"Only {scheme}: links are accepted.", out error);
             if (!string.Equals(uri.Host, Host, StringComparison.OrdinalIgnoreCase))
-                return Fail($"Only {Scheme}://{Host} links are accepted.", out error);
+                return Fail($"Only {scheme}://{Host} links are accepted.", out error);
             if (!string.IsNullOrEmpty(uri.UserInfo) || !uri.IsDefaultPort && uri.Port != -1)
                 return Fail("The link must not carry user information or a port.", out error);
             if (uri.AbsolutePath != "/" && uri.AbsolutePath != "")
@@ -70,6 +80,23 @@ namespace BTP.XR
             var value = Uri.UnescapeDataString(query.Substring(equals + 1));
             if (!TryParseScanId(value, out scanId))
                 return Fail("The scan ID is not a UUID.", out error);
+            return true;
+        }
+
+        public static bool TryParseQuestPairUri(string text, string scheme, out string code)
+        {
+            code = null;
+            var prefix = $"{scheme}://{QuestPairHost}/?code=";
+            if (text == null || text.Length != prefix.Length + PairingCodeLength + 1 ||
+                !text.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+                return false;
+
+            var candidate = text.Substring(prefix.Length).ToUpperInvariant();
+            for (var i = 0; i < candidate.Length; i++)
+                if (i == 4 ? candidate[i] != '-' : PairingAlphabet.IndexOf(candidate[i]) < 0)
+                    return false;
+
+            code = candidate;
             return true;
         }
 

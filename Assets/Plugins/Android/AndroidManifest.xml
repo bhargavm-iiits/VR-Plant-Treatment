@@ -3,7 +3,8 @@
   <application>
     <activity android:name="com.unity3d.player.UnityPlayerGameActivity"
               android:theme="@style/BaseUnityGameActivityTheme"
-              android:exported="true">
+              android:exported="true"
+              android:launchMode="singleTask">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
         <category android:name="android.intent.category.LAUNCHER" />
@@ -13,6 +14,13 @@
         <category android:name="android.intent.category.DEFAULT" />
         <category android:name="android.intent.category.BROWSABLE" />
         <data android:scheme="plantdiseasevr" android:host="demo" android:path="/" />
+      </intent-filter>
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data android:scheme="plantdiseasevr" android:host="open-field" android:path="/" />
+        <data android:scheme="plantdiseasevr" android:host="pair-quest" android:path="/" />
       </intent-filter>
       <meta-data android:name="unityplayer.UnityActivity" android:value="true" />
       <meta-data android:name="android.app.lib_name" android:value="game" />

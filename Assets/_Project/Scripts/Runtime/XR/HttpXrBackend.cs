@@ -140,7 +140,9 @@ namespace BTP.XR
         {
             var body = JsonUtility.ToJson(new XrPairingRedeemBody
             {
-                code = code?.Trim(), deviceName = SystemInfo.deviceName, platform = "windows-openxr", appVersion = Application.version,
+                code = code?.Trim(), deviceName = SystemInfo.deviceName,
+                platform = Application.platform == RuntimePlatform.Android ? "android-quest" : "windows-openxr",
+                appVersion = Application.version,
             });
             var (status, text, error) = await Send("POST", XrApiRoutes.PairingRedeem, body, null, false);
             if (error != null)
