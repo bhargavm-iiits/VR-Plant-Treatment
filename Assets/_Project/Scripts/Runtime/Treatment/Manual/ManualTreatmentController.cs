@@ -382,9 +382,28 @@ namespace BTP.Treatment
                     Handle(session.ProceedToFinal());
                     break;
                 case ManualStage.FinalAssessment:
-                    Handle(session.Finish());
+                    var finish = session.Finish();
+                    Handle(finish);
+                    if (finish.Accepted)
+                        ReportToStory();
                     break;
             }
+        }
+
+        /// <summary>
+        /// The finished session's outcome feeds the after-treatment story (<see cref="TreatmentFlowPrompt"/>): managed (or
+        /// partly managed, which heals half way) offers Go to Lab; not controlled or not treated asks to try again.
+        /// </summary>
+        void ReportToStory()
+        {
+            var key = session.Case.Key;
+            var outcome = session.Record.Outcome;
+            var healed = RecoveryFlow.HealedFor(outcome);
+            if (healed.HasValue)
+                TreatmentFlowPrompt.Applied(this, key.PlantId, key.DiseaseId, SelectionState.Instance != null ? SelectionState.Instance.SelectedSpecimen : null,
+                    1f, healed.Value, outcome, true);
+            else
+                TreatmentFlowPrompt.Failed(this, "Session result: " + TreatmentResultManager.OutcomeLabel(outcome) + ".");
         }
 
         void OnCheckHealth()

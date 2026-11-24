@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using BTP.Core;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR.Interaction.Toolkit.Attachment;
 using UnityEngine.XR.Interaction.Toolkit.Filtering;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
@@ -11,15 +12,17 @@ namespace BTP.Treatment
 {
     /// <summary>
     /// A portable treatment item that can be picked up, inspected, used and put back (added at runtime; no scene change).
-    /// Controllers hold it with the GRIP (<see cref="ControllerGripSelectFilter"/>; the trigger stays free to use it),
-    /// tracked hands with a grasp, the desktop with a click (<see cref="DesktopToolHand"/>). It follows the hand through an
-    /// XRGrabInteractable (instantaneous with position/rotation smoothing: crisp, no physics jitter) from its own grip
-    /// attach pose, highlights on hover and pulses the controller on grab and release.
-    /// Return rule (documented choice): released within <see cref="GuidedTreatmentConfig.homeSnapDistance"/> (25 cm) of its
-    /// holder it eases back into the original pose over 0.25 s; released elsewhere it drops physically (rigidbody,
-    /// gravity) onto whatever has a collider and goes home by itself, eased, after lying still for
-    /// <see cref="GuidedTreatmentConfig.idleReturnSeconds"/> (8 s), or at once when it falls below the floor or out of
-    /// reach. <see cref="ReturnHome"/> sends it home on demand (case change, step reset, desktop G).
+    /// Controllers pick it up and put it back with a GRIP press (<see cref="ToolGripToggle"/>: it stays in the hand with the
+    /// grip let go; the trigger keeps using it, e.g. spraying); controllers never select it any other way
+    /// (<see cref="ToggleSelectFilter"/>). Tracked hands hold it with a pinch or grasp (hold to keep), the desktop with a
+    /// click (<see cref="DesktopToolHand"/>). It follows the hand through an XRGrabInteractable (instantaneous with
+    /// position/rotation smoothing: crisp, no physics jitter) from its own grip attach pose; a ray (far) pick-up brings it
+    /// into the hand. It highlights on hover and pulses the controller on grab and release.
+    /// Return rule: released from an XR hand (controller toggle or tracked hand) it always eases back into its holder pose
+    /// (0.25 s when it is within <see cref="GuidedTreatmentConfig.homeSnapDistance"/> of it, else 0.55 s). The desktop keeps
+    /// the physical drop: released elsewhere it falls onto whatever has a collider and goes home by itself, eased, after
+    /// lying still for <see cref="GuidedTreatmentConfig.idleReturnSeconds"/> (8 s), or at once when it falls below the floor
+    /// or out of reach. <see cref="ReturnHome"/> sends it home on demand (case change, step reset, desktop G).
     /// </summary>
     public sealed class TreatmentGrabbable : MonoBehaviour
     {
@@ -61,6 +64,12 @@ namespace BTP.Treatment
         public XRGrabInteractable Grab => grab;
         public Transform Grip => grip;
         public bool DesktopHeld => desktopAnchor != null;
+
+        /// <summary>The controller holding it by grip toggle (<see cref="ToolGripToggle"/>), or null.</summary>
+        internal XRBaseInputInteractor ToggleHolder { get; set; }
+
+        /// <summary>An XR release (controller or tracked hand) always sends the item home; the desktop drops it.</summary>
+        internal static bool ReleaseReturnsHome(string heldBy) => heldBy != GuidedInputGate.Mouse;
 
         public event Action<TreatmentGrabbable> Grabbed;
         public event Action<TreatmentGrabbable> Released;
@@ -116,7 +125,15 @@ namespace BTP.Treatment
             grab.retainTransformParent = false;
             if (grip != null)
                 grab.attachTransform = grip;
-            ControllerGripSelectFilter.AddTo(grab);
+            // The controllers' near-far interactors default to a FAR attach: a ray grab would hold the tool at the end of the
+            // ray, metres away. A hand tool always comes to the hand, in its grip pose.
+            grab.farAttachMode = InteractableFarAttachMode.Near;
+            // Controllers: grip toggle only (a tool's own grip filter, e.g. the sprayer's, would drop it when the grip is let go).
+            grab.selectFilters.Remove(ControllerGripSelectFilter.Instance);
+            grab.selectFilters.Remove(ControllerGripSelectFilter.GripOrTrigger);
+            grab.selectFilters.Remove(ToggleSelectFilter.Instance);
+            grab.selectFilters.Add(ToggleSelectFilter.Instance);
+            ToolGripToggle.Register(this);
             grab.selectFilters.Remove(DesktopRayRejectFilter.Instance);
             grab.selectFilters.Add(DesktopRayRejectFilter.Instance);
             grab.selectEntered.AddListener(OnSelectEntered);
@@ -195,11 +212,20 @@ namespace BTP.Treatment
 
         void OnSelectExited(SelectExitEventArgs args)
         {
+            if (ToggleHolder != null && ReferenceEquals(args.interactorObject, ToggleHolder))
+                ToolGripToggle.Forget(this);
             if (args.isCanceled && Current != State.Held)
                 return;
             Haptic(0.18f, 0.05f);
             holder = null;
             EndHold();
+        }
+
+        void OnDestroy()
+        {
+            if (ToggleHolder != null)
+                ToolGripToggle.Forget(this);
+            ToolGripToggle.Unregister(this);
         }
 
         void BeginHold(string source)
@@ -213,10 +239,13 @@ namespace BTP.Treatment
 
         void EndHold()
         {
+            var toHome = ReleaseReturnsHome(HeldBy);
             HeldBy = null;
             desktopAnchor = null;
             if (GuidedGeometry.ReleaseSettlesHome(transform.position, homePosition, config.homeSnapDistance))
                 MoveHome(config.homeSettleSeconds, State.Settling);
+            else if (toHome)
+                MoveHome(ReturnSeconds, State.Returning);
             else
                 Drop();
             Released?.Invoke(this);
@@ -242,6 +271,8 @@ namespace BTP.Treatment
         /// <summary>Drops the item from the XR hand that holds it (if any) and sends it home.</summary>
         public void ReturnHome(bool instant = false)
         {
+            if (ToggleHolder != null)
+                ToolGripToggle.Release(this);
             if (grab != null && grab.isSelected && grab.interactionManager != null)
                 grab.interactionManager.CancelInteractableSelection((IXRSelectInteractable)grab);
             holder = null;
@@ -290,6 +321,8 @@ namespace BTP.Treatment
 
         void ReturnHomeCancelXr()
         {
+            if (ToggleHolder != null)
+                ToolGripToggle.Release(this);
             if (grab != null && grab.isSelected && grab.interactionManager != null)
                 grab.interactionManager.CancelInteractableSelection((IXRSelectInteractable)grab);
         }
@@ -370,6 +403,24 @@ namespace BTP.Treatment
         }
 
         static Color UIPalette() => BTP.UI.UIPalette.Cyan;
+
+        /// <summary>
+        /// Controllers select a tool only through the grip toggle (<see cref="ToolGripToggle"/>, which sets
+        /// <see cref="ToggleHolder"/> first); every other interactor (tracked hands, tests) is allowed.
+        /// </summary>
+        internal sealed class ToggleSelectFilter : IXRSelectFilter
+        {
+            public static readonly ToggleSelectFilter Instance = new ToggleSelectFilter();
+            public bool canProcess => true;
+
+            public bool Process(IXRSelectInteractor interactor, IXRSelectInteractable interactable)
+            {
+                if (interactor == null || !VrControllerRig.IsControllerInteractor(interactor))
+                    return true;
+                var item = interactable is Component c ? c.GetComponent<TreatmentGrabbable>() : null;
+                return item != null && ReferenceEquals(item.ToggleHolder, interactor);
+            }
+        }
 
         /// <summary>Hand-held tools use their own desktop hold (<see cref="DesktopToolHand"/>): the desktop mouse ray never selects them.</summary>
         sealed class DesktopRayRejectFilter : IXRSelectFilter

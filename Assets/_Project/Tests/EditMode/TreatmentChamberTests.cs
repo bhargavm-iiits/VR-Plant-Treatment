@@ -556,5 +556,52 @@ namespace BTP.Tests
                 Object.DestroyImmediate(b);
             }
         }
+
+        [Test]
+        public void SprayMist_IsDense_AndWetsTheLeavesInItsCone()
+        {
+            Assert.That(TrainingSprayTool.MistParticles, Is.GreaterThanOrEqualTo(400), "a dense mist (was 120 droplets)");
+            Assert.That(TrainingSprayTool.MistRate, Is.GreaterThanOrEqualTo(300f));
+            Assert.That(TrainingSprayTool.MistConeAngle, Is.GreaterThan(TrainingSprayTool.ConeAngle), "the visible cone is wider than the scoring cone");
+            Assert.That(TrainingSprayTool.MaxBeads, Is.InRange(100, 600), "beads on the leaves are capped for Quest");
+            Assert.That(TrainingSprayTool.BeadSeconds, Is.InRange(2f, 8f), "beads stay a few seconds, then fade");
+
+            var nozzle = new Vector3(0f, 1f, 0f);
+            var forward = Vector3.forward;
+            Assert.That(TrainingSprayTool.InSprayCone(nozzle, forward, nozzle + new Vector3(0.05f, 0f, 0.5f), TrainingSprayTool.MistConeAngle, TrainingSprayTool.BeadRange),
+                Is.True, "a leaf point in front of the nozzle gets wet");
+            Assert.That(TrainingSprayTool.InSprayCone(nozzle, forward, nozzle + new Vector3(0.4f, 0f, 0.5f), TrainingSprayTool.MistConeAngle, TrainingSprayTool.BeadRange),
+                Is.False, "outside the cone stays dry");
+            Assert.That(TrainingSprayTool.InSprayCone(nozzle, forward, nozzle + new Vector3(0f, 0f, 1.5f), TrainingSprayTool.MistConeAngle, TrainingSprayTool.BeadRange),
+                Is.False, "out of reach stays dry");
+            Assert.That(TrainingSprayTool.InSprayCone(nozzle, forward, nozzle - new Vector3(0f, 0f, 0.3f), TrainingSprayTool.MistConeAngle, TrainingSprayTool.BeadRange),
+                Is.False, "behind the nozzle stays dry");
+        }
+
+        [Test]
+        public void SpecimenSurfacePoints_CoverEveryFarmCropMesh()
+        {
+            var baked = UnityEditor.AssetDatabase.LoadAssetAtPath<SpecimenSurfacePoints>("Assets/_Project/Resources/" + SpecimenSurfacePoints.ResourcePath + ".asset");
+            Assume.That(baked, Is.Not.Null, "not baked yet (BTP/Treatment/Bake Specimen Surface Points; every Quest build bakes it)");
+            var variants = UnityEditor.AssetDatabase.LoadAssetAtPath<BTP.Plants.DiseaseVariantCatalog>("Assets/_Project/Data/DiseaseVariantCatalog.asset");
+            Assert.That(variants, Is.Not.Null);
+            var checkedMeshes = 0;
+            foreach (var entry in variants.Entries)
+            {
+                if (entry == null || entry.farmPrefab == null)
+                    continue;
+                foreach (var renderer in SpecimenGeometry.NearRenderers(entry.farmPrefab))
+                {
+                    var mesh = renderer.GetComponent<MeshFilter>()?.sharedMesh;
+                    if (mesh == null)
+                        continue;
+                    Assert.That(baked.TryGet(mesh, out var points), Is.True, $"{entry.farmPrefab.name}: {mesh.name} has baked leaf points");
+                    Assert.That(points.Length, Is.InRange(8, SpecimenSurfacePoints.MaxPointsPerMesh), mesh.name);
+                    checkedMeshes++;
+                }
+            }
+
+            Assert.That(checkedMeshes, Is.GreaterThan(0));
+        }
     }
 }

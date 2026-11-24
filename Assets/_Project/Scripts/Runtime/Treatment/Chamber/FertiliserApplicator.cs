@@ -3,6 +3,7 @@ using BTP.Core;
 using TMPro;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR.Interaction.Toolkit.Attachment;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
@@ -97,8 +98,11 @@ namespace BTP.Treatment
             grab.useDynamicAttach = false;
             grab.throwOnDetach = false;
             grab.attachTransform = rig;
-            // Controllers hold with the GRIP (the filter); tracked hands are unaffected.
-            ControllerGripSelectFilter.AddTo(grab);
+            // A ray grab brings the packet into the hand (the controllers' default is to hold it at the end of the ray).
+            grab.farAttachMode = InteractableFarAttachMode.Near;
+            // Controllers hold with the GRIP or the TRIGGER (the trigger does nothing else with the packet: it pours by
+            // tilting); tracked hands are unaffected.
+            ControllerGripSelectFilter.AddTo(grab, false);
             grab.selectEntered.AddListener(args => Grab(null, Hand(args.interactorObject)));
             grab.selectExited.AddListener(_ => Release());
         }

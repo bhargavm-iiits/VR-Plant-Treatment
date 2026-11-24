@@ -46,13 +46,15 @@ namespace BTP.Lab
             => Mathf.InverseLerp(baseline.leafHealth, final.leafHealth, current.leafHealth);
 
         /// <param name="quick">Use the shorter reset duration (Reset back to Week 1).</param>
-        public void Show(RecoveryWeek current, RecoveryWeek baseline, RecoveryWeek final, Transform splitRoot, bool quick = false)
+        /// <param name="healing">How far the leaf heals by the last week (1 fully; a partly effective treatment less).</param>
+        public void Show(RecoveryWeek current, RecoveryWeek baseline, RecoveryWeek final, Transform splitRoot, bool quick = false, float healing = 1f)
         {
             targets ??= GetComponentsInChildren<Renderer>(true);
             block ??= new MaterialPropertyBlock();
             planeRoot = splitRoot;
-            float next = RecoveryAmount(current, baseline, final);
-            float nextBaseline = current.week == final.week ? 1f : 0f;
+            healing = Mathf.Clamp01(healing);
+            float next = RecoveryAmount(current, baseline, final) * healing;
+            float nextBaseline = current.week == final.week ? healing : 0f;
             float seconds = quick ? resetSeconds : transitionSeconds;
             if (!initialized || seconds <= 0f)
             {

@@ -175,9 +175,11 @@ namespace BTP.Treatment
                 return;
 
             // The label changes only while it is up and at rest: a press keeps the old word until the pop-up returns.
-            SetGlyph(desktopMode);
             if (on && press < 0f)
+            {
+                SetGlyph(desktopMode, open);
                 SetLabel(open);
+            }
 
             float scale, alpha;
             if (on)
@@ -281,9 +283,9 @@ namespace BTP.Treatment
             rootRect.sizeDelta = new Vector2(Height * 0.5f + RingSize * 0.5f + Gap + width + RightPad, Height);
         }
 
-        void SetGlyph(bool desktopMode)
+        void SetGlyph(bool desktopMode, bool open)
         {
-            var text = ChamberDoorPrompt.GlyphFor(desktopMode);
+            var text = ChamberDoorPrompt.GlyphFor(desktopMode, open);
             if (text != glyphShown)
             {
                 glyphShown = text;

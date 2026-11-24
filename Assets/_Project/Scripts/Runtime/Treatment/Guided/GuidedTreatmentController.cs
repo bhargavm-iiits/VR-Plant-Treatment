@@ -930,6 +930,10 @@ namespace BTP.Treatment
             var applied = station.ApplyNow(settings);
             Debug.Log($"[BTP] Guided treatment complete for {station.Current?.SpecimenId}: kiosk apply {(applied ? "accepted" : "refused")}; recovery queued.");
             Save();
+            // The after-treatment story: the completion card below offers Go to Lab (no second pop-up).
+            var shown = station.Current;
+            TreatmentFlowPrompt.Applied(this, profile.PlantId, profile.DiseaseId, shown != null && shown.FromFarm ? shown.Specimen : null, diseaseBefore, 1f,
+                string.IsNullOrEmpty(profile.Outcome) ? "Recovered" : profile.Outcome, false);
             ShowCompletion();
         }
 
@@ -973,10 +977,18 @@ namespace BTP.Treatment
             var linked = shown != null && shown.FromFarm;
             var lines = string.Join("\n", BuildRecord().Lines());
             var note = linked ? "" : "\n<color=#F9BF24>No Farm plant was carried: this result is not saved to the Farm.</color>";
-            hud.ShowCard("4/4", "Treatment complete", "Plant recovering…", lines + note,
-                new GuidedHud.CardButton("Return to Farm", _ => ReturnToFarm()));
+            ShowCompletionCard("Plant recovering…", lines + note);
             recoveryShown = -1;
         }
+
+        /// <summary>
+        /// The completion card is the "Treatment applied" pop-up: return to the Lab to see the weekly changes (Go to Lab), or
+        /// Close it and stay (the controller menu still leads anywhere).
+        /// </summary>
+        void ShowCompletionCard(string target, string lines) =>
+            hud.ShowCard("4/4", TreatmentFlowPrompt.AppliedTitle, target, TreatmentFlowPrompt.AppliedText() + "\n" + lines,
+                new GuidedHud.CardButton(TreatmentFlowPrompt.GoToLabLabel, _ => GoToLab()),
+                new GuidedHud.CardButton(TreatmentFlowPrompt.CloseLabel, _ => hud.HideCard(), false));
 
         void RefreshCompletion()
         {
@@ -991,11 +1003,26 @@ namespace BTP.Treatment
             var shown = station.Current;
             var lines = string.Join("\n", BuildRecord().Lines());
             var note = shown != null && shown.FromFarm ? "" : "\n<color=#F9BF24>No Farm plant was carried: this result is not saved to the Farm.</color>";
-            hud.ShowCard("4/4", "Treatment complete", target, lines + note, new GuidedHud.CardButton("Return to Farm", _ => ReturnToFarm()));
+            ShowCompletionCard(target, lines + note);
         }
 
         /// <summary>Return to Farm: the result is saved first, then the Farm loads.</summary>
         public void ReturnToFarm()
+        {
+            LeaveStation();
+            var environment = EnvironmentController.Instance;
+            if (environment != null)
+                environment.ReturnToFarm();
+        }
+
+        /// <summary>Go to Lab: the result is saved first, then the visiting Lab loads with the treated plant selected.</summary>
+        public void GoToLab()
+        {
+            LeaveStation();
+            TreatmentFlowPrompt.GoToLab();
+        }
+
+        void LeaveStation()
         {
             Save();
             foreach (var item in AllTools())
@@ -1003,9 +1030,6 @@ namespace BTP.Treatment
             hud.HideCard();
             hud.SetChip(null, UIPalette.Cyan);
             GuidedInputGate.Gate.Clear();
-            var environment = EnvironmentController.Instance;
-            if (environment != null)
-                environment.ReturnToFarm();
         }
     }
 }

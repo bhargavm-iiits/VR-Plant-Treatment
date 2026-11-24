@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using BTP.Core;
+using BTP.Farm;
 using BTP.Plants;
 using BTP.UI;
 using TMPro;
@@ -53,6 +54,12 @@ namespace BTP.Lab
 
         // The demo week survives leaving and re-entering the Lab; only Reset returns to Week 1.
         static int sessionWeek = RecoveryTimeline.FirstWeek;
+        // The after-treatment story (RecoveryFlow) this panel last introduced; a newer one starts again at Week 1.
+        static int introducedStory;
+
+        public const string StoryIntroTitle = "Weekly changes";
+        public const string StoryIntroBody = "Your treated leaf is on the stand. Step from Week 1 (as treated) to Week 6 with < and > on the timeline below it.";
+        public const string SeeFarmLabel = "See changes in the Farm";
 
         RecoveryTimeline timelineState;
         LeafRecoveryVisual visual;
@@ -63,9 +70,20 @@ namespace BTP.Lab
         TMP_Text comparisonHint;
         bool quickTransition;
         bool showingTransitionState;
+        bool farmPromptPending;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        static void ResetStatics() => sessionWeek = RecoveryTimeline.FirstWeek;
+        static void ResetStatics()
+        {
+            sessionWeek = RecoveryTimeline.FirstWeek;
+            introducedStory = 0;
+        }
+
+        /// <summary>The week shown on the timeline.</summary>
+        public int CurrentWeek => timelineState != null ? timelineState.CurrentWeek : sessionWeek;
+
+        /// <summary>Selects a week as the timeline buttons do (tests, verification).</summary>
+        public void SelectWeek(int week) => timelineState?.SetWeek(week);
 
         internal void BindData(TomatoRecoveryData recoveryData, LabPlantDisplay plantDisplay)
         {
@@ -177,7 +195,59 @@ namespace BTP.Lab
             demoContent.SetActive(demoActive);
             timeline.SetActive(demoActive);
             comparisonMarker.SetActive(demoActive);
+            BeginStoryIfNew();
             Refresh();
+        }
+
+        /// <summary>True when the leaf on the stand is the case the after-treatment story is about.</summary>
+        bool IsStoryCase() => demoActive && currentPlant != null && RecoveryFlow.IsFor(currentPlant.PlantId, display.CurrentDiseaseId);
+
+        /// <summary>A newly treated case on the stand: back to Week 1 (the leaf as treated) and a short how-to pop-up.</summary>
+        void BeginStoryIfNew()
+        {
+            if (!IsStoryCase() || introducedStory == RecoveryFlow.Generation)
+                return;
+            introducedStory = RecoveryFlow.Generation;
+            if (RecoveryFlow.Stage != RecoveryFlowStage.LabPending)
+                return;
+            quickTransition = true;
+            try { timelineState.SetWeek(RecoveryTimeline.FirstWeek); }
+            finally { quickTransition = false; }
+            Debug.Log($"[BTP] Recovery story: weekly changes of {RecoveryFlow.PlantId}/{RecoveryFlow.DiseaseId} in the Lab.");
+            if (Application.isPlaying)
+                FlowPopup.Show(gameObject.scene, StoryIntroTitle, StoryIntroBody, UIPalette.Cyan, new FlowPopup.Choice("OK", null));
+        }
+
+        /// <summary>Week 6 of the treated case (once the leaf has finished healing): offers the Farm.</summary>
+        void ShowFarmPrompt()
+        {
+            var full = RecoveryFlow.FullyHealed;
+            var title = full ? "Week 6: recovered" : "Week 6: partly recovered";
+            if (RecoveryFlow.Specimen == null)
+            {
+                FlowPopup.Show(gameObject.scene, title, "Six weeks after the treatment the leaf has healed. (This crop is not planted in the Farm.)",
+                    UIPalette.HealthGood, new FlowPopup.Choice("Close", null));
+                return;
+            }
+
+            FlowPopup.Show(gameObject.scene, title,
+                (full ? "Six weeks after the treatment the leaf has healed." : "Six weeks after the treatment the leaf has improved.") +
+                " See the Farm plants with this disease recover.", UIPalette.HealthGood,
+                new FlowPopup.Choice(SeeFarmLabel, SeeFarm), new FlowPopup.Choice("Close", null, false));
+        }
+
+        /// <summary>See changes in the Farm: the Farm loads with the user beside the treated plant, which is shown healed.</summary>
+        public static void SeeFarm()
+        {
+            var environment = EnvironmentController.Instance;
+            if (environment == null)
+            {
+                Debug.LogError("[BTP] See changes in the Farm: no EnvironmentController is loaded; start from XRBootstrap.");
+                return;
+            }
+
+            RecoveredPlantHighlight.PrepareArrival(environment);
+            environment.ReturnToFarm();
         }
 
         void StepDisease(int delta)
@@ -217,6 +287,11 @@ namespace BTP.Lab
         void OnWeekChanged(int week)
         {
             sessionWeek = week;
+            // The treated case's last week unlocks the Farm (and offers it again whenever Week 6 is shown).
+            if (currentPlant != null && demoActive &&
+                (RecoveryFlow.WeekReached(currentPlant.PlantId, display.CurrentDiseaseId, week, timelineState.WeekCount) ||
+                 (week == timelineState.WeekCount && IsStoryCase() && RecoveryFlow.FarmUnlocked)))
+                farmPromptPending = true;
             Refresh();
         }
 
@@ -226,6 +301,14 @@ namespace BTP.Lab
             {
                 UpdateAnimatedMetrics();
                 UpdateTransitionState();
+            }
+
+            // The Farm prompt waits until the leaf has finished healing into Week 6.
+            if (farmPromptPending && (visual == null || !visual.IsTransitioning))
+            {
+                farmPromptPending = false;
+                if (Application.isPlaying && IsStoryCase() && timelineState.CurrentWeek == timelineState.WeekCount)
+                    ShowFarmPrompt();
             }
         }
 
@@ -246,7 +329,7 @@ namespace BTP.Lab
             }
             showingTransitionState = false;
             comparisonMarker.SetActive(!fullyHealthy);
-            currentLabel.text = fullyHealthy ? "Healthy · Week 6" : $"Current · Week {current.week}";
+            currentLabel.text = CurrentLabel(current.week, fullyHealthy);
         }
 
         void UpdateAnimatedMetrics()
@@ -271,6 +354,20 @@ namespace BTP.Lab
             severityBar.SetValue(Mathf.RoundToInt(Mathf.Lerp(low.diseaseSeverity, high.diseaseSeverity, t)));
         }
 
+        string CurrentLabel(int week, bool lastWeek) =>
+            !lastWeek ? $"Current · Week {week}" : IsStoryCase() && !RecoveryFlow.FullyHealed ? $"Improved · Week {week}" : $"Healthy · Week {week}";
+
+        /// <summary>The timeline caption for the treated case: Week 1 is the leaf as treated, then the weeks after the treatment.</summary>
+        internal static string StoryCaption(int week, int weekCount)
+        {
+            if (week <= RecoveryTimeline.FirstWeek)
+                return "As treated: your treatment was just applied";
+            if (week >= weekCount)
+                return RecoveryFlow.FullyHealed ? "Recovered after your treatment" : "Partly recovered after your treatment";
+            var after = week - RecoveryTimeline.FirstWeek;
+            return after == 1 ? "1 week after your treatment" : $"{after} weeks after your treatment";
+        }
+
         void Refresh()
         {
             if (!demoActive)
@@ -283,7 +380,8 @@ namespace BTP.Lab
             comparisonMarker.SetActive(!fullyHealthy);
 
             weekTitle.text = $"Week {current.week} of {timelineState.WeekCount}";
-            weekCaption.text = fullyHealthy ? "Complete recovery (illustrative)" : string.IsNullOrEmpty(current.caption) ? string.Empty : current.caption;
+            weekCaption.text = IsStoryCase() ? StoryCaption(current.week, timelineState.WeekCount)
+                : fullyHealthy ? "Complete recovery (illustrative)" : string.IsNullOrEmpty(current.caption) ? string.Empty : current.caption;
             if (comparisonHint != null)
                 comparisonHint.text = fullyHealthy ? "Week 6: the whole leaf appears healthy." : "Left: supplied diseased leaf.\nRight: selected week (illustrative).";
             leafHealthBar.SetValue(current.leafHealth);
@@ -296,7 +394,7 @@ namespace BTP.Lab
                 weekSelectedVisuals[i].Selected = i + 1 == current.week;
 
             baselineLabel.text = $"Diseased · Week {baseline.week}";
-            currentLabel.text = fullyHealthy ? "Healthy · Week 6" : $"Current · Week {current.week}";
+            currentLabel.text = CurrentLabel(current.week, fullyHealthy);
             if (currentLabelBackground != null)
             {
                 var health = Color.Lerp(UIPalette.HealthBad, UIPalette.HealthGood, current.leafHealth / 100f);
@@ -306,7 +404,8 @@ namespace BTP.Lab
             if (visual != null)
             {
                 var root = display.ModelRoot;
-                visual.Show(current, baseline, data.GetWeek(data.WeekCount), root, quickTransition);
+                visual.Show(current, baseline, data.GetWeek(data.WeekCount), root, quickTransition,
+                    currentPlant != null ? RecoveryFlow.LeafHealing(currentPlant.PlantId, display.CurrentDiseaseId) : 1f);
                 metricRecovery = float.NaN;
                 UpdateAnimatedMetrics();
                 showingTransitionState = visual.IsTransitioning;

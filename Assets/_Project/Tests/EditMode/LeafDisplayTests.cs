@@ -241,5 +241,97 @@ namespace BTP.Tests
             }
             finally { Object.DestroyImmediate(data); }
         }
+
+        [Test]
+        public void LeafGrab_IsAGripToggleItem_LikeTheScoopAndSprayBottle()
+        {
+            var root = new GameObject("Grip-toggle leaf");
+            BTP.Treatment.TreatmentGrabbable item = null;
+            try
+            {
+                root.transform.SetPositionAndRotation(new Vector3(30f, 1f, 2f), Quaternion.Euler(0f, 20f, 0f));
+                root.transform.localScale = Vector3.one * 0.7f;
+                var mesh = GameObject.CreatePrimitive(PrimitiveType.Quad);
+                Object.DestroyImmediate(mesh.GetComponent<Collider>());
+                mesh.transform.SetParent(root.transform, false);
+                mesh.transform.localPosition = new Vector3(0.3f, 0.6f, 0f);
+                var leaf = root.AddComponent<LeafMouseRotation>();
+                leaf.Initialize(); // EditMode does not invoke the runtime lifecycle.
+                var centre = mesh.GetComponent<Renderer>().bounds.center;
+
+                // A flat leaf still gets a collider at least MinThickness thick (world), fitted round it, on the pivot.
+                var box = leaf.GrabCollider;
+                Assert.That(box, Is.Not.Null);
+                Assert.That(box.transform, Is.SameAs(leaf.Pivot), "the collider moves with the leaf");
+                Assert.That(box.size.z * 0.7f, Is.EqualTo(LeafMouseRotation.MinThickness).Within(1e-4f));
+                Assert.That(box.size.x * 0.7f, Is.EqualTo(0.7f + 2f * LeafMouseRotation.ColliderPadding).Within(1e-4f));
+                Assert.That(Vector3.Distance(box.transform.TransformPoint(box.center), centre), Is.LessThan(1e-4f));
+                Assert.That(leaf.Pivot.gameObject.layer, Is.EqualTo(0), "on the layer the rays and the grip toggle test");
+
+                // The same hand-held item as the tools: grip toggle only for controllers, brought to the hand by its stem.
+                leaf.AttachGrab();
+                item = leaf.Grabbable;
+                Assert.That(item, Is.Not.Null);
+                Assert.That(BTP.Treatment.ToolGripToggle.Registered, Has.Member(item), "the grip toggle manages the leaf");
+                Assert.That(item.Grab.attachTransform, Is.SameAs(leaf.Grip));
+                Assert.That(item.Grab.farAttachMode, Is.EqualTo(UnityEngine.XR.Interaction.Toolkit.Attachment.InteractableFarAttachMode.Near),
+                    "a ray pick-up brings the leaf into the hand");
+                Assert.That(item.Grab.unparentTransformOnGrab, Is.False, "the held leaf stays under its model (a new leaf takes it away)");
+                Assert.That(item.Grab.retainTransformParent, Is.True);
+                Assert.That(Vector3.Distance(leaf.Grip.position, centre - leaf.Pivot.up * 0.35f), Is.LessThan(1e-3f), "held by the stem end");
+                Assert.That(Vector3.Angle(leaf.Grip.forward, leaf.Pivot.up), Is.LessThan(0.01f), "the leaf points forward from the hand");
+                Assert.That(item.AtHome && !leaf.IsHeld, Is.True);
+                Assert.That(Vector3.Distance(item.HomePosition, leaf.Pivot.position), Is.LessThan(1e-5f), "home is the stand");
+
+                // Picked as the tools are: reached at the hand, else pointed at; nothing otherwise.
+                Physics.SyncTransforms();
+                var items = new System.Collections.Generic.List<BTP.Treatment.TreatmentGrabbable> { item };
+                Assert.That(BTP.Treatment.ToolGripToggle.Choose(items, null, centre - leaf.Pivot.forward * 0.1f, null), Is.SameAs(item), "a controller at the leaf");
+                var away = centre - leaf.Pivot.forward * 1.5f + Vector3.up * 0.4f;
+                Assert.That(BTP.Treatment.ToolGripToggle.Choose(items, null, away, null), Is.Null, "nothing within reach, nothing pointed at");
+                Assert.That(BTP.Treatment.ToolGripToggle.Choose(items, null, away, new Ray(away, (centre - away).normalized)), Is.SameAs(item), "pointing at the leaf");
+            }
+            finally
+            {
+                if (item != null)
+                    BTP.Treatment.ToolGripToggle.Unregister(item);
+                Object.DestroyImmediate(root);
+            }
+        }
+
+        [Test]
+        public void MouseDrag_StillTurnsTheLeafOnItsStand_WithTheGrabAttached()
+        {
+            var root = new GameObject("Drag with grab");
+            var cameraRoot = new GameObject("Drag camera");
+            BTP.Treatment.TreatmentGrabbable item = null;
+            try
+            {
+                var mesh = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                mesh.transform.SetParent(root.transform, false);
+                root.transform.position = new Vector3(-30f, 0f, 0f);
+                var camera = cameraRoot.AddComponent<Camera>();
+                camera.pixelRect = new Rect(0, 0, 960, 640);
+                camera.transform.position = root.transform.position + Vector3.back * 3f;
+                var leaf = root.AddComponent<LeafMouseRotation>();
+                leaf.Initialize();
+                leaf.AttachGrab();
+                item = leaf.Grabbable;
+                var before = leaf.Pivot.rotation;
+                var pointer = (Vector2)camera.WorldToScreenPoint(root.transform.position);
+                leaf.ProcessPointer(camera, pointer, true, true, false);
+                Assert.That(leaf.IsDragging, Is.True, "the mouse still drags the leaf on its stand");
+                leaf.ProcessPointer(camera, pointer + Vector2.right * 100f, false, true, false);
+                Assert.That(Quaternion.Angle(before, leaf.Pivot.rotation), Is.EqualTo(35f).Within(0.01f));
+                Assert.That(item.AtHome, Is.True, "dragging does not take it off the stand");
+            }
+            finally
+            {
+                if (item != null)
+                    BTP.Treatment.ToolGripToggle.Unregister(item);
+                Object.DestroyImmediate(root);
+                Object.DestroyImmediate(cameraRoot);
+            }
+        }
     }
 }

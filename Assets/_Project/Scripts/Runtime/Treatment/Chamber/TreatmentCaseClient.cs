@@ -28,28 +28,31 @@ namespace BTP.Treatment
     /// <summary>
     /// The four-control treatment API: GET /api/treatment/cases/{plantId}/{diseaseId}?scenario= for the profile and
     /// POST .../evaluate?scenario= for Check Health. The base URL follows the XR session rule (-xr-api, else
-    /// CropScanXR.config.json) and must be HTTPS or a local http://localhost / 127.0.0.1 address. Requests use
+    /// CropScanXR.config.json, else the hosted API on Quest) and must be HTTPS or a local http://localhost / 127.0.0.1 address. Requests use
     /// UnityWebRequest (start them on the main thread); the async calls never throw.
     /// </summary>
     public sealed class TreatmentCaseClient
     {
         public const int TimeoutSeconds = 10;
+        const int HostedTimeoutSeconds = 60;
         public const string CasesRoute = "/api/treatment/cases";
 
         readonly string baseUrl;
 
         public string BaseUrl => baseUrl;
 
+        // Allow the hosted service time to start after being idle.
+        int RequestTimeoutSeconds => string.Equals(baseUrl, XrPlayerConfig.QuestApiBaseUrl, StringComparison.OrdinalIgnoreCase)
+            ? HostedTimeoutSeconds : TimeoutSeconds;
+
         public TreatmentCaseClient(string apiBaseUrl) => baseUrl = (apiBaseUrl ?? "").Trim().TrimEnd('/');
 
-        /// <summary>The configured API: -xr-api on the command line, else CropScanXR.config.json's apiBaseUrl.</summary>
+        /// <summary>Uses the same API address rules as the scan session, including Quest's hosted default.</summary>
         public static string ConfiguredBaseUrl()
         {
             var args = XrLaunchArgs.Parse(Environment.GetCommandLineArgs());
-            if (!string.IsNullOrEmpty(args.ApiBaseUrl))
-                return args.ApiBaseUrl;
             var config = XrPlayerConfig.Load(out _);
-            return config?.apiBaseUrl;
+            return config.ResolveApiBaseUrl(args, XrPlayerConfig.PlatformApiBaseUrl);
         }
 
         public static TreatmentCaseClient FromConfiguration() => new TreatmentCaseClient(ConfiguredBaseUrl());
@@ -98,7 +101,7 @@ namespace BTP.Treatment
             var request = new UnityWebRequest(baseUrl + path, json == null ? UnityWebRequest.kHttpVerbGET : UnityWebRequest.kHttpVerbPOST)
             {
                 downloadHandler = new DownloadHandlerBuffer(),
-                timeout = TimeoutSeconds,
+                timeout = RequestTimeoutSeconds,
             };
             if (json != null)
             {
@@ -141,7 +144,7 @@ namespace BTP.Treatment
                 using (var request = Create(path, json))
                 {
                     var operation = request.SendWebRequest();
-                    var deadline = DateTime.UtcNow.AddSeconds(TimeoutSeconds + 5);
+                    var deadline = DateTime.UtcNow.AddSeconds(RequestTimeoutSeconds + 5);
                     while (!operation.isDone && DateTime.UtcNow < deadline)
                         Thread.Sleep(5);
                     if (!operation.isDone)

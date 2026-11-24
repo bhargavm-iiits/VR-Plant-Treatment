@@ -20,8 +20,11 @@ namespace BTP.Treatment
     /// swings the leaf open or closed about its left hinge line: <see cref="ChamberDoorLogic.OpenAngle"/> outwards over
     /// <see cref="ChamberDoorLogic.SwingSeconds"/> with an ease-in-out, less when a station base or the hall wall is in the
     /// way (<see cref="SetSurroundings"/>). The handle itself is pressable too (controller ray trigger or grip, poke, hand
-    /// pinch, the desktop mouse). A is only read while the user stands at the door (the rig's jump on A is paused
-    /// meanwhile); X, Y (menu) and B (back) are never touched. The door collider is solid only while the leaf is fully closed,
+    /// pinch, the desktop mouse). An OPEN door is closed from anywhere within <see cref="ChamberDoorLogic.CloseRange"/> of its
+    /// front, on either side and facing any way (<see cref="UserNearForClose"/>: the user who leaned in to work at the plant
+    /// is past the door line, where the open rule no longer holds), with A or with the right B (through the rig's Back after
+    /// the controller menu, <see cref="CloseWithBack"/>); the pop-up then shows "B  Close". A is only read while the user can
+    /// use the door (the rig's jump on A is paused meanwhile); X and Y (menu) are never touched. The door collider is solid only while the leaf is fully closed,
     /// and nothing on the swinging leaf can block the rig. A hands-on station that retracts the whole front
     /// (<see cref="TreatmentChamber.SetFrontOpen"/>) overrides the user; the user's choice returns when it releases.
     /// </summary>
@@ -57,8 +60,19 @@ namespace BTP.Treatment
         float ignoreTimer;
         readonly List<Behaviour> pausedJumps = new List<Behaviour>();
 
-        /// <summary>True while the user stands at the door (in range and in front of it).</summary>
+        /// <summary>True while the user stands at the door (in range and in front of it): A opens it.</summary>
         public bool UserInRange { get; private set; }
+        /// <summary>
+        /// True while the user is near enough to close the door (<see cref="ChamberDoorLogic.InCloseRange"/>: either side of
+        /// the door line, any facing): right B (or A) closes an open door.
+        /// </summary>
+        public bool UserNearForClose { get; private set; }
+        /// <summary>Whether a press now opens (closed door, user in front) or closes (open door, user near) it.</summary>
+        public bool CanPress => UserOpen ? UserNearForClose : UserInRange;
+
+        /// <summary>Replaces the right A press read (tests, batch verification).</summary>
+        internal static System.Func<bool> PrimaryPressOverride;
+        System.Func<bool> backHandler;
         /// <summary>The user's choice (kept while a station retracts the front).</summary>
         public bool UserOpen => state.UserOpen;
         /// <summary>True while the leaf swings.</summary>
@@ -80,8 +94,16 @@ namespace BTP.Treatment
             SetupHandle();
         }
 
+        void OnEnable()
+        {
+            backHandler ??= CloseWithBack;
+            VrControllerRig.AddBackHandler(backHandler);
+        }
+
         void OnDisable()
         {
+            if (backHandler != null)
+                VrControllerRig.RemoveBackHandler(backHandler);
             PauseJumps(false);
             popup?.Hide();
             glow = 0f;
@@ -141,11 +163,15 @@ namespace BTP.Treatment
             state.SetRetracted(chamber.FrontOpen);
             var desktopMode = desktop != null && desktop.IsActive;
             var menuOpen = controllerRig != null && controllerRig.IsMenuOpen;
-            UserInRange = Available && !state.Retracted && !menuOpen && head != null && HeadInRange(head.transform.position);
+            var usable = Available && !state.Retracted && !menuOpen && head != null;
+            UserInRange = usable && HeadInRange(head.transform.position);
+            UserNearForClose = usable && ChamberDoorLogic.InCloseRange(Flat(head.transform.position), Flat(chamber.DoorHingeWorld), Flat(chamber.DoorEdgeWorld));
 
-            // The right A belongs to the door only while the user stands at it (the rig's jump on A pauses meanwhile).
-            PauseJumps(UserInRange && !desktopMode);
-            if (UserInRange)
+            // The right A belongs to the door only while the user can use it (the rig's jump on A pauses meanwhile). An open
+            // door is closed from anywhere near it, also from inside the chamber's footprint (right B does the same through the
+            // rig's Back, see CloseWithBack).
+            PauseJumps(CanPress && !desktopMode);
+            if (CanPress)
             {
                 if (desktopMode)
                 {
@@ -187,12 +213,25 @@ namespace BTP.Treatment
 
         static bool PrimaryPressed(InteractorHandedness hand)
         {
+            if (PrimaryPressOverride != null)
+                return PrimaryPressOverride();
             var button = ControllerButtons.Find(hand, ControllerButtons.Primary);
             return button != null && button.wasPressedThisFrame;
         }
 
         /// <summary>Opens a closed door or closes an open one (also mid-swing). False while a station holds the front or right after a toggle.</summary>
         public bool Toggle() => Toggle(InteractorHandedness.None, "script");
+
+        /// <summary>
+        /// Right B (the rig's Back, after the controller menu): closes the door when it is open and the user is near it
+        /// (<see cref="UserNearForClose"/>). False otherwise, so Back does its usual job.
+        /// </summary>
+        internal bool CloseWithBack()
+        {
+            if (!isActiveAndEnabled || !UserOpen || !UserNearForClose)
+                return false;
+            return Toggle(ChamberDoorPrompt.ToggleHand, "right B");
+        }
 
         bool Toggle(InteractorHandedness hand, string source)
         {
@@ -335,7 +374,7 @@ namespace BTP.Treatment
 
         void UpdatePrompt(float deltaTime, bool desktopMode)
         {
-            var show = state.PromptVisible(UserInRange) && head != null;
+            var show = state.PromptVisible(CanPress) && head != null;
             if (popup == null)
             {
                 if (!show)

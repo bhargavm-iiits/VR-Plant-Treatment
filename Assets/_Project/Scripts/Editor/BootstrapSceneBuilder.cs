@@ -11,6 +11,7 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
+using UnityEngine.XR.Interaction.Toolkit.Locomotion.Movement;
 using UnityEngine.XR.Interaction.Toolkit.Locomotion.Turning;
 using UnityEngine.XR.Interaction.Toolkit.UI;
 
@@ -78,7 +79,13 @@ namespace BTP.Editor
             Debug.Log($"[BTP] Built {ProjectPaths.BootstrapScene}.");
         }
 
-        /// <summary>Teleport and 30° snap turn by default; smooth movement and smooth turn stay off.</summary>
+        /// <summary>
+        /// Smooth locomotion by default, the same as <see cref="VrControllerRig.ConfigureLocomotion"/> applies at runtime: the
+        /// left stick walks (smooth motion, <see cref="VrControllerRig.MoveSpeed"/>) and the right stick turns smoothly
+        /// (<see cref="VrControllerRig.TurnSpeed"/>, no 180° turn-around); at runtime the rig also unbinds the right stick's
+        /// teleport, so the sticks never show a teleport arc or jump. The rig has no gravity, so its CharacterController only
+        /// steps <see cref="VrControllerRig.StepOffset"/>. The 30° snap turn is kept for anyone who turns smooth turn off.
+        /// </summary>
         static void ConfigureLocomotion(GameObject rig)
         {
             foreach (var snapTurn in rig.GetComponentsInChildren<SnapTurnProvider>(true))
@@ -87,13 +94,37 @@ namespace BTP.Editor
                 PrefabUtility.RecordPrefabInstancePropertyModifications(snapTurn);
             }
 
+            foreach (var body in rig.GetComponentsInChildren<CharacterController>(true))
+            {
+                body.stepOffset = Mathf.Min(body.stepOffset, VrControllerRig.StepOffset);
+                PrefabUtility.RecordPrefabInstancePropertyModifications(body);
+            }
+
+            foreach (var move in rig.GetComponentsInChildren<ContinuousMoveProvider>(true))
+            {
+                move.moveSpeed = VrControllerRig.MoveSpeed;
+                move.enableStrafe = true;
+                move.enableFly = false;
+                PrefabUtility.RecordPrefabInstancePropertyModifications(move);
+            }
+
+            foreach (var turn in rig.GetComponentsInChildren<ContinuousTurnProvider>(true))
+            {
+                turn.turnSpeed = VrControllerRig.TurnSpeed;
+                turn.enableTurnAround = false;
+                PrefabUtility.RecordPrefabInstancePropertyModifications(turn);
+            }
+
             foreach (var behaviour in rig.GetComponentsInChildren<MonoBehaviour>(true))
             {
                 if (behaviour == null || behaviour.GetType().Name != "ControllerInputActionManager")
                     continue;
+                var left = VrControllerRig.OnHand(behaviour.transform, "Left");
+                if (!left && !VrControllerRig.OnHand(behaviour.transform, "Right"))
+                    continue;
                 var so = new SerializedObject(behaviour);
-                so.FindProperty("m_SmoothMotionEnabled").boolValue = false;
-                so.FindProperty("m_SmoothTurnEnabled").boolValue = false;
+                so.FindProperty("m_SmoothMotionEnabled").boolValue = left;
+                so.FindProperty("m_SmoothTurnEnabled").boolValue = true;
                 so.ApplyModifiedPropertiesWithoutUndo();
             }
         }

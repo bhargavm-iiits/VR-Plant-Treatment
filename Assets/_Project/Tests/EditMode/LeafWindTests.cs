@@ -5,7 +5,9 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace BTP.Tests
 {
@@ -123,6 +125,43 @@ namespace BTP.Tests
             Assert.That(leaf.GetTexture("_WindTex"), Is.EqualTo(texture));
             var seconds = float.Parse(ReportValue(c, "seconds"), CultureInfo.InvariantCulture);
             Assert.That(leaf.GetFloat("_WindLoopSeconds"), Is.EqualTo(seconds).Within(1e-4f));
+        }
+
+        /// <summary>
+        /// The leaf wind turns each leaf about its pivot in mesh object space, so no renderer with it may be static-batched:
+        /// batching bakes the mesh into world space and every leaf swings about a point metres away (the Treatment lab's
+        /// potted plants floated round the room). Checks every scene in the build.
+        /// </summary>
+        [Test]
+        public void LeafWindRenderers_AreNeverStaticBatched()
+        {
+            var checkedScenes = 0;
+            foreach (var buildScene in EditorBuildSettings.scenes)
+            {
+                if (!buildScene.enabled || !File.Exists(buildScene.path))
+                    continue;
+                var scene = SceneManager.GetSceneByPath(buildScene.path);
+                var opened = !scene.isLoaded;
+                if (opened)
+                    scene = EditorSceneManager.OpenScene(buildScene.path, OpenSceneMode.Additive);
+                try
+                {
+                    var batched = scene.GetRootGameObjects().SelectMany(g => g.GetComponentsInChildren<Renderer>(true))
+                        .Where(r => (GameObjectUtility.GetStaticEditorFlags(r.gameObject) & StaticEditorFlags.BatchingStatic) != 0)
+                        .Where(r => r.sharedMaterials.Any(m => m != null && m.IsKeywordEnabled("_LEAF_WIND")))
+                        .Select(r => r.transform.parent != null ? $"{r.transform.parent.name}/{r.name}" : r.name)
+                        .ToList();
+                    Assert.That(batched, Is.Empty, $"{buildScene.path}: static-batched renderers with leaf wind");
+                    checkedScenes++;
+                }
+                finally
+                {
+                    if (opened)
+                        EditorSceneManager.CloseScene(scene, true);
+                }
+            }
+
+            Assert.That(checkedScenes, Is.GreaterThan(0), "no build scenes");
         }
     }
 }

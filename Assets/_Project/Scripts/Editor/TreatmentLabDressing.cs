@@ -20,7 +20,8 @@ namespace BTP.Editor
     /// cabinet, quarantine). Plants are the project's crop models as young potted plants (diseased where the zone holds
     /// infected stock) and props, shelving and surfaces use CC0 Poly Haven / ambientCG assets where available (see
     /// TreatmentLabDressing.Real.cs and Assets/Lab_Treatment_Assets/Lab/ATTRIBUTION.md), with modelled fallbacks.
-    /// All of it is static, shares a small material palette and keeps clear of the chamber, the stations, their
+    /// All of it is static (the potted plants, whose leaves sway in object space, are never static-batched), shares a small
+    /// material palette and keeps clear of the chamber, the stations, their
     /// approach zones and anchors, the spawn and the door swing; floor-standing zones are re-checked at runtime by
     /// <see cref="LabDressingClearance"/> when the chamber is fitted to a larger plant.
     /// World space: the hall interior spans X -7.4..6.5, Z -6.0..10.4 (wall counters 0.94 m high along the left, front and back walls).

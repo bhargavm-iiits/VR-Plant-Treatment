@@ -19,6 +19,9 @@ namespace BTP.Lab
         [SerializeField] LeafCatalog leaves;
         [SerializeField] TMP_Text scaleNote;
 
+        /// <summary>The note under the leaf: how to turn it (VR grab or mouse drag).</summary>
+        public const string RotateHint = "Press GRIP on the leaf to pick it up (or drag it) - illustrative recovery";
+
         public Transform ModelRoot => modelRoot;
         public GameObject CurrentModel { get; private set; }
         public PlantDefinition CurrentPlant { get; private set; }
@@ -109,8 +112,8 @@ namespace BTP.Lab
             {
                 var note = DiseaseClasses.TryGet(CurrentPlant.PlantId, diseaseId, out var info) ? info.SpecimenNote : null;
                 scaleNote.text = !found ? "Leaf model unavailable"
-                    : string.IsNullOrEmpty(note) ? "Drag leaf to rotate - illustrative recovery"
-                    : "Drag leaf to rotate - illustrative recovery\n<color=#F2C14E>" + note + "</color>";
+                    : string.IsNullOrEmpty(note) ? RotateHint
+                    : RotateHint + "\n<color=#F2C14E>" + note + "</color>";
             }
             ModelChanged?.Invoke(CurrentPlant, CurrentModel);
             return found;

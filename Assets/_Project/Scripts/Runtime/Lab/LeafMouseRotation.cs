@@ -3,13 +3,23 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using BTP.Core;
-using UnityEngine.XR.Interaction.Toolkit.Interactors;
+using BTP.Treatment;
 
 namespace BTP.Lab
 {
     /// <summary>
-    /// Drag the leaf with the left mouse button, or point a controller at it and hold the trigger (turning the wrist spins it;
-    /// the dragging hand's thumbstick also spins it). The controls and the specimen centre stay fixed.
+    /// The Lab leaf's handling. Desktop: drag it with the left mouse button (yaw and a clamped pitch).
+    /// <para>
+    /// VR: the leaf is picked up exactly like the Treatment lab's scoop and spray bottle. Its centred pivot carries a collider
+    /// fitted to the leaf and a <see cref="TreatmentGrabbable"/>, so the same <see cref="ToolGripToggle"/> (created in the
+    /// Lab by the leaf's registration) handles it: point at the leaf or reach it, press the GRIP once and it comes into
+    /// the hand, held by its stem, and stays there with the grip let go; it moves and turns freely with the hand (turn
+    /// the wrist to see the back, bring it close to inspect). The next GRIP press puts it back: it eases home to the stand
+    /// in its original orientation. A tracked hand's pinch holds it the same way. Hover shows a cyan ring and a label
+    /// (<see cref="LeafGrabCue"/>); grab and release pulse the controller. The weekly recovery keeps rendering on the
+    /// held leaf; a new leaf on the stand (another disease or plant) sends the held one home first.
+    /// "[BTP] LeafTurn:" and "[BTP] Grip toggle:" lines trace it in the device log.
+    /// </para>
     /// </summary>
     public sealed class LeafMouseRotation : MonoBehaviour
     {
@@ -22,16 +32,29 @@ namespace BTP.Lab
         readonly List<RaycastResult> uiHits = new();
         bool mouseDragging;
         const float PitchLimit = 65f;
-        const float StickYawDegreesPerSecond = 120f, StickPitchDegreesPerSecond = 90f, StickDeadzone = 0.2f;
-        const int InteractorRefreshFrames = 90;
-        [SerializeField, Min(0.1f)] float controllerGain = 3f;
-        readonly List<NearFarInteractor> controllerInteractors = new();
-        NearFarInteractor controllerOwner;
-        Vector3 previousAim;
-        int nextInteractorRefresh;
+        /// <summary>Thinnest the grab collider gets (m), so an edge-on leaf stays easy to point at, and its padding (m).</summary>
+        public const float MinThickness = 0.04f, ColliderPadding = 0.01f;
+        BoxCollider grabCollider;
+        Transform grip;
+        TreatmentGrabbable grabbable;
+        LeafGrabCue cue;
+        float cueRadius;
+        Vector3 localSize;
 
-        /// <summary>True while a mouse drag or a controller drag is turning the leaf.</summary>
-        public bool IsDragging => mouseDragging || controllerOwner != null;
+        /// <summary>True while a mouse drag is turning the leaf.</summary>
+        public bool IsDragging => mouseDragging;
+
+        /// <summary>True while the leaf is away from its stand (held, or easing back).</summary>
+        public bool IsHeld => grabbable != null && !grabbable.AtHome;
+
+        /// <summary>True while a controller, hand or the mouse ray points at the leaf on its stand.</summary>
+        public bool IsHovered => grabbable != null && grabbable.Grab != null && grabbable.Grab.isHovered && grabbable.AtHome;
+
+        internal BoxCollider GrabCollider => grabCollider;
+        internal TreatmentGrabbable Grabbable => grabbable;
+        internal Transform Grip => grip;
+        internal LeafGrabCue Cue => cue;
+        internal Transform Pivot => pivot;
 
         void Awake() => Initialize();
 
@@ -57,20 +80,91 @@ namespace BTP.Lab
             var children = new Transform[transform.childCount];
             for (int i = 0; i < children.Length; i++) children[i] = transform.GetChild(i);
             pivot = new GameObject("Leaf Spin Pivot").transform;
+            pivot.gameObject.layer = 0; // Default: the layer the controller rays, near casts and the grip toggle's sweep test.
             pivot.SetParent(transform, false);
             pivot.localPosition = bounds.center;
             foreach (var child in children) child.SetParent(pivot, true);
+            localSize = bounds.size;
+            AddCollider();
+            if (Application.isPlaying)
+                AttachGrab();
+        }
+
+        /// <summary>
+        /// The collider round the leaf (on the pivot, so it moves with it) and the grip: the stem end (the bottom of the leaf),
+        /// facing so the held leaf points forward from the hand with its front up towards the eyes.
+        /// </summary>
+        void AddCollider()
+        {
+            var scale = Mathf.Max(Mathf.Abs(pivot.lossyScale.x), 1e-4f);
+            grabCollider = pivot.gameObject.AddComponent<BoxCollider>();
+            grabCollider.size = FittedColliderSize(localSize, scale);
+            cueRadius = 0.5f * Mathf.Max(localSize.x, localSize.y) * scale * 1.08f + 0.03f;
+            grip = new GameObject("Leaf Grip").transform;
+            grip.SetParent(pivot, false);
+            grip.localPosition = new Vector3(0f, -0.5f * localSize.y, 0f);
+            grip.localRotation = Quaternion.LookRotation(Vector3.up, Vector3.back);
+        }
+
+        /// <summary>The grab collider's local size: the leaf's bounds plus padding, never thinner than <see cref="MinThickness"/> (world metres / <paramref name="scale"/>).</summary>
+        internal static Vector3 FittedColliderSize(Vector3 localSize, float scale)
+        {
+            scale = Mathf.Max(scale, 1e-4f);
+            var pad = 2f * ColliderPadding / scale;
+            var min = MinThickness / scale;
+            return new Vector3(Mathf.Max(localSize.x + pad, min), Mathf.Max(localSize.y + pad, min), Mathf.Max(localSize.z + pad, min));
+        }
+
+        /// <summary>
+        /// Makes the leaf a hand-held item of the grip toggle (as the scoop and the spray bottle). Unlike a tool it stays under
+        /// its model while held, so a new leaf on the stand takes the old one (and its toggle) away with it.
+        /// </summary>
+        internal void AttachGrab()
+        {
+            if (pivot == null || grabbable != null)
+                return;
+            grabbable = TreatmentGrabbable.Attach(pivot.gameObject, "Lab leaf " + name, grip, 0f);
+            grabbable.Grab.unparentTransformOnGrab = false;
+            grabbable.Grab.retainTransformParent = true;
+            grabbable.Grabbed += OnGrabbed;
+            grabbable.Released += OnReleased;
+            grabbable.ReturnedHome += OnReturnedHome;
+            if (Application.isPlaying)
+            {
+                cue = new LeafGrabCue(transform, cueRadius);
+                Debug.Log($"[BTP] LeafTurn: grip-toggle leaf ready on '{name}' (collider {grabCollider.size * Mathf.Abs(pivot.lossyScale.x)} m, " +
+                          $"centre {pivot.position}); grip toggle in scene '{gameObject.scene.name}'.");
+            }
+        }
+
+        void OnGrabbed(TreatmentGrabbable item)
+        {
+            mouseDragging = false;
+            Debug.Log($"[BTP] LeafTurn: picked up by {item.HeldBy ?? "a hand"} (grip toggle).");
+        }
+
+        void OnReleased(TreatmentGrabbable item) => Debug.Log("[BTP] LeafTurn: let go; easing back to the stand.");
+
+        /// <summary>Back on the stand in its original orientation: the mouse drag starts again from there.</summary>
+        void OnReturnedHome(TreatmentGrabbable item)
+        {
+            yaw = 0f;
+            pitch = 0f;
+            Debug.Log("[BTP] LeafTurn: back on the stand.");
         }
 
         void OnDisable()
         {
             mouseDragging = false;
-            controllerOwner = null;
+            // A new leaf replaces this one (another disease or plant): put this one back first, out of the hand.
+            if (grabbable != null && !grabbable.AtHome)
+                grabbable.ReturnHome(true);
         }
+
+        void OnDestroy() => cue?.Destroy();
 
         void Update()
         {
-            UpdateControllers(Time.deltaTime);
             var mouse = Mouse.current;
             if (mouse == null || mouse.rightButton.isPressed || !Application.isFocused)
             {
@@ -80,6 +174,24 @@ namespace BTP.Lab
             var position = mouse.position.ReadValue();
             bool pressed = mouse.leftButton.wasPressedThisFrame;
             ProcessPointer(Camera.main, position, pressed, mouse.leftButton.isPressed, pressed && OverUI(position));
+        }
+
+        void LateUpdate()
+        {
+            if (cue == null || pivot == null)
+                return;
+            var eye = Camera.main != null ? Camera.main.transform.position : pivot.position + Vector3.back;
+            cue.Tick(IsHovered, false, MouseHovering(), pivot.position, eye, Time.unscaledDeltaTime);
+        }
+
+        bool MouseHovering()
+        {
+            if (grabbable == null || grabbable.Grab == null)
+                return false;
+            foreach (var hovering in grabbable.Grab.interactorsHovering)
+                if (DesktopDemoControls.IsMouseRay(hovering))
+                    return true;
+            return false;
         }
 
         bool OverUI(Vector2 position)
@@ -122,7 +234,8 @@ namespace BTP.Lab
             }
             if (pressed)
             {
-                mouseDragging = !overUI && HitsLeaf(camera, position);
+                // A leaf in a hand (or easing back) is not dragged.
+                mouseDragging = !overUI && !IsHeld && HitsLeaf(camera, position);
                 previousPointer = position;
                 return;
             }
@@ -131,65 +244,7 @@ namespace BTP.Lab
             previousPointer = position;
             yaw = Mathf.Repeat(yaw - delta.x * degreesPerPixel, 360f);
             pitch = Mathf.Clamp(pitch + delta.y * degreesPerPixel, -PitchLimit, PitchLimit);
-            ApplyRotation();
-        }
-
-        void ApplyRotation() =>
             pivot.localRotation = Quaternion.AngleAxis(pitch, Vector3.right) * Quaternion.AngleAxis(yaw, Vector3.up);
-
-        // ------------------------------------------------------------------ controllers
-
-        void RefreshControllerInteractors()
-        {
-            controllerInteractors.Clear();
-            foreach (var interactor in FindObjectsByType<NearFarInteractor>(FindObjectsSortMode.None))
-                if (VrControllerRig.IsControllerInteractor(interactor))
-                    controllerInteractors.Add(interactor);
-        }
-
-        void UpdateControllers(float deltaTime)
-        {
-            if (pivot == null) return;
-            if (Time.frameCount >= nextInteractorRefresh)
-            {
-                nextInteractorRefresh = Time.frameCount + InteractorRefreshFrames;
-                RefreshControllerInteractors();
-            }
-
-            if (controllerOwner != null)
-            {
-                var held = ControllerButtons.Find(controllerOwner.handedness, ControllerButtons.Trigger);
-                if (!controllerOwner.isActiveAndEnabled || held == null || !held.isPressed)
-                {
-                    controllerOwner = null;
-                    return;
-                }
-
-                var aim = controllerOwner.transform.forward;
-                AimDelta(previousAim, aim, out var aimYaw, out var aimPitch);
-                previousAim = aim;
-                AccumulateRotation(ref yaw, ref pitch, aimYaw, aimPitch, controllerGain);
-                var stick = ControllerButtons.Stick(controllerOwner.handedness);
-                if (Mathf.Abs(stick.x) > StickDeadzone)
-                    yaw = Mathf.Repeat(yaw - stick.x * StickYawDegreesPerSecond * deltaTime, 360f);
-                if (Mathf.Abs(stick.y) > StickDeadzone)
-                    pitch = Mathf.Clamp(pitch + stick.y * StickPitchDegreesPerSecond * deltaTime, -PitchLimit, PitchLimit);
-                ApplyRotation();
-                return;
-            }
-
-            foreach (var interactor in controllerInteractors)
-            {
-                if (interactor == null || !interactor.isActiveAndEnabled) continue;
-                var trigger = ControllerButtons.Find(interactor.handedness, ControllerButtons.Trigger);
-                if (trigger == null || !trigger.wasPressedThisFrame) continue;
-                if (interactor.TryGetCurrentUIRaycastResult(out _)) continue;
-                var origin = interactor.transform;
-                if (!HitsLeaf(new Ray(origin.position, origin.forward))) continue;
-                controllerOwner = interactor;
-                previousAim = origin.forward;
-                return;
-            }
         }
 
         /// <summary>

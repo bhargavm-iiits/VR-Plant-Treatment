@@ -13,6 +13,8 @@ namespace BTP.Treatment
     {
         /// <summary>The head must be within this horizontal distance of the closed door's front.</summary>
         public const float Range = 1.3f;
+        /// <summary>An open door can be closed from this far (horizontal, from the closed door's front, either side of it).</summary>
+        public const float CloseRange = 2f;
         /// <summary>Minimum cosine between "door front to head" and the door's outward normal (about 72 degrees off-axis).</summary>
         public const float MinFacing = 0.3f;
         /// <summary>How far the leaf swings outwards when nothing is in the way.</summary>
@@ -41,6 +43,18 @@ namespace BTP.Treatment
                 return true;
             var normal = outward.sqrMagnitude > 1e-8f ? outward.normalized : Vector2.zero;
             return Vector2.Dot(toHead / distance, normal) >= minFacing;
+        }
+
+        /// <summary>
+        /// True when <paramref name="head"/> is within <paramref name="range"/> of the door front segment, on EITHER side and
+        /// facing any way: an open door is closed from wherever the user works at it (also leaning into the chamber, past the
+        /// door line, where <see cref="InRange"/> no longer holds).
+        /// </summary>
+        public static bool InCloseRange(Vector2 head, Vector2 hinge, Vector2 edge, float range = CloseRange)
+        {
+            var front = edge - hinge;
+            var t = front.sqrMagnitude > 1e-8f ? Mathf.Clamp01(Vector2.Dot(head - hinge, front) / front.sqrMagnitude) : 0f;
+            return (head - (hinge + front * t)).magnitude <= range;
         }
 
         /// <summary>Smootherstep ease-in-out (zero speed and zero acceleration at both ends: a soft start and a damped stop).</summary>
@@ -123,8 +137,10 @@ namespace BTP.Treatment
     {
         /// <summary>Only this controller's primary button ({PrimaryButton}: A on the right controller) toggles the door in VR.</summary>
         public const InteractorHandedness ToggleHand = InteractorHandedness.Right;
-        /// <summary>The glyph on the round badge in VR (the right controller's A).</summary>
+        /// <summary>The glyph on the round badge in VR while the door is closed (the right controller's A opens it).</summary>
         public const string VrGlyph = "A";
+        /// <summary>The glyph while the door is open (the right controller's B closes it; A still toggles).</summary>
+        public const string VrCloseGlyph = "B";
         /// <summary>The glyph on the keycap in the desktop demo (no headset).</summary>
         public const string DesktopGlyph = "O";
 
@@ -149,6 +165,9 @@ namespace BTP.Treatment
 
         /// <summary>The glyph for the input mode: "A" (right controller) or "O" (keyboard, desktop demo).</summary>
         public static string GlyphFor(bool desktopMode) => desktopMode ? DesktopGlyph : VrGlyph;
+
+        /// <summary>The glyph for the input mode and the door: "B" to close an open door in VR, "A" to open it, "O" on the desktop.</summary>
+        public static string GlyphFor(bool desktopMode, bool open) => desktopMode ? DesktopGlyph : open ? VrCloseGlyph : VrGlyph;
 
         /// <summary>The one-word action label: what the button will do to the door ("Open" when closed, "Close" when open).</summary>
         public static string PromptLabel(bool open) => open ? "Close" : "Open";

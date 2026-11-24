@@ -444,6 +444,21 @@ namespace BTP.Tests
             Assert.That(connected.SocketUrl, Is.EqualTo("wss://staging.example.org/ws/xr"));
         }
 
+        [Test]
+        public void ApiAddress_UsesQuestFallbackOnlyWhenNoOverrideIsConfigured()
+        {
+            var args = XrLaunchArgs.Parse(Array.Empty<string>());
+            var config = new XrPlayerConfig();
+            Assert.That(config.ResolveApiBaseUrl(args), Is.Null);
+            Assert.That(config.ResolveApiBaseUrl(args, XrPlayerConfig.QuestApiBaseUrl), Is.EqualTo(XrPlayerConfig.QuestApiBaseUrl));
+
+            config.apiBaseUrl = "https://config.example.org";
+            Assert.That(config.ResolveApiBaseUrl(args, XrPlayerConfig.QuestApiBaseUrl), Is.EqualTo(config.apiBaseUrl));
+
+            args.ApiBaseUrl = "https://command-line.example.org";
+            Assert.That(config.ResolveApiBaseUrl(args, XrPlayerConfig.QuestApiBaseUrl), Is.EqualTo(args.ApiBaseUrl));
+        }
+
         // ------------------------------------------------------------------ Enter the field: link, arguments, pipe
 
         const string Uuid = "3f2b8c1e-9d4a-4b7e-8f21-6c0d5e9a1b47";

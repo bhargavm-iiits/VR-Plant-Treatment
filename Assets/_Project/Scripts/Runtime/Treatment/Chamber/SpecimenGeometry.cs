@@ -140,6 +140,47 @@ namespace BTP.Treatment
         }
 #endif
 
+        /// <summary>
+        /// Adds world-space points ON the surface of the model's near geometry (its leaves, stems and fruit) to
+        /// <paramref name="results"/>: the baked samples of <see cref="SpecimenSurfacePoints"/> (the crop meshes are not
+        /// CPU-readable in a player), else the mesh's own vertices when readable (sampled to <paramref name="maxPerRenderer"/>).
+        /// Unlike <see cref="VisitPoints"/> it never falls back to bounding-box corners, which are not on the plant. Returns
+        /// how many points were added.
+        /// </summary>
+        public static int SurfacePoints(GameObject model, List<Vector3> results, int maxPerRenderer = SpecimenSurfacePoints.MaxPointsPerMesh)
+        {
+            var added = 0;
+            var baked = SpecimenSurfacePoints.Load();
+            var vertices = new List<Vector3>();
+            foreach (var renderer in NearRenderers(model))
+            {
+                var mesh = MeshOf(renderer);
+                if (mesh == null)
+                    continue;
+                var matrix = renderer.transform.localToWorldMatrix;
+                if (baked != null && baked.TryGet(mesh, out var points))
+                {
+                    foreach (var point in points)
+                        results.Add(matrix.MultiplyPoint3x4(point));
+                    added += points.Length;
+                    continue;
+                }
+
+                if (!mesh.isReadable)
+                    continue;
+                vertices.Clear();
+                mesh.GetVertices(vertices);
+                var stride = Mathf.Max(1, Mathf.CeilToInt(vertices.Count / (float)Mathf.Max(1, maxPerRenderer)));
+                for (var i = 0; i < vertices.Count; i += stride)
+                {
+                    results.Add(matrix.MultiplyPoint3x4(vertices[i]));
+                    added++;
+                }
+            }
+
+            return added;
+        }
+
         /// <summary>Bounds of the model's visible near geometry in <paramref name="space"/> (empty bounds at the origin when it has none).</summary>
         public static Bounds Measure(GameObject model, Transform space)
         {

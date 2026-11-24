@@ -158,6 +158,9 @@ namespace BTP.Treatment
         public SpawnAnchor SpawnPoint => spawnAnchor;
         public Transform ChamberLine => chamberLine;
         public IReadOnlyList<Vector3> PlantPoints => plantPoints;
+        /// <summary>World points on the specimen's surface (leaves, stems, fruit): where the sprayer's mist leaves wet beads.</summary>
+        public IReadOnlyList<Vector3> FoliagePoints => foliagePoints;
+        readonly List<Vector3> foliagePoints = new List<Vector3>();
         /// <summary>Downward look angle from the spawn eye that frames the tray window and the canopy (verification view).</summary>
         public float ViewPitch { get; private set; } = 15f;
 
@@ -596,6 +599,9 @@ namespace BTP.Treatment
 
             if (specimen != null)
                 SpecimenGeometry.VisitPoints(specimen, null, p => plantPoints.Add(p));
+            foliagePoints.Clear();
+            if (specimen != null)
+                SpecimenGeometry.SurfacePoints(specimen, foliagePoints);
             // A new specimen is untreated: no recovery running, no override left from the previous one.
             if (Application.isPlaying)
                 recovery.SetSparkle(chamber.AccentMaterial, chamber.transform);
@@ -814,6 +820,8 @@ namespace BTP.Treatment
             sprayTarget.transform.position = world + Vector3.forward * 0.05f;
             ((SphereCollider)sprayTarget).radius = radius;
             SprayTool?.SetTarget(sprayTarget);
+            // The mist wets the leaves of THIS specimen (its own surface points; the stripped specimen has no colliders).
+            SprayTool?.SetFoliage(foliagePoints);
         }
 
         void PlaceTools(ChamberLayout layout, Vector3 eye)
@@ -1413,8 +1421,27 @@ namespace BTP.Treatment
                 panel?.ShowNote("This result is not linked to a Farm plant (no specimen was carried).", false);
             }
 
+            ReportToStory(evaluation, start);
             Gate();
             return true;
+        }
+
+        /// <summary>
+        /// The after-treatment story (<see cref="TreatmentFlowPrompt"/>): a passed Check Health sends the user to the Lab's
+        /// weekly changes, a failed one asks to try again. While the guided treatment runs, its completion card carries Go to
+        /// Lab, so no second pop-up opens.
+        /// </summary>
+        void ReportToStory(TreatmentEvaluation evaluation, float start)
+        {
+            var plantId = shown != null ? shown.PlantId : session.Profile?.PlantId;
+            var diseaseId = shown != null ? shown.DiseaseId : session.Profile?.DiseaseId;
+            var guided = GetComponent<GuidedTreatmentController>();
+            var popup = guided == null || !guided.isActiveAndEnabled;
+            if (evaluation.Passed)
+                TreatmentFlowPrompt.Applied(this, plantId, diseaseId, shown != null && shown.FromFarm ? shown.Specimen : null, start, 1f,
+                    string.IsNullOrEmpty(evaluation.Outcome) ? "Passed" : evaluation.Outcome, popup);
+            else if (popup)
+                TreatmentFlowPrompt.Failed(this, $"Check Health: {evaluation.OutcomeLabel} (score {Mathf.RoundToInt((float)evaluation.Score * 100f)}%).");
         }
 
         /// <summary>

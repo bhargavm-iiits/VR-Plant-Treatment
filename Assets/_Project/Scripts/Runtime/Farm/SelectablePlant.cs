@@ -121,6 +121,8 @@ namespace BTP.Farm
             OnCaseChanged(SelectionState.Instance.Current?.PlantId, SelectionState.Instance.CurrentDiseaseId);
             // Back from the Treatment lab: the plant that was treated is still the selected one.
             OnSpecimenChanged(SelectionState.Instance.SelectedSpecimen);
+            // After the Lab's six weeks: the treated plant is shown healed (and highlighted the first time).
+            RecoveredPlantHighlight.ApplyTo(this);
         }
 
         void OnDisable()

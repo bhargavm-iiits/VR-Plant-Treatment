@@ -15,6 +15,11 @@ namespace BTP.Treatment
     /// moment the pinch is released. Twelve rays in a 10-degree cone from the nozzle test the marked foliage target only:
     /// coverage grows with the share of rays that hit it (spray elsewhere earns nothing); the spray amount grows with spraying
     /// time. Release or tracking loss stops the spray and returns the bottle to its dock. Monitoring cases never need it.
+    /// The visible spray is a dense, bright droplet cloud (<see cref="MistParticles"/> at <see cref="MistRate"/> per second in a
+    /// <see cref="MistConeAngle"/> cone) and the droplets that reach the specimen bead up ON its leaves
+    /// (<see cref="SetFoliage"/>: the chamber specimen's own surface points; the chamber strips its colliders, so neither
+    /// particle collisions nor raycasts could find the leaves): up to <see cref="MaxBeads"/> small wet beads stay on the leaf
+    /// surface for about <see cref="BeadSeconds"/> and then shrink away. One particle system each, no per-frame allocation.
     /// </summary>
     public sealed class TrainingSprayTool : MonoBehaviour
     {
@@ -99,6 +104,8 @@ namespace BTP.Treatment
             grab.movementType = XRBaseInteractable.MovementType.Instantaneous;
             grab.useDynamicAttach = false;
             grab.throwOnDetach = false;
+            // A ray grab brings the sprayer into the hand (the controllers' default holds it at the end of the ray).
+            grab.farAttachMode = UnityEngine.XR.Interaction.Toolkit.Attachment.InteractableFarAttachMode.Near;
             // Controllers hold with the GRIP (the filter), leaving the trigger to spray.
             ControllerGripSelectFilter.AddTo(grab);
             grab.selectEntered.AddListener(args =>
@@ -116,21 +123,44 @@ namespace BTP.Treatment
             grab.activated.AddListener(_ => SetPinch(true));
             grab.deactivated.AddListener(_ => SetPinch(false));
 
-            // Real droplets beside the mist cone: they fly, slow in the air and stick to the chamber glass and soil.
+            // Real droplets beside the mist cone: they fly, slow in the air and stick to the chamber glass and soil. Brighter and
+            // more opaque than the mist mesh so they read against the hall in the headset.
             if (mistRenderer != null && mistRenderer.sharedMaterial != null)
             {
-                mistParticles = ChamberGlassPhysics.CreateParticles("SprayMistParticles", transform, mistRenderer.sharedMaterial, MistParticles, true, 0.35f);
+                var drops = Glowing(ChamberGlassPhysics.Tinted(mistRenderer.sharedMaterial, new Color(0.9f, 0.97f, 1f, 0.85f), "mist drops", 0.95f),
+                    new Color(0.22f, 0.3f, 0.36f));
+                mistParticles = ChamberGlassPhysics.CreateParticles("SprayMistParticles", transform, drops, MistParticles, true, 0.35f);
                 var drag = mistParticles.limitVelocityOverLifetime;
                 drag.enabled = true;
                 drag.limit = 20f;
                 drag.drag = 2.2f;
+
+                // The wet beads on the leaves: world space, no gravity or collision; they pop in, sit, then shrink away.
+                var beads = Glowing(ChamberGlassPhysics.Tinted(mistRenderer.sharedMaterial, new Color(0.93f, 0.98f, 1f, 0.92f), "leaf beads", 0.98f),
+                    new Color(0.3f, 0.38f, 0.45f));
+                beadParticles = ChamberGlassPhysics.CreateParticles("SprayLeafBeads", transform, beads, MaxBeads, false, 0f);
+                var size = beadParticles.sizeOverLifetime;
+                size.enabled = true;
+                size.size = new ParticleSystem.MinMaxCurve(1f, new AnimationCurve(
+                    new Keyframe(0f, 0.2f), new Keyframe(0.04f, 1f), new Keyframe(0.65f, 1f), new Keyframe(1f, 0f)));
             }
         }
 
-        /// <summary>Mist droplets alive at once (the chamber's particle budget: mist 120, water 110 + 30, sparkle 40).</summary>
-        public const int MistParticles = 120;
-        const float MistRate = 80f;
+        /// <summary>Mist droplets alive at once (the chamber's particle budget: mist 420 + beads 360, water 110 + 30, sparkle 40).</summary>
+        public const int MistParticles = 420;
+        /// <summary>Mist droplets per second while spraying.</summary>
+        public const float MistRate = 360f;
+        /// <summary>Half-angle of the visible mist cone (wider than the 10-degree coverage cone of the scoring rays).</summary>
+        public const float MistConeAngle = 16f;
+        /// <summary>Wet beads on the leaves at most, beads added per second while the mist reaches leaves, and their life.</summary>
+        public const int MaxBeads = 360;
+        public const float BeadRate = 170f, BeadSeconds = 5f;
+        /// <summary>How far the mist wets leaves (m).</summary>
+        public const float BeadRange = Range * 1.3f;
         ParticleSystem mistParticles;
+        ParticleSystem beadParticles;
+        IReadOnlyList<Vector3> foliage;
+        float beadCarry;
         float mistCarry;
         uint mistSeed = 0x2545F491u;
 
@@ -144,7 +174,24 @@ namespace BTP.Treatment
             return (mistSeed & 0xFFFFFF) / (float)0x1000000;
         }
 
-        /// <summary>Emits this frame's mist droplets from the nozzle into the 10-degree cone (no allocation).</summary>
+        static Material Glowing(Material material, Color emission)
+        {
+            if (material != null && material.HasProperty("_EmissionColor"))
+            {
+                material.EnableKeyword("_EMISSION");
+                material.SetColor("_EmissionColor", emission);
+            }
+
+            return material;
+        }
+
+        /// <summary>The chamber specimen's surface points (world): mist that reaches them leaves wet beads there. Null: none.</summary>
+        public void SetFoliage(IReadOnlyList<Vector3> points) => foliage = points;
+
+        /// <summary>Wet beads alive on the leaves now.</summary>
+        public int BeadCount => beadParticles != null ? beadParticles.particleCount : 0;
+
+        /// <summary>Emits this frame's mist droplets from the nozzle into the <see cref="MistConeAngle"/> cone (no allocation).</summary>
         void EmitMist(float deltaTime)
         {
             if (mistParticles == null || nozzle == null)
@@ -155,17 +202,62 @@ namespace BTP.Treatment
             for (var i = 0; i < count; i++)
             {
                 var angle = NextRandom() * Mathf.PI * 2f;
-                var spread = ConeAngle * Mathf.Sqrt(NextRandom());
+                var spread = MistConeAngle * Mathf.Sqrt(NextRandom());
                 var direction = Quaternion.AngleAxis(spread, nozzle.rotation * new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0f)) * nozzle.forward;
                 mistParticles.Emit(new ParticleSystem.EmitParams
                 {
                     position = nozzle.position + direction * 0.005f,
-                    velocity = direction * Mathf.Lerp(2.2f, 3.2f, NextRandom()),
-                    startSize = Mathf.Lerp(0.0016f, 0.0032f, NextRandom()),
-                    startLifetime = Mathf.Lerp(0.7f, 1.1f, NextRandom()),
+                    velocity = direction * Mathf.Lerp(2f, 3.2f, NextRandom()),
+                    startSize = Mathf.Lerp(0.0035f, 0.007f, NextRandom()),
+                    startLifetime = Mathf.Lerp(0.55f, 0.95f, NextRandom()),
                     applyShapeToPosition = false,
                 }, 1);
             }
+
+            EmitBeads(deltaTime);
+        }
+
+        /// <summary>Wets the leaves the mist reaches: beads at foliage points inside the mist cone and range (sampled, capped).</summary>
+        void EmitBeads(float deltaTime)
+        {
+            if (beadParticles == null || foliage == null || foliage.Count == 0)
+                return;
+            beadCarry += deltaTime * BeadRate;
+            var count = Mathf.FloorToInt(beadCarry);
+            beadCarry -= count;
+            var origin = nozzle.position;
+            var forward = nozzle.forward;
+            for (var i = 0; i < count; i++)
+            {
+                // A few random tries per bead: the cone covers only part of the plant.
+                for (var attempt = 0; attempt < 8; attempt++)
+                {
+                    var point = foliage[(int)(NextRandom() * foliage.Count) % foliage.Count];
+                    if (!InSprayCone(origin, forward, point, MistConeAngle, BeadRange))
+                        continue;
+                    var toNozzle = (origin - point).normalized;
+                    beadParticles.Emit(new ParticleSystem.EmitParams
+                    {
+                        // On the sprayed (near) side of the leaf, just off its surface.
+                        position = point + toNozzle * 0.003f,
+                        velocity = Vector3.zero,
+                        startSize = Mathf.Lerp(0.004f, 0.0075f, NextRandom()),
+                        startLifetime = BeadSeconds * Mathf.Lerp(0.8f, 1.1f, NextRandom()),
+                        applyShapeToPosition = false,
+                    }, 1);
+                    break;
+                }
+            }
+        }
+
+        /// <summary>True when <paramref name="point"/> is within <paramref name="range"/> of the nozzle and inside its cone.</summary>
+        internal static bool InSprayCone(Vector3 nozzlePosition, Vector3 nozzleForward, Vector3 point, float coneAngle, float range)
+        {
+            var offset = point - nozzlePosition;
+            var distance = offset.magnitude;
+            if (distance < 1e-4f || distance > range)
+                return false;
+            return Vector3.Angle(nozzleForward, offset) <= coneAngle;
         }
 
         void OnDestroy()

@@ -110,6 +110,8 @@ namespace BTP.Treatment
 
             if (grab != null)
             {
+                // A ray grab brings the wand into the hand (the controllers' default holds it at the end of the ray).
+                grab.farAttachMode = UnityEngine.XR.Interaction.Toolkit.Attachment.InteractableFarAttachMode.Near;
                 // Controllers hold with the GRIP (the filter), leaving the trigger to water.
                 ControllerGripSelectFilter.AddTo(grab);
                 grab.selectEntered.AddListener(OnGrabbed);

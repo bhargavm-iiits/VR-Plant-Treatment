@@ -293,8 +293,21 @@ namespace BTP.Editor
             go.transform.localScale = Vector3.one * scale;
             go.transform.localPosition = basePoint - new Vector3(mesh.bounds.center.x, mesh.bounds.min.y, mesh.bounds.center.z) * scale;
             Finish(go);
+            // The crop's leaf-wind materials (LeafWind.hlsl) turn every leaf about its pivot in MESH OBJECT space. Static
+            // batching bakes the mesh into world space, so in a player each leaf would swing about a point metres away and
+            // float round the lab. A wind-animated plant keeps its occlusion flag but is never batched.
+            foreach (var material in materials)
+                if (UsesLeafWind(material))
+                {
+                    GameObjectUtility.SetStaticEditorFlags(go, PropFlags & ~StaticEditorFlags.BatchingStatic);
+                    break;
+                }
+
             return true;
         }
+
+        /// <summary>True for a material with the per-leaf wind of BTP/Farm Recovery on (object-space vertex animation).</summary>
+        public static bool UsesLeafWind(Material material) => material != null && material.IsKeywordEnabled("_LEAF_WIND");
 
         /// <summary>A copy of a crop mesh without its farm soil patch (submeshes whose material is soil), bounds of what is left.</summary>
         static Mesh PlantMesh(Mesh source, Material[] sourceMaterials, out Material[] kept)

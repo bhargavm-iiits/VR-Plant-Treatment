@@ -276,5 +276,62 @@ namespace BTP.Tests
             Assert.That(ChamberDoorPrompt.RingFill(filled), Is.EqualTo(1f).Within(1e-5f), "Full after 0.15 s.");
             Assert.That(ChamberDoorPrompt.RingFill(filled * 0.5f), Is.EqualTo(0.5f).Within(1e-4f));
         }
+
+        [Test]
+        public void OpenDoor_ClosesFromEitherSideOfTheDoorLine_WithinCloseRange()
+        {
+            var hinge = new Vector2(0f, 0f);
+            var edge = new Vector2(1f, 0f);
+            var outward = new Vector2(0f, -1f);
+            // Leaning into the chamber (past the door line): A could not open from here, but an open door closes.
+            var inside = new Vector2(0.5f, 0.4f);
+            Assert.That(ChamberDoorLogic.InRange(inside, hinge, edge, outward), Is.False, "the open rule needs the user in front");
+            Assert.That(ChamberDoorLogic.InCloseRange(inside, hinge, edge), Is.True, "but an open door closes from inside its footprint");
+            Assert.That(ChamberDoorLogic.InCloseRange(new Vector2(0.5f, -1.9f), hinge, edge), Is.True, "a step back in front");
+            Assert.That(ChamberDoorLogic.InCloseRange(new Vector2(-1.5f, 0.3f), hinge, edge), Is.True, "beside the hinge");
+            Assert.That(ChamberDoorLogic.InCloseRange(new Vector2(0.5f, -2.3f), hinge, edge), Is.False, "too far away");
+            Assert.That(ChamberDoorLogic.CloseRange, Is.GreaterThan(ChamberDoorLogic.Range));
+        }
+
+        [Test]
+        public void DoorPrompt_ShowsB_ToCloseAnOpenDoor()
+        {
+            Assert.That(ChamberDoorPrompt.GlyphFor(false, false), Is.EqualTo("A"), "A opens");
+            Assert.That(ChamberDoorPrompt.GlyphFor(false, true), Is.EqualTo("B"), "B closes");
+            Assert.That(ChamberDoorPrompt.GlyphFor(true, true), Is.EqualTo("O"), "the desktop keeps its key");
+            Assert.That(ChamberDoorPrompt.PromptLabel(true), Is.EqualTo("Close"));
+        }
+
+        [Test]
+        public void RightB_ClosesTheMenuFirst_ThenTheDoor_ElseFallsThrough()
+        {
+            var closes = 0;
+            var menuClosed = 0;
+            bool door() { closes++; return true; }
+            bool notHere() => false;
+            BTP.Core.VrControllerRig.AddBackHandler(door);
+            try
+            {
+                Assert.That(BTP.Core.VrControllerRig.HandleBack(true, () => menuClosed++), Is.True);
+                Assert.That(menuClosed, Is.EqualTo(1), "an open menu takes B");
+                Assert.That(closes, Is.EqualTo(0), "the door is not touched while the menu is open");
+                Assert.That(BTP.Core.VrControllerRig.HandleBack(false, () => menuClosed++), Is.True);
+                Assert.That(closes, Is.EqualTo(1), "with the menu closed, B closes the door");
+            }
+            finally
+            {
+                BTP.Core.VrControllerRig.RemoveBackHandler(door);
+            }
+
+            BTP.Core.VrControllerRig.AddBackHandler(notHere);
+            try
+            {
+                Assert.That(BTP.Core.VrControllerRig.HandleBack(false, null), Is.False, "away from an open door B keeps its old job");
+            }
+            finally
+            {
+                BTP.Core.VrControllerRig.RemoveBackHandler(notHere);
+            }
+        }
     }
 }
